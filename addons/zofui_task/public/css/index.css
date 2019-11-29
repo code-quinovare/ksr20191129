@@ -1,0 +1,11 @@
+
+.page_top_item span{
+    width: 20%;
+    line-height: 25px;
+    border-radius: 3px;
+    border: 1px solid #ff5f27;
+    margin-top: 7px;
+    text-align: center;
+    color: #ff5f27;	
+    display: inline-block;	
+}

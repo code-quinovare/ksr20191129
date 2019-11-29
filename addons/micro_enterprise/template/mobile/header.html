@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{$enterprise_info['enterpriseName']}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.6"/>
+    <link type="text/css" rel="stylesheet" href="/addons/micro_enterprise/template/mobile/assets/css/global.css">
+    <script type="text/javascript" src="/addons/micro_enterprise/template/mobile/assets/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/addons/micro_enterprise/template/mobile/assets/js/global.js"></script>
+    <link rel="stylesheet" href="/addons/micro_enterprise/template/mobile/assets/css/azapp.css">
+    <style type="text/css">
+        body{-webkit-tap-highlight-color:rgba(0,0,0,0)}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(e) {
+            $(".toplink_right").click(function(){
+                $(".menu").slideToggle(500);
+            });
+        });
+    </script>
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+</head>
+<body>
+<div class="top">
+    <div class="toplink">
+        <div class="toplink_left1"><a href="{php echo $_SESSION['indexUrl'];}"><img src="{php echo strpos($enterprise_info['enterpriseLogo'],'http') !== false ? $str = $enterprise_info['enterpriseLogo'] : '/attachment/'.$enterprise_info['enterpriseLogo'];}"></a></div>
+
+
+
+
+        <div class="toplink_left2" style="display:none;"><a href="index.php"><img src="/addons/micro_enterprise/template/mobile/assets/images/jiantou.png"></a></div><!--这是首页的话就隐藏-->
+        <div class="toplink_right"><img src="/addons/micro_enterprise/template/mobile/assets/images/menu.png"></div>
+    </div>
+
+
+
+<div class="menu">
+    <ul>
+        <li><span style="background:url(/addons/micro_enterprise/template/mobile/assets/images/menu2.png) no-repeat 50% 50%;"></span><a href="{php echo $_SESSION['indexUrl']}&op=about">关于我们</a></li>
+        <li><span style="background:url(/addons/micro_enterprise/template/mobile/assets/images/menu3.png) no-repeat 50% 50%;"></span><a href="{php echo $_SESSION['indexUrl']}&op=server">服务项目</a></li>
+         <li><span style="background:url(/addons/micro_enterprise/template/mobile/assets/images/menu4.png) no-repeat 50% 50%;"></span><a href="{php echo $_SESSION['indexUrl']}&op=productList">产品展示</a></li>
+        <li><span style="background:url(/addons/micro_enterprise/template/mobile/assets/images/menu5.png) no-repeat 50% 50%;"></span><a href="{php echo $_SESSION['indexUrl']}&op=newsList">新闻动态</a></li>
+        <li><span style="background:url(/addons/micro_enterprise/template/mobile/assets/images/menu6.png) no-repeat 50% 50%;"></span><a href="{php echo $_SESSION['indexUrl']}&op=contact">联系我们</a></li>
+    </ul>
+</div>
+</div>

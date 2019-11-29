@@ -1,0 +1,123 @@
+﻿{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li  {if $type=='all'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>all));}">全部订单</a></li>
+  <li   {if $type=='wait'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>wait));}">待支付</a></li>
+  <li   {if $type=='now'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>now));}">待接单</a></li>
+  <li   {if $type=='delivery'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>delivery));}">待送达</a></li>
+  <li   {if $type=='complete'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>complete));}">完成</a></li>
+  <li   {if $type=='cancel'} class="active" {/if}><a href="{php echo $this->createWebUrl('order',array('type'=>cancel));}">已取消</a></li>
+</ul>
+
+   <div class="row">
+  <div class="col-lg-6">
+  <form action="" method="POST">
+    <div class="input-group" style="width: 300px">
+     <input type="text" name="keywords" class="form-control" placeholder="请输入姓名/订单号">
+      <span class="input-group-btn">
+         <input type="submit" class="btn btn-default" name="submit" value="查找"/>
+      </span>
+    </div>
+  </div>
+   <input type="hidden" name="token" value="{$_W['token']}"/>
+  </form>
+   <form action="" method="POST">
+  <div>
+    <div class="input-group" style="width: 100px">
+      {php echo tpl_form_field_daterange('time');}    
+      <span class="input-group-btn">
+         <input type="submit" class="btn btn-default" name="submit2" value="查找"/>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div>  
+ <input type="hidden" name="token" value="{$_W['token']}"/>
+</form>
+
+<div class="main">
+    <div class="panel panel-info">
+      <div class="panel-heading">外卖全部订单</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+                <th style="width:120px;">订单号</th>
+                <th style="width:180px;">下单时间</th>
+                <th style="width:120px;">联系人</th>
+                <th style="width:120px;">联系人电话</th>
+                <th style="width:120px;">地址</th>
+                <th style="width:120px;">金额</th>
+                <th style="width:80px;">状态</th>
+                 <th style="width:80px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+                <td >
+                {$item['order_num']}
+                </td>
+                <td >
+                {$item['time']}
+                </td>
+                <td >
+               {$item['tel']}
+                </td>
+                <td>
+                {$item['name']}
+                </td>
+                <td>
+                {$item['address']}
+                </td>
+                <td>
+                {$item['money']}
+                </td>
+                {if $item['state']==1}
+                <td >
+                <span class="label label-danger"> 待支付</span>
+              
+                </td >
+                {elseif $item['state']==2}
+                <td >
+                <span class="label label-warning">等待接单</span>
+                </td>
+                {elseif $item['state']==3}
+                 <td >
+                 <span class="label label-info">等待送达</span>
+                </td>
+                {elseif $item['state']==4}
+                 <td >
+                <span class="label label-success">完成</span>
+                </td>
+                {elseif $item['state']==5}
+                 <td >
+                <span class="label label-default">取消</span>
+                </td>
+                 {/if} 
+                 <td>
+                 <a href="{php echo $this->createWebUrl('orderinfo',array('id'=>$item['id']));}">查看</a>
+               
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  暂无订单信息
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+ <div class="text-right we7-margin-top">
+             {$pager}
+             </div>
+
+{template 'common/footer'}

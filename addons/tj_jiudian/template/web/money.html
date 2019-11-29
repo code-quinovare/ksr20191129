@@ -1,0 +1,161 @@
+{template 'common/header'}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li {if $_GPC['action']==''} class="active" {/if}>
+        <a href="{php echo $this->createWebUrl('Money')}">押金列表</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+{if $_GPC['action']==''}
+<div class="panel panel-default ">
+    <div class="table-responsive panel-body">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+            <tr>
+                <th>序号</th>
+                <th style="width:100px;" class="row-first">用户姓名</th>
+                <th>手机号</th>
+                <th>订单号</th>
+                <th>头像</th>
+                <th>金额</th>
+                <th>时间</th>
+                <th>状态</th>
+                <!-- <th>操作</th> -->
+            </tr>
+            </thead>
+            <tbody>
+            {loop $res $v}
+            <tr>
+                <td>{$v['id']}</td>
+                <td>{$v['realname']}</td>
+                <td>{$v['tel']}</td>
+                <td>{$v['logno']}</td>
+                <td><img src="{$v['avatar']}" width="40" alt=""></td>
+                <td>{$v['money']}</td>
+                <td>{$v['addtime']}</td>
+                <td>{if $v['status'] == 1} 已交押金 {elseif $v['status'] == 0} 已退款 {elseif $v['status'] == 2} <span class="text-danger">申请退款</span>{else} <span class="text-info">未支付</span>{/if}</td>
+               
+               <!--  <td>
+                   <div class="btn-group btn-group-sm">
+                       <a onclick="if (confirm('确定删除？')) { location.href = '{php echo $this->createWebUrl('Money', array('action' => 'delete', 'id' => $v['id']))}'; }" class="btn btn-danger">删除订单</a>
+                   </div>
+               </td> -->
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+
+{/if}
+
+{if $_GPC['action']=='tuikuan'}
+<div class="panel panel-default ">
+    <div class="table-responsive panel-body">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+            <tr>
+                <th>序号</th>
+                <th style="width:100px;" class="row-first">用户姓名</th>
+                <th>手机号</th>
+                <th>房间名称</th>
+                <th>商品金额</th>
+                <th>订单号</th>
+                <th>入住时间</th>
+                <th>离店时间</th>
+                <th>是否使用</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $res $v}
+            <tr>
+                <td>{$v['id']}</td>
+                <td>{$v['username']}</td>
+                <td>{$v['phone']}</td>
+                <td>{$v['title']}</td>
+                <td>{$v['money']}</td>
+                <td>{$v['numberid']}</td>
+                <td>{$v['ruzhu']}</td>
+                <td>{$v['lidian']}</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        {if $v['pay_status'] == -2}
+                        <a onclick="if (confirm('确定退款？')) { location.href = '{php echo $this->createWebUrl('Order', array('action' => 'tk1', 'id' => $v['id']))}'; }">
+                            <span class="label label-warning">退款待处理</span>
+                        </a>
+                        {/if}
+                        {if $v['pay_status'] == -1}
+                        <span style="background-color: #00A000" class="label label-warning">退款成功</span>
+                        {/if}
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a onclick="if (confirm('确定删除？')) { location.href = '{php echo $this->createWebUrl('Order', array('action' => 'delete', 'id' => $v['id']))}'; }" class="btn btn-danger">删除订单</a>
+                    </div>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+
+{/if}
+
+{if $_GPC['action']=='zhong'}
+<div class="panel panel-default ">
+    <div class="table-responsive panel-body">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+            <tr>
+                <th>序号</th>
+                <th style="width:100px;" class="row-first">用户姓名</th>
+                <th>房间名称</th>
+                <th>商品金额</th>
+                <th>订单号</th>
+                <th>是否使用</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $res $v}
+            <tr>
+                <td>{$v['id']}</td>
+                <td>{$v['username']}</td>
+                <td>{$v['title']}</td>
+                <td>{$v['money']}</td>
+                <td>{$v['numberid']}</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        {if $v['use_status'] == 0}
+                        <span class="label label-warning">未核销</span>
+                        {/if}
+                        {if $v['use_status'] == 1}
+                        <span style="background-color: #00A000" class="label label-warning">已核销</span>
+                        {/if}
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a onclick="if (confirm('确定删除？')) { location.href = '{php echo $this->createWebUrl('Order', array('action' => 'delete', 'id' => $v['id']))}'; }" class="btn btn-danger">删除订单</a>
+                    </div>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+
+{/if}
+
+{template 'common/footer'}

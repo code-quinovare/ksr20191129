@@ -1,0 +1,219 @@
+{itemplate 'public/header'}
+<script type='text/javascript' src='{WE7_WMALL_URL}static/js/components/light7/iscroll-probe.js' charset='utf-8'></script>
+<div class="page order-confirm">
+<header class="bar bar-nav">
+	<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
+	<h1 class="title">购买广告</h1>
+</header>
+<nav class="bar bar-tab no-gutter order-bar">
+	<div class="left">
+			<span class="pull-left">
+				购买
+				<span class="trade-num">{}个广告</span>
+			</span>
+			<span class="pull-right">
+				总价
+				<span class="sum"><span class="wait-price">￥{}</span></span>
+			</span>
+	</div>
+	<div class="right text-center bg-danger" id="order-submit">确认购买</div>
+</nav>
+<div class="content">
+<form method="post" id="order-form" action="{php echo imurl('wmall/order/create/submit', array('sid' => $sid));}">
+<div class="content-block-title">选择广告位置</div>
+<div class="list-block media-list pay-method">
+	<ul class="border-1px-tb">
+		<li>
+			<label class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">为您优选</div>
+				</div>
+				<input type="radio" name="advertise_type" class="advertise_type" value="2" checked id="advertise_type-2">
+				<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+			</label>
+		</li>
+		<li>
+			<label class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">为您优选更多页</div>
+				</div>
+				<input type="radio" name="advertise_type" class="advertise_type" value="3" checked id="advertise_type-3">
+				<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+			</label>
+		</li>
+		<li>
+			<label class="label-checkbox item-content">
+				<div class="item-inner">
+					<div class="item-title">商家列表置顶</div>
+				</div>
+				<input type="checkbox" name="advertise_type" class="advertise_type" value="1" id="advertise_type-1">
+				<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+			</label>
+		</li>
+	</ul>
+</div>
+{if $advertise['type']['recommend']['status'] == 1}
+	{if !empty($leave['recommend'])}
+	<div class="list-block media-list recommend-prices hide">
+		<ul class="border-1px-tb">
+			<li>
+				<div class="label-checkbox item-content border-1px-b">
+					<div class="item-inner">
+						<div class="item-title">为您优选首页：广告位总数{$advertise['type']['recommend']['home']['num']},剩余{$leave['recommend']}个,可选价目</div>
+					</div>
+				</div>
+			</li>
+			{loop $advertise['type']['recommend']['home']['prices'] $row}
+			<li>
+				<label class="label-checkbox item-content border-1px-b">
+					<div class="item-inner">
+						<div class="item-title">购买广告{$row['day']}天{$row['fee']}元</div>
+					</div>
+					<input type="radio" name="prices_home" class="prices" value="{$row['day']}">
+					<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+				</label>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	{else}
+
+	{/if}
+{/if}
+{if $advertise['type']['recommend']['status'] == 1}
+<div class="list-block media-list recommend-prices-more hide">
+	<ul class="border-1px-tb">
+		<li>
+			<div class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">为您优选更多页：广告位总数{$advertise['type']['recommend']['other']['num']},剩余{$leave['recommend_more']}个,可选价目</div>
+				</div>
+			</div>
+		</li>
+		{loop $advertise['type']['recommend']['other']['prices'] $row}
+		<li>
+			<label class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">购买广告{$row['day']}天{$row['fee']}元</div>
+				</div>
+				<input type="radio" name="prices_home" class="prices" value="{$row['day']}">
+				<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+			</label>
+		</li>
+		{/loop}
+	</ul>
+</div>
+{/if}
+{if $advertise['type']['stick']['status'] == 1}
+<div class="list-block media-list stick-prices hide">
+	<ul class="border-1px-tb">
+		<li>
+			<div class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">商家置顶：广告位总数{$advertise['type']['stick']['num']},剩余{$leave['stick']}个,可选价目</div>
+				</div>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;" class="item-link item-content stick-prices-detail">
+				<div class="item-inner">
+					<div class="item-title stick-prices-detail-show">商家置顶广告位详情(请选择)</div>
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+{/if}
+
+
+<div class="content-block-title">选择支付方式</div>
+<div class="list-block media-list pay-method">
+	<ul class="border-1px-tb">
+		{loop $payment $row}
+		<li>
+			<label class="label-checkbox item-content border-1px-b">
+				<div class="item-inner">
+					<div class="item-title">{$pay_types[$row]['text']}</div>
+				</div>
+				<input type="radio" name="pay_type" class="pay_type" value="{$row}" {if $row == 'wechat'}checked{/if}>
+				<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+			</label>
+		</li>
+		{/loop}
+	</ul>
+</div>
+
+	<div class="modal modal-no-buttons stick-detail-modal not-remove">
+		<div class="modal-inner">
+			<div class="modal-title">
+				<div>请选择广告位</div>
+			</div>
+			<div class="modal-text">
+				<div class="category-container">
+					<div class="parent-category" id="stick-detail-parent">
+						<ul>
+							{loop $config_fees $i $fees}
+							<li {if !$i}class="active"{/if} data-value="{$i}"><a href="javascript:;">排序序号：{$i}</a></li>
+							{/loop}
+						</ul>
+					</div>
+					<div class="children-category" id="stick-detail-children">
+						<div class="children-category-wrapper">
+							<ul id="category1">
+								{loop $config_fees $i $dis_fees}
+								{loop $dis_fees['fees'] $prices}
+								<li data-value="{$prices['day']}天 ~ {$prices['fee']}元" data-id="{$i}" class="">
+									<a href="javascript:;">{$prices['day']}天 ~ {$prices['fee']}元 </a>
+								</li>
+								{/loop}
+								{/loop}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</div>
+</div>
+
+<script>
+$(function(){
+	$(document).on('click', '#advertise_type-2',function(){
+		$('.recommend-prices').show();
+		$('.recommend-prices-more').hide();
+		$('.stick-prices').hide();
+	});
+	$(document).on('click', '#advertise_type-3',function(){
+		$('.recommend-prices').hide();
+		$('.recommend-prices-more').show();
+		$('.stick-prices').hide();
+	});
+	$(document).on('click', '#advertise_type-1',function(){
+		$('.recommend-prices').hide();
+		$('.recommend-prices-more').hide();
+		$('.stick-prices').show();
+	});
+
+	$(document).on('click', '.stick-prices-detail-show', function(){
+		$.iopenModal('.stick-detail-modal', function(){
+			var init_show = $('#stick-detail-children li').not('.hide').size();
+			if(!init_show) {
+				var displayorder = $('#stick-detail-parent li.active');
+				displayorder.next().trigger('click');
+				displayorder.addClass('hide');
+			}
+			$('.stick-detail-modal .children-category-wrapper').height(350);
+			if($.device.iphone) {
+				new IScroll('.stick-detail-modal .children-category-wrapper', {probeType: 3, mouseWheel: true, click: false, tap: true})
+			} else {
+				new IScroll('.stick-detail-modal .children-category-wrapper', {probeType: 3, mouseWheel: true, click: true})
+			}
+		});
+	});
+
+
+});
+</script>
+{itemplate 'public/footer'}

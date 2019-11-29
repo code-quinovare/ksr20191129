@@ -1,0 +1,28 @@
+<view class="container">
+    <view>
+        <view class="wrap shop">
+            <image class="shop-img" src="http://wx4.sinaimg.cn/small/005ysW6agy1ftkrhn7x33j306o0500ue.jpg"></image>
+            <view class="shop-right">
+                <view class="store-name">门店名称</view>
+                <view>数量：1</view>
+                <view>有效期至：2018-10-10</view>
+            </view>
+        </view>
+        <view class="wrap code">
+            <view class="wrap-title">密码核销</view>
+            <view class="list">
+                <text>验证密码</text>
+                <input bindblur="getCode" class="input" placeholder="请输入核销密码" type="text"></input>
+            </view>
+            <button bindtap="toHx" class="confirm">确认核销</button>
+        </view>
+        <view class="wrap code">
+            <view class="wrap-title">二维码核销</view>
+            <view class="qrcode">
+                <view>
+                    <canvas canvasId="qrcode"></canvas>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

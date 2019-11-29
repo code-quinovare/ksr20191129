@@ -1,0 +1,118 @@
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单编号：</label>
+                    <div class="col-sm-9">
+                        <span class="form-control">{$info['ordersn']}</span>
+                    </div>
+                </div>
+				{if $info['transid']}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">支付单号：</label>
+                    <div class="col-sm-9">
+                        <span class="form-control">{$info['transid']}</span>
+                    </div>
+                </div>
+				{/if}
+				{if $info['paydetail']}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">使用了券：</label>
+                    <div class="col-sm-9">
+                        <span class="form-control">{$info['paydetail']}</span>
+                    </div>
+                </div>
+				{/if}
+				{if $setting['store']==1 && $info['sid']}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">店铺：</label>
+                    <div class="col-sm-9">
+                        <span class="form-control">{$store['name']}</span>
+                    </div>
+                </div>
+				{/if}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{$par['xmname']}：</label>
+                    <div class="col-sm-9">
+						{if $activity['is_num']}
+					<div class="input-group">
+                        <span class="form-control">{$xm['title']} <i class="fa fa-cny"></i> {$xm['price']}</span>
+                        <span class="input-group-addon"> × </span>
+                        <span class="form-control">{$info['num']}</span>
+                        <span class="input-group-addon">{$activity['numname']}</span>				
+                    </div>
+						{else}
+                        <span class="form-control">{$xm['title']} <i class="fa fa-cny"></i> {$xm['price']}</span>
+						{/if}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约时间</label>
+                    <div class="col-xs-12 col-sm-5 col-lg-9">
+					{if $activity['is_time']==0}
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="" value="{$info['yuyuetime']}" readonly>
+                    </div>
+					{elseif $activity['is_time']==2}
+						<input type="text" class="form-control" placeholder="" value="{$info['restime']}" readonly>
+					{/if}
+                    </div>
+                </div>
+				{if $info['paytype']==9}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">转账凭据</label>
+                    <div class="col-sm-9">
+                        <a href="{php echo tomedia($info['remit'])}" target="_blank"><img src="{php echo tomedia($info['remit'])}" height="50"></a>
+                    </div>
+                </div>
+				{/if}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">相关费用：</label>
+                    <div class="col-sm-9">
+					<div class="input-group">
+                        <span class="input-group-addon">合计</span><span class="form-control">{if $info['price']!='0.00'}<i class="fa fa-cny"></i> {$info['price']}{else}免费预约{/if}</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态：</label>
+                    <div class="col-sm-9">
+						<span class="btn btn-default btn-danger {$status['css']}">{$status['name']}</span>
+						{if $info['paystatus'] == '1'}<span class="btn btn-default btn-warning">未支付{elseif $info['paystatus'] == '2' && $info['price'] != '0.00'}<span class="btn btn-default btn-success">已支付{/if}</span>
+                    </div>
+                </div>
+			<blockquote class="alert-info">
+				<p>用户提交的资料</p>
+			</blockquote>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名</label>
+                    <div class="col-sm-9">
+                         <input type="text" class="form-control" placeholder="" name="activity" value="{$info['member']}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机</label>
+                    <div class="col-sm-9">
+                         <input type="text" class="form-control" placeholder="" name="mobile" value="{$info['mobile']}" readonly>
+                    </div>
+                </div>
+				{if $activity['is_addr']}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地址</label>
+                    <div class="col-sm-9">
+                         <input type="text" class="form-control" placeholder="" name="mobile" value="{$info['address']}" readonly>
+                    </div>
+                </div>
+				{/if}
+              	{loop $ds $fid $ftitle}
+                   <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{$ftitle['fid']}</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static">
+							{if in_array($ftitle['type'], array('image', 'photograph'))}
+                            {if $info['fields'][$fid]}<a target="_blank" href="{php echo tomedia($info['fields'][$fid]);}"><img src="{php echo tomedia($info['fields'][$fid]);}" height="100"></a>{else}用户未上传{/if}
+                            {else}
+							{if !empty($info['fields'][$fid])}{$info['fields'][$fid]}{else}用户未填{/if}
+                            {/if}&nbsp;
+                        </p>
+                    </div>
+                </div>
+                {/loop}

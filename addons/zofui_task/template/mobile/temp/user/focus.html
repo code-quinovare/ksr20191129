@@ -1,0 +1,8 @@
+	<div class="page_top focus_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'follow'))}"><span {if $_GPC['op'] == 'follow'}class="font_activity"{/if}>订阅我的</span></a>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'userfocus'))}"><span {if $_GPC['op'] == 'userfocus'}class="font_activity"{/if}>我订阅的</span></a>
+		</div>
+	</div>
+	<div class="focus_list"></div>
+	

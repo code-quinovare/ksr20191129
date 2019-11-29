@@ -1,0 +1,109 @@
+﻿@charset "utf-8";
+
+/* 分销中心 */
+.commission-topbar {height:40px; padding:10px; background:#fff;margin-top: 10px;}
+.commission-topbar .user_face {height:40px; width:40px; background:#ccc; float:left;}
+.commission-topbar .user_face img {height:100%; width:100%;}
+.commission-topbar .user_info {height:40px; width:80%; float:left; margin-left:12px;}
+.commission-topbar .user_info .user_name {height:24px; width:100%; font-size:16px; line-height:24px; color:#666;overflow: hidden;}
+.commission-topbar .user_info .user_name span { font-size:14px; color:#11ABE6;}
+.commission-topbar .user_info .user_date {height:14px; width:100%; font-size:14px; line-height:14px; color:#999;}
+.commission-top{height:180px; padding:5px; color:#000; background:#FFFFFF; margin: 10px auto;}
+.commission-top .top_1 {height:114px; width:100%;}
+.commission-top .top_1 .text {height:114px; width:auto; float:left; line-height:50px; font-size:14px;}
+.commission-top .top_1 .ico {height: 40px;width: 30px;background: url("../../images/gold_ico2.png") 0px 10px no-repeat;margin-bottom: 74px;float: right;}
+.commission-top .top_2 {color: #ff6629;height:66px; width:100%; font-size:40px; line-height:66px;}
+.commission-top .top_2 span {height:32px; width:auto; border:1px solid #dadada; font-size:14px; line-height:32px; margin-top:17px; padding:0px 15px;  float:right; border-radius:5px;}
+.commission-top .top_2 .disabled { color:#999;border:1px solid #999;}
+.commission-menu {overflow:hidden; background:#fff;}
+.commission-menu .nav { width:33%; float:left;padding-top:10px;padding-bottom:10px;}
+.commission-menu .nav .title {height:24px; width:100%; text-align:center; font-size:14px; color:#666;}
+.commission-menu .nav .con {height:20px; width:100%; text-align:center; font-size:12px; color:#999;}
+.commission-menu .nav .con span {color:#f90;}
+.commission-menu .nav .ico{width:48px;height:48px;display:block;background-repeat:no-repeat;margin:0 auto;    background-size: cover;}
+.commission-menu .nav .ico-team{background-image:url("../../images/ico-team.png");}
+.commission-menu .nav .ico-commission{background-image:url("../../images/ico-commission.png");}
+.commission-menu .nav .ico-qrcode{background-image:url("../../images/ico-qrcode.png");}
+.commission-menu .nav1 {border-bottom:1px solid #f1f1f1; border-right:1px solid #f1f1f1;text-align:center;}
+.commission-menu .nav2 i { color:#98cd37}
+.commission-menu .nav2 {border-right:1px solid #f1f1f1; text-align:center;}
+.commission-menu .nav4 i { color:#ca81d1}
+.commission-menu .nav3 {border-right:1px solid #f1f1f1; text-align:center;}
+.commission-menu .nav5 i { color:#53bdec}
+
+
+/* 我的团队 */
+.team_top {height:44px; width:100%;  background:#f8f8f8;  border-bottom:1px solid #e3e3e3; margin: 8px auto;}
+.team_top .title {height:44px; width:auto;margin-left:10px; float:left; font-size:16px; line-height:44px; color:#666;}
+.team_list_head {height:20px; width:94%; background:#fff; padding:10px 3%;border-bottom:1px solid #eaeaea;}
+.team_list_head .info {height:20px; width:60%; float:left;  font-size:16px; color:#666; line-height:20px; text-align:left;}
+.team_list_head .info span {font-size:14px; color:#999;}
+.team_list_head .num {height:20px; float:right; text-align:right; font-size:16px; color:#666; line-height:20px; font-size:14px; color:#999;}
+.team_list {height:40px; width:94%; background:#fff; padding:10px 3%; border-bottom:1px #ECE9E9 solid;}
+.team_list .img { width:16%; height:40px; float:left; text-align:left;}
+.team_list .img img {height:40px; width:40px; vertical-align: top;}
+.team_list .info {height:40px; width:60%; float:left; border-right:1px solid #eaeaea; font-size:16px; color:#666; line-height:20px; text-align:left;}
+.team_list .info span {font-size:14px; color:#999;}
+.team_list .num {height:40px; width:23%; float:right; text-align:right; font-size:16px; color:#666; line-height:20px;}
+.team_list .num span {font-size:14px; color:#999;}
+.team_tab {height:30px; margin:5px; border:1px solid #0A90C3; border-radius:5px; overflow:hidden;font-size:13px;background:#fff;padding-right: -2px;}
+.team_nav {height:30px;  background:#fff; color:#666; text-align:center; line-height:30px; float:left;}
+.team_navon {color:#fff; background:#0A90C3;}
+.team_no {height:100px; width:100%; margin:50px 0px 60px; color:#ccc; font-size:12px; text-align:center;}
+#team_loading { padding:10px;color:#666;text-align: center;}
+
+/* 佣金记录明细 */
+.commission_list {height:40px; padding:10px; background:#fff;margin-top:5px;}
+.commission_list .left {height:40px; width:100%; float:left; color:#999; margin-right:-20%;font-size:14px;}
+.commission_list .left .inner { width:100%;margin-right:-20%}
+.commission_list .left span {color:#666; font-size:13px; line-height:28px;}
+.commission_list .right {height:40px; width:30%; float:right; font-size:14px; text-align:right; line-height:22px; margin-left:-20%;}
+.commission_list .right span {color:#f90;}
+.commission_no {height:100px; width:100%; margin:50px 0px 60px; color:#ccc; font-size:12px; text-align:center;}
+
+/* 分销海报 */
+.qrcode_top {height:68px; background:#fff; border-bottom:#e3e3e3; overflow:hidden;}
+.qrcode_top .ico {height:44px; width:44px; margin:12px; background:#fe9900; border-radius:44px; font-size:30px; line-height:44px; text-align:center; color:#fff; float:left;}
+.qrcode_top .info1 {height:44px; padding:12px 0px; float:left;}
+.qrcode_top .info1 .t1 {height:22px; font-size:16px; color:#666; line-height:26px;}
+.qrcode_top .info1 .t2 {height:22px; font-size:13px; color:#999; line-height:20px;}
+.qrcode_top span {color:#ff6600}
+.qrcode_img {padding:1px;overflow:hidden;height:auto;}
+.qrcode_img img { width:100%;}
+
+.qrcode_info {height:auto; background:#fff; padding:10px; border-bottom:1px solid #eee; border-top:1px solid #eee;}
+.qrcode_info .title {height:38px; border-bottom:1px solid #eee; overflow:hidden;}
+.qrcode_info .title .ico {height:24px; width:24px; background:#fd6401; margin:7px 7px 7px 0px; border-radius:24px; font-size:12px; color:#fff; line-height:24px; text-align:center; float:left;}
+.qrcode_info .title .text {height:38px; line-height:38px; font-size:14px; color:#666; float:left;}
+.qrcode_info .con {height:auto; padding:10px 0px;}
+.qrcode_info .con .line {height:auto; overflow:hidden; margin-bottom:5px;}
+.qrcode_info .con .line .t1 {height:auto; width:55px; float:left; font-size:14px; color:#666; line-height:20px;}
+.qrcode_info .con .line .t2 {background:#f90;}
+.qrcode_info .con .line .t2 .t3 {height:auto; float:left; font-size:14px; color:#999;}
+.qrcode_info .info2 {height:auto; background:#fe924a; padding:10px; font-size:14px; color:#fff;}
+
+.qrcode_bottom {height:40px; width:100%; background:#fff; padding:7px 10px; border-top:1px solid #eee; position:fixed; bottom:0px; left:0px; box-shadow:1px 2px 10px rgba(0,0,0,0.2);}
+.qrcode_bottom .sub {height:40px; width:46%; margin-left:2%; float:left; border:1px solid #eee; border-radius:3px; font-size:16px; line-height:40px; text-align:center; color:#666;}
+#cover { position:fixed;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none; z-index:99999999 };
+#cover img { width:100%;}
+
+/* 讲师课程收入+课程分销佣金提现 */
+.lesson_cash input {-webkit-appearance:none; outline:none;}
+.lesson_cash .balance_img {height:80px; width:80px; margin:30px auto 0px; background:#ffb400; border-radius:40px; color:#fff; font-size:70px; text-align:center; line-height:90px; background-size:80px 80px;}
+.lesson_cash .balance_text {height:20px; width:100%; margin-top:16px; text-align:center; line-height:20px; font-size:16px; color:#666;}
+.lesson_cash .balance_num {width:100%; margin-top:10px; text-align:center; line-height:24px; font-size:22px; color:#444;}
+.lesson_cash .balance_sub {height:44px; width:94%; margin:14px 3% 0px; background:#31cd00; border-radius:4px; text-align:center; font-size:18px; line-height:44px; color:#fff; border: none;}
+.lesson_cash .disabled { background:#ccc;}
+.lesson_cash .balance_sub3 {height:40px; margin:10px 5px;background:#e2cb04; border-radius:3px; text-align:center; font-size:18px; line-height:40px; color:#fff;}
+.lesson_cash .cash{width:90%;height:38px;font-size:16px; margin:5px auto; border:1px solid #eee; padding:0px 2%; text-align:center;}
+
+
+/* 提现记录明细 */
+.cashlog_list {height:82px; padding:10px; background:#fff;margin-top:5px;}
+.cashlog_list .left {height:82px; width:100%; float:left; color:#999; margin-right:-20%;font-size:14px;}
+.cashlog_list .left .inner { width:70%; height:82px;margin-right:-20%;overflow:hidden;}
+.cashlog_list .left span {color:#666; font-size:13px; line-height:28px;}
+.cashlog_list .right {height:82px; width:30%; float:right; font-size:14px; text-align:right; line-height:25px; margin-left:-20%;}
+.cashlog_list .right span {color:#f90;}
+.log_no {height:100px; width:100%; margin:50px 0px 60px; color:#ccc; font-size:12px; text-align:center;}
+#log_loading { padding:10px;color:#666;text-align: center;}

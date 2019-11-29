@@ -1,0 +1,173 @@
+.technical {
+    width: 750rpx;
+    display: flex;
+    padding: 50rpx 0rpx;
+    align-items: center;
+    justify-content: center;
+    font-size: 24rpx;
+    color: rgb(153,153,153);
+}
+
+.supportIcon {
+    width: 64rpx;
+    height: 64rpx;
+    margin-right: 24rpx;
+}
+
+.supportPhone {
+    width: 34rpx;
+    height: 32rpx;
+    margin-bottom: 8rpx;
+}
+
+.tecSup {
+    line-height: 42rpx;
+}
+
+.dialogPhone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 60rpx;
+    font-size: 20rpx;
+}
+
+#ordertopay .drawer_screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #000;
+    opacity: 0.5;
+    overflow: hidden;
+}
+
+#ordertopay .drawer_box {
+    width: 750rpx;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0rpx;
+    left: 0;
+    z-index: 1001;
+    background: #fff;
+}
+
+#ordertopay .drawer_title {
+    font-size: 32rpx;
+    line-height: 30rpx;
+    color: #222;
+    font-weight: 700;
+    padding: 24rpx 20rpx;
+    display: flex;
+    justify-content: space-between;
+}
+
+#ordertopay .drawer_content {
+    height: 500rpx;
+    overflow-y: scroll;
+}
+
+#ordertopay .pay_screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #000;
+    opacity: 0.5;
+    overflow: hidden;
+}
+
+#ordertopay .pay_box {
+    width: 750rpx;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0rpx;
+    left: 0;
+    z-index: 1001;
+    background: #fff;
+}
+
+#ordertopay .pay_title {
+    height: 130rpx;
+    font-size: 34rpx;
+    display: flex;
+    padding: 0rpx 20rpx;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 12rpx solid #cbcbcb;
+}
+
+#ordertopay .dTitle {
+    width: 676rpx;
+    text-align: center;
+    color: #222;
+}
+
+#ordertopay .cancel {
+    width: 34rpx;
+    height: 34rpx;
+}
+
+#ordertopay .choose-pay {
+    background: #fff;
+}
+
+#ordertopay .section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28rpx;
+    height: 80rpx;
+    border-bottom: 1rpx solid #ececec;
+    margin-left: 20rpx;
+}
+
+#ordertopay .radio {
+    width: 730rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100rpx;
+    font-size: 32rpx;
+    color: #999;
+    border-bottom: 1rpx solid #ececec;
+    margin-left: 20rpx;
+    padding-right: 20rpx;
+}
+
+#ordertopay .radio radio {
+    width: 48rpx;
+    height: 48rpx;
+}
+
+#ordertopay .radio:last-child {
+    border-bottom: 0rpx solid #ececec;
+}
+
+#ordertopay .deti {
+    display: flex;
+    align-items: center;
+}
+
+#ordertopay .wxicon {
+    width: 34rpx;
+    height: 34rpx;
+    margin-left: 24rpx;
+    margin-right: 20rpx;
+}
+
+#ordertopay .pay-foot {
+    border-top: 1rpx solid #acacac;
+    padding: 20rpx 20rpx;
+}
+
+#ordertopay .pay-foot button {
+    height: 90rpx;
+    background: #ef8200;
+    font-size: 34rpx;
+    color: #fff;
+}

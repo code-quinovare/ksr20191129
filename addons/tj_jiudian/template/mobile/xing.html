@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>{$set['title']}</title>
+    <link rel="stylesheet" href="{ASSETS_PATH}css/weui.css"/>
+    <link rel="stylesheet" href="{ASSETS_PATH}css/y_weui.css"/>
+    <link rel="stylesheet" href="{ASSETS_PATH}css/y_weui2.css"/>
+    <style>
+        .rate{margin-top:20px;margin-bottom: 20px; font-size:14px; position:relative; padding:10px 0;}
+        .rate p {margin:0; padding:0; display:inline; height:40px; overflow:hidden; position:absolute;
+            top:0; left:100px; margin-left:140px;}
+        .rate p span.s {font-size:25px; line-height:36px; float:left; font-weight:bold; color:#DD5400;}
+        .rate p span.g {font-size:22px; display:block; float:left; color:#DD5400;}
+        .big_rate {width:140px; height:28px; text-align:left; position:absolute; top:3px; left:85px;
+            display:inline-block; background:url({ASSETS_PATH}img/star.gif) left bottom repeat-x;}
+        .big_rate span {display:inline-block; width:24px; height:28px; position:relative; z-index:1000;
+            cursor:pointer; overflow:hidden;}
+        .big_rate_up {width:140px; height:28px; position:absolute; top:0; left:0;
+            background:url({ASSETS_PATH}img/star.gif) left top;}
+        #my_rate{ position:absolute; margin-top:40px; margin-left:100px}
+        #my_rate span{color:#dd5400; font-weight:bold}
+        ol, ul {padding-left:5px;}
+    </style>
+</head>
+<body style="background-color: white;margin:0px">
+<div style="background-color: white;">
+<div class="rate">
+    <div class="big_rate">
+        <span rate="2"> </span>
+        <span rate="4"> </span>
+        <span rate="6"> </span>
+        <span rate="8"> </span>
+        <span rate="10"> </span>
+
+        <div style="width:45px;" class="big_rate_up"></div>
+    </div>
+    <p><span id="s" class="s"></span><span id="g" class="g"></span></p>
+    <div id="my_rate"></div>
+</div>
+<form id="form_post" action="{php echo $this->createMobileUrl('Index',array('action'=>'tijiao_pinglun'))}" method="post">
+<div>
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            <input hidden value="" name="rate" id="rate">
+            <input id="oid" value="{$_GPC['id']}" hidden name="oid">
+            <textarea id="textarea" class="weui_textarea" name="info" placeholder="请输入评论" rows="6"></textarea>
+        </div>
+    </div>
+
+    <div style="border-bottom:1px solid #eee;"></div>
+
+    <div style="margin-left: 10px;margin-top:5px;">上传图片</div>
+    <div class="weui_uploader_bd" style="border-bottom: solid 1px #eee; margin-top: 10px; margin-left: 10px; display: none">
+        <ul class="weui_uploader_files">
+        </ul>
+        <div class="weui_uploader_input_wrp">
+            <input class="weui_uploader_input" multiple="" id="img" type="button" onclick="upload_img()">
+        </div>
+    </div>
+    <div id="xiaoshi" class="tubiao">
+        <ul style="list-style-type: none">
+            <li onclick="upload_img()">
+                <a href="javascript:void(0)">
+                    <img src="{ASSETS_PATH}img/xiangce.png" style="margin:10px;">
+                </a>
+            </li>
+        </ul>
+        <div style="display: none"></div>
+        <div style="display: none"></div>
+    </div>
+    <div id="upload_video" style="height: 100px;display: none">
+        <div class="weui_uploader_input_wrp">
+            <input type="hidden" name="images" value="">
+        </div>
+    </div>
+    <div style="border:5px solid #eee"></div>
+    <a href="javascript:void(0)" id="save" onclick="doUpload()" class="weui_btn weui_btn_primary" style="margin-top:50px;width:90%;line-height: 50px;height: 50px;background-color: #06c1ae"><span>提交</span></a>
+</div>
+</form>
+</div>
+</body>
+</html>
+<script>
+    $(function() {
+        get_rate(100);
+    });
+    function get_rate(rate){
+        rate=rate.toString();
+        var s;
+        var g;
+        $("#g").show();
+        if (rate.length>=3){
+            s=10;
+            g=0;
+            $("#g").hide();
+        }else if(rate=="0"){
+            s=0;
+            g=0;
+        }else{
+            s=rate.substr(0,1);
+            g=rate.substr(1,1);
+        }
+        $("#s").text(s/2);
+        $("#g").text("."+ g);
+        $(".big_rate_up").animate({width:(parseInt(s)+parseInt(g)/10) * 14,height:26},1000);
+        $(".big_rate span").each(function(){
+            $(this).mouseover(function(){
+                $(".big_rate_up").width($(this).attr("rate") * 14 );
+                $("#s").text($(this).attr("rate")/2);
+                $("#g").text("");
+            }).click(function(){
+                var score = $(this).attr("rate");
+                $("#my_rate").html("您的评分：<span>" + score/2 + "</span>");
+                var oid=$("#oid").val();
+                $("#rate").val(score/2);
+                $.ajax({
+                    type: "POST",
+                    url: "{php echo $this->createMobileUrl('Index',array('action'=>'ajax'))}",
+                    data:{score:score,oid:oid} ,
+                    success: function(msg) {
+                        //alert(msg);
+                        if (msg == 1) {
+                            $("#my_rate").html("<span>您已经评过分了！</span>");
+                        } else if (msg == 2) {
+                            $("#my_rate").html("<span>您评过分了！</span>");
+                        } else {
+
+                            //get_rate(msg);
+                        }
+                    }
+                });
+            })
+        })
+        $(".big_rate").mouseout(function() {
+            $("#s").text(s/2);
+            $("#g").text("." + g);
+            $(".big_rate_up").width((parseInt(s) + parseInt(g) / 10) * 14);
+            $("#my_rate").html("您的评分：<span>" + s/2 + "</span>");
+            $("#rate").val(s/2);
+        })
+    }
+</script>
+{php echo register_jssdk(false)}
+<script>
+    var images = new Array();
+    var serids = new Array();
+    function upload_img() {
+
+        wx.ready(function () {
+            wx.chooseImage({
+                count: 9,
+                sizeType: ['original', 'compressed'],
+                sourceType: ['album', 'camera'],
+                success: function (res) {
+                    $.each(res.localIds,function (k,v) {
+                        show_img(v);
+                        images.push(v);
+                    });
+                }
+            });
+        });
+    }
+
+    function show_img(local) {
+        var dis = document.getElementById('xiaoshi');
+        dis.style.display = 'none';
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
+            $(".weui_uploader_bd").show();
+            var str = '<li class="weui_uploader_file" local="' + local + '" style="background-image:url(' + local + ')"><i class="clear_del weui_icon_cancel" onclick="del_img(' + "'" + local + "'" + ')" </i></li>';
+            $(".weui_uploader_files").append(str);
+        }else if (u.indexOf('iPhone') > -1) {//苹果手机
+            wx.getLocalImgData({
+                localId: local, // 图片的localID
+                success: function (res) {
+
+                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                    $(".weui_uploader_bd").show();
+                    var str = '<li class="weui_uploader_file" local="'+localData+'" style="background-image:url('+localData+')"><i class="clear_del weui_icon_cancel" onclick="del_img('+"'"+localData+"'"+')" </i></li>';
+                    $(".weui_uploader_files").append(str);
+                }
+            });
+        }else if (u.indexOf('Windows Phone') > -1) {//winphone手机
+            alert("winphone手机");
+        }
+    }
+
+
+    function del_img(local) {
+        $.each(images,function (k,v) {
+            if(v == local)
+            {
+                images.splice(k);
+            }
+        });
+        $(".weui_uploader_file").each(function () {
+            if($(this).attr('local') == local)
+            {
+                $(this).remove();
+            }
+        });
+    }
+
+    function upload_video() {
+        $("#upload_video").toggle();
+    }
+
+    function doUpload () {
+        if (images.length == 0) {
+            doSave(0);
+        }else {
+            var i = 0, length = images.length;
+            images.serverId = [];
+            function upload() {
+                wx.uploadImage({
+                    localId: images[i],
+                    success: function (res) {
+                        i++;
+                        images.serverId.push(res.serverId);
+                        if (i < length) {
+                            upload();
+                        }
+                        else
+                        {
+                            var media_ids = images.serverId.join(',');
+                            doSave(media_ids);
+                        }
+                    },
+                    fail: function (res) {
+                        alert(JSON.stringify(res));
+                    }
+                });
+            }
+            upload();
+        }
+    }
+
+    function doSave(ids) {
+        if(ids != 0)
+        {
+            $("input[name='images']").val(ids);
+        }
+
+        $("#form_post").submit();
+    }
+
+
+
+
+</script>

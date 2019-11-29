@@ -1,0 +1,464 @@
+{template 'common/header'}
+
+<link rel="stylesheet" type="text/css" href="/addons/{$_GPC['m']}/resource/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/addons/{$_GPC['m']}/resource/swal/dist/sweetalert2.css"/>
+<style type="text/css">
+    .radio_item {
+        width: 100%;
+        display: inline-block;
+        position: relative;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .radio_item i {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        font-size: 24px;
+    }
+
+    .radio_close {
+        cursor: pointer;
+    }
+</style>
+
+<ul class="we7-page-tab">
+
+    <li>
+        <a href="{php echo $this->createWebUrl($_GPC['do'], array('op'=>'list'));}">
+            产品列表</a></li>
+    <li class="active"><span id="xtitle"></span></li>
+
+</ul>
+
+
+<div class="main">
+    <div class="btn-group" id="templist">
+    </div>
+    <form action="{php echo $this->createWebUrl($_GPC['do'], array('op'=>'save'));}" method="post"
+          class="form-horizontal form" id="form">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active" data-value="tab1"><a>内容</a></li>
+                    <li role="presentation" data-value="tab2"><a>属性</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div id="tab1">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">产品名称</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input type="text" name="xc[name]" class="form-control" value="{$xc['name']}"
+                                   placeholder="名称"/>
+                        </div>
+
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">产品型号</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input type="text" name="xc[model]" class="form-control" value="{$xc['model']}"
+                                   placeholder="名称"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">产品分类</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <select class="form-control" name="xc[cid][first]" data-select="{$xc[cid][first]}"
+                                    id="select_a">
+                                <option value="0">请选择分类</option>
+
+                                {loop $productclass $index $pr}
+
+                                <option value="{$pr['id']}">{$pr['contents']['firname']}</option>
+                                {/loop}
+
+                            </select>
+                        </div>
+
+                        <!--<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">产品二级分类</label>-->
+                        <!--<div class="col-xs-12 col-sm-3">-->
+                            <!--<select class="form-control" name="xc[cid][pet]" data-select="{$xc[cid][pet]}"-->
+                                    <!--id="select_b">-->
+
+                                <!--{if $xc['id']}-->
+                                <!--{loop $petclass $index $vo}-->
+                                <!--<option value="{$vo}">{$vo}</option>-->
+                                <!--{/loop}-->
+                                <!--{/if}-->
+
+
+                            <!--</select>-->
+                        <!--</div>-->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">展示图片</label>
+                        <div class="col-xs-12 col-sm-8">
+                            {php echo tpl_form_field_image('xc[simg]',$xc['simg']);}
+                            <p>建议尺寸330x410</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">产品相册</label>
+                        <div class="col-xs-12 col-sm-8">
+                            {php echo tpl_form_field_multi_image('xc[imgs]',$xc['imgs']);}
+                            <p>建议尺寸450x260</p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页显示</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input type="checkbox" class="js-switch" value="1" name="xc[isindex]"
+                                   data-value="{$xc['isindex']}" data-field="status" id='isindex'>
+                        </div>
+
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">状态</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input type="checkbox" class="js-switch" value="1" name="xc[status]"
+                                   data-value="{$xc['status']}" data-field="status">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">详情</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="contents" name="xc[contents]" type="text/plain" style="height:200px;"
+                                      class="ueclass">{$xc[contents]}</textarea>
+                            <script type="text/javascript">
+                                var urobj = [];
+                                var uefunobj = function (e, t) {
+                                    urobj.push(t);
+                                }
+                                require(['util'], function (util) {
+                                    util.editor('contents', {
+                                        height: 200,
+                                        dest_dir: '',
+                                        image_limit: 5120000,
+                                        allow_upload_video: true,
+                                        audio_limit: 5120000,
+                                        callback: uefunobj
+                                    });
+                                });
+
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div id="tab2" class="hide">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label"></label>
+                        <div class="col-xs-12 col-sm-9" id="attritem">
+                            {loop $xc['attribute']  $index $vo}
+                            <div class="radio_item ">
+                                <label class="col-lg-1 control-label">属性名</label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="xc[attributename][]" class="form-control" value="{$vo['name']}"
+                                           placeholder="名称"/>
+                                </div>
+
+                                <label class="col-lg-1 control-label">属性值</label>
+                                <div class="col-sm-5">
+                            <textarea type="text" name="xc[attributevalue][]" class="form-control"
+                                      placeholder="名称">{$vo['value']}</textarea>
+                                </div>
+                                <i class="fa fa-times-circle radio_close" aria-hidden="true"></i>
+                                <div class="see_value btn btn-info">修改</div>
+                            </div>
+                            {/loop}
+
+                            <div class="add_value btn btn-info">+添加属性</div>
+                        </div>
+                    </div>
+
+                    <div id="attr" class="hide">
+                        <div class="form-group ">
+                            <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">属性名称</label>
+                            <div class="col-xs-12 col-sm-8">
+                                <input type="text" class="form-control" value="" id="attrname"
+                                       placeholder="名称"/>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">属性内容</label>
+                            <div class="col-xs-12 col-sm-8">
+                                <textarea id="attrtext" type="text/plain" style="height:200px;"
+                                          class="ueclass"></textarea>
+                                <script type="text/javascript">
+                                    var urobjs = [];
+                                    var uefunobjs = function (e, t) {
+                                        urobjs.push(t);
+                                    }
+                                    require(['util'], function (util) {
+                                        util.editor('attrtext', {
+                                            height: 200,
+                                            dest_dir: '',
+                                            image_limit: 5120000,
+                                            allow_upload_video: true,
+                                            audio_limit: 5120000,
+                                            callback: uefunobjs
+                                        });
+                                    });
+                                </script>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 ">
+                                <div class="btn btn-info" id="yesbtn">确认</div>
+                                <div class="btn btn-default" id="nobtn">关闭</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+                        <input type="hidden" name="id" value="{$xc['id']}"/>
+                        <input name="submit" type="submit" value="提交" class="btn btn-primary"/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{template 'common/xcfootex'}
+<script>
+    //  tab 切换
+    $(".nav-pills li").click(function () {
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        var tab = $(this).attr("data-value");
+        if (tab == "tab1") {
+            $("#tab1").removeClass("hide");
+            $("#tab2").addClass("hide");
+        }
+        if (tab == "tab2") {
+            $("#tab2").removeClass("hide");
+            $("#tab1").addClass("hide");
+        }
+
+    })
+
+
+    <!--首页显示-->
+    if ($("#isindex").attr("data-value") == "1") {
+        $('#isindex').attr("checked", "checked")
+    }else {
+        $('#isindex').attr("checked", false)
+    }
+
+
+    //    属性页面的设置
+    //    弹出属性输入框
+    $(".add_value").click(function () {
+        $('#attr').removeClass("hide");
+        $(".add_value").addClass("hide");
+        $("#attrname").val('');
+        urobjs[0].setContent("");
+    });
+    //        点击属性输入组件关闭按钮
+    $("#nobtn").click(function () {
+        $("#attr").addClass("hide");
+        $(".add_value").removeClass("hide");
+    });
+    //        点击属性输入组件确认按钮
+    $("#yesbtn").click(function () {
+        var attrname = $("#attrname").val();
+        var attrtext = urobjs[0].getContent();
+        var op = $(this).attr("data-op");
+
+        $("#attr").addClass("hide");
+        $(".add_value").removeClass("hide");
+//        op=1 修改
+        if (op == 1) {
+            $(obj).parent().find("input").val(attrname);
+            $(obj).parent().find("textarea").val(attrtext);
+        } else {
+            $(".add_value").before('<div class="radio_item "> <label class="col-lg-1 control-label">属性名</label> <div class="col-sm-3"> <input type="text" name="xc[attributename][]" class="form-control" value="" placeholder="名称"/> </div> <label class="col-lg-1 control-label">属性值</label> <div class="col-sm-5">  <textarea type="text" name="xc[attributevalue][]" class="form-control"placeholder="名称"></textarea> </div><i class="fa fa-times-circle radio_close" aria-hidden="true"></i>  <div class="see_value btn btn-info">修改</div></div>');
+            $(".radio_item:last input").val(attrname);
+            $(".radio_item:last textarea").val(attrtext);
+        }
+
+        $(this).attr("data-op", 0);
+    });
+    // 查看
+    $("#attritem").on('click', '.see_value', function () {
+        $('#attr').removeClass("hide");
+        var attrname = $(this).parent().find('input').val();
+        var attrtext = $(this).parent().find('textarea').val();
+        urobjs[0].setContent(attrtext);
+        /* 编辑器赋值*/
+        $("#attrname").val(attrname);
+        $("#yesbtn").attr("data-op", 1);
+        obj = this;
+
+    })
+    //删除
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function () {
+        $("body").on('click', '.radio_close', function () {
+            var that = this;
+            swal({
+                title: "提示！",
+                text: "确认删除吗？",
+                type: "info",
+                showConfirmButton: true,
+                confirmButtonText: "确认",
+                showCancelButton: true,
+                cancelButtonText: "取消"
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $(that).parent().remove();
+                } else {
+
+                }
+            })
+        });
+    })
+
+
+    // 产品分类的二级联动
+    $("#select_a").change(function () {
+        var optiondata = $(this).val();
+        console.log(optiondata);
+        $("#select_b ").empty();
+
+        if (optiondata > 0) {
+            var url = "{php echo $this->createWebUrl($_GPC['do'], array('op'=>'edit'));}";
+            $.ajax(url, {
+                type: 'post',
+                data: {cid: optiondata},
+                dataTypr: 'json'
+            }).done(function (res) {
+                if (res) {
+                    $.each(res, function (i, n) {
+                        var html = '<option value="' + n + '">' + n + '</option>';
+                        $("#select_b").append(html);
+                    })
+                }
+
+
+            })
+        }
+    })
+
+
+    <!--标题名称的修改-->
+    if ($("[name='id']").val() == "0" || $("[name='id']").val() == "") {
+        $("#xtitle").html("增加")
+    }
+    else {
+        $("#xtitle").html("修改")
+    }
+
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js", "../addons/{php echo $_GPC['m']}/resource/validate/jquery.validate.min.js"], function () {
+        var xpagecss = {
+            xload: function () {
+                swal({
+                    title: "操作中",
+                    text: "",
+                    imageUrl: "../addons/{php echo $_GPC['m']}/resource/images/xload1.gif",
+                    showConfirmButton: false,
+                    allowOutsideClick: true
+                });
+            },
+            close: function () {
+                swal.close();
+            }
+        }
+        $.validator.setDefaults({
+            highlight: function (e) {
+                $(e).closest(".col-xs-12").removeClass("has-success").addClass("has-error")
+            }, success: function (e) {
+                e.closest(".col-xs-12").removeClass("has-error").addClass("has-success")
+            }, errorClass: "help-block m-b-none", validClass: "help-block m-b-none"
+        }), $().ready(function () {
+            var e = "<i class='fa fa-times-circle'></i> ";
+//            表单验证部分的 内容
+            var vlidp = {
+                rules: {
+                    "xc[simg]": {url: false}
+                },
+                messages: {
+                    "xc[mobanid]": {required: e + "请选择模版"}
+                },
+                submitHandler: function (form) {
+                    xajaxfrom(form);
+                    return false;
+                }
+            }
+            $("#form").validate(vlidp);
+        });
+
+        var replyrdata = {};
+        replyrdata[1] = "success";
+        replyrdata[-1] = "error";
+        replyrdata[2] = "warning";
+        replyrdata[3] = "info";
+        replyrdata[4] = "question";
+//        message函数 反馈数据提交互后的信息（swal插件）
+        function message(data) {
+            $mesoption = {};
+            if (data["status"] === 1) {
+//                表单重置
+                if ($('[name="id"]').val() == "") {
+                    form.reset();
+                    $(".container").find(".img-thumbnail").attr("src", "./resource/images/nopic.jpg");
+//           文本编辑器 重置
+                    if (urobj.length > 0) {
+
+                        for (var i = 0; i < urobj.length; i++) {
+
+                            urobj[i].setContent("");
+                        }
+                    }
+
+                }
+                $mesoption["timer"] = 1000;
+            }
+            $mesoption["type"] = replyrdata[data["status"]];
+            $mesoption["title"] = data["message"];
+            $mesoption["text"] = data["message"];
+            swal($mesoption);
+
+        }
+
+// 表单的提交函数
+        function xajaxfrom(form) {
+            $actfrom = $(form);
+            var $postdate = $actfrom.serialize();
+            $('#form [type="checkbox"]:not(":checked")').each(function () {
+                $postdate = $postdate + "&" + $(this).attr("name") + "=-1";
+            });
+            xpagecss.xload();
+            $.ajax({
+                type: $(form).attr("method"),
+                url: $(form).attr("action"),
+                dataType: "json",
+                data: $postdate,
+                success: function (msg) {
+                    message(msg)
+
+
+                }
+
+            });
+        }
+
+    })
+
+</script>
+
+{template 'common/footer'}

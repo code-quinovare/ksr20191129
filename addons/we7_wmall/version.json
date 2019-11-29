@@ -1,0 +1,3 @@
+<?php
+
+define('MODULE_RELEASE_DATE', '2018008081146');

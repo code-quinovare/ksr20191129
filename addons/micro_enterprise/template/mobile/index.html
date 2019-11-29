@@ -1,0 +1,63 @@
+{template 'header'}
+
+
+
+<section class="img-focus">
+    <div id="wrapper8" style="overflow: hidden;">
+        <div id="scroller8" style="width: 1600px; -webkit-transition-property: -webkit-transform; transition-property: -webkit-transform; -webkit-transform-origin: 0px 0px 0px; -webkit-transform: translate3d(-640px, 0px, 0px) scale(1);">
+            <ul class="focus-pic">
+
+
+                {loop $images $index $item}
+
+<li style="width: 320px;"><a href="javascript:;">
+    <img src="{php echo strpos($item,'http') !== false ? $str = $item : '/attachment/'.$item;}"></a></li>
+
+
+
+
+
+
+                {/loop}
+
+            </ul>
+        </div>
+        <div class="circle">
+            <span class=""></span>
+            <span class=""></span>
+            <span class=""></span>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="/addons/micro_enterprise/template/mobile/assets/js/app.js"></script>
+<script type="text/javascript" src="/addons/micro_enterprise/template/mobile/assets/js/iscrollc.js"></script>
+<div class="title" onClick="location.href='{php echo $_SERVER['REQUEST_URI'];}&op=newsList'"><a href="javascript:;">产品展示</a><span></span></div>
+<div class="show">
+
+    {loop $productRes $index $item}
+
+    <a href="{php echo $_SERVER['REQUEST_URI']}&op=productList&pid={$item['id']}"><div class="show_img"><img src="/attachment/{$item['productImages']}"></div><div>{$item['productName']}</div></a>
+
+    {/loop}
+
+    <div class="clear"></div>
+</div>
+<div class="title" onClick="location.href='{php echo $_SERVER['REQUEST_URI'];}&op=newsList'"><a href="javascript:;">最新资讯</a><span></span></div>
+<div class="new">
+
+
+    {loop $newsRes $index $item}
+
+    <a href="{php echo $_SERVER['REQUEST_URI']."&op=newsList&aid=".$item['id'];}"><div class="new_left"><div class="new_left_top"></div><div class="new_left_bot">{$item['newsInsertTime']}</div><div class="clear"></div> </div> <div class="new_right"><div class="new_right_top">{$item['newsName']}</div>
+
+
+        <div class="new_right_bot">{php echo strip_tags($item['newsContent']);}</div></div><div class="clear"></div></a>
+    {/loop}
+
+
+    <div class="clear"></div>
+</div>
+
+
+
+{template 'footer'}

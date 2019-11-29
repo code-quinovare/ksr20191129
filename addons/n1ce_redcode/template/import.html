@@ -1,0 +1,35 @@
+{template 'common/header'}
+<script type="text/javascript" src="resource/js/lib/jquery-1.11.1.min.js"></script>
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">卡密导入</div>
+        <div class="panel-body">
+             <form action="<?php  echo $this->createWebUrl('Import',array('foo' => 'upload','pici'=>$pici));?>" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+				<div class="alert alert-warning">
+				  <i class="fa fa-exclamation-triangle"></i> 导入卡密后需要变换正则规则,详情请咨询客服MM！
+				</div>
+				<div class="alert alert-info">
+				  <p><i class="fa fa-newspaper-o"></i> 导入的格式为xls表格格式</p>
+				  <p><i class="fa fa-newspaper-o"></i> 导入的验证码要统一左对齐</p>
+				  <p><i class="fa fa-newspaper-o"></i> 导入的验证码不要有空格和符号</p>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">请选择要导入的验证码</label>
+                    <div class="col-sm-9 col-xs-12">   
+                      	<input type="file" class=" pull-left btn-primary" name="file"><br/><br/>
+						<div class="help-block">仅支持.xls格式<br/><a href="../addons/n1ce_redcode/xls/code.xls">导入示例点击下载</a>
+						</div>
+                    </div>
+                </div>
+				
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                         <input type="submit" class="btn pull-left btn-primary span2" value="导入卡密">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'} 

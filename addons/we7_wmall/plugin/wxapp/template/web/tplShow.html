@@ -1,0 +1,840 @@
+<script type="text/html" id="tpl-show-waimai_stores">
+	<style type="text/css">
+		.diy-waimai-store-box .waimai-store-item .content-right .item-star-box .stars-bg{color: <(style.scorecolor)>}
+	</style>
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-waimai-store-box" style="background-color: <(style.background)>; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px;">
+			<div class="waimai-store-item-list">
+				<(each data as item)>
+				<div class="waimai-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="<(tomedia item.logo)>" alt="">
+							</a>
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name" style="color: <(style.titlecolor)>;"><(item.title)></div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg" style="width: <(item.score_cn)>%; color: <(style.scorecolor)>">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">已售<(item.sailed)>单</div>
+									<div class="time-distance">
+										<div class="avg_delivery_time"><(item.delivery_time)>分钟</div>
+										<!--
+											<span class='line'>|</span>
+											<div class="item-distance">914m</div>
+										-->
+									</div>
+
+								</div>
+								<div class="item-min-delivery">
+									<span>起送价￥<(item.send_price)></span>
+									<span class='line'>|</span>
+									<span>配送费￥<(item.delivery_price)></span>
+									<div style="background-color: <(style.deliverytitlebgcolor)>; color: <(style.deliverytitlecolor)>;">平台专送</div>
+								</div>
+							</a>
+							<(if params.showdiscount == 1 && item.activity && item.activity.num)>
+								<div class="discount-box">
+									<i class="icon icon-unfold"></i>
+									<(each item.activity.items as activity)>
+										<div class="single-line">
+											<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/icon-<(activity.type)>.png" alt="">
+											<span><(activity.title)></span>
+										</div>
+									<(/each)>
+								</div>
+							<(/if)>
+							<(if params.showhotgoods == 1 && count(item.hot_goods) > 0)>
+								<div class="hot-box">
+									<(each item.hot_goods as goods)>
+										<div class="hot-box-item">
+											<div class="hot-t border-1px">
+												<img src="<(tomedia goods.thumb)>" alt="">
+												<div>省36%</div>
+											</div>
+											<div class="hot-b">
+												<div class="shop-name"><(goods.title)></div>
+												<div class="shop-price">
+													<span class="price">¥<(goods.price)></span>
+													<span class="old-price">¥<(goods.old_price)></span>
+												</div>
+											</div>
+										</div>
+									<(/each)>
+								</div>
+							<(/if)>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<(/each)>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/html" id="tpl-show-waimai_goods">
+	<div class="drag" data-itemid="<(itemid)>">
+		<(if style.liststyle == 1)>
+			<div class="diy-waimai-food-list-onerow-box" style="background-color: <(style.background)>; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px;">
+				<div class="item-list">
+					<(each data as item)>
+						<div class="goods-item border-1px-t">
+							<div class="row item-wrapper">
+								<div class="col-40 goods-img">
+									<img src="<(tomedia item.thumb)>">
+									<(if params.showicon == 1 && item.discount < 10)>
+										<span class='discount'><(item.discount)>折</span>
+									<(/if)>
+								</div>
+								<div class="col-60">
+									<div class="goods-name" style="color: <(style.titlecolor)>"><(item.title)></div>
+									<div class="sale-num">已售:<(item.sailed)> 好评率:<(item.comment_good_percent)></div>
+									<div class="store-num">
+										<i class="icon icon-shop"></i>
+										<span><(item.store_title)></span>
+									</div>
+									<div class="price-buybtn">
+										<div class="price-wrap">
+											<span class="price" style="color: <(style.pricecolor)>">¥<(item.price)></span>
+											<(if params.showoldprice == 1)>
+												<span class="old-price" style="color: <(style.oldpricecolor)>">¥<(item.old_price)></span>
+											<(/if)>
+										</div>
+										<a href="javascript:;" class="buy-btn" style="background-color: <(style.buybtncolor)>"><(params.buybtntext)></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					<(/each)>
+				</div>
+			</div>
+		<(else if style.liststyle == 2)>
+			<div class="diy-waimai-goods-list-box" style="background-color: <(style.background)>; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px;">
+				<div class="box-list">
+					<(each data as item)>
+						<div class="box-item">
+							<div class="main-content-box">
+								<(if params.showicon == 1)>
+									<span class='discount'><(item.discount)>折</span>
+								<(/if)>
+								<div class="goods-image">
+									<img src="<(tomedia item.thumb)>">
+								</div>
+								<div class="goods-name" style="color: <(style.titlecolor)>"><(item.title)></div>
+								<div class="discount-soldnum">
+									<span class='sold-num'>已售<(item.sailed)>份</span>
+									<span class='praise'>好评率<(item.comment_good_percent)>%</span>
+								</div>
+								<div class="store-name">
+									<i class="icon icon-shop"></i>
+									<(item.store_title)>
+								</div>
+								<div class="price-buybtn">
+									<div class="price" style="color: <(style.pricecolor)>">
+										￥<(item.price)>
+										<(if params.showoldprice == 1)>
+											<div class="old-price" style="color: <(style.oldpricecolor)>">¥<(item.old_price)></div>
+										<(/if)>
+									</div>
+									<a href="javascript:;" class="buy-btn" style="background-color: <(style.buybtncolor)>"><(params.buybtntext)></a>
+								</div>
+							</div>
+						</div>
+					<(/each)>
+				</div>
+				<div class="clear"></div>
+			</div>
+		<(/if)>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-banner">
+	<div class="drag" data-itemid="<(itemid)>">
+		<(each data as item)>
+			<div class="diy-banner" style="padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; background: <(style.background)>;">
+				<img src="<(tomedia item.imgurl)>" alt="">
+			</div>
+		<(/each)>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-navs">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-navs" style="margin-top: <(style.margintop)>px;">
+			<div class="diy-navs-container col-<(params.rownum)> <(style.navstyle)>">
+				<(each data as item)>
+					<div class="diy-nav-col">
+						<a href="javascript:;">
+							<div class="nav-icon">
+								<img src="<(tomedia item.imgurl)>" alt="">
+							</div>
+							<div class="nav-text" style="color: <(item.color)>"><(item.text)></div>
+						</a>
+					</div>
+				<(/each)>
+				<div class="clear"></div>
+				<(if params.showdot == 1 && params.showtype == 1)>
+					<div class="diy-nav-page">
+						<span style="background: <(style.dotbackground)>"></span>
+						<span style="background: <(style.dotbackground)>"></span>
+					</div>
+				<(/if)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-img_card">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-img-card" style="padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; background: <(style.background)>;">
+			<img src="<(tomedia params.imgurl)>" alt="">
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-richtext">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-richtext" style="background: <(style.background)>; padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+			<div class="text-container">
+				<(if params.content)>
+					<(=decode(params.content))>
+				<(else)>
+					<p><span style="font-size: 20px;">哈喽大家好！这里是『富文本』区域</span></p>
+					<p>你可以对文字进行<strong>加粗</strong>、<em>斜体</em>、<span style="text-decoration: underline;">下划线</span>、<span style="text-decoration: line-through;">删除线</span>、文字<span style="color: rgb(0, 176, 240);">颜色</span>、<span style="background-color: rgb(255, 192, 0); color: rgb(255, 255, 255);">背景色</span>、以及字号<span style="font-size: 20px;">大</span><span style="font-size: 14px;">小</span>等简单排版操作。
+					</p>
+					<p>也可在这里插入图片</p>
+					<p style="text-align: left;"><span style="text-align: left;">还可给文字加上<a href="http://www.baidu.com">超级链接</a>，方便用户点击。</span></p>
+				<(/if)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-picture">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-picture" style="padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px; background: <(style.background)>;">
+			<(each data as item)>
+				<img src="<(tomedia item.imgurl)>" />
+			<(/each)>
+			<div class="dots <(style.dotalign||'left')>" style="padding: 0 <(style.leftright||'10')>px; bottom: <(style.bottom||'10')>px;">
+				<(each data as item)>
+					<span style="background: <(style.dotbackground||'#000000')>;"></span>
+				<(/each)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-line">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-line" style="background: <(style.background)>; padding: <(style.padding)>px 0;">
+			<div class="line" style="border-top: <(style.height || '2')>px <(style.linestyle || 'solid')> <(style.bordercolor || '#000000')>"></div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-blank">
+	<div class="drag" data-itemid="<(itemid)>" style="height: <(style.height)>px; background: <(style.background)>"></div>
+</script>
+
+<script type="text/html" id="tpl-show-picturew">
+	<div class="drag" data-itemid="<(itemid)>">
+		<(if params.row == '1')>
+			<div class="diy-cube" style="background: <(style.background)>; <(if count(data)==1)>padding: <(style.paddingtop)>px <(style.paddingleft)>px;<(/if)>">
+				<(if count(data) == 1)>
+					<img src="<(tomedia(toArray(data)[0].imgurl))>" />
+				<(/if)>
+				<(if count(data) > 1)>
+					<div class="diy-cube-left" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px; padding-right: 0;">
+						<img src="<(tomedia(toArray(data)[0].imgurl))>" />
+					</div>
+					<div class="diy-cube-right" <(if count(data)==2)> style="padding: <(style.paddingtop)>px <(style.paddingleft)>px;"<(/if)>>
+						<(if count(data) == 2)>
+							<img src="<(tomedia(toArray(data)[1].imgurl))>" />
+						<(/if)>
+						<(if count(data) > 2)>
+							<div class="diy-cube-right1" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px; padding-bottom: 0;">
+								<img src="<(tomedia(toArray(data)[1].imgurl))>" />
+							</div>
+							<div class="diy-cube-right2" <(if count(data)==3)> style="padding: <(style.paddingtop)>px <(style.paddingleft)>px;"<(/if)>>
+								<(if count(data) == 3)>
+									<img src="<(tomedia(toArray(data)[2].imgurl))>" />
+								<(/if)>
+								<(if count(data) > 3)>
+									<div class="left" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px; padding-right: 0;">
+										<img src="<(tomedia(toArray(data)[2].imgurl))>" />
+									</div>
+								<(/if)>
+								<(if count(data) >= 4)>
+									<div class="right" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+										<img src="<(tomedia(toArray(data)[3].imgurl))>" />
+									</div>
+								<(/if)>
+							</div>
+						<(/if)>
+					</div>
+				<(/if)>
+			</div>
+		<(/if)>
+		<(if params.row > 1)>
+			<div class="diy-picturew row-<(params.row)>" style="padding: <(style.paddingtop)>px; <(style.paddingleft)>px; background: <(style.background)>;">
+				<(each data as item)>
+					<div class="item" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+						<img src="<(tomedia item.imgurl)>">
+					</div>
+				<(/each)>
+				<(if style.showdot > 0 && params.showtype == 1)>
+					<div class="clear"></div>
+					<div class="diy-picturew-pagination">
+						<a class="active"></a>
+						<a></a>
+					</div>
+				<(/if)>
+			</div>
+		<(/if)>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-pictures">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-picturew row-<(params.rownum)>" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px; background: <(style.background)>;">
+			<(each data as item)>
+			<div class="item" style="padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+				<div class="image">
+					<img src="<(tomedia item.imgurl)>">
+					<(if item.title!='')>
+					<div class="title" style="color: <(style.titlecolor)>; text-align: <(style.titlealign)>;"><(item.title)></div>
+					<(/if)>
+				</div>
+				<div class="text" style="color: <(style.textcolor)>; text-align: <(style.textalign)>;""><(item.text)></div>
+		</div>
+		<(/each)>
+		<(if style.showdot>0&&params.showtype==1)>
+			<div class="diy-picturew-pagination">
+				<a class="active"></a>
+				<a></a>
+			</div>
+		<(/if)>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-notice">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-notice" style="background: <(style.background)>; padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px;">
+			<div class="diy-notice-container <(if style.paddingleft != 0)> border-1px-l border-1px-r <(/if)> <(if style.paddingtop != 0)> border-1px-t border-1px-b <(/if)>">
+				<div class="image border-1px-r">
+					<img src="<(tomedia params.imgurl)>" alt="">
+				</div>
+				<div class="icon">
+					<i class='icon icon-notification' style="color: <(style.iconcolor)>"></i>
+				</div>
+				<div class="notice-text" style="color: <(style.textcolor)>">
+					<ul>
+						<(if params.noticedata == 0)>
+							<li>这里将读取商城里的公告进行滚动</li>
+						<(else)>
+							<(each data as item)>
+								<li>
+									<a href="javascript:;" style="color: <(style.textcolor)>">
+										<(item.title)>
+									</a>
+								</li>
+							<(/each)>
+						<(/if)>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-graphic">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-graphic" style="background: <(style.background)>; padding-top: <(style.paddingtop)>px; padding-bottom: <(style.paddingtop)>px; padding-left: <(style.paddingleft)>px; padding-right: <(style.paddingleft)>px;">
+			<div class="diy-graphic-container clearfix">
+				<(each data as item)>
+					<a href="javascript:;" class="diy-graphic-list" style="background: <(style.cardbackground)>">
+						<div class="main-title" style="color: <(style.titlecolor)>"><(item.title)></div>
+						<div class="subhead" style="color: <(style.subheadcolor)>"><(item.subhead)></div>
+						<div class="img">
+							<img src="<(tomedia item.imgurl)>" alt="">
+						</div>
+					</a>
+				<(/each)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-searchbar">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-searchbar <(if style.searchstyle == 'radius')>radius<(else if style.searchstyle == 'round')>round<(/if)>" style="background: <(style.background)>; padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+			<div class="inner left" style="background: <(style.inputbackground)>;">
+				<div class="search-icon"><i class="icon icon-search" style="color: <(style.iconcolor)>;"></i></div>
+				<div class="search-input" style="text-align: <(style.textalign)>"><span style="color: <(style.color)>;"><(params.placeholder)></span></div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-title">
+	<div class="drag" data-itemid="<(itemid)>">
+		<(if style.style == 1)>
+		<div class="diy-title" style="background: <(style.background)>; color: <(style.color)>; text-align: <(style.textalign)>; font-size: <(style.fontsize)>px; padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+			<i class="icon <(params.icon)>"></i>
+			<(params.title)>
+		</div>
+		<(else)>
+		<div class="diy-title" style="background: <(style.background)>; color: <(style.color)>; text-align: <(style.textalign)>; font-size: <(style.fontsize)>px; padding: <(style.paddingtop)>px <(style.paddingleft)>px;">
+			<i class="icon <(params.icon)>"></i>
+			<(params.title)>
+		</div>
+		<(/if)>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-copyright">
+	<div class="drag fixed" data-itemid="<(itemid)>">
+		<div class="diy-copyright" style="color: <(style.color)>; background: <(style.background)>">
+			<(if style.style == 1)>
+				<(if style.showimg == 1)>
+					<img src="<(tomedia params.imgurl)>" alt="">
+					<br>
+				<(/if)>
+				<(params.content)>
+			<(else)>
+				<(if style.showimg == 1)>
+					<img src="<(tomedia params.imgurl)>" alt="">
+				<(/if)>
+				<(params.content)>
+			<(/if)>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-listmenu">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-listmenu" style="margin-top: <(style.paddingtop)>px; background: <(style.background)>;">
+			<(each data as item)>
+				<div class="wui-cell">
+					<(if item.icon)>
+					<div class="cell-icon" style="color: <(style.iconcolor)>;">
+						<i class="icon <(item.icon)>"></i>
+					</div>
+					<(/if)>
+					<div class="cell-text" style="color: <(style.color)>;"><(item.text)></div>
+					<div class="cell-remark" style="color: <(style.remarkcolor)>;"><(item.remark)></div>
+				</div>
+			<(/each)>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-fixedsearch">
+	<div class="drag fixed" data-itemid="<(itemid)>">
+		<div class="diy-fixedsearch" style="background: <(style.fixedbackground)>;">
+			<a href="javascript:;" class="loc <(if style.locstyle == 'radius')>radius<(else if style.locstyle == 'round')>round<(/if)>" style="background: <(style.locbackground)>; color: <(style.loccolor)>;">
+				<i class="icon icon-location"></i>
+				<(params.location)>
+				<i class="icon icon-xiangyou1"></i>
+			</a>
+			<a href="javascript:;" class="searchBar <(if style.searchstyle == 'radius')>radius<(else if style.searchstyle == 'round')>round<(/if)>" style="background: <(style.searchbackground)>; color: <(style.searchcolor)>;">
+				<i class="icon icon-search"></i>
+				<span><(params.text)></span>
+			</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-selective">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-selective" style="margin-top: <(style.margintop)>px;">
+			<div class="top-placeholder" >
+				<div class="top-placeholder-inner" style="color: <(style.titlecolor)>;"><(params.title)>
+					<a href="javascript:;">更多<i class="icon icon-xiangyou1"></i></a>
+				</div>
+			</div>
+			<div class="selective-info">
+				<(each data as item)>
+					<a href="javascript:;" class="col-33">
+						<img src="<(tomedia item.logo)>">
+						<div style="color: <(style.storecolor)>;"><(item.title)></div>
+					</a>
+				<(/each)>
+			</div>
+			<(if style.showdot == 1)>
+				<div class="diy-selective-page">
+					<span style="background: <(style.dotbackground)>"></span>
+					<span style="background: <(style.dotbackground)>"></span>
+				</div>
+			<(/if)>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-waimai_allstores">
+	<style type="text/css">
+		.diy-waimai-store-box .waimai-store-item .content-right .item-star-box .stars-bg{color: <(style.scorecolor)>}
+	</style>
+	<div class="drag fixed" data-itemid="<(itemid)>">
+		<div class="diy-waimai-store-box" style="margin-top: <(style.margintop)>px;">
+			<div class="diy-waimai-store-button-tab border-1px-tb">
+				<div class="col-25">
+					综合排序
+					<span class="icon icon-unfold"></span>
+				</div>
+				<div class="col-25">
+					销量最高
+				</div>
+				<div class="col-25">
+					离我最近
+				</div>
+				<div class="col-25">
+					筛选
+					<span class="icon icon-unfold"></span>
+				</div>
+			</div>
+			<div class="waimai-store-item-list">
+				<(each data as item)>
+				<div class="waimai-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="<(tomedia item.logo)>" alt="">
+							</a>
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name" style="color: <(style.titlecolor)>;"><(item.title)></div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg" style="width: <(item.score_cn)>%; color: <(style.scorecolor)>">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">已售<(item.sailed)>单</div>
+									<div class="time-distance">
+										<div class="avg_delivery_time"><(item.delivery_time)>分钟</div>
+										<!--
+											<span class='line'>|</span>
+											<div class="item-distance">914m</div>
+										-->
+									</div>
+
+								</div>
+								<div class="item-min-delivery">
+									<span>起送价￥<(item.send_price)></span>
+									<span class='line'>|</span>
+									<span>配送费￥<(item.delivery_price)></span>
+									<div style="background-color: <(style.deliverytitlebgcolor)>; color: <(style.deliverytitlecolor)>;">平台专送</div>
+								</div>
+							</a>
+							<(if params.showdiscount == 1 && item.activity && item.activity.num)>
+								<div class="discount-box">
+									<i class="icon icon-unfold"></i>
+									<(each item.activity.items as activity)>
+										<div class="single-line">
+											<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/icon-<(activity.type)>.png" alt="">
+											<span><(activity.title)></span>
+										</div>
+									<(/each)>
+								</div>
+							<(/if)>
+							<(if params.showhotgoods > 0 && count(item.hot_goods) > 0)>
+								<div class="hot-box">
+									<(each item.hot_goods as goods)>
+										<div class="hot-box-item">
+											<div class="hot-t border-1px">
+												<img src="<(tomedia goods.thumb)>" alt="">
+												<div>省36%</div>
+											</div>
+											<div class="hot-b">
+												<div class="shop-name"><(goods.title)></div>
+												<div class="shop-price">
+													<span class="price">¥<(goods.price)></span>
+													<span class="old-price">¥<(goods.old_price)></span>
+												</div>
+											</div>
+										</div>
+									<(/each)>
+								</div>
+							<(/if)>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<(/each)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-bargain">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-bargain" style="margin-top: <(style.margintop)>px;">
+			<div class="activity-header" style="color: <(style.titlecolor)>">
+				<(params.title)>
+				<a href="javascript:;">更多<i class="icon icon-arrow-right"></i></a>
+			</div>
+			<div class='goods-list row'>
+				<(each data as item)>
+				<div class="goods-item col-25">
+					<a href="javascript:;">
+						<div class="goods-image">
+							<span class="label"><(item.discount)>折</span>
+							<img src="<(tomedia item.thumb)>">
+						</div>
+						<div class="goods-title" style="color: <(style.goodsnamecolor)>">
+							<(item.title)>
+						</div>
+						<div class="price">
+							<span>¥</span><span class="now-price"><(item.discount_price)></span><span class="original-price">¥<(item.price)></span>
+						</div>
+					</a>
+				</div>
+				<(/each)>
+			</div>
+			<(if style.showdot == 1)>
+				<div class="diy-bargain-page">
+					<span style="background: <(style.dotbackground)>"></span>
+					<span style="background: <(style.dotbackground)>"></span>
+				</div>
+			<(/if)>
+		</div>
+	</div>
+</script>
+
+<!--购物车-->
+<script type="text/html" id="tpl-show-cart">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-cartop">
+			<a href="">
+				<div class="num">1</div>
+				<div class="icon icon-cartfill"></div>
+			</a>
+		</div>
+	</div>
+</script>
+
+<!--超级红包-->
+<script type="text/html" id="tpl-show-redpacket">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-superRedpacket">
+			<!--<div class="modal modal-no-buttons modal-in" id="sharemodal">-->
+				<div class="banner">
+					<img src="../addons/we7_wmall/plugin/superRedpacket/static/img/header.png" alt="">
+				</div>
+				<div class="container">
+
+					<div class="redpacket">
+						<div class="redpacket-info row">
+							<div class="col-75 text-left">
+								<span class="redpacket-title">通用红包</span>
+							</div>
+							<div class="col-25 price text-right">
+								￥<span>5</span>
+							</div>
+						</div>
+						<div class="circle-container">
+							<span class="circle circle-left"></span>
+							<span class="circle circle-right"></span>
+						</div>
+						<div class="redpacket-limit row">
+							<div class="col-50 use-days-limit text-left">还有一天可使用</div>
+							<div class="col-50 use-condition text-right">满20可用</div>
+						</div>
+					</div>
+
+					<div class="redpacket">
+						<div class="redpacket-info row">
+							<div class="col-75 text-left">
+								<span class="redpacket-title">下午茶频道红包</span>
+							</div>
+							<div class="col-25 price text-right">
+								￥<span>5</span>
+							</div>
+						</div>
+						<div class="circle-container">
+							<span class="circle circle-left"></span>
+							<span class="circle circle-right"></span>
+						</div>
+						<div class="redpacket-limit row">
+							<div class="col-50 use-days-limit text-left">还有一天可使用</div>
+							<div class="col-50 use-condition text-right">满40可用</div>
+						</div>
+					</div>
+
+					<div class="redpacket">
+						<div class="redpacket-info row">
+							<div class="col-75 text-left">
+								<span class="redpacket-title">夜宵频道红包</span>
+							</div>
+							<div class="col-25 price text-right">
+								￥<span>6</span>
+							</div>
+						</div>
+						<div class="circle-container">
+							<span class="circle circle-left"></span>
+							<span class="circle circle-right"></span>
+						</div>
+						<div class="redpacket-limit row">
+							<div class="col-50 use-days-limit text-left">还有一天可使用</div>
+							<div class="col-50 use-condition text-right">满50可用</div>
+						</div>
+					</div>
+
+					<div class="go-home"><a href="javascript:;">进入首页</a></div>
+				</div>
+				<span class="icon icon-close js-close-modal" data-modal="#sharemodal"></span>
+			<!--</div>-->
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-buttons">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-buttons" style="margin-top: <(style.margintop)>px; background: <(style.backgroundcolor)>">
+			<div class="diy-buttons-container col-<(params.rownum)>">
+				<(each data as item)>
+				<div class="diy-button-col">
+					<a href="javascript:;">
+						<div class="button-text" style="color: <(item.color)>; background: <(item.backgroundcolor)>"><(item.text)></div>
+					</a>
+				</div>
+				<(/each)>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+<script type="text/html" id="tpl-show-redpacket">
+	<div class="drag" data-itemid="<(itemid)>">
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-danmu">
+	<style type="text/css">
+		.drag-danmu{ position: absolute!important; top: <(style.top)>px; z-index: 10000;}
+		.order-danmu-wx{background: <(style.background || '#000')>; opacity: <(style.opacity || '0.7')>; margin-left: <(style.left)>px;}
+		.order-danmu-wx .info{color: <(style.color)>;}
+		.order-danmu-wx .time{color: <(style.color)>;}
+	</style>
+	<div class="drag drag-danmu" data-itemid="<(itemid)>">
+		<div class="order-danmu-wx <(if params.styleType == '2')>style2<(/if)>">
+			<img class="thumb" src="../addons/we7_wmall/plugin/diypage/static/img/1.png" alt="">
+			<span class="info">最新订单来自 某某某</span>
+			<span class="time">刚刚</span>
+		</div>
+	</div>
+</script>
+
+<!--会员中心头部-->
+<script type="text/html" id="tpl-show-memberHeader">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-memberHeader" >
+			<div class="member-headinfo" style="background: <(if params.headerstyle == 'color')><(style.background;)><(/if)> <(if params.headerstyle == 'img')>url(<(tomedia params.backgroundimgurl)>) no-repeat<(/if)>;">
+				<div class="headinfo-balance">
+					<div class="headinfo-balance-price" style="color: <(style.color)>;">余额</div>
+					<div class="headinfo-price"  style="color: <(style.highlightcolor)>;">123.50</div>
+					<div class="headinfo-filling-price" style="color: <(style.color)>; border-color: <(style.color)>;"><(params.leftbtn.text)></div>
+				</div>
+				<div class="headinfo-user">
+					<div class="user-face <(if params.avatarstyle == 'radius')>party<(/if)>">
+						<img src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIjAzMVguDJpArLuW1iaqzEvCGao9iatS7lco9JnicH8nPpgRN6jFncBicp5FDodRYUlVCPZKwn02llrQ/132">
+					</div>
+					<div class="user-name" style="color: <(style.color)>;">用户昵称</div>
+					<div class="user-level" style="color: <(style.color)>;">
+						[用户等级]
+						<i class="icon icon-question1" style="color: <(style.color)>;"></i>
+					</div>
+				</div>
+				<div class="headinfo-balance">
+					<div class="headinfo-balance-price" style="color: <(style.color)>;">积分</div>
+					<div class="headinfo-price" style="color: <(style.highlightcolor)>;">321</div>
+					<div class="headinfo-filling-price" style="color: <(style.color)>; border-color: <(style.color)>;"><(params.rightbtn.text)></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!--绑定手机-->
+<script type="text/html" id="tpl-show-memberBindMobile" >
+	<div class="drag" data-itemid="<(itemid)>" >
+		<div class="diy-mobile-bind " style="margin-top: <(style.margintop)>px;background: <(style.background)>;">
+			<div class="wui-cell">
+				<div class="wui-cell-text">
+					<i class="icon icon-phone1"></i>
+					<span style="color: <(style.titlecolor)>;">绑定手机号</span>
+					<div class="cell-text-info" style="color: <(style.placeholdercolor)>;"><(params.placeholdertext)></div>
+				</div>
+				<div class="wui-cell-remark icon icon-right1"></div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!--会员中心导航块-->
+<script type="text/html" id="tpl-show-blockNav">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="diy-blockNav col-4">
+			<a href="javascript:;" class="diy-icon-col">
+				<div class="icon-img">
+					<i class="icon icon-pay"></i>
+				</div>
+				<div class="text-icon">待付款</div>
+				<div class="icon-tips">这是提示</div>
+			</a>
+			<a href="javascript: ;" class="diy-icon-col">
+				<div class="icon-img">
+					<i class="icon icon-deliver"></i>
+				</div>
+				<div class="text-icon">待发货</div>
+				<div class="icon-tips">这是提示</div>
+			</a>
+			<a href="javascript: ;" class="diy-icon-col">
+				<div class="icon-img">
+					<i class="icon icon-goods"></i>
+				</div>
+				<div class="text-icon">待收货</div>
+				<div class="icon-tips">这是提示</div>
+			</a>
+			<a href="javascript: ;" class="diy-icon-col">
+				<div class="icon-img">
+					<i class="icon icon-refund"></i>
+				</div>
+				<div class="text-icon">退换货</div>
+				<div class="icon-tips">这是提示</div>
+			</a>
+		</div>
+
+		<div class="diy-blockNav col-4">
+			<a href="javascript: ;" class="diy-icon-col">
+				<div class="icon-img">
+					<img src="../addons/we7_wmall/plugin/wxapp/static/img/shop_coupon_b.png" >
+				</div>
+				<div class="text-icon">待付款</div>
+				<div class="icon-tips">这是提示</div>
+			</a>
+		</div>
+	</div>
+</script>

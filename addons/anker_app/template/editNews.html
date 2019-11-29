@@ -1,0 +1,55 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">修改资讯</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" method="post" action="" name="submit">
+        	<input type="hidden" name="token" value="{$_W['token']}">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">标题</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="title" value="{$data['title']}" autocomplete="off">					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">简述</label>
+				<div class="col-sm-10">
+					<textarea rows="5" class="form-control" name="short_content" autocomplete="off">{$data['short_content']}</textarea>				
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">缩略图</label>
+				<div class="col-sm-10">
+					 {php echo tpl_form_field_image('thumb', $data['thumb']);}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">发布人</label>
+				<div class="col-sm-10" style="width: 50%;">
+					<input type="text" class="form-control" name="author" value="{$data['author']}" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">发布时间</label>
+				<div class="col-sm-10" style="width: 50%;">
+					<input type="text" class="form-control" name="addtime" value="{$data['addtime']}" readonly>
+				</div>
+			</div>
+			<div style="text-indent: 150px; font-size: 16px;">小程序暂时不支持复杂的格式文本，如果发现前台显示空白，请把内容复制到文本文档里中转一下。</div>
+			<div class="form-group" id="cotent">
+				<label class="col-sm-2 control-label">内容</label>
+				<div class="col-sm-10">
+					{php echo tpl_ueditor('content', $data['content']);}
+				</div>
+			</div>
+			<div class="form-group">				
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" name="submit" class="btn btn-default">
+					
+				</div>
+			</div>	
+	</form>
+    </div>
+</div>
+{template 'common/footer'}

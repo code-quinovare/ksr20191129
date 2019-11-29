@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<title>信息发布_{$setup['es_title']}</title>
+<link href="{$cssurl}iconfont.css" rel="stylesheet" />
+<link href="{$cssurl}style.css" rel="stylesheet" />
+<script type="text/javascript" src="{$cssurl}jquery.js"></script>
+<script type="text/javascript" src="{$cssurl}jquery.cookie.js"></script>
+<script type="text/javascript" src="{$cssurl}mfabu.js"></script>
+<script src="{$cssurl}mobiscroll.zepto.js" type="text/javascript"></script>
+<script src="{$cssurl}mobiscroll.core.js" type="text/javascript"></script>
+<script src="{$cssurl}mobiscroll.scroller.js" type="text/javascript"></script>
+<script src="{$cssurl}mobiscroll.datetime.js" type="text/javascript"></script>
+<script src="{$cssurl}mobiscroll.i18n.zh.js" type="text/javascript"></script>
+<link href="{$cssurl}mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+<script src="{$cssurl}mobileSelect.js" type="text/javascript"></script>
+<script src="{$cssurl}fl_common.js" type="text/javascript"></script>
+<link href="{$cssurl}iconfont.css" rel="stylesheet" />
+<link href="{$cssurl}style.css" rel="stylesheet" />
+<link href="{$cssurl}pinche.v2.css" rel="stylesheet" >
+<link href="{$cssurl}weui.min.css" rel="stylesheet" >
+<link href="{$cssurl}jquery-weui.min.css" rel="stylesheet" >
+<script src="{$cssurl}jquery-weui.min.js"></script>
+<script src="{$cssurl}swiper.min.js"></script>
+<script src="{$cssurl}city-picker.min.js"></script>
+<script type="text/javascript" src="/app/resource/js/app/util.js"></script>
+<script src="/app/resource/js/require.js"></script>
+<script type="text/javascript" src="{$cssurl}mui.min.js"></script>
+<script type="text/javascript" src="/app/resource/js/app/common.js"></script>
+{php echo register_jssdk(true);}
+<link href="{$cssurl}personchannel.css" rel="stylesheet" />
+</head>
+<body>
+<header class="header-list">
+	<dl>
+		<a href="{php echo $this->createMobileUrl('index');}" style="color:#FFF;"><dd class="back"><i class="iconfont icon-jiantou"></i></dd></a>
+		<dt>信息发布</dt>
+	</dl>
+</header>  
+<section class=" company-msg">
+    <div class="fabu-ok luck-fabuok">
+        <p><span><i class="iconfont icon-dui"></i></span></p>
+        <p>信息发布成功</p>
+        <div class="fabu-link disflex">
+            <a href="{php echo $this->createMobileUrl('user');}">管理信息</a>
+            <a href="{php echo $this->createMobileUrl('details');}&code={$code}">查看信息</a>
+            <a href="{php echo $this->createMobileUrl('fabu');}">再发一条</a>
+        </div>
+            <div class="luck-pay">
+                <div class="luck-tj">
+                    <i class="iconfont icon-dianzan"></i>
+                    <span>置顶推荐</span>
+                    <span class="js-luck s1">?</span>
+                </div>
+
+                <ul class="luck-ul">
+					<li>信息置顶显示，提高<em>6-8</em>倍交易效率！</li>
+                    {if $setup['es_1_money']!=0}
+                   <li class="clearfix li1" priceid="279393" price="{$setup['es_1_money']}" priceunit="1">
+                    <span class="s2"><i class="iconfont icon-right1"></i></span>
+                    <span class="s3">1天</span>
+                    <span class="s4"><em>{$setup['es_1_money']}</em>元</span>
+                    </li>
+                    {/if}
+                    {if $setup['es_3_money']!=0}
+                    <li class="clearfix li1" priceid="279393" price="{$setup['es_3_money']}" priceunit="3">
+                    <span class="s2"><i class="iconfont icon-right1"></i></span>
+                    <span class="s3">3天</span>
+                    <span class="s4"><em>{$setup['es_3_money']}</em>元</span>
+                    </li>
+                    {/if}
+                    {if $setup['es_5_money']!=0}
+                    <li class="clearfix li1" priceid="279394" price="{$setup['es_5_money']}" priceunit="5">
+                    <span class="s2"><i class="iconfont icon-right1"></i></span>
+                    <span class="s3">5天</span>
+                    <span class="s4"><em>{$setup['es_5_money']}</em>元</span>
+                    </li>
+                    {/if}
+                    {if $setup['es_7_money']!=0}
+                    <li class="clearfix li1" priceid="279395" price="{$setup['es_7_money']}" priceunit="7">
+                    <span class="s2"><i class="iconfont icon-right1"></i></span>
+                    <span class="s3">7天</span>
+                    <span class="s4"><em>{$setup['es_7_money']}</em>元</span>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+            <div class="button luck-btn" onclick="regList()">
+                    <input type="button" value="确定" class="next-btn" />
+            </div>
+
+        <div class="luck-mask"></div>
+    </div>
+</section>
+<script>
+
+			
+//点击发布按钮时验证
+function regList() {
+	var price = $("div.luck-pay li.on").attr("price");
+	var priceunit = $("div.luck-pay li.on").attr("priceunit");
+	var timestamp=new Date().getTime();
+	util.pay({
+		orderFee : price,
+		payMethod : 'wechat',
+		orderTitle : '置顶'+priceunit+'天，'+price+'元',
+		orderTid : timestamp,
+		module : 'recharge',
+		success : function(res) {
+			window.location.href = "{php echo $this->createMobileUrl('topmoney');}&code={$code}&day="+priceunit+"&money="+price;
+		},
+		fail : function(res) {},
+		complete : function(res) {}
+	});
+}
+
+
+  $(function () {      
+            //点击置顶设置确定
+            $(".luck-ul").find(".li1").each(function () {
+                $(this).click(function () {
+                    if ($(this).hasClass("on")) {
+                        $(this).removeClass("on");
+                        $('#priceid').val(0);
+                        $('#payPrice').val("");
+                    } else {
+                        $(this).addClass("on").siblings().removeClass("on");
+                        $('#priceid').val($(this).attr('priceid'));
+                        $('#payPrice').val($(this).find('.s4 em').html());
+                    }
+                });
+            });
+        });
+</script>
+</body>
+</html>

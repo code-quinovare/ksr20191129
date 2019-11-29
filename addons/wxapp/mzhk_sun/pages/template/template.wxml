@@ -1,0 +1,90 @@
+<template name="ordertopay">
+    <view id="ordertopay">
+        <view bindtap="showPay" class="pay_screen" data-statu="0" wx:if="{{payStatus==1}}"></view>
+        <view class="drawer_box" wx:if="{{payStatus==1}}">
+            <view class="pay_title">
+                <view class="dTitle">
+                    <text>支付金额 ￥{{totalprice}}</text>
+                </view>
+                <image bindtap="showPay" class="cancel" data-statu="0" src="/style/images/mincancel.png"></image>
+            </view>
+            <view class="pay_content">
+                <view class="choose-card choose-pay">
+                    <view class="section">
+                        <view class="section__title">请选择支付方式</view>
+                    </view>
+                    <view class="">
+                        <radio-group bindchange="radioChange" class="radio-group">
+                            <label class="radio" wx:for="{{choose}}">
+                                <view>
+                                    <radio checked="{{item.checked}}" value="{{item.value}}"></radio>
+                                </view>
+                                <view class="deti">
+                  {{item.name}}
+                  <image class="wxicon" src="{{item.icon}}"></image>
+                                </view>
+                            </label>
+                        </radio-group>
+                    </view>
+                </view>
+                <view class="pay-foot">
+                    <button bindtap="toPay">付款</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="backcard">
+    <view id="mz">
+        <view class="mz-card" style="background-image:url('{{url}}{{hk_bgimg}}')">
+            <view class="mz-logo">
+                <view class="_mzLogo">
+                    <image class="hklogo" src="{{url}}{{logo}}" wx:if="{{logo!=''}}"></image>
+                    <text style="color:{{hk_namecolor}}" wx:if="{{pt_name!=''}}">{{pt_name}}</text>
+                </view>
+            </view>
+            <view class="mz-cont" wx:if="{{viptype.viptype==0}}">
+                <view class="mz-awater">
+                    <view class="mz-pic">
+                        <open-data class="uthumb" type="userAvatarUrl"></open-data>
+                    </view>
+                </view>
+                <view bindtap="toMember" class="mz-right">
+                    <text style="color:{{hk_namecolor}}">尚未开通会员</text>
+                    <view class="rightNow">立即开通</view>
+                </view>
+            </view>
+            <view class="mz-cont" wx:if="{{viptype.viptype!=0}}">
+                <view class="mz-awater">
+                    <view class="mz-pic">
+                        <open-data class="uthumb" type="userAvatarUrl"></open-data>
+                    </view>
+                    <view>
+                        <view>
+                            <open-data style="color:{{hk_namecolor}}" type="userNickName"></open-data>
+                        </view>
+                        <view style="color:{{hk_namecolor}}">{{viptype.time2}}到期</view>
+                    </view>
+                </view>
+                <view bindtap="toMember" class="mz-right">
+                    <view class="rightNow">我要续费</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="technical">
+    <view class="technical" wx:if="{{is_show_tech==1}}">
+        <view>
+            <image class="supportIcon" src="{{tech_img}}"></image>
+        </view>
+        <view class="tecSup">
+            <view>{{tech_title}}</view>
+            <view>合作电话：{{tech_phone}}</view>
+        </view>
+        <view bindtap="callphone" class="dialogPhone" data-phone="{{tech_phone}}">
+            <image class="supportPhone" src="../../../style/images/support2.png"></image>
+            <text>拨打</text>
+        </view>
+    </view>
+</template>

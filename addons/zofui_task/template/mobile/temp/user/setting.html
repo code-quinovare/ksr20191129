@@ -1,0 +1,88 @@
+	<div class="page_top money_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'setting'))}"><span {if $_GPC['op'] == 'setting'}class="font_activity"{/if} >账户设置</span></a>
+		</div>
+	</div>	
+	
+	<div class="auth_auth auth_hide_class">
+		
+		{template 'temp/user/mobile_temp'}
+		
+		<div class="weui_cells auth_select">
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" name="guytype">
+						<option selected="" value="">设置您的类型</option>
+						<option value="1" {if $userinfo['guytype'] == 1}selected="selected"{/if}>发任务的</option>
+						<option value="2" {if $userinfo['guytype'] == 2}selected="selected"{/if}>接任务的</option>
+					</select>
+				</div>
+			</div>
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" name="guysort">
+						<option selected="" value="">设置您的业务分类</option>
+						{loop $guysortinfo $item}
+							<option value="{$item['id']}" {if $userinfo['guysort'] == $item['id']}selected="selected"{/if}>{$item['title']}—{$item['desc']}</option>
+						{/loop}
+					</select>
+				</div>
+			</div>			
+		</div>
+		<div class="weui_cells area_select">
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" name="settingprovince"></select>
+				</div>
+			</div>
+			<div class="weui_cell weui_cell_select is_show_city" style="display:none">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" name="settingcity"></select>
+				</div>
+			</div>						
+		</div>		
+		<div class="weui_cells auth_images">		
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">微信二维码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<div class="auth_up_images">
+						<img src="{php echo empty($userinfo['qrcode'])?'../addons/zofui_task/public/images/avatar.jpg':tomedia($userinfo['qrcode'])}">
+						<input name="images" value="{$userinfo['qrcode']}" type="hidden">
+					</div>
+				</div>
+			</div>
+		</div>		
+		<div class="weui_cells_title">个人简述 <font class="font_13px_999">（简述自己的业务范围，便于雇主知道你是干什么的）</font></div>
+		<div class="weui_cells weui_cells_form">
+			<div class="weui_cell">
+				<div class="weui_cell_bd weui_cell_primary">
+					<textarea class="weui_textarea" placeholder="在此输入个人简述"  name="guydesc" rows="3">{if !empty($userinfo['guydesc'])}{$userinfo['guydesc']}{/if}</textarea>
+					<div class="weui_textarea_counter"><span>0</span>/120</div>
+				</div>
+			</div>
+		</div>
+		<div class="weui_cells_title">雇主联系您的方式</div>		
+		<div class="weui_cells weui_cells_checkbox contact_type">
+			<label class="weui_cell weui_check_label" for="mobile">
+				<div class="weui_cell_hd">
+					<input type="checkbox" class="weui_check" name="contacttype1" {if $userinfo['contacttype'] == 1 || $userinfo['contacttype'] == 3}checked="checked"{/if} value="1" id="mobile">
+					<i class="weui_icon_checked"></i>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<p>手机</p>
+				</div>
+			</label>
+			<label class="weui_cell weui_check_label" for="wxqrcode">
+				<div class="weui_cell_hd">
+					<input type="checkbox" name="contacttype2" {if $userinfo['contacttype'] == 2 || $userinfo['contacttype'] == 3}checked="checked"{/if} class="weui_check" value="2" id="wxqrcode">
+					<i class="weui_icon_checked"></i>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<p>微信二维码</p>
+				</div>
+			</label>
+		</div>		
+		
+		<input type="button" value="提交" class="ff5f27_input_button" id="setting_confirm">
+	</div>
+	

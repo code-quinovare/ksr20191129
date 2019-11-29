@@ -1,0 +1,86 @@
+page {
+    background-image: -webkit-linear-gradient(-148deg,rgb(242,213,218) 0%,rgb(255,167,248) 100%);
+}
+
+.banner,.banner>image {
+    width: 750rpx;
+    height: 270rpx;
+}
+
+.list {
+    display: flex;
+    margin: 20rpx 20rpx 0;
+    padding: 20rpx;
+    width: 670rpx;
+    background: #fff;
+}
+
+.left {
+    flex: 0 0 172rpx;
+    position: relative;
+    width: 172rpx;
+    height: 172rpx;
+    margin-right: 24rpx;
+}
+
+.left>image {
+    width: 172rpx;
+    height: 172rpx;
+}
+
+.left .over image {
+    position: absolute;
+    top: -15rpx;
+    left: -34rpx;
+    width: 170rpx;
+    height: 52rpx;
+}
+
+.list-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 172rpx;
+}
+
+.lst-up {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.get {
+    width: 135rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    text-align: center;
+    border: 2rpx solid rgb(243,72,108);
+    color: rgb(243,72,108);
+    font-weight: 700;
+    border-radius: 20rpx;
+}
+
+.title {
+    overflow: hidden;
+    line-height: 32rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 30rpx;
+    font-weight: 700;
+}
+
+.desc {
+    width: 320rpx;
+    line-height: 36rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #f33030;
+    font-size: 34rpx;
+}
+
+.time {
+    color: #666;
+    font-size: 24rpx;
+}

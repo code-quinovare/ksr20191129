@@ -1,0 +1,68 @@
+{template 'temp/user/money_top'}
+	<div class="money_draw money_panel" >
+			<div class="lastmoney">
+				<p>
+					<span>账户余额(元)</span>
+				</p>
+				<p>{$userinfo['credit2']}</p>
+			</div>
+			<div class="getbtn">
+				<a  id="drwmoney">提现</a>
+				<input id="addmoney" value="充值" class="fff_button" type="button">
+				<input id="updateuser" value="刷新" class="fff_button" type="button">
+			</div>
+	</div>
+
+<!-- 提现框 -->
+<div id="sideup_draw">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideup_draw_down" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_draw_body">
+				<p class="font_13px_999">注意：提现后经财务对账后才支付，直接支付到您的微信钱包中。</p>
+				
+				<li class="draw_money_type">
+					<label class="font_activity">全部提现<input type="radio" value="all" checked name="drawmoney"></label>
+					<label>其他金额<input type="radio" value="other" name="drawmoney"></label>
+				</li>
+				<li class="draw_money_input"><input name="money" placeholder="在这里输入金额" type="number"></li>
+				<li class="draw_money_confirm">
+					<a href="javascript:;" value="" class="fff_button" id="money_confirm">确定</a>
+					<a href="javascript:;" value="" class="fff_button" id="actionsheet_cancel">取消</a>
+				</li>
+				<input name="usermoney" placeholder="在这里输入金额" value="{$userinfo['credit2']}" type="hidden">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 充值 -->
+<div id="sideup_addmoney" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+		<form action="{php echo $this->createMobileUrl('pay')}" method="post">
+            <div class="weui_actionsheet_menu sideup_addmoney_body">
+				<div class="guy_task_item weui_cells_form sideuper_body_item">
+					<div class="weui_cell guy_task_input">
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" name="moneyvalue" type="number" placeholder="请在此输入金额">
+						</div>
+						<div class="placeholder-fr font_13px_999">
+							充值金额
+						</div>
+					</div>
+				</div>
+				
+				<div class="sideuper_body_item font_13px_999">
+					<p>提示：必须输入正整数。</p>
+				</div>
+            </div>
+			<div class="sideuper_bottom">
+				<input value="确定" type="submit" name="addmoney" class="fff_button confirm" id="topay">
+				<input value="关闭" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</form>		
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<!-- 
+ * 申请讲师
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<link href="{MODULE_URL}template/mobile/style/cssv2/teacherCenter.css?v={$versions}" rel="stylesheet" />
+<style type="text/css">
+.tabbar_wrap {
+	-webkit-overflow-scrolling: unset;
+}
+</style>
+{if $op=='display'}
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<form enctype="multipart/form-data" method="post" action="{php echo $this->createMobileUrl('applyteacher', array('op'=>'postteacher'));}" onsubmit="return checksubmit();return false;">
+    <div class="applyteacher_main">
+        <div class="text">亲爱的<span>{$lessonmember['mnickname']}</span>：</div>
+        <div class="text" style="height:40px;text-indent:2em;">{if $teacherlog['status']==1}如需修改已通过的各项资料，请联系工作人员~{else}欢迎申请成为讲师，认真属实填写以下各项信息有利于审核通过哦~{/if}</div>
+        <label class="teacher-info">讲师名称：</label>
+        <div class="inputs">
+            <input type="text" name="teacher" id="teacher" placeholder="讲师名称" value="{$teacherlog['teacher']} {if !empty($teacherlog['teacher']) && $teacherlog['status']==1}[不可修改]{/if}" {if !empty($teacherlog['teacher']) && $teacherlog['status']==1}readonly{/if}>
+        </div>
+        <label class="teacher-info">讲师介绍：</label>
+        <div class="textarea">
+            <textarea name="teacherdes" id="teacherdes" placeholder="详细介绍自己，让更多的学生了解您，可填写您的主攻方向、工作经历、讲课方式等">{$teacherlog['teacherdes']}</textarea>
+        </div>
+        <label class="teacher-info">讲师QQ：</label>
+        <div class="inputs">
+            <input type="text" name="qq" id="qq" placeholder="联系QQ" value="{$teacherlog['qq']} {if !empty($teacherlog['qq']) && $teacherlog['status']==1}[不可修改]{/if}" {if !empty($teacherlog['qq']) && $teacherlog['status']==1}readonly{/if}>
+        </div>
+        <label class="teacher-info">QQ交流群：</label>
+        <div class="inputs">
+            <input type="text" name="qqgroup" id="qqgroup" placeholder="QQ交流群" value="{$teacherlog['qqgroup']} {if !empty($teacherlog['qqgroup']) && $teacherlog['status']==1}[不可修改]{/if}" {if !empty($teacherlog['qqgroup']) && $teacherlog['status']==1}readonly{/if}>
+        </div>
+        <label class="teacher-info">讲师微信二维码：</label>
+        <div class="inputs" style="height:180px;">
+			<input type="file" id="uploadFile1" name="uploadFile" style="margin-top:10px;" accept="image/*" onchange="uploadImage(1)"/>
+            <img src="{$_W['attachurl']}{php echo $teacherlog['weixin_qrcode']?$teacherlog['weixin_qrcode']:'images/global/nopic.jpg';}" class="qrcode_url-show" height="100">
+			<input type="hidden" name="weixin_qrcode" id="qrcode_url-hide"/>
+            <br />
+            <span class="help-block">建议尺寸200*200像素，格式为jpg</span>
+        </div>
+        <label class="teacher-info">讲师相片：</label>
+        <div class="inputs" style="height:180px;">
+			<input type="file" id="uploadFile2" name="uploadFile" style="margin-top:10px;" accept="image/*" onchange="uploadImage(2)"/>
+            <img src="{$_W['attachurl']}{php echo $teacherlog['teacherphoto']?$teacherlog['teacherphoto']:'images/global/nopic.jpg';}" class="teacherphoto-show" height="100">
+			<input type="hidden" name="teacherphoto" id="teacherphoto-hide"/>
+            <br />
+            <span class="help-block">建议尺寸200*200像素，格式为jpg</span>
+        </div>
+        <input type="hidden" name="token" value="{$_W['token']}" />
+        <button class="sub" name="submit">提交</button>
+        <div class="title">讲师特权</div>
+        <div class="vip_main">
+            <div class="vip">
+                <div class="ico1"><i class="fa fa-qrcode"></i></div>
+                <div class="text">
+                    <div class="t1">课程收入</div>
+                    <div class="t2">课程每出售一次，立即有收入</div>
+                </div>
+            </div>
+            <div class="vip">
+                <div class="ico2"><i class="fa fa-cny"></i></div>
+                <div class="text">
+                    <div class="t1">自由提现</div>
+                    <div class="t2">收入存入账户，可提现到微信钱包</div>
+                </div>
+            </div>
+            <div class="vip" style="border-bottom:0px;">申请讲师通过后，您可把自己的课程与网站进行协议，你的课程每出售一次，你都可获得课程价格{$setting['teacher_income']}%的收入，具体以您的课程与网站的协议为准。</div>
+        </div>
+    </div>
+</form>
+
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+
+<div id="spinners" style="display:none;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script src="{MODULE_URL}template/mobile/style/jsv2/ajaxfileupload.js"></script> 
+<script type="text/javascript">
+    function checksubmit() {
+        var teacher = $("#teacher").val();
+        var teacherdes = $("#teacherdes").val();
+        var teacherphoto = $("input[name='teacherphoto']").val();
+
+        if (teacher == "") {
+            alert("请填写讲师名称");
+            return false;
+        }
+        if (teacherdes == "") {
+            alert("请填写讲师介绍");
+            return false;
+        }
+		if (teacherphoto == "") {
+            alert("请选择讲师相片");
+            return false;
+        }
+        document.getElementById("spinners").style.display = 'block';
+        return true;
+    }
+
+	function uploadImage(idx){
+		document.getElementById("spinners").style.display = 'block';
+		$.ajaxFileUpload({
+				url:'{php echo $this->createMobileUrl("AjaxUploadImage");}',
+				secureuri:false,
+				fileElementId:'uploadFile'+idx,
+				dataType: 'json',
+				success: function (data, status){
+					if(data.success == true){
+						if(idx==1){
+							$(".qrcode_url-show").attr("src", "<?php echo $_W['attachurl']; ?>" + data.path);
+							$("#qrcode_url-hide").val(data.path);
+						}else if(idx==2){
+							$(".teacherphoto-show").attr("src", "<?php echo $_W['attachurl']; ?>" + data.path);
+							$("#teacherphoto-hide").val(data.path);
+						}
+					}else{
+						alert("上传失败，请稍候重试");
+					}
+					document.getElementById("spinners").style.display = 'none';
+				},
+				error: function(data, status, e) {
+					alert("网络错误，请稍候重试");
+					document.getElementById("spinners").style.display = 'none';
+				}
+		});
+		return false;
+	}
+</script>
+{/if}
+
+{template '_footerv2'}

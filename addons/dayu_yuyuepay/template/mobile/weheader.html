@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn" data-name="{$_W['account']['name']}" data-qqkey="{$qqkey}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>{if !empty($title)}{$title}{else}{$_W['account']['name']}{/if}</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="{$_W['page']['keywords']}" />
+	<meta name="description" content="{$_W['page']['description']}" />
+	<link rel="shortcut icon" href="{$_W['siteroot']}{$_W['config']['upload']['attachdir']}/{if !empty($_W['setting']['copyright']['icon'])}{$_W['setting']['copyright']['icon']}{else}images/global/wechat.jpg{/if}" />
+	<link href="{$_W['siteroot']}app/{php echo str_replace('./', '', url('utility/style'))}" rel="stylesheet">
+	<link rel="stylesheet" href="{TEMPLATE_WEUI}style/weui.css"/>
+	<link rel="stylesheet" href="{TEMPLATE_WEUI}style/weui.min.css">
+	<link rel="stylesheet" href="{TEMPLATE_WEUI}style/dayu.css"/>
+	{template 'icon'}
+	{if $jquery==1}
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20170802"></script>
+	{elseif $jquery==2}
+	{elseif $jquery==3}
+	<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	{/if}	
+	{if !$jqueryweui}<script src="{MODULE_URL}template/weui/jquery-weui.min.js"></script>{/if}
+    <script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+	{if $picker==1}
+	<script type="text/javascript" src="{TEMPLATE_WEUI}picker.js"></script>
+	<script type="text/javascript" src="{TEMPLATE_WEUI}select.js"></script>
+	{/if}
+	<script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+	{php define('HEADER', true);}
+	window.sysinfo = {
+{if !empty($_W['uniacid'])}
+		'uniacid': '{$_W['uniacid']}',
+{/if}
+{if !empty($_W['acid'])}
+		'acid': '{$_W['acid']}',
+{/if}
+{if !empty($_W['openid'])}
+		'openid': '{$_W['openid']}',
+{/if}
+{if !empty($_W['uid'])}
+		'uid': '{$_W['uid']}',
+{/if}
+		'siteroot': '{$_W['siteroot']}',
+		'siteurl': '{$_W['siteurl']}',
+		'attachurl': '{$_W['attachurl']}',
+		'attachurl_local': '{$_W['attachurl_local']}',
+{if defined('MODULE_URL')}
+		'MODULE_URL': '{MODULE_URL}',
+{/if}
+		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+	};
+	
+	// jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard'
+	];
+	
+	</script>
+<script type="text/javascript">
+	function _removeHTMLTag(str) {
+		if(typeof str == 'string'){
+			str = str.replace(/<script[^>]*?>[\s\S]*?<\/script>/g,'');
+			str = str.replace(/<style[^>]*?>[\s\S]*?<\/style>/g,'');
+			str = str.replace(/<\/?[^>]*>/g,'');
+			str = str.replace(/\s+/g,'');
+			str = str.replace(/&nbsp;/ig,'');
+		}
+		return str;
+	}
+	</script>
+</head>
+<body id="message" {if $spmenu=='1'}class="cbp-spmenu-push"{/if} ontouchstart>
+<div class="weui_tab" id="tab">
+{if $menushow}
+	<link rel="stylesheet" href="{MODULE_URL}template/weui/style/component.css"/>
+	<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+		<h3><img class="weui_media_appmsg_thumb circle" src="{$avatar}" style="width:35px;height:35px;margin-right:10px;"><small>{$member['mobile']}</small></h3>
+		<a href="{$index_url}" class="middle"><svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-homepage"></use></svg> 首页</a>
+		{if $_GPC['do']=='mydayu_yuyuepay'}<a href="{php echo $this->createMobileUrl('dayu_yuyuepay',array('id' => $row['reid'],'sid' => $row['sid']))}"><svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-createtask"></use></svg> 我要预约</a>{/if}
+		<a href="{php echo $this->createMobileUrl('myrecord')}"><svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-createtask"></use></svg> 预约记录</a>
+		<a href="{php echo $this->createMobileUrl('my')}"><svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-member"></use></svg> 用户中心</a>
+	</nav>
+	<div class="container">
+		<div id="pop_share" class="new-comment-content hide"></div>
+{/if}

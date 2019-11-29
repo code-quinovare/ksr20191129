@@ -1,0 +1,328 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li role="presentation" class="active"> <a href="#daohang">导航设置</a> </li>
+	<li role="presentation"> <a href="#caidanyi">菜单①</a> </li>
+	<li role="presentation"> <a href="#caidaner">菜单②</a> </li>
+	<li role="presentation"> <a href="#caidansan">菜单③</a> </li>
+	<li role="presentation"> <a href="#caidansi">菜单④</a> </li>
+	<li role="presentation"> <a href="#caidanwu">菜单⑤</a> </li>
+	<li role="presentation"> <a href="#caidanliu">菜单⑥</a> </li>
+	<li role="presentation"> <a href="#caidanqi">菜单⑦</a> </li>
+	<li role="presentation"> <a href="#caidanba">菜单⑧</a> </li>
+	<li role="presentation"> <a href="#caidanjiu">菜单⑨</a> </li>
+	<li role="presentation"> <a href="#dibu">底部导航</a> </li>
+	
+	
+</ul>
+
+<div class="main">
+	<form class="form-horizontal" action="{php echo $this->createWeburl('wxindex');}&action=save" method="post">
+		<div class="panel panel-info" id="daohang">
+			<div class="panel-heading">导航设置</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="title" required="" value="{$wxindex['title']}"  placeholder="导航标题">
+							</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('bjt',$wxindex['bjt']);}
+							</div>
+					</div>
+					
+				</div>
+		</div>
+		
+		<div class="panel panel-info" id="caidanyi">
+			<div class="panel-heading">菜单①</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单①标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxa" value="{$wxindex['wxa']}"  placeholder="菜单①标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单①网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxab" value="{$wxindex['wxab']}"  placeholder="菜单①网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单①图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxac',$wxindex['wxac']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+		
+		<div class="panel panel-info" id="caidaner">
+			<div class="panel-heading">菜单②</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单②标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxb" value="{$wxindex['wxb']}"  placeholder="菜单②标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单②网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxba" value="{$wxindex['wxba']}"  placeholder="菜单②网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单②图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxbc',$wxindex['wxbc']);}
+							</div>
+					</div>
+					
+
+				
+					
+				</div>
+		</div> 
+		
+			<div class="panel panel-info" id="caidansan">
+			<div class="panel-heading">菜单③</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单③标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxc" value="{$wxindex['wxc']}"  placeholder="菜单③标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单③网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxca" value="{$wxindex['wxca']}"  placeholder="菜单③网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单③图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxcb',$wxindex['wxcb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+  
+			
+				<div class="panel panel-info" id="caidansi">
+			<div class="panel-heading">菜单④</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单④标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxd" value="{$wxindex['wxd']}"  placeholder="菜单④标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单④网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxda" value="{$wxindex['wxda']}"  placeholder="菜单④网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单④图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxdb',$wxindex['wxdb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+		
+				<div class="panel panel-info" id="caidanwu">
+			<div class="panel-heading">菜单⑤</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑤标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxe" value="{$wxindex['wxe']}"  placeholder="菜单⑤标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑤网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxea" value="{$wxindex['wxea']}"  placeholder="菜单⑤网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单④图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxeb',$wxindex['wxeb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+		
+		
+				<div class="panel panel-info" id="caidanliu">
+			<div class="panel-heading">菜单⑥</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑥标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxf" value="{$wxindex['wxf']}"  placeholder="菜单⑥标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑥网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxfa" value="{$wxindex['wxfa']}"  placeholder="菜单⑥网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单⑥图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxfb',$wxindex['wxfb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+  
+  
+  <div class="panel panel-info" id="caidanqi">
+			<div class="panel-heading">菜单⑦</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑦标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxg" value="{$wxindex['wxg']}"  placeholder="菜单⑦标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑦网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxga" value="{$wxindex['wxga']}"  placeholder="菜单⑦网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单⑦图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxgb',$wxindex['wxgb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+		
+		
+		<div class="panel panel-info" id="caidanba">
+			<div class="panel-heading">菜单⑧</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑧标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxh" value="{$wxindex['wxh']}"  placeholder="菜单⑧标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑧网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxha" value="{$wxindex['wxha']}"  placeholder="菜单⑧网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单⑧图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxhb',$wxindex['wxhb']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+		
+		
+		<div class="panel panel-info" id="caidanjiu">
+			<div class="panel-heading">菜单⑨</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑨标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxi" value="{$wxindex['wxi']}"  placeholder="菜单⑨标题">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">菜单⑨网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="wxia" value="{$wxindex['wxia']}"  placeholder="菜单⑨网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">菜单⑨图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('wxib',$wxindex['wxib']);}
+							</div>
+					</div>
+					
+				</div>
+		</div> 
+  
+  
+  
+  <div class="panel panel-info" id="dibu">
+			<div class="panel-heading">底部导航设置</div>
+				<div class="panel-body">
+				   
+					<div class="form-group">
+						<label class="col-sm-2 control-label">底部导航标题</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="dbsya" value="{$wxindex['dbsya']}"  placeholder="底部导航导航标题">
+							</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">底部导航网址</label>
+							<div class="col-sm-10">
+								<input type="type" class="form-control" name="dbsyb" value="{$wxindex['dbsyb']}"  placeholder="底部导航网址">
+							</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">底部导航图片</label>
+							<div class="col-sm-10">
+								{php echo tpl_form_field_image('dbsyc',$wxindex['dbsyc']);}
+							</div>
+					</div>
+					
+				</div>
+		</div>
+		
+		
+		<div align="center col-md-6" style = "position: fixed;bottom:10px;">
+			<input type="submit" name="submit" class="btn btn-primary btn-block" value="提 交" />
+			
+		</div>
+  <!--
+  	<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">提交</button>
+						</div>
+					</div>  -->
+	</form>
+  </div>
+ 
+  
+  
+    

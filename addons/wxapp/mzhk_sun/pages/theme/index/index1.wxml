@@ -1,0 +1,184 @@
+<swiper autoplay="true" circular="true" duration="{{duration}}" indicatorActiveColor="#f5ac32" indicatorColor="rgba(255,255,255,.7)" indicatorDots="true" interval="{{interval}}" wx:if="{{adadoneimg.length>0}}">
+    <view bindtap="gotoadinfo" class="ad2" data-id="{{item.pop_urltxt}}" data-tid="{{item.pop_urltype}}" wx:for="{{adadoneimg}}">
+        <swiper-item>
+            <view style="position:relative;">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+            </view>
+            <image mode="aspectFill" src="{{item.url}}{{item.pop_img}}"></image>
+        </swiper-item>
+    </view>
+</swiper>
+<view class="session" wx:if="{{is_homeshow_circle==1&&sunburn.length>0}}">
+    <view class="sec-title">
+        <text>{{home_circle_name}}</text>
+        <navigator openType="redirect" url="/mzhk_sun/pages/dynamic/dynamic">更多>></navigator>
+    </view>
+    <swiper autoplay="true" class="sunburnSwiper" displayMultipleItems="2" duration="800" interval="3000" vertical="true">
+        <view class="sunburn" wx:for="{{sunburn}}">
+            <swiper-item>
+                <view>
+                    <image class="uface" src="{{item.userimg}}"></image>
+                </view>
+                <view class="sunburnLeft">
+                    <view>
+                        <view>{{item.name}}</view>
+                        <view>{{item.addtime}}</view>
+                    </view>
+                    <view>{{item.content}}</view>
+                </view>
+            </swiper-item>
+        </view>
+    </swiper>
+</view>
+<view class="session" wx:if="{{activeList_two.bargain}}">
+    <view class="sec-title">
+        <text>砍价活动</text>
+        <navigator url="/mzhk_sun/pages/index/bargain/bargain">更多>></navigator>
+    </view>
+    <scroll-view class="bargain" scrollX="true" wx:if="{{activeList_two.bargain.length>0}}">
+        <view bindtap="kjbon" class="barList" data-id="{{item.gid}}" wx:for="{{activeList_two.bargain}}">
+            <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                <button formType="submit"></button>
+            </form>
+            <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+            <view class="barPrice">
+        {{item.gname}}
+      </view>
+            <view class="barOldPrice">
+                <text>￥{{item.kjprice}}</text>
+                <text>￥{{item.shopprice}}</text>
+            </view>
+        </view>
+    </scroll-view>
+</view>
+<view bindtap="gotoadinfo" class="ad2" data-id="{{adadtwoimg.pop_urltxt}}" data-tid="{{adadtwoimg.pop_urltype}}" style="padding-bottom:20rpx;" wx:if="{{adadtwoimg}}">
+    <view style="position:relative;">
+        <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+            <button formType="submit"></button>
+        </form>
+    </view>
+    <image mode="aspectFill" src="{{adadtwoimg.url}}{{adadtwoimg.pop_img}}"></image>
+</view>
+<view class="session sessionGroup" wx:if="{{activeList_two.group}}">
+    <view class="recommand">
+        <view bindtap="ptbon" class="recoList" data-id="{{item.gid}}" wx:for="{{activeList_two.group}}">
+            <view class="recoUp">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+                <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+                <view class="activeTips">拼团活动</view>
+            </view>
+            <view class="recoDown">
+                <view class="goodsTitle">{{item.gname}}</view>
+                <view class="shopPrice">￥{{item.ptprice}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="session" wx:if="{{activeList_two.card}}">
+    <view class="sec-title">
+        <text>集卡活动</text>
+        <navigator url="/mzhk_sun/pages/index/cards/cards">更多>></navigator>
+    </view>
+    <view class="recommand">
+        <view bindtap="jkbon" class="recoList" data-id="{{item.gid}}" wx:if="{{activeList_two.card.length>0}}" wx:for="{{activeList_two.card}}">
+            <view class="recoUp">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+                <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+                <view class="activeTips">进行中</view>
+            </view>
+            <view class="recoDown">
+                <view class="goodsTitle">{{item.gname}}</view>
+                <view class="shopName">{{item.bname}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="session" wx:if="{{activeList_two.buying}}">
+    <view class="sec-title">
+        <text>抢购活动</text>
+        <navigator url="/mzhk_sun/pages/index/timebuy/timebuy">更多>></navigator>
+    </view>
+    <view class="recommand">
+        <view bindtap="qgbon" class="recoList" data-id="{{item.gid}}" wx:if="{{activeList_two.buying.length>0}}" wx:for="{{activeList_two.buying}}">
+            <view class="recoUp">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+                <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+                <view class="activeTips">进行中</view>
+            </view>
+            <view class="recoDown">
+                <view class="goodsTitle">{{item.gname}}</view>
+                <view class="shopPrice">抢购价:￥{{item.qgprice}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="session" wx:if="{{activeList_two.general}}">
+    <view class="sec-title">
+        <text>普通商品</text>
+        <navigator url="/mzhk_sun/pages/index/goodlist/goodlist">更多>></navigator>
+    </view>
+    <view class="recommand">
+        <view bindtap="putongbon" class="recoList" data-id="{{item.gid}}" wx:if="{{activeList_two.general.length>0}}" wx:for="{{activeList_two.general}}">
+            <view class="recoUp">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+                <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+                <view class="activeTips">进行中</view>
+            </view>
+            <view class="recoDown">
+                <view class="goodsTitle">{{item.gname}}</view>
+                <view class="shopPrice">￥{{item.shopprice}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="session" wx:if="{{activeList_two.free}}">
+    <view class="sec-title">
+        <text>免单活动</text>
+        <navigator url="/mzhk_sun/pages/index/free/free">更多>></navigator>
+    </view>
+    <view class="recommand">
+        <view bindtap="mdbon" class="recoList" data-id="{{item.gid}}" wx:if="{{activeList_two.free.length>0}}" wx:for="{{activeList_two.free}}">
+            <view class="recoUp">
+                <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                    <button formType="submit"></button>
+                </form>
+                <image mode="aspectFill" src="{{url}}{{item.pic?item.pic:item.index_img}}"></image>
+                <view class="activeTips">进行中</view>
+            </view>
+            <view class="recoDown">
+                <view class="goodsTitle">{{item.gname}}</view>
+                <view class="shopName">{{item.bname}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="session" wx:if="{{welfareList&&welfareList.length>0}}">
+    <view class="sec-title">
+        <text>会员福利</text>
+    </view>
+    <scroll-view class="welfarScroll" scrollX="true">
+        <view bindtap="toWelfare" class="list list-welfare" data-id="{{item.id}}" wx:for="{{welfareList}}">
+            <view class="list-up">
+                <view>
+                    <form bindreset="formReset" bindsubmit="formid_one" class="plate_form" reportSubmit="true">
+                        <button formType="submit"></button>
+                    </form>
+                    <image src="{{url}}{{item.img}}"></image>
+                    <view class="lst-down brands_title">品牌：{{item.bname}}</view>
+                    <view class="lst-down brands_title brands_title_p">剩余：{{item.allowance}}份</view>
+                    <view class="lst-title">{{item.title}}</view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

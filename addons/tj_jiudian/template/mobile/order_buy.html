@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>提交订单</title>
+    <script src="{ASSETS_PATH}js/zepto.min.js"></script>
+    <link rel="stylesheet" href="{ASSETS_PATH}css/y_weui.css"/>
+    <link rel="stylesheet" href="{ASSETS_PATH}css/y_weui2.css"/>
+    <script src="{ASSETS_PATH}js/picker.js"></script>
+    <script src="{ASSETS_PATH}js/select.js"></script>
+    <script>
+        $(function() {
+            $("#d1").select({
+                title: "选择房间数",
+                autoClose: true,
+
+                items: ['1', '2', '3'],
+                onChange: function (d) {
+                    var aa=parseInt($("#aa").val());
+                    var bb=parseInt(d.values)*aa
+                    $.alert("你选择了" + d.values+"间");
+                    $("#jiage").html(bb);
+                    $("#ab").val(bb);
+                }
+            });
+
+            $("#d2").select({
+                title: "选择到点时间",
+                autoClose: true,
+
+                items: ['12:00-14:00', '14:00-18:00', '18:00-22:00','22:00-24:00'],
+                onChange: function (d) {
+                    $.alert("你选择了" + d.values);
+                }
+            });
+        });
+    </script>
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i,em{font-style: normal}
+        body{background-color: #f0efed;}
+        .content {padding-bottom: 40px;overflow-y: auto;height: 100%;width: 100%;overflow-x: hidden;}
+        .hue-base-navbar {height: 50px;line-height: 50px;background: #f8f8f8;border-bottom: 1px solid #e5e5e5;padding: 0 3%;position: relative;}
+        .hue-base-navbar-title {position: absolute;width: 100%;height: 100%;left: 0;top: 0;text-align: center;}
+        .hue-base-navbar-btns {position: absolute;font-size: 16px;top: 0;left: 0;width: 100%;text-align: right;padding-right: 10px;color: #06c1ae;}
+        .hue-base-arrow-left {position: relative;padding-left: 0px;}
+        .hue-base-navbar-back {position: relative;width: 16px;height: 18px;}
+        .hotel{padding: 0 3%;}
+        .base{margin: 10px 0;}
+        .title{margin: 10px 0;font-size: 16px;color: #333;}
+        .baseDesc{margin: 5px 0;color: #999;font-size: 14px;}
+        .more{border-top: 1px solid #999;}
+        .desc{margin: 7px 0;line-height: 18px;color: #666;font-size: 13px;display: flex;}
+        .desc-icon{display: block;color: #f90;}
+        .desc-info{display: block;padding-left: 2px;flex: 1;text-align: justify;}
+        .cell:last-child, .room{border-bottom: 1px solid #e5e5e5;}
+        .room {border-top: 1px solid #e5e5e5;margin: 5px 0; }
+        .cell{ background: #fff;position: relative;width: 100%;overflow-x: hidden;}
+        .room-count{position: relative;}
+        .line{padding-left: 3%;height: 40px;line-height: 40px;font-size: 14px;display: flex;overflow: hidden; border-bottom: 1px solid #e5e5e5; }
+        .line-key{width: 20%;font-size: 14px;color: #999;display: block;font-weight: normal;}
+        label>* {pointer-events: none;}
+        .line-value{color: #333;display: block;font-size: 14px;-webkit-box-flex: 1;flex: 1;padding-right: 3%; border: none;font-weight: normal;}
+        input { height: 100%;}
+        input, textarea {outline: none;border-style: solid;pointer-events: initial!important;line-height: 100%;}
+        .discount_a{margin:5px 0;}
+        .cell_a{background: #fff;position: relative;width: 100%;overflow-x: hidden; }
+        .line_a{ padding: 0 3%;font-size: 14px;display: flex;}
+        .card_a{position: relative;}
+        .line-key_a{color: #666;display: block;flex: 1;padding: 17px 0;height: 50px;line-height: 15px;}
+        .line-icon_a {display: inline-block;font-style: normal;background: #f90;color: #fff;width: 15px;height: 15px;line-height: 15px;text-align: center;font-size: 12px;vertical-align: top;margin-right: 3px;}
+        .line-value_a {color: #999;display: block;line-height: 50px;text-align: right;}
+        .no-invoice{margin: 7px 0;}
+        .tip_b{color: #f90;font-size: 14px;padding: 2px 3%;}
+        .icon_b{padding-right: 2px;vertical-align: bottom;}
+        .price_foot_a{position: fixed;left: 0;bottom: 0;width: 100%;z-index: 20;}
+        .wrapper_foot {height: 50px;width: 100%;display: -webkit-box;display: flex;background: #f9f9f9;z-index: 2;position: relative;border-top: 1px solid #d9d9d9;}
+        .price_foot{width: 100%;-webkit-box-flex: 1;flex: 1;position: relative;display: block;height: 50px;line-height: 50px;}
+        .total_foot {display: block;text-align: center;}
+        .total-desc_foot {font-size: 16px;color: #666;}
+        .total-val_foot {font-size: 18px;color: #06c1ae;}
+        .btn_foot {width: 50%;background: #f90;color: #fff;border-radius: 0;font-size: 16px;border: none;display: block;height: 50px;line-height: 50px;outline: none;text-align: center;}
+    </style>
+</head>
+<body>
+<form id="form_post" method="post" action="{php echo $this->createMobileUrl('Index',array('action'=>'order','tid'=>$res['id']))}">
+<div class="content">
+    <header class="hue-base-navbar">
+        <h1 class="hue-base-navbar-title" style="font-size: 16px;font-weight: normal">提交订单</h1>
+        <div class="hue-base-navbar-btns">  </div>
+        <img class="hue-base-navbar-back hue-base-arrow-left"  src="{ASSETS_PATH}img/zuo2.png" width="16px" height="16px" >
+    </header>
+    <section class="hotel" >
+        <div class="base" >
+            <p class="title" >{$set['title']}</p>
+            <p class="baseDesc">{$_SESSION['ruzhu']}入住，{$_SESSION['lidian']}离店，{$day}{if $_GPC['rooms'] == 2}小时{else}晚{/if}</p>
+            <p class="baseDesc" > {$res['title']}（无电梯）-{$res['chuangxing']}， {$res['class']}，  ￥{$res['price']} </p>
+            <input name="title" value="{$res['title']}" hidden>
+        </div>
+        <div class="more">
+            <p class="desc" >
+                <i class="input-icon hue-base-icon-base desc-icon" >⚠</i>
+                <span class="desc-info" >
+                    <span >订单确认后即视为消费，<em style="color:#f90">不支持7天无理由退款</em>。房间整晚保留，请及时入住。</span>
+                </span>
+            </p>
+        </div>
+    </section>
+    <section class="room" >
+        <div class="cell">
+            <div class="weui_cell_hd line room-count" >
+                <span class="line-key">房间数</span>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input name="count"  class="weui_input" type="text" value="1"  readonly="readonly">
+                </div>
+            </div>
+        </div>
+
+        <div class="cell">
+            <label class="line" >
+                <span class="line-key">入住人</span>
+                <input name="username" id="username" class="line-value" type="input" placeholder="每间需要填写1人姓名" value="">
+            </label>
+        </div>
+        <div class="cell">
+            <div class="weui_cell_hd line arrive-time">
+                <span class="line-key" >预计到店</span>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input name="time" class="weui_input" type="text" value="" placeholder="预计到店时间" id="d2">
+                </div>
+            </div>
+        </div>
+        <div class="cell" >
+            <label class="line" style="border: none">
+                <span class="line-key">联系手机</span>
+                <input name="phone" class="line-value" id="phone" type="input" placeholder="请填写正确的手机号码" value="">
+            </label>
+        </div>
+    </section>
+<!--    <section class="discount_a" >
+        <div class="cell_a" >
+            <a class="line_a card_a">
+                <span class="line-key_a">
+                    <i class="line-icon_a">券</i>抵用券
+                </span>
+                <span class="line-value_a">使用抵用券 ></span>
+            </a>
+        </div>
+    </section>-->
+    <section class="no-invoice">
+        <p class="tip_b">
+            <i class="hue-base-icon-base icon_b">⚠</i> 索取发票请到酒店前台
+        </p>
+    </section>
+</div>
+<section class="price_foot_a">
+    <section class="wrapper_foot">
+        <div class="price_foot">
+            <span class="total_foot">
+                <span class="total-desc_foot">总价:</span>
+                <span class="total-val_foot">¥<span id="jiage">{$money}</span></span>
+                <input value="{$money}" hidden id="aa">
+                <input name="money" value="{$money}" hidden id="ab">
+                <input name="price" value="{$res['price']}" hidden>
+                <input name="class" value="{$res['class']}" hidden>
+                <input name="day" value="{$_GPC['day']}" hidden>
+                <input name="rooms" value="{$_GPC['rooms']}" hidden>
+            </span>
+        </div>
+        <div class="btn_foot">
+            <span onclick="tijiao()">提交订单</span>
+        </div>
+    </section>
+</section>
+</form>
+</body>
+</html>
+<script>
+    function tijiao(){
+        if($("#d1").val() == "")
+        {
+            alert("房间数不能为空");
+            return false;
+        }
+        if($("#username").val() == "")
+        {
+            alert("入住人名称不能为空");
+            return false;
+        }
+
+        if($("#phone").val() == "")
+        {
+            alert("联系手机不能为空");
+            return false;
+        }
+
+        $("#form_post").submit();
+    }
+
+</script>

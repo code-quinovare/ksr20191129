@@ -1,0 +1,33 @@
+<div class="zhanwei" style=" height:150px; width:100%;"></div>
+<div class="footer">
+    <a href="tel:{$enterprise_info['enterprisePhone1']}">
+        <div class="footer_top" style="background:url(/addons/micro_enterprise/template/mobile/assets/images/bottom.png) no-repeat 50% 50%;"></div>
+        <div>电话</div>
+    </a>
+
+    {if $_SESSION['IsWechat'] == '1'}
+    <a onclick="alert('请点击右上角用浏览器打开本页面再点击咨询')">
+        <div class="footer_top" style="background:url(/addons/micro_enterprise/template/mobile/assets/images/bottom2.png) no-repeat 50% 50%;"></div>
+        <div>咨询</div>
+    </a>
+    {else}
+    <a href="mqqwpa://im/chat?chat_type=wpa&uin={$enterprise_info['enterpriseQQ1']}&version=1&src_type=web">
+        <div class="footer_top" style="background:url(/addons/micro_enterprise/template/mobile/assets/images/bottom2.png) no-repeat 50% 50%;"></div>
+        <div>咨询</div>
+    </a>
+    {/if}
+
+
+
+    <a href="{php echo $_SESSION['indexUrl']}&op=contact">
+        <div class="footer_top" style="background:url(/addons/micro_enterprise/template/mobile/assets/images/bottom3.png) no-repeat 50% 50%;"></div>
+        <div>地图</div>
+    </a>
+    <a href="{php echo $_SESSION['indexUrl']}&op=guestbook">
+        <div class="footer_top" style="background:url(/addons/micro_enterprise/template/mobile/assets/images/bottom4.png) no-repeat 50% 50%;"></div>
+        <div>留言</div>
+    </a>
+</div>
+
+</body>
+</html>

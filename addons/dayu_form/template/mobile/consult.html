@@ -1,0 +1,251 @@
+{template 'weheader'}
+<script type="text/javascript" src="{TEMPLATE_WEUI}js/dropload.min.js"></script>
+<script type="text/javascript" src="{TEMPLATE_WEUI}js/lazyimg.js"></script>
+<link rel="stylesheet" href="{MODULE_URL}template/weui/style/wechat.css">
+<style>
+.weui-comment {margin:0 auto;width:90%;padding-bottom: 10px;}
+.weui-comment-item .avatar {background-color: #fff;position: absolute;}
+.weui-comment-item {margin-top: 0px;}
+
+.weui_uploader_status, .weui_uploader_input_wrp{width:80px;height:80px;}
+.weui_textarea{border:1px solid #f5f5f5;border-radius: 2px;padding:0 2px;}
+</style>
+<div class="notice" style="margin-bottom:60px;">  
+	<div class="main_inner clearfix">
+		<div id="chatArea" class="box chat">
+			<div class="box_bd" id="messageList">
+			</div>
+		</div>
+	</div>  
+</div>
+<div style="position: absolute;top:10px;left:10px;z-index:9;text-shadow:1px 1px 1px #ccc;">
+		<a class="f-black" href="{$back_url}">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icon-left"></use>
+			</svg>
+		</a>
+</div>
+	
+{if $row['status']!='3'}
+<div class="tab-bottom" style="border-top:1px solid #ccc;">
+<div class="show" style="position: fixed;bottom:72px;left:10px;z-index:9;border:1px solid #f5f5f5;background-color:#fff;padding:5px;border-radius: 4px;display:none;">
+	<ul class="weui_uploader_files" id="pub-pics">
+	</ul>
+</div>
+		<div class="weui_tabbar" style="z-index:100">
+			<div class="weui_tabbar_item">
+				<div class="weui_cells" style="margin:0;">
+					<div class="weui_cell">
+						<input type="hidden" name="thumbs" id="thumbs"> 
+						<div class="weui_cell_hd" id="chooseImage" style="padding:0;line-height:5px;">
+							<svg class="icon f45 f-orange" aria-hidden="true" style="padding:0;margin-left:-10px;">
+								<use xlink:href="#icon-xiangji"></use>
+							</svg>
+						</div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea class="weui_textarea" id="consult" name="consult" rows="2" placeholder="请填写咨询内容"></textarea>
+						</div>
+						<div class="weui_cell_ft" style="width:60px;"><a id="confirmScore" href="javascript:void(0);" class="weui_btn weui_btn_mini weui_btn_primary f-white f14 right">提交</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div class="weui_cells layer-content hide" style="margin:0;">
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="weui_uploader">
+					<div class="weui_uploader_bd">
+						<input type="hidden" name="thumbs" id="thumbs"> 
+						<ul class="weui_uploader_files" id="pub-pics">   
+						</ul>
+						<div class="weui_uploader_input_wrp" id="chooseImage">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				<textarea class="weui_textarea" id="consult" name="consult" rows="2" placeholder="请填写咨询内容"></textarea>
+				<div class="weui_textarea_counter"></div>
+			</div>
+			<div class="weui_cell_ft"><a id="confirmScore" href="javascript:void(0);" class="weui_btn weui_btn_mini weui_btn_primary f-white f18">发送</a></div>
+		</div>
+	</div>
+</div>
+{/if}
+<script type="text/javascript">
+$(function(){
+	var page = 0;
+	var size =10;
+	$('.notice').dropload({
+		scrollArea : window,
+		autoLoad : true,//自动加载
+		domDown : {//上拉
+			domClass   : 'dropload-down',
+			domRefresh : '<div class="dropload-refresh f15 "><i class="icon icon-20"></i>上拉加载更多</div>',
+			domLoad    : '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>',
+			domNoData  : '<div class="dropload-noData f-gray">-------- 已经到底了 --------</div>'
+		},
+		loadDownFn : function(me){//加载更多
+			page++;
+//			window.history.pushState(null, document.title, window.location.href);	//加载记录页面
+			var result = '';
+			$.ajax({
+				type: 'GET',
+				url: "{php echo murl('entry', array('reid'=>$reid,'infoid'=>$rerid,'staff'=>$staff,'do'=>'getconsult','m' =>'dayu_consult'), true, true)}",
+				dataType: 'json',
+				data:{page:page,size:size},
+				success: function(data){
+	//				$.alert(data.list);
+					var arrLen = data.length;
+					if(arrLen > 0){
+                        for(var i=0; i<arrLen; i++){
+								
+							result+='<div class="message '+data[i].me+'">'
+								+'<img class="avatar" src="'+data[i].avatar+'" />'
+								+'<div class="content">'
+								+'<div class="nickname"><span class="time">'+data[i].time+'</span></div>'
+								+'<div class="bubble '+data[i].bubble+'">'
+								+'<div class="bubble_cont">'
+								+'<div class="plain">'
+								+'<pre>'+data[i].content+'</pre>'
+								+'</div>'
+								+data[i].thumb
+								+'</div>'
+								+'</div>'
+								+'</div>'
+								+'</div>';
+						}
+                    // 如果没有数据
+					}else{
+                        // 锁定
+						me.lock();
+                        // 无数据
+						me.noData();
+					}
+
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        $('.box_bd').append(result);						
+						var lazyloadImg = new LazyloadImg({
+							el: '.weui-updown [data-img]',
+							top: 50,right: 50,bottom: 50,left: 50,
+							qriginal: false,
+							load: function(el) {
+								el.style.cssText += '-webkit-animation: fadeIn 01s ease 0.2s 1 both;animation: fadeIn 1s ease 0.2s 1 both;';
+							},
+							error: function(el) {
+
+							}
+						});
+						me.resetload();
+					},500);
+				},
+				error: function(xhr, type){
+					$.alert('Ajax error!');
+					me.resetload();
+				}
+			});
+		}
+	});
+});
+	var images = {
+		localId: [],
+		serverId: []
+	};
+	document.querySelector('#chooseImage').onclick = function () {
+		wx.chooseImage({
+			success: function (res) {
+				images.localId = res.localIds;	        
+				if (images.localId.length == 0) {
+					return;
+				}
+				var m = 0, length = images.localId.length;
+				images.serverId = [];
+				function upload() {
+					wx.uploadImage({
+						localId: images.localId[m],
+						success: function (res) {
+							m++;
+							images.serverId.push(res.serverId);
+							var url = "{php echo $this->createMobileUrl('uploads',array('type'=>'image'));}&serverId=" + res.serverId + "&localId=" + m;
+							$.post(url, function(dat){
+								var dat = eval("("+dat+")");
+								if (dat.status == 'success') {
+									$.toast(dat.message, "success");
+									$('.show').show();
+									$upload = $('#pub-pics');
+									$li = $('<li onclick="var delimg=$(this);delimg.remove();" class="weui_uploader_file weui_uploader_status" style="background-image:url('+dat.imgurl+')"><input type="hidden" id="thumb[]" name="thumb[]" value="'+dat.path+'"/><div class="weui_uploader_status_content"><i class="weui_icon_cancel"></i></div></li>')
+						//			$li = $('<li onclick="var delimg=$(this);$.confirm(\'您确定要删除该图片吗?\', \'确认删除?\', function() {delimg.remove();},function(){$.toast(\'取消操作\', \'cancel\');});" class="weui_uploader_file weui_uploader_status" style="background-image:url('+dat.imgurl+')"><input type="hidden" id="thumb[]" name="thumb[]" value="'+dat.path+'"/><div class="weui_uploader_status_content"><i class="weui_icon_cancel"></i></div></li>')
+									$upload.append($li);
+								}else{
+									$.toast(dat.message, "cancel");
+								}
+							});
+							if (m < length) {
+								upload();
+							}
+						},
+						fail: function (res) {
+						//上传失败
+							alert('filed');
+						}
+					});
+				}
+			upload();
+			}
+		});
+	};
+	function imageshow(obj){
+		wx.previewImage({
+			current: obj.getAttribute("data"),
+			urls: [obj.getAttribute("data")]
+		});
+	}
+	$(document).ready(function () {
+		$("#confirmScore").click(function(){
+			var bm_num='';  
+			var names =document.getElementsByName("thumb[]");  
+			for(i=0;i<names.length;i++){  
+				bm_num+=names[i].value+',';   
+				document.getElementById('thumbs').value=bm_num;    
+			}  
+			var consult = $("#consult").val();
+			var thumb = $("#thumbs").val();
+			if (consult == '') {
+				$.toptips("请填写咨询内容");
+				$.hideLoading();
+				return false;
+			}
+			var submitData = {
+				openid:"{$openid}",
+				uid:"{$uid}",
+				content: consult,
+				thumb: thumb,
+				addons: '{$_W['current_module']['name']}'
+			};
+			$.showLoading('提交中...');
+			var ActionUrl = "{php echo murl('entry', array('weid'=>$weid,'reid'=>$reid,'infoid'=>$rerid,'staff'=>$staff,'cid'=>$cid,'do'=>'AjaxPost','m' =>'dayu_consult'), true, true)}";
+			$.post(ActionUrl,submitData,function(e){
+				if (e.message.status == 1) {
+					setTimeout(function() {
+						$("#postscore").hide();
+						$.hideLoading();
+						$.toast(e.message.msg);
+						window.location.href = window.location.href;
+					}, 1500);
+				}else{
+					setTimeout(function() {
+						$.hideLoading();
+						$.toast(e.message.msg, "cancel");
+	//					$.toptips(e.message.msg,'warning');
+					}, 2000);
+					return false;
+				}
+			},'json');
+			return false;
+		});
+	});
+</script>
+{template 'footers'}

@@ -1,0 +1,121 @@
+{php include $this->template($style.'/common/head')}
+<title>{$webset['name']}-案例展示-详情</title>
+{php include $this->template($style.'/common/header')}
+<!--banner-->
+<div class="otherBanner">
+    <img src="{php echo tomedia($productset['banner'])}">
+</div>
+<!--banner end-->
+
+<!--contain-->
+<div class="caseCont">
+
+    <div class="CDCont">
+
+        <div class="CDC1">
+            {$prodet['contents']}
+        </div>
+
+        <div class="CDC2">
+            <div class="swiper-container" id="sc4">
+                <div class="swiper-wrapper">
+                    {loop $prodet['imgs'] $index $vo}
+                    <div class="swiper-slide"><img src="{php echo tomedia($vo)}"></div>
+                    {/loop}
+
+                </div>
+                <div class="swiper-button-prev" id="sbp4"></div>
+                <div class="swiper-button-next" id="sbn4"></div>
+            </div>
+        </div>
+
+        <div class="CDC3">
+            <div class="imgBlock">
+                <img src="{php echo tomedia($prodet['imgs'][0])}">
+            </div>
+            <a href="javascript:;" class="prevBtn"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            <a href="javascript:;" class="nextBtn"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        </div>
+
+    </div>
+
+</div>
+<!--contain end-->
+
+<!--bottom-->
+
+
+<script>
+
+    jQuery(document).ready(function (e) {
+
+
+
+
+        var mySwiper4 = new Swiper('#sc4', {
+            freeMode : true,
+            slidesPerView: "auto",
+            prevButton : '#sbp4',
+            nextButton : '#sbn4'
+        });
+
+        $("#sc4 .swiper-slide").click(function () {
+            $(this).addClass("curr").siblings().removeClass("curr");
+            $(".CDC3 .imgBlock").html($(this).html());
+        });
+        
+        $(".prevBtn").click(function () {
+            var indexC = $("#sc4 .swiper-slide.curr").index();
+            var len = $("#sc4 .swiper-slide").length;
+            if( indexC == 0 )
+            {
+
+            }
+            else
+            {
+                indexC-- ;
+                $(".CDC3 .imgBlock").html($("#sc4 .swiper-slide").eq(indexC).html());
+                $("#sc4 .swiper-slide").eq(indexC).addClass("curr").siblings().removeClass("curr");
+                mySwiper4.slideTo(indexC);
+            }
+        });
+
+        $(".nextBtn").click(function () {
+            var indexC = $("#sc4 .swiper-slide.curr").index();
+            var len = $("#sc4 .swiper-slide").length;
+            if( indexC == len-1 )
+            {
+
+            }
+            else
+            {
+                indexC++ ;
+                $(".CDC3 .imgBlock").html($("#sc4 .swiper-slide").eq(indexC).html());
+                $("#sc4 .swiper-slide").eq(indexC).addClass("curr").siblings().removeClass("curr");
+                mySwiper4.slideTo(indexC);
+            }
+        });
+        function showimg() {
+
+        }
+//        ************
+
+        $(".swiper-slide:first").addClass("curr");
+        var src = $(".swiper-slide .curr").find('img').attr("src");
+        $(".imgBlock img").attr("src",src);
+
+
+        var uited = 3;
+        $('.topNav li').each(function () {
+            var uit = $(this).attr("data-uit");
+            if (uit == uited) {
+                $(this).addClass('curr');
+            } else {
+                $(this).removeClass('curr');
+            }
+        });
+
+    });
+
+</script>
+{php include $this->template($style . '/common/footer')}

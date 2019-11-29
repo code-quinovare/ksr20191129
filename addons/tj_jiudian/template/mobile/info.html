@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$set['title']}</title>
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        .xqtp{height: 50px;width: 100%;padding:10px 3%;}
+        .xqtp-a{position: relative;float: left;width: 30px;height: 30px;border-radius: 50%;line-height: 28px;text-align: center;background-color: #000;background-color:rgba(0,0,0,0.3)}
+        .xqdb{position: relative;height: 50px;width: 100%;padding: 0 3%;line-height: 50px;bottom: -80px;color: #fff;}
+        .xqdb li{float: left;}
+        .cont_arr{height: 110px;width: 100%;font-size: 12px;padding: 0 0 5px;border-bottom: 1px solid #eee;}
+        .cont_arr li{float: left}
+        .cont_arr_a{width: 100%;height: 80px;padding: 0 3%;font-size: 14px;color: #666;line-height: 25px}
+        .arr-a-li{float: left;height: 60px}
+        .arr-b-li{float: left;width: 80px;text-align: center;font-size: 12px;color: #999}
+        .arr-b-li img{vertical-align: -2px;}
+        .arr_sj{height: 80px;width: 100%;border:solid #F0F0F0;border-width: 10px 15px;line-height: 30px;position: absolute;}
+        .arr_sj li{float: left;text-align: center;width: 50%;font-size: 14px;color: #666}
+        .datebox-count {position: relative;font-size: 12px;color: #666;border: 1px solid #e5e5e5;border-radius: 10px; background-color: #fff;width: 50px;height: 22px;text-align: center;margin-top: 31px;left: 45%;}
+        .bookroom-title {padding: 5px 3%;font-size: 12px;line-height: 25px;color: #333;border-bottom: 1px solid #e5e5e5;}
+        .bookroom-title-icon {display: inline-block;height: 18px;line-height: 18px;width: 18px;margin-right: 10px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px;color: #e41616;background-color: #fff;}
+        .bookroom-title-desc {float: right;font-size: 12px;color: #f90;}
+        .room {display: -webkit-box;display: flex;}
+        .item {margin: 10px 0 0 10px;padding-bottom:10px;border-bottom: 1px solid #e5e5e5;color: #999;line-height: normal;}
+        .room-left {overflow: hidden;width: 75%;flex: 1;}
+        .room-right {position: relative;width: 20%;text-align: center;}
+        .room-left-title {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color: #333;font-size: 14px;margin: 0;font-weight: normal;}
+        .textico-gray {display: inline-block;height: 10px;line-height: 10px;padding: 0 2px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px; color: #999;background-color: #fff;}
+        .tags-item:not(:last-child) {padding-right: 2px;border-right: 1px solid #e5e5e5;}
+        .tags-item {display: inline-block;font-size: 14px;line-height: 14px; height: 5px;}
+        .room-desc {font-size: 12px;color: #999;padding: 2px 0;}
+        .price {position: relative;color: #06c1ae;font-size: 12px;margin: 0;}
+        .price-num {font-size: 14px;}
+        .room-right-center {position: absolute;top: 50%; transform: translateY(-50%);}
+        .room-right-redtip {font-size: 14px;color: #e41616;margin-bottom: .1rem;}
+        .room-button{height: 25px;width: 60px;color: #fff;font-size: 12px; border: transparent;border-radius: 5px;background-color: #f90;}
+        #div_a{background:black;filter:alpha(opacity:30);opacity:0.7;height:100%;position:absolute;width:100%;top:0;z-index:3;}
+        .box_a{width: 100%;background:#fff; position: fixed; bottom: 0;z-index: 5;font-size: 14px;}
+        .roomDetail {position: fixed;top: 35%;bottom: 0;left: 0;right: 0;z-index: 20;background-color: #fff;font-size: 14px;}
+        .roomDetail-header {position: fixed;z-index: 10;background-color: #fff;left: 0;right: 0;}
+        .roomDetail-header-title {position: relative;padding: 10px 0;line-height: normal;text-align: center;font-size: 14px;color: #333; border-bottom: 1px solid #e5e5e5;margin: 0;font-weight: normal;}
+        .roomDetail-block:not(:last-child) {border-bottom: 1px solid #e5e5e5;}
+        .roomDetail-baseInfo {position: relative;}
+        .roomDetail-block {margin: 10px 12px;padding-bottom: 10px;color: #333;}
+        .roomDetail-baseInfo-item:nth-child(odd) {width: 50%;float: left;}
+        .roomDetail-baseInfo-item {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;padding-bottom: 5px;}
+        .roomDetail-baseInfo-item-name {color: #999;padding-right: 5px;}
+        .roomDetail-refundRule-title {padding-bottom: 5px;}
+        .roomDetail-refundRule-content {display: -webkit-box;display: flex;line-height: normal;}
+        .roomDetail-refundRule-content-left {padding-right: 3px;}
+        .icon{display: inline-block;width: 15px;height: 15px;margin-right: 5px;vertical-align: middle;}
+        .roomDetail-refundRule-content-right {-webkit-box-flex: 1;flex: 1;}
+        .roomDetail-refundRule-content-desc {padding-right: 10px;color: #06c1ae;}
+        .roomDetail-useRule-title {padding-bottom: 10px;}
+        .roomDetail-useRule-item {line-height: 25px;list-style: inside;}
+        .roomDetail-pay {position: fixed;left: 0;right: 0;bottom: 0;height: 50px;display: -webkit-box;display: flex;text-align: center;}
+        .roomDetail-pay-info {flex: 1;background: #fafafa;box-shadow: inset 0 0 0 0 #e5e5e5;}
+        .roomDetail-pay-price {font-size: 14px;line-height: 50px;color: #06c1ae;}
+        .roomDetail-pay-action-active {color: #fff;background-color: #f90;}
+        .roomDetail-pay-action {flex: 1;line-height: 50px;font-size: 14px;}
+        .roomDetail-content {position: absolute;top: 0;margin-top: 0;bottom: 50px;width: 100%;overflow-y: scroll;}
+        .xqyh_arr{height: 30px}
+        .xqyh_arr_span{display: block;width: 24px;height: 24px;font-size: 12px;line-height: 24px;text-align: center;color: #fff;background-color: #FD9901;margin: 3px auto;border-radius: 2px;}
+        .xqyh_arr li{float: left;height: 30px;line-height: 30px;font-size: 14px;color: #333}
+        .xqjg{display: block;float: left;margin: 0 0 0 25%;}
+        .xqjg_q{display: block;float: left;font-size: 12px;color: #FD9901;border: 1px solid #FD9901;padding: 1px 2px;border-radius: 5px;margin: 13px 0 0 5px;}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+<header>
+    <div>
+        <img src="{php echo tomedia($set['logo'][0])}" width="100%" height="180px" style="z-index: -1;transition: 1s;background-size: cover;background-position: 50%;position: absolute">
+        <div class="xqtp">
+            <div class="xqtp-a"><img src="{ASSETS_PATH}img/zuo.png" width="16px" height="16px"></div>
+            <div class="xqtp-a" style="float: right"><img src="{ASSETS_PATH}img/fenxiang.png" width="16px" height="16px"></div>
+        </div>
+        <div class="xqdb">
+            <ul>
+                <li style="width: 85%">
+                    <span style="font-size: 14px">{$set['title']}</span>
+                </li>
+                <!--<li style="width: 5%;text-align: center">
+                    <img src="{ASSETS_PATH}img/tupian.png" width="12px" height="12px">
+                </li>-->
+                <!--<li style="width: 10%;text-align: center">
+                    <span style="font-size: 12px">37 张</span>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</header>
+<div style="height: 80px"></div>
+<content>
+    <div class="cont_arr">
+        <ul>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"pinglun"))}">
+            <li style="width: 40%;text-align: center;line-height: 20px;padding: 10px 0;">
+                <p style="color: #FF950A;"><span style="font-size: 16px">{$avg}</span>分</p>
+                <span style="color: #FF950A">{$baifen}%用户评论</span>
+                <p>查看{$pinglun['cc']}条评论&nbsp;&nbsp;></p>
+            </li>
+            </a>
+            <li style="width: 60%;border-left: 1px solid #eee">
+                <img src="{php echo tomedia($set['guanggao'])}" width="100%" height="60px">
+                <span style="display: block;padding: 5px" onclick="dili()">{$set['address']}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="cont_arr_a">
+        <ul>
+            <li class="arr-a-li" style="width: 73%;overflow: hidden;padding-top: 3px;line-height: 30px">
+                <p>{$xiangqing['zhuangxiu']}年装修&nbsp;&nbsp;{$xiangqing['kaiye']}年开业</p>
+                <ul style="width: 100%;height: 30px;margin: 0;">
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/wuxian.png" width="16px" height="16px">
+                        <span>无线上网</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/tingche.png" width="16px" height="16px">
+                        <span>停车场</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/reshui.png" width="16px" height="16px">
+                        <span>热水洗浴</span>
+                    </li>
+                </ul>
+            </li>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"fuwu_info"))}">
+                <li class="arr-a-li" style="width: 27%;text-align: center;line-height: 60px">
+                    <p><span style="color: #50C5A8">详情/电话</span>&nbsp;&nbsp;></p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="arr_sj">
+        <ul>
+            <li style="border-right: 1px solid #eee">
+                <p>入住</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']} &nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {/if}
+            </li>
+            <li>
+                <p>离店</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {/if}
+            </li>
+        </ul>
+    </div>
+    <div class="datebox-count">{if $_GPC['rooms']==1} 共{$c}天 {else if $_GPC['rooms']==2}共{$m}小时 {else if $_GPC['rooms']==3}共一夜{/if}</div>
+    <div style="height: 27px;width: 100%"></div>
+    <div style="margin-bottom:60px">
+        <div class="bookroom-title">
+            <span class="bookroom-title-icon">订</span> 预订&nbsp;[{$count['cc']}]
+            <span class="bookroom-title-desc">预订成功后100%有房</span>
+        </div>
+        <ul>
+            {loop $house $v}
+            <li class="item room">
+                <div class="room-left" onclick="xianshi({$v['id']})">
+                    <h2 class="room-left-title">{$v['title']}
+                        <span class="textico-gray" style="display: none;"></span>
+                    </h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['zaocan']}</li>
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['chuanghu']}</li>
+                    </ul>
+                    <div class="room-desc"> {$v['shuoming']} </div>
+                    <h2 class="price"> <span class="price-num">
+                    {if $zk}<span style="text-decoration:line-through;color: red;">¥ {$v['price']}</span>  &nbsp;&nbsp;¥ {php echo $v['price']*$zk['discount']/10}{else}¥ {$v['price']}{/if}</span> </h2>
+                    <ul style="display: none;">  </ul>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        <div class="room-right-redtip"> 仅剩{$v['shengyu']}间 </div>
+                        {if $_GPC['rooms']==1}
+                        <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_buy",'id'=>$v['id'],'day'=>$c,'rooms'=>1))}">
+                            <button class="room-button" type="button" name="button">预订</button>
+                        </a>
+                        {else if $_GPC['rooms']==2}
+                        <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_buy",'id'=>$v['id'],'day'=>$m,'rooms'=>2))}">
+                        <button class="room-button" type="button" name="button">预订</button>
+                        </a>
+                        {else if $_GPC['rooms']==3}
+                        <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_buy",'id'=>$v['id'],'day'=>1,'rooms'=>3))}">
+                        <button class="room-button" type="button" name="button">预订</button>
+                        </a>
+                        {/if}
+
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="tc_a" style="display: none;margin-bottom:50px;">
+        <div id="div_a"></div>
+        <div class="box_a" style="display: block">
+            <div class="roomDetail animation-slideup-transition">
+                <section class="roomDetail-header">
+                    <h2 class="roomDetail-header-title"><span id="aa"></span>
+                        <img src="{ASSETS_PATH}img/chacha.png" class="chacha" width="16px" height="16px" style="display: block;float: right;margin-right: 12px;">
+                    </h2>
+                </section>
+                <div class="roomDetail-content">
+                    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="margin-top: 41px;display: block" >
+                        <ul class="am-slides">
+                            <li>
+                                <img src="{ASSETS_PATH}img/bj.jpg" width="100%" height="auto">
+                            </li>
+                            <li>
+                                <img src="{ASSETS_PATH}img/bj.jpg" width="100%" height="auto">
+                            </li>
+                            <li>
+                                <img src="{ASSETS_PATH}img/bj.jpg" width="100%" height="auto">
+                            </li>
+                            <li>
+                                <img src="{ASSETS_PATH}img/bj.jpg" width="100%" height="auto">
+                            </li>
+                        </ul>
+                    </div>
+                    <section class="roomDetail-block roomDetail-baseInfo">
+                        <ul class="clearfix">
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">上网</span>&nbsp<span id="a1"></span>
+                            </li>
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">卫浴</span>&nbsp<span id="a2"></span>
+                            </li>
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">窗户</span> &nbsp<span id="a3"></span>
+                            </li>
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">可住</span>&nbsp<span id="a4"></span>
+                            </li>
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">床型</span> &nbsp<span id="a5"></span>
+                            </li>
+                            <li class="roomDetail-baseInfo-item">
+                                <span class="roomDetail-baseInfo-item-name">早餐</span> &nbsp<span id="a6"></span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="roomDetail-block roomDetail-refundRule">
+                        <div class="roomDetail-refundRule-title"> 取消规则 </div>
+                        <div class="roomDetail-refundRule-content">
+                            <div class="roomDetail-refundRule-content-left">
+                                <img class="icon" src="{ASSETS_PATH}img/shizhong.png" >
+                            </div>
+                            <div class="roomDetail-refundRule-content-right">
+                                <span class="roomDetail-refundRule-content-desc">限时取消</span>
+                                <span id="a9"></span>
+                            </div>
+                        </div>
+                    </section>
+                    <!--<section class="roomDetail-block roomDetail-useRule">
+                        <ul>
+                            <li>
+                                <div class="xqyh_arr">
+                                    <ul>
+                                        <li style="width: 10%;text-align: center">
+                                            <span class="xqyh_arr_span">返</span>
+                                        </li>
+                                        <li style="width: 85%">
+                                            <span>消费后返6元酒店抵用券</span>
+                                        </li>
+                                        <li style="width: 5%;text-align: center">
+                                            <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>-->
+                    <section class="roomDetail-block roomDetail-useRule">
+                        <div class="roomDetail-useRule-title"> 使用规则 </div>
+                        <ul>
+                            <li class="roomDetail-useRule-item" id="a7"></li>
+                            <li class="roomDetail-useRule-item">请在14:00之后入住并于次日14:00之前退房；如需提前入住或延时退房，请咨询商家</li>
+                            <li class="roomDetail-useRule-item">入住需要押金，金额以前台为准</li>
+                        </ul>
+                    </section>
+                </div>
+                <section class="roomDetail-pay">
+                    <div class="roomDetail-pay-info" style="color: #06c1ae;">
+                        ￥<span class="roomDetail-pay-price" id="a8"></span>
+                    </div>
+                    <div class="roomDetail-pay-action roomDetail-pay-action-active chacha">就它了</div>
+                </section>
+            </div>
+        </div>
+        <div class="box_b" style="display: none">
+            <div class="roomDetail animation-slideup-transition">
+                <section class="roomDetail-header">
+                    <h2 class="roomDetail-header-title">促销详情
+                        <img src="{ASSETS_PATH}img/zuo1.png" class="box_b_fh" width="16px" height="16px" style="display: block;float: left;margin-left: 12px;">
+                        <img src="{ASSETS_PATH}img/chacha.png" class="chacha" width="16px" height="16px" style="display: block;float: right;margin-right: 12px;">
+                    </h2>
+                </section>
+                <div class="roomDetail-content" style="background-color: #EEF0EB;padding: 20px 5%;">
+                    <section class="roomDetail-block roomDetail-useRule" style="border: none;margin-top: 40px;">
+                        <div class="roomDetail-useRule-title"> 1、促销说明： </div>
+                        <span>(1)活动期间免费入住！活动期间免费入住！活动期间免费入住！活动期间免费入住！活动期间免费入住！</span>
+                    </section>
+                    <section class="roomDetail-block roomDetail-useRule" style="border: none">
+                        <div class="roomDetail-useRule-title"> 2、活动规则： </div>
+                        <span>(1)活动期间免费入住！活动期间免费入住！活动期间免费入住！</span>
+                        <p>(2)活动期间免费入住！活动期间免费入住！活动期间免费入住！</p>
+                        <span>(3)活动期间免费入住！活动期间免费入住！活动期间免费入住！</span>
+                    </section>
+                </div>
+                <section class="roomDetail-pay">
+                    <div class="roomDetail-pay-info">
+                        <span class="roomDetail-pay-price xqjg">¥118</span>
+                        <span class="xqjg_q">返6元券</span>
+                    </div>
+                    <div class="roomDetail-pay-action roomDetail-pay-action-active"> 预订 </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</content>
+<div class="footer">
+    <ul>
+        {loop $footer $v}
+        <a href="{$v['url']}">
+            <li>
+                <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                <p>{$v['title']}</p>
+            </li>
+        </a>
+        {/loop}
+    </ul>
+</div>
+
+</body>
+</html>
+{php echo register_jssdk(false);}
+<script>
+    $(document).ready(function () {
+        /*$('.room-left').click(function () {
+         $('.tc_a').show();
+         });*/
+        $("#div_a").click(function () {
+            $(".tc_a").hide();
+        });
+        $('.chacha').click(function () {
+            $('.tc_a').hide();
+        });
+        $('.xqyh_arr').click(function () {
+            $('.box_a').hide();
+            $('.box_b').show();
+        });
+        $('.box_b_fh').click(function () {
+            $('.box_b').hide();
+            $('.box_a').show();
+        });
+    });
+    function xianshi(id){
+        $.ajax({
+            url : "{php echo $this->createMobileUrl('Index',array('action'=>'show'))}",
+            type:"post",
+            data:{
+                id : id
+            }, success: function (res) {
+                var data = $.parseJSON(res);
+                $("#aa").html(data.title);
+                $("#a1").html(data.shangwang);
+                $("#a2").html(data.weiyu);
+                $("#a3").html(data.chuanghu);
+                $("#a4").html(data.kezhu);
+                $("#a5").html(data.chuangxing);
+                $("#a6").html(data.zaocan);
+                $("#a7").html(data.shiyong);
+                $("#a8").html(data.price);
+                $("#a9").html(data.tuikuan);
+            }
+        });
+        $('.tc_a').show();
+    }
+
+    function dili() {
+        var a1=parseFloat({$set['weidu']});
+        var a2=parseFloat({$set['jingdu']});
+        wx.openLocation({
+            latitude: a1, // 纬度，浮点数，范围为90 ~ -90
+            longitude:a2, // 经度，浮点数，范围为180 ~ -180。
+            name: '{$set['title']}', // 位置名
+            address: '{$set['address']}', // 地址详情说明
+            scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: 'http://baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+    }
+</script>

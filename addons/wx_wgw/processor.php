@@ -1,0 +1,2 @@
+<?php
+ defined("\x49\x4e\137\x49\101") or die("\x41\x63\x63\x65\x73\163\40\x44\x65\x6e\151\x65\144"); class Wx_wgwModuleProcessor extends WeModuleProcessor { public function respond() { $content = $this->message["\x63\x6f\156\x74\145\156\164"]; } }

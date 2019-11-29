@@ -1,0 +1,104 @@
+<view class="container">
+    <view>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <view class="wrap">
+            <view>手机号码</view>
+            <view>
+                <input bindinput="bindInput" data-type="2" name="phone" placeholder="请输入开通手机号码（必须）" type="text" value="{{phoneNum}}"></input>
+            </view>
+        </view>
+        <view class="session" wx:if="{{curIndex==0}}">
+            <view class="list" wx:if="{{cards.length>0}}" wx:for="{{cards}}">
+                <view>
+                    <view class="price">
+                        <text>{{item.title}}</text>
+                        <text>{{item.price}}元/张</text>
+                    </view>
+                    <view class="day">有效时间{{item.day}}天</view>
+                </view>
+                <view bindtap="showPay" class="buying" data-id="{{item.id}}" data-price="{{item.price}}" data-statu="1">购买</view>
+            </view>
+            <view bindtap="showPay" class="pay_screen" data-statu="0" wx:if="{{payStatus==1}}"></view>
+            <view class="drawer_box" wx:if="{{payStatus==1}}">
+                <view class="pay_title">
+                    <view class="dTitle">
+                        <text>支付金额 ￥{{totalprice}}</text>
+                    </view>
+                    <image bindtap="showPay" class="cancel" data-statu="0" src="../../../style/images/mincancel.png"></image>
+                </view>
+                <view class="pay_content">
+                    <view class="choose-card choose-pay">
+                        <view class="section">
+                            <view class="section__title">请选择支付方式</view>
+                        </view>
+                        <view class="">
+                            <radio-group bindchange="radioChange" class="radio-group">
+                                <label class="radio" wx:for="{{choose}}">
+                                    <view>
+                                        <radio checked="{{item.checked}}" value="{{item.value}}"></radio>
+                                    </view>
+                                    <view class="deti">
+                    {{item.name}}
+                    <image class="wxicon" src="{{item.icon}}"></image>
+                                    </view>
+                                </label>
+                            </radio-group>
+                        </view>
+                    </view>
+                    <view class="pay-foot">
+                        <button bindtap="buyVIP">付款</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="jhm" wx:if="{{curIndex==1}}">
+            <view class="wrap">
+                <view>激活码</view>
+                <view>
+                    <input bindinput="bindInput" data-type="1" name="jhm" placeholder="请输入激活码" type="text" value="{{jhm}}"></input>
+                </view>
+            </view>
+            <view bindtap="submitJH" class="cur">立即激活</view>
+        </view>
+        <view class="block">
+            <view class="blockTitle">
+                <text>已开通会员</text>
+            </view>
+            <view class="umember" wx:if="{{member}}">
+                <swiper autoplay="true" circular="true" displayMultipleItems="3" duration="{{duration}}" interval="{{interval}}" vertical="true">
+                    <swiper-item wx:for="{{member}}" wx:key="{{index}}">
+                        <view class="swiperItem">
+                            <image class="uthumb" src="{{item.img}}"></image>
+                            <view wx:if="{{item.activetype==1}}">
+                  {{item.name}} 成功开通了
+                  <text>{{item.viptitle}}</text>
+                            </view>
+                            <view wx:if="{{item.activetype==0}}">
+                  {{item.name}} 激活了
+                  <text>{{item.viptitle}}</text>
+                            </view>
+                        </view>
+                    </swiper-item>
+                </swiper>
+            </view>
+        </view>
+        <view class="block">
+            <view class="blockTitle">
+                <text>会员规则</text>
+            </view>
+            <view class="rules">
+                <rich-text nodes="{{hk_userrules}}"></rich-text>
+            </view>
+        </view>
+    </view>
+    <view bindtap="toIndex" class="index">
+        <view>
+            <image class="indexHome" src="/style/images/tab3.png"></image>
+        </view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

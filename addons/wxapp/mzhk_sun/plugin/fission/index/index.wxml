@@ -1,0 +1,29 @@
+<view class="container">
+    <view>
+        <view class="banner">
+            <image src="http://wx4.sinaimg.cn/small/005ysW6agy1ftkrhn7x33j306o0500ue.jpg"></image>
+        </view>
+        <view class="session">
+            <view bindtap="toDetail" class="list" data-id="{{item.gid}}" wx:for="{{list}}">
+                <view class="left">
+                    <image src="{{url}}{{item.pic}}"></image>
+                    <view class="over">
+                        <image src="../../resource/images/jx.png"></image>
+                    </view>
+                </view>
+                <view class="list-right">
+                    <view class="title">{{item.title}}</view>
+                    <view class="lst-up">
+                        <view class="desc">{{item.desc}}</view>
+                        <view class="get">
+              立即领取
+            </view>
+                    </view>
+                    <view class="time">
+            2018-10-10
+          </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

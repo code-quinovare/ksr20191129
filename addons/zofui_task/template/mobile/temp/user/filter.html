@@ -1,0 +1,155 @@
+	<div id="filtercontent"style="display:none">
+		<div class="weui_mask"></div>
+		<div class="weui_cells weui_cells_access filter_outbox">
+			<p class="font_13px_999">筛选内容</p>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op']))}">
+				<li class="border_bottom search_ago_item filter_item">				
+					<span class="filter_title">全部记录</span>
+					{if empty($_GPC['type'])}<span class="fr ti-check font_ff5f27"></span>{/if}
+				</li>
+			</a>			
+			{if $_GPC['op'] == 'moneylog'}
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>1))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">发布普通任务支出</span>
+						{if $_GPC['type'] == '1'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>2))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">平台使用费支出</span>
+						{if $_GPC['type'] == '2'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>9))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">加急任务支出</span>
+						{if $_GPC['type'] == '9'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>				
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>3))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">提现支出</span>
+						{if $_GPC['type'] == '3'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>11))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">提现退回</span>
+						{if $_GPC['type'] == '11'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>4))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">普通任务完成收益</span>
+						{if $_GPC['type'] == '4'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>5))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">发布私包任务支出</span>
+						{if $_GPC['type'] == '5'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>7))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">私包任务收益</span>
+						{if $_GPC['type'] == '7'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>			
+			{/if}
+			{if $_GPC['op'] == 'depositlog'}
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>1))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">充值记录</span>
+						{if $_GPC['type'] == '1'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>2))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">提取记录</span>
+						{if $_GPC['type'] == '2'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>4))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">提取退回记录</span>
+						{if $_GPC['type'] == '4'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>				
+			{/if}
+			{if $_GPC['op'] == 'userpubed'}
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>1))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">进行中的</span>
+						{if $_GPC['type'] == '1'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>2))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">已完成的</span>
+						{if $_GPC['type'] == '2'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>				
+			{/if}
+			
+			{if $_GPC['op'] == 'userexe'}
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>1))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">等待采纳</span>
+						{if $_GPC['type'] == '1'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>2))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">已采纳的</span>
+						{if $_GPC['type'] == '2'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>3))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">已拒绝的</span>
+						{if $_GPC['type'] == '3'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>				
+			{/if}
+			{if $_GPC['op'] == 'scorelog'}
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>1))}">
+					<li class="border_bottom search_ago_item filter_item">				
+						<span class="filter_title">拒绝回复而扣除的</span>
+						{if $_GPC['type'] == '1'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>2))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">回复被拒绝而扣除的</span>
+						{if $_GPC['type'] == '2'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>3))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">采纳回复而奖励的</span>
+						{if $_GPC['type'] == '3'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>4))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">回复被采纳而奖励的</span>
+						{if $_GPC['type'] == '4'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>5))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">取消执行的私包任务而扣除的</span>
+						{if $_GPC['type'] == '5'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+				<a href="{php echo $this->createMobileUrl('user',array('op'=>$_GPC['op'],'type'=>6))}">
+					<li class="border_bottom search_ago_item filter_item">
+						<span class="filter_title">其他</span>
+						{if $_GPC['type'] == '6'}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>				
+			{/if}			
+		</div>
+	</div>	

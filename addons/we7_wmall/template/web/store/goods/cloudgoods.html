@@ -1,0 +1,388 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<div class="page clearfix fast-add-goods">
+	<div class="form-horizontal">
+		<h3>商品极速录入</h3>
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="title" value="" required="true" placeholder="请输入菜单或者商品名称" id="keywords">
+					<span class="input-group-addon btn btn-primary btn-sm" id="search">搜索</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-11 row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="panel panel-display">
+					<div class="panel-heading">
+						<h3>菜单</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-menu"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="panel panel-display">
+					<div class="panel-heading">
+						<h3>商品</h3>
+					</div>
+					<div class="panel-body">
+						<div class="store-categorys">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-4 col-md-3 control-label" style="margin-top: 8px;">请选择商品分类</label>
+								<div class="col-sm-9 col-xs-8 col-md-9">
+									{php echo tpl_form_field_tiny_category_2level('category', $categorys['parent'], $categorys['child'], $item['cid'], $item['child_id'])}
+								</div>
+							</div>
+						</div>
+						<div class="table-goods"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="menu-detail">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="tpl-menu">
+	<{# if(d.length != 0){ }>
+		<table class="table table-hover">
+			<{# for(var i in d){ }>
+				<{# if(d[i].status != 0){ }>
+					<tr>
+						<td><{d[i].title}></td>
+						<td>包含90个商品</td>
+						<td>
+							<a href="javascript:;" class="btn btn-primary btn-sm menu-detail-btn" data-menu-id="<{d[i].id}>" data-toggle="modal" data-target="#menu-detail">查看商品</a>
+						</td>
+					</tr>
+				<{# } }>
+			<{# } }>
+		</table>
+	<{# } else { }>
+		<div class="no-data ">
+			还没有相关数据！
+		</div>
+	<{# } }>
+</script>
+
+<script type="text/html" id="tpl-goods">
+	<{# if(d.length != 0){ }>
+		<table class="table ">
+			<{# for(var i in d){ }>
+				<tbody>
+					<tr>
+						<td style="width: 40px;">
+							<img src="<{d[i].thumb}>" alt="">
+						</td>
+						<td style="width: 200px;">
+							<input class="form-control goods-title" type="text" value="<{d[i].title}>">
+						</td>
+						<td style="padding: 0px 50px;">
+							<{# if(d[i].is_options == 0){ }>
+							<div class="input-group" >
+								<input type="text" class="form-control goods-price" value="<{d[i].price}>">
+								<span class="input-group-addon">元</span>
+							</div>
+							<{# } }>
+						</td>
+						<td style="width: 120px">
+							<a href="javascript:;" class="btn btn-primary btn-sm goods-writed" data-id="<{d[i].id}>" data-is-options="<{d[i].is_options}>">录入商品</a>
+						</td>
+					</tr>
+					<{# for(var j in d[i].options){ }>
+						<tr class="options-price">
+							<td style="width: 40px;"></td>
+							<td style="width: 200px;"><{d[i].options[j].name}></td>
+							<td style="padding: 0px 50px;">
+								<div class="input-group" style="margin-bottom: 8px;">
+									<input type="text" class="form-control" value="<{d[i].options[j].price}>">
+									<input type="hidden" value="<{d[i].options[j].id}>">
+									<span class="input-group-addon">元</span>
+								</div>
+							</td>
+							<td style="width: 120px"></td>
+						</tr>
+					<{# } }>
+				</tbody>
+			<{# } }>
+		</table>
+	<{# } else { }>
+		<div class="no-data ">
+			还没有相关数据！
+		</div>
+	<{# } }>
+</script>
+
+<script type="text/html" id="tpl-menu-detail">
+	<div class="modal-header">
+		<{d.menu.title}>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-3 menu-detail-category">
+				<{# for(var i in d.goods_categorys){ }>
+				<div class="category-item <{# if(i == 0){ }>active<{# } }>" data-id="<{d.goods_categorys[i].id}>">
+					<{d.goods_categorys[i].title}>
+					<span class="selected-number hide"></span>
+				</div>
+				<{# }}>
+			</div>
+			<div class="col-md-9 menu-detail-goods">
+				<{# for(var i in d.goods_categorys){ }>
+				<div class="goods-table-<{d.goods_categorys[i].id}> <{# if(i > 0){ }>hide<{# } }>" data-id="<{d.goods_categorys[i].id}>">
+					<table class="table table-hover ">
+						<thead class="navbar-inner">
+							<tr class="active">
+								<th>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" data-id="<{d.goods_categorys[i].id}>" data-index="<{i}>">
+										<label></label>
+									</div>
+								</th>
+								<th colspan="2">商品</th>
+								<th>价格</th>
+							</tr>
+						</thead>
+						<{# if(d.goods_categorys[i].goods.length != 0){ }>
+							<{# for(var j in d.goods_categorys[i].goods){ }>
+								<tbody>
+									<tr>
+										<td>
+											<div class="checkbox checkbox-inline">
+												<input type="checkbox" value="<{d.goods_categorys[i].goods[j].id}>" data-is-options="<{d.goods_categorys[i].goods[j].is_options}>" data-id="<{d.goods_categorys[i].id}>">
+												<label></label>
+											</div>
+										</td>
+										<td style="">
+											<img src="<{d.goods_categorys[i].goods[j].thumb}>" alt="">
+										</td>
+										<td style="">
+											<input class="form-control goods-title" type="text" value="<{d.goods_categorys[i].goods[j].title}>">
+										</td>
+										<td style="">
+											<{# if(d.goods_categorys[i].goods[j].is_options == 0){ }>
+											<div class="input-group" >
+												<input type="text" class="form-control goods-price" value="<{d.goods_categorys[i].goods[j].price}>">
+												<span class="input-group-addon">元</span>
+											</div>
+											<{# } }>
+										</td>
+									</tr>
+									<{# for(var k in d.goods_categorys[i].goods[j].options){ }>
+										<tr class="options-price">
+											<td></td>
+											<td></td>
+											<td style="vertical-align: middle"><{d.goods_categorys[i].goods[j].options[k].name}></td>
+											<td>
+												<div class="input-group" style="margin-bottom: 8px;">
+													<input type="text" class="form-control" value="<{d.goods_categorys[i].goods[j].options[k].price}>">
+													<input type="hidden" value="<{d.goods_categorys[i].goods[j].options[k].id}>">
+													<span class="input-group-addon">元</span>
+												</div>
+											</td>
+										</tr>
+									<{# } }>
+								</tbody>
+							<{# } }>
+						<{# } else { }>
+							<div class="no-data">
+								还没有相关数据！
+							</div>
+						<{# } }>
+					</table>
+				</div>
+				<{# }}>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+		<button type="button" class="btn btn-primary goods-writed-batch">导入商品</button>
+	</div>
+</script>
+
+<script>
+	irequire(['laytpl'], function(laytpl){
+		var cloudgoods = {};
+		cloudgoods.init = function(params) {
+			$(document).on('click', '#search', function(){
+				var keywords = $('#keywords').val();
+				if(!keywords) {
+					Notify.info('请输入菜单或者商品名称');
+					return false;
+				}
+				$.post("{php echo iurl('store/goods/cloudgoods/search')}", {keywords: keywords}, function(data){
+					var data = data.message;
+					cloudgoods.tplMenu(data.menus);
+					cloudgoods.tplGoods(data.goods);
+				}, 'json');
+			});
+			cloudgoods.tplMenu(params.menus);
+			cloudgoods.tplGoods(params.goods);
+
+			$(document).on('click', '.menu-detail-btn', function(){
+				var id = $(this).data('menu-id');
+				if(id > 0) {
+					$.post("{php echo iurl('store/goods/cloudgoods/menu_detail')}", {id: id}, function(data){
+						cloudgoods.menu = data.message;
+						console.log(cloudgoods.menu)
+						cloudgoods.tplMenuDetail();
+					}, 'json');
+				}
+			});
+
+			$(document).on('click', '.category-item', function(){
+				$(this).addClass('active').siblings('.category-item').removeClass('active');
+				var category_id = $(this).data('id');
+				$('.goods-table-'+category_id).removeClass('hide');
+				$('.goods-table-'+category_id).siblings().addClass('hide');
+			});
+
+			$(document).on('click', '.goods-writed', function(){
+				var category_parentid = $('#category_parent').val();
+				var category_childid = $('#category_child').val()
+				if(category_parentid > 0) {
+					var goods_id = $(this).data('id');
+					var is_options = $(this).data('is-options');
+					var params = {
+						goods_id: goods_id,
+						category_parentid: category_parentid,
+						category_childid: category_childid,
+						title: $(this).closest('tbody').find('.goods-title').val()
+					};
+					if(!is_options) {
+						params.price = $(this).closest('tbody').find('.goods-price').val();
+					} else {
+						params.options = [];
+						$(this).closest('tbody').find('.options-price').each(function() {
+							var data = {};
+							data.id = $(this).find('input[type=hidden]').val();
+							data.price = $(this).find('input[type=text]').val();
+							params.options.push(data);
+						})
+					}
+					cloudgoods.goodsWrited(params);
+				} else{
+					Notify.info('请选择商品分类!');
+				}
+			});
+
+			$(document).on('click', '.goods-writed-batch', function(){
+				$('.selected-number').each(function() {
+					if($(this).text() > 0 ) {
+						var category_id = $(this).closest('.category-item').data('id');
+						var inputs = $('.goods-table-'+category_id).find('table tbody input:checked');
+						if(inputs.length > 0) {
+							inputs.each(function() {
+								var goods_id = $(this).val();
+								var is_options = $(this).data('is-options');
+								var params = {
+									goods_id: goods_id,
+									title: $(this).closest('tbody').find('.goods-title').val()
+								};
+								if(!is_options) {
+									params.price = $(this).closest('tbody').find('.goods-price').val();
+								} else {
+									params.options = [];
+									$(this).closest('tbody').find('.options-price').each(function() {
+										var data = {};
+										data.id = $(this).find('input[type=hidden]').val();
+										data.price = $(this).find('input[type=text]').val();
+										params.options.push(data);
+									})
+								}
+								cloudgoods.goodsWrited(params);
+							});
+							$('#menu-detail').modal('hide');
+						}
+					}
+				})
+			});
+
+			$(document).on('click', '#menu-detail tbody .checkbox', function(){
+				var category_id = $(this).find('input').data('id');
+				var nums_selected = $('.goods-table-'+category_id).find('table tbody input:checked').length;
+				cloudgoods.goods_selected_nums(category_id, nums_selected);
+			});
+			$(document).on('click', '#menu-detail thead .checkbox', function(){
+				var category_id = $(this).find('input').data('id');
+				var index = $(this).find('input').data('index');
+				$(this).closest('table').find('tbody .checkbox input[type=checkbox]').prop('checked', $(this).find('input').prop('checked'));
+				if($(this).find('input').is(':checked')) {
+					nums_selected = cloudgoods.length(cloudgoods.menu.goods_categorys[index].goods);
+				} else {
+					nums_selected = 0;
+				}
+				cloudgoods.goods_selected_nums(category_id, nums_selected);
+			});
+		};
+		cloudgoods.tplMenu = function(menus) {
+			var html = $('#tpl-menu').html();
+			laytpl(html).render(menus, function(html){
+				$('.table-menu').html(html);
+			});
+		};
+		cloudgoods.tplGoods = function(goods) {
+			var html = $('#tpl-goods').html();
+			laytpl(html).render(goods, function(html){
+				$('.table-goods').html(html);
+			});
+		};
+		cloudgoods.tplMenuDetail = function() {
+			var html = $('#tpl-menu-detail').html();
+			laytpl(html).render(cloudgoods.menu, function(html){
+				$('#menu-detail .modal-content').html(html);
+			});
+		};
+		cloudgoods.goodsWrited = function(params) {
+			if(params.goods_id > 0) {
+				$.post("{php echo iurl('store/goods/cloudgoods/goods_writed')}", params, function(data){
+					var result = data.message;
+					if(result.errno != 0) {
+						Notify.error(data.message.message);
+					} else {
+						Notify.success(data.message.message);
+					}
+				}, 'json');
+			}
+		};
+
+		cloudgoods.length = function(json) {
+			if(typeof(json) === 'undefined') {
+				return 0;
+			}
+			var len = 0;
+			for(var i in json) {
+				len++;
+			}
+			return len;
+		};
+
+		cloudgoods.goods_selected_nums = function(category_id, nums_selected) {
+			if(nums_selected > 0) {
+				$('.category-item.active').find('.selected-number').html(nums_selected);
+				$('.category-item.active').find('.selected-number').removeClass('hide');
+			} else {
+				$('.category-item.active').find('.selected-number').addClass('hide');
+			}
+		}
+
+		cloudgoods.init({
+			menus: {php echo json_encode($menus);},
+			goods: {php echo json_encode($goods);}
+		});
+
+	});
+</script>
+{/if}
+
+{itemplate 'public/footer'}

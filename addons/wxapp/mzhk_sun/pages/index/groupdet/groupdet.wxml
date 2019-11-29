@@ -1,0 +1,241 @@
+<view class="container">
+    <view>
+        <slideupshoworder Goodsid="{{id}}" orderType="3"></slideupshoworder>
+        <canvas canvasId="shareImg" class="canvas" style="width:602px;height:770px"></canvas>
+        <view class="header">
+            <view class="swiper">
+                <swiper autoplay="true" bindchange="swiperChange" circular="true" duration="800" interval="3000">
+                    <swiper-item wx:for="{{activeList.lb_imgs}}">
+                        <image class="slide-image" height="374" mode="scaleToFill" src="{{url}}{{item}}"></image>
+                    </swiper-item>
+                </swiper>
+                <view bindtap="shareCanvas" class="shareBtn" type="primary">
+                    <text>生成海报</text>
+                </view>
+            </view>
+            <view class="watch">
+                <view>
+                    <text>{{activeList.viewnum}}</text>人看过</view>
+                <view>
+                    <text>{{activeList.sharenum}}</text>人分享</view>
+                <view>
+                    <text>{{activeList.buynum}}</text>人参与</view>
+            </view>
+            <view class="page">{{swiperIndex}}/{{activeList.lb_imgs.length}}</view>
+        </view>
+        <view bindtap="hidden" class="preview" hidden="{{hidden}}">
+            <image mode="widthFix" src="{{prurl}}"></image>
+            <button catchtap="save" size="mini" type="primary">保存分享图</button>
+        </view>
+        <view class="block">
+            <view class="block-right">
+                <view class="shopprice">
+                    <text class="f24">￥</text>{{activeList.shopprice}}</view>
+                <view class="old">
+                    <text class="unum">拼团人数 ▪ {{activeList.ptnum}}人团</text>
+                </view>
+            </view>
+            <view class="countdown">{{activeList.clock}}</view>
+        </view>
+        <view class="wrap">
+            <view class="wrap-up">
+                <text class="title">{{activeList.gname}}</text>
+                <button class="share" openType="share">
+                    <image class="share-img" src="../../../../style/images/share3.png"></image>
+                </button>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="process_wg" data-flag="1" wx:if="{{showgw==1}}">
+            <view class="pro_wg">
+                <image class="pro_wg_logo" src="{{url}}{{wglist.wg_img}}"></image>
+                <view class="pro_wg_title">
+                    <view>{{wglist.wg_title}}</view>
+                    <view>{{wglist.wg_directions}}</view>
+                </view>
+                <image class="pro_wg_add" src="{{wglist.wg_addicon?url+wglist.wg_addicon:'../../../../style/images/icon29.png'}}"></image>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="codemask" data-flag="0" wx:if="{{showgw==1&&wg_flag==1}}"></view>
+        <view class="code" wx:if="{{showgw==1&&wg_flag==1}}">
+            <view class="codetitle">加入群聊</view>
+            <view class="codecontent">请在客服窗口输入‘{{wglist.wg_keyword}}’</view>
+            <view class="qrcode">
+                <button openType="contact">知道了</button>
+            </view>
+        </view>
+        <view class="block-down">
+            <view>
+                <view class="shopName">
+                    <navigator openType="navigateTo" url="/mzhk_sun/pages/index/shop/shop?id={{activeList.bid}}">
+                        <image class="addrIcon" src="../../../../style/images/shop.png"></image>
+                        <text>{{activeList.bname}}</text>
+                    </navigator>
+                </view>
+                <view class="addr">
+                    <image class="addrIcon" src="../../../../style/images/addr.png"></image>
+                    <text bindtap="max" data-address="{{activeList.address}}" data-latitude="{{activeList.latitude}}" data-longitude="{{activeList.longitude}}">{{activeList.address}}</text>
+                </view>
+            </view>
+            <view bindtap="dialogue" data-phone="{{activeList.phone}}">
+                <image class="phone" src="../../../../style/images/phone1.png"></image>
+            </view>
+        </view>
+        <view class="group" wx:if="{{lingshou.length>0}}">
+            <view class="group-up">
+                <text>已开团成功</text>
+            </view>
+            <view class="group-up g-down" wx:if="{{lingshou.length>0}}" wx:for="{{lingshou}}">
+                <view class="gLft">
+                    <view class="gUser">
+                        <image class="gthumb" mode="aspectFill" src="{{item.img}}"></image>
+                        <text>{{item.name}}</text>
+                    </view>
+                    <view>
+            还差
+            <text class="latNum">{{item.neednum-item.peoplenum}}</text>人成团
+          </view>
+                </view>
+                <view bindtap="gopt" class="go" data-gid="{{item.gid}}" data-id="{{item.id}}">
+                    <text>去参团</text>
+                </view>
+            </view>
+        </view>
+        <view class="groupBlock">
+            <view class="process">
+                <view class="pro">
+                    <text>选择心仪商品</text>
+                </view>
+                <view class="arrow">
+                    <image class="arrowIcon" src="../../../../style/images/arrow1.png"></image>
+                </view>
+                <view class="pro">
+                    <text>支付开团或参团</text>
+                </view>
+                <view class="arrow">
+                    <image class="arrowIcon" src="../../../../style/images/arrow1.png"></image>
+                </view>
+                <view class="pro">
+                    <text>邀请好友参团拼团</text>
+                </view>
+                <view class="arrow">
+                    <image class="arrowIcon" src="../../../../style/images/arrow1.png"></image>
+                </view>
+                <view class="pro">
+                    <text>团满发货不满退货</text>
+                </view>
+            </view>
+        </view>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <block wx:if="{{curIndex==0}}">
+            <import src="/mzhk_sun/pages/wxParse/wxParse.wxml"></import>
+            <view class="session">
+                <view class="goods-det">
+                    <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+                </view>
+                <view class="guess" wx:if="{{guess.length>0}}">
+                    <view class="session-title">
+                        <text>猜你喜欢</text>
+                    </view>
+                    <view class="guessList">
+                        <view class="gus-item" wx:for="{{guess}}" wx:for-item="items">
+                            <view>
+                                <image class="gus-img" src="{{items.src}}"></image>
+                            </view>
+                            <view>
+                                <view class="gus-title">{{items.title}}</view>
+                                <view class="gus-price">
+                                    <view>
+                                        <view class="gPrice">
+                                            <text>￥{{activeList.shopprice}}</text>
+                                            <text>{{item.oldprice}}</text> -->
+                  </view>
+                                        <view>已团5件</view>
+                                    </view>
+                                    <view class="open">
+                  去开团
+                </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="session-comm" wx:if="{{curIndex==1}}">
+            <view class="comm-cont" wx:for="{{item.comment}}" wx:for-item="itm">
+                <view class="comm-left">
+                    <image class="uthumb" src="{{itm.thumb}}"></image>
+                </view>
+                <view class="comm-right">
+                    <view class="comm-up">
+                        <text>{{itm.uname}}</text>
+                        <text class="pubtime">{{itm.pubtime}}</text>
+                    </view>
+                    <view class="comment">{{itm.comment}}</view>
+                    <view class="good">
+                        <image class="good-img" src="../../../../style/images/icon2.png"></image>
+                        <text>0</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype>1&&activeList.is_vip==1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="Alone" class="" data-id="{{activeList.gid}}" data-price="{{activeList.shopprice}}" wx:if="{{isend!=1}}">
+                <text>￥{{activeList.shopprice}}</text>
+                <text>单独购买</text>
+            </view>
+            <view class="endalonebuy" wx:if="{{isend==1}}">
+                <text>￥{{activeList.shopprice}}</text>
+                <text>{{isendtitle}}</text>
+            </view>
+            <view bindtap="groups" class="toGroup" data-id="{{activeList.gid}}" wx:if="{{isend!=1}}">
+                <text>￥{{activeList.ptprice}}</text>
+                <text>立即开团</text>
+            </view>
+            <view class="endgroupbuy" wx:if="{{isend==1}}">
+                <text>￥{{activeList.ptprice}}</text>
+                <text>{{isendtitle}}</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{activeList.is_vip!=1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="Alone" class="" data-id="{{activeList.gid}}" data-price="{{activeList.shopprice}}" wx:if="{{!isend}}">
+                <text>￥{{activeList.shopprice}}</text>
+                <text>单独购买</text>
+            </view>
+            <view class="endalonebuy" wx:if="{{isend}}">
+                <text>￥{{activeList.shopprice}}</text>
+                <text>{{isendtitle}}</text>
+            </view>
+            <view bindtap="groups" class="toGroup" data-id="{{activeList.gid}}" wx:if="{{!isend}}">
+                <text>￥{{activeList.ptprice}}</text>
+                <text>立即开团</text>
+            </view>
+            <view class="endgroupbuy" wx:if="{{isend}}">
+                <text>￥{{activeList.ptprice}}</text>
+                <text>{{isendtitle}}</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype==0&&activeList.is_vip==1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toMember" class="tobuy" data-id="{{activeList.gid}}">
+                <text>开通会员即可购买</text>
+            </view>
+        </view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

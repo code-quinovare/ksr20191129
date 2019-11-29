@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>{$set['title']}</title>
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+    <script src="{ASSETS_PATH}js/timeago.js"></script>s
+    <script src="{ASSETS_PATH}js/layer/layer.js"></script>
+    <style>
+        .ping_tu img{padding:5px 0 0 0}
+        .xingxing img{width:90px;}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+<div style="line-height:50px;height: 50px;width:100%;position:fixed;top:0;background-color:white;border-bottom: 1px solid #eee;">
+    <span><img src="{ASSETS_PATH}img/zuo3.png" style="width:23px;margin-top:-5px;margin-left: 5px;"></span>
+    <span style="font-size:17px;margin-left: 10px;">用户评价</span>
+</div>
+<div id="content" style="margin-bottom:50px;margin-top:60px;">
+{loop $pingjia $v}
+<div>
+    <div style="font-size:12px;float: right;margin-top:13px;color:#999;margin-right: 10px;">
+        <span>{$v['title']}</span>
+    </div>
+    <div style="margin:10px;">
+        <img src="{$v['avatar']}" style="width:60px;height: 60px;border-radius:60px;">
+    </div>
+    <div style="margin-left: 80px;font-size:16px;margin-top: -60px;">
+        <span>{$v['nickname']}</span>
+    </div>
+    <div class="xingxing" style="margin-left: 80px;font-size:13px;line-height: 35px;">
+        <span>评分</span>
+        {if $v['rate']==1}<img src="{ASSETS_PATH}img/xx1.png">
+        {else if $v['rate']==2}<img src="{ASSETS_PATH}img/xx2.png">
+        {else if $v['rate']==3}<img src="{ASSETS_PATH}img/xx3.png">
+        {else if $v['rate']==4}<img src="{ASSETS_PATH}img/xx4.png">
+        {else if $v['rate']==5}<img src="{ASSETS_PATH}img/xx5.png">{/if}
+    </div>
+    <!--评价内容区域-->
+    <div style="font-size:14px;margin-left: 80px;margin-right:10px;">
+        <span>{$v['info']}</span><br>
+        {loop $v['images'] $k}
+        <span class="ping_tu">
+            <img src="{php echo tomedia($k)}" style="width: 90px;height: 90px;">
+        </span>
+        {/loop}
+    </div>
+    <!--评价时间和点赞-->
+    <div style="color:#999;font-size:12px;margin-left:80px;line-height: 30px;border-bottom:1px solid #eee;padding:0 0 10px 0;margin-top:10px;">
+        <span>{$v['ruzhu']}入住，{php echo date('Y-m-d',$v['time'])}发表</span>
+        {if $set['he_openid']!=$_W['fans']['openid']}
+        <span style="float: right;font-size:14px;margin-right: 20px;border:1px solid #eee;padding: 0px 20px 0 20px;border-radius:20px;">
+            <img src="{ASSETS_PATH}img/zan.png" style="width: 18px;height: 18px;margin-top:-2px">&nbsp;赞
+        </span>
+        {else}
+        <button style="border:1px solid #eee;background-color: #50C5A8;color:white;border-radius:4px;" onclick="huifu({$v['id']})">回复</button>
+        <a onclick="if (confirm('确定删除？')) { location.href = '{php echo $this->createMobileUrl("Index",array("action"=>"delete_pinglun","id"=>$v['id']))}'; }">
+        <button style="border:1px solid #eee;background-color: red;color:white;border-radius:4px;">删除</button>
+        </a>
+        {/if}
+    </div>
+
+    <!--商家回应-->
+    {if $v['huifu'] != ""}
+    <div style="margin-left: 80px;">
+        <span><img src="{ASSETS_PATH}img/huiying.png" style="width: 18px;height: 18px;"></span>
+        <div style="margin-left:18px;margin-top:-23px;margin-right:10px;">
+            <span style="font-size:14px;color: #104E8B;margin-left:5px;">商家回应：</span>
+            <span style="font-size: 14px;">{$v['huifu']}</span>
+        </div>
+    </div>
+    {/if}
+    <div style="border-bottom: 1px solid #eee;padding:10px 0 0 0 "></div>
+
+</div>
+{/loop}
+</div>
+<div class="footer">
+    <ul>
+        {loop $footer $v}
+        <a href="{$v['url']}">
+            <li>
+                <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                <p>{$v['title']}</p>
+            </li>
+        </a>
+        {/loop}
+    </ul>
+</div>
+</body>
+
+
+
+</html>
+
+<script>
+    function huifu(pid) {
+
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['240px', '200px'], //宽高
+            content: '<form action="{php echo $this->createMobileUrl('Index',array('action'=>'huifu'))}" method="post"><div>' +
+            '<input name="huifu"><input hidden name="pinglun_id" id="pid" value=""><br><button type="submit">回复</button></div></form>'
+        });
+        $("#pid").val(pid);
+
+    }
+
+    var sroltop = 0;  //用来监听当前的加载事件是否在执行
+    var page = 1; //当前页码
+    $(document).ready(function () {
+        $(window).scroll(function(){
+            var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+            totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+            if(($(document).height()) <= totalheight) {
+                if(sroltop == 0)
+                {
+                    page+=1
+                    load_data();
+                }
+            }
+        });
+    });
+    function load_data() {
+        sroltop = 1;
+        //alert(1);
+        $.ajax({
+            url : "{php echo $this->createMobileUrl('index',array('action'=>'pajax'))}",
+            type:"post",
+            data:{
+                page : page
+            }, success: function (res) {
+                sroltop = 0;
+                var data = $.parseJSON(res);
+                var images ='';
+                var str = '';
+                //<a href="{php echo $this->createMobileUrl('index',array('action'=>'help_info'))}&id='+v.id+'">
+                $.each(data, function (k, v) {
+                    $.each(v.images, function (c, a){
+                        images +='<span class="ping_tu"> <img src="{php echo tomedia("'+a+'")}" style="width: 90px;height:90px;"> </span>'
+                    });
+                    str +='<div><div style="font-size:12px;float: right;margin-top:13px;color:#999;margin-right: 10px;">' +
+                            ' <span>'+ v.title+'</span> </div> <div style="margin:10px;"> ' +
+                    '<img src="'+ v.avatar+'" style="width:60px;height: 60px;border-radius:60px;"></div>' +
+                    ' <div style="margin-left: 80px;font-size:16px;margin-top: -60px;"> <span>'+ v.nickname+'</span> </div>' +
+                    '<div style="margin-left: 80px;font-size:13px;line-height: 35px;"><span>评分</span> ' +
+                    '{if $v['rate']==1}<img src="{ASSETS_PATH}img/xx1.png" width="90px">' +
+                    '{else if $v['rate']==2}<img src="{ASSETS_PATH}img/xx2.png" width="90px">' +
+                    '{else if $v['rate']==3}<img src="{ASSETS_PATH}img/xx3.png" width="90px">' +
+                    '{else if $v['rate']==4}<img src="{ASSETS_PATH}img/xx4.png" width="90px">' +
+                    '{else if $v['rate']==5}<img src="{ASSETS_PATH}img/xx5.png" width="90px">{/if}</div><!--评价内容区域--> ' +
+                    '<div style="font-size:14px;margin-left: 80px;margin-right:10px;"><span>'+ v.info+'</span><br>'+images+' </div>' +
+                    '<!--评价时间和点赞--> <div style="color:#999;font-size:12px;margin-left:80px;line-height: 30px;border-bottom:1px solid #eee;padding:0 0 10px 0;margin-top:10px;"> ' +
+                    '<span>'+ v.ruzhu+'入住，'+v.time+'发表</span>' +
+                    '{if $set['he_openid']!=$_W['fans']['openid']} ' +
+                    '<span style="float: right;font-size:14px;margin-right: 20px;border:1px solid #eee;padding: 0px 20px 0 20px;border-radius:20px;"> ' +
+                    '<img src="{ASSETS_PATH}img/zan.png" style="width: 18px;height: 18px;margin-top:-2px">&nbsp;赞 </span>{else} ' +
+                    '<button onclick="huifu('+ v.id+')">回复</button>' +
+                    '<button onclick="loction='{php echo $this->createMobileUrl("Index",array("action"=>"delete_pinglun","id"=>$v['id']))}'" style="border:1px solid #eee;background-color: red;color:white;border-radius:4px;">删除</button>' +
+                    '{/if} </div><!--商家回应--> ' +
+                    '<div style="margin-left: 80px;"> ' +
+                    '<span><img src="{ASSETS_PATH}img/huiying.png" style="width: 18px;height: 18px;"></span> ' +
+                    '<div style="margin-left:18px;margin-top:-23px;margin-right:10px;"> ' +
+                    '<span style="font-size:14px;color: #104E8B;margin-left:5px;">商家回应：</span> ' +
+                    '<span style="font-size: 14px;">'+v.huifu+'</span> </div> </div> ' +
+                    '<div style="border-bottom: 1px solid #eee;padding:10px 0 0 0 "></div> </div>';
+
+                });
+                $("#content").append(str);
+            }
+        });
+    }
+</script>
+

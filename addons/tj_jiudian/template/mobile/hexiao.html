@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>核销订单</title>
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script><
+
+</head>
+<body style="margin:0;">
+<div style="line-height: 45px;height: 45px;text-align: center;border-bottom: 1px solid #eee;">
+    <span>确认核销订单</span>
+</div>
+
+<div>
+    <div style="margin:10px;">
+        <img src="{php echo tomedia($img['img'])}" style="width:90px;height:90px">
+    </div>
+    <div style="margin-top:-100px;margin-left:110px;font-size:16px;line-height: 30px;color:#999">
+        <span>房型：{$res['title']}</span><br>
+        <span>详情：{$res['count']}间，{$res['class']}</span><br>
+        入住时间：{$res['ruzhu']}--{$res['lidian']}<br>
+    </div>
+
+</div>
+<div align="center" style="margin-top:50px;font-size:18px;color:#06c1ae;font-weight: 600">
+    订单金额：{$res['money']}元
+</div>
+<div align="center" style="margin-top:50px;height: 45px;line-height: 45px;border-radius:5px;background-color:#06c1ae;color:white;width: 90%;margin-left: 5%; ">
+    {if $res['use_status']==0}
+    <a onclick="if (confirm('确定使用？')) { location.href = '{php echo $this->createMobileUrl('Index', array('action' => 'use', 'id' => $res['id']))}'; }">
+        <span style="color:white;">确定使用</span>
+    </a>
+    {/if}
+</div>
+
+</body>
+</html>
+

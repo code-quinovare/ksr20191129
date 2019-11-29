@@ -1,0 +1,328 @@
+{template 'common/header'}
+<link rel="stylesheet" href="../addons/zofui_task/public/css/weui.min.css"/>
+<style>
+.media-body, .media-left, .media-right {
+	display: table-cell;
+	vertical-align: top;
+	padding-left: 10px;	
+}
+.task_body{
+	max-width:980px;
+}
+.task_left{
+	border-right:1px solid #ddd;
+	padding-right: 10px!important;
+}
+.padding0{
+	padding:0;
+}
+.task_head{
+	padding-bottom: 20px;	
+	margin-top: 20px;	
+}
+
+.task_title{
+	overflow: hidden;
+}
+.task_title img , .task_images img{
+	float:left;
+	margin-right:10px;
+	margin-top:5px;
+	width:60px;
+	height:60px;	
+}
+.bs-example{
+	padding: 20px 0;
+	border-top: 1px solid #ddd;
+}
+.task_author{
+	padding:20px;
+}
+.task_author_head img{
+	display: inline-block;
+}
+.task_head_bottom{
+	margin-top: 20px;
+	font-size: 13px;
+}
+.task_reply_icon{
+	/*margin-top: 10px;*/
+	font-size: 13px;
+	color: #999;
+}
+.task_reply_icon span{
+	display: inline-block;
+	padding: 0 5px 0 0;
+}
+.margin_top20{
+	margin-top:20px;
+}
+.task_author_info{
+	margin-top: 10px;
+}
+.task_author_info span{
+	display:block;
+}
+.task_author_head{
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+}
+.reply_bottom{
+	padding-right:5px;
+}
+.reply_bottom span{
+	border: 1px solid #ddd;
+	padding: 2px 10px;
+	border-radius: 3px;
+	color: #999;
+	margin-left:10px;
+	cursor:pointer;
+}
+.reply_number{
+	font-size: 16px;
+	font-weight: 600;
+}
+.media-heading{
+	font-size:16px;
+}
+.task_status{
+	color: #ff5f27;
+	border: 1px solid #ff5f27;
+	padding: 5px 10px;
+	transform: rotate(25deg);
+	display: inline-block;
+	position: absolute;
+	right: 12px;
+	top: -4px;
+}
+.task_type_btn{
+	color: #999;
+	border: 1px solid #ddd;
+	border-bottom:none;
+	padding: 1px 10px;
+	border-radius: 3px 3px 0 0;
+	margin-left: 10px;
+	cursor:pointer;
+}
+.activity_btn{
+	border: 1px solid #ff5f27;
+	color:#ff5f27;
+	border-bottom:none;
+}
+.row{
+	padding-bottom: 20px;
+}
+.deal-btn{
+	color: #fff;
+	background: #ff5f27;
+	border: 0;
+	border-radius: 3px;
+}
+</style>
+
+<div class="panel panel-default task_body">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-9 task_left padding0">
+				<div class="col-xs-12 padding0 task_head">
+					<div class="task_title">
+						<h4>{php echo htmlspecialchars_decode(htmlspecialchars_decode($taskinfo['title']))}</h4>
+						{loop $taskinfo['pic'] $item}
+							<a target="_blank" href="{php echo tomedia($item)}"><img class="media-object" src="{php echo tomedia($item)}"></a>
+						{/loop}
+					</div>
+					<div class="task_head_bottom task_reply_icon">
+						<span>{php echo Util::formatTime($taskinfo['createtime'])}</span> 
+						<span>{if $taskinfo['isshow'] == 1}隐藏{else}所有人可见{/if}</span> 
+						{if $taskinfo['status'] == 1}
+							<span>距离自动处理：{php echo Util::lastTime($taskinfo['overtime'])}</span>
+						{elseif $taskinfo['status'] == 2}
+							已结束
+						{elseif $taskinfo['status'] == 3}
+							审核中
+						{elseif $taskinfo['status'] == 4}
+							已关闭
+						{/if}
+					</div>
+					<div class="task_reply_icon">
+						<span>每项奖励:{$taskinfo['money']} 元</span>
+						<span>发布票数:{$taskinfo['number']}</span>
+						<span>剩余票数:{$taskinfo['lastnumber']}</span>
+						<span>限制回复:{$taskinfo['maxreply']}</span>
+						<span>加急金额:{$taskinfo['urgmoney']} 元</span>
+						{if $taskinfo['urgmoney'] >0}
+							<span>加急剩余:{$taskinfo['urgnumber']}</span>
+							<span>加急时间:{php echo date('Y-m-d H:i',$taskinfo['addurgtime'])}</span>
+						{/if}
+					</div>
+					<span class="task_status">{if $taskinfo['status'] == 1}进行中{elseif $taskinfo['status'] == 2}已完成{elseif $taskinfo['status'] == 3}审核中{elseif $taskinfo['status'] == 4}已关闭{/if}</span>
+				</div>
+				<span class="reply_number">执行{php echo $taskinfo['number'] - $taskinfo['lastnumber']}票</span>
+				<a href="{php echo $this->createWebUrl('taskinfo',array('status'=>0,'id'=>$_GPC['id']))}">
+					<span class="pull-right task_type_btn {if empty($_GPC['status'])}activity_btn{/if}">全部</span>
+				</a>
+				<a href="{php echo $this->createWebUrl('taskinfo',array('status'=>1,'id'=>$_GPC['id']))}">
+					<span class="pull-right task_type_btn {if $_GPC['status'] == '1'}activity_btn{/if}">等待采纳</span>
+				</a>
+				<a href="{php echo $this->createWebUrl('taskinfo',array('status'=>2,'id'=>$_GPC['id']))}">
+					<span class="pull-right task_type_btn {if $_GPC['status'] == '2'}activity_btn{/if}">已采纳</span>
+				</a>
+				<a href="{php echo $this->createWebUrl('taskinfo',array('status'=>3,'id'=>$_GPC['id']))}">
+					<span class="pull-right task_type_btn {if $_GPC['status'] == '3'}activity_btn{/if}">已拒绝</span>
+				</a>
+					<span class="pull-right task_type_btn deal-btn dealall" data-type="refuse">全部拒绝</span>
+					<span class="pull-right task_type_btn deal-btn dealall" data-type="accept">全部采纳</span>
+				{loop $replyinfo $item}
+					<div class="bs-example col-xs-12 padding0" data-example-id="media-alignment">
+						<div class="media">
+						  <div class="media-left padding0">
+							<a href="#">
+							  <img class="media-object img-rounded" src="{$item['avatar']}" style="width: 40px; height: 40px;">
+							</a>
+						  </div>
+						  <div class="media-body">
+							<p><a target="_blank" href="{php echo $this->createWebUrl('userinfo',array('uid'=>$item['uid']))}">{$item['nickname']}</a></p>
+							<p class="media-heading">{$item['content']}</p>
+							<div class="task_images">
+								{loop $item['images'] $img}
+								<a target="_blank" href="{php echo tomedia($img)}"><img class="media-object" src="{php echo tomedia($img)}" style="width: 64px; height: 64px;"></a>
+								{/loop}
+							</div>
+							<div class="task_reply_icon margin_top20">
+								<span>{php echo Util::formatTime($item['time'])}</span> 
+								<span class="reply_status">
+								{if $item['isscan'] == 0}
+									{if $item['status'] == 1}等待采纳{elseif $item['status'] == 2}已采纳{elseif $item['status'] == 3}被拒绝{/if}
+								{elseif $item['isscan'] == 1}
+									已禁止浏览
+								{/if}
+								</span>
+								{if $item['status'] == 2}
+									<span>奖励:{$item['income']}元</span>
+								{/if}
+							</div>
+						  </div>
+							<font class="task_status_outbox" {if $item['isscan'] == 1}style="display:none"{/if}>
+								{if $item['status'] == 1}
+								<div class="reply_bottom text-right task_status_acceptrefuse" data-replyid="{$item['id']}" data-taskid="{$item['taskid']}">
+									<span data-type="accept" data-alert="确定要采纳此回复吗？">采纳</span> 
+									<span data-type="refuse" data-alert="确定要拒绝此回复吗？">拒绝</span>
+									<span data-type="noscan" data-alert="确定要禁止别人浏览此回复吗？">禁止浏览</span>
+								</div>
+								{elseif $item['status'] == 2}
+								<div class="text-right task_reply_icon">
+									<span>采纳时间：{php echo date('Y-m-d H:i:s',$item['dealtime'])}</span> 
+								</div>
+								{elseif $item['status'] == 3}
+								<div class="text-right task_reply_icon">
+									<span>拒绝时间：{php echo date('Y-m-d H:i:s',$item['dealtime'])}</span>
+								</div>							
+								{/if}
+							</font>
+							<div class="reply_bottom text-right isallowtoscan" data-replyid="{$item['id']}" data-taskid="{$item['taskid']}" {if $item['isscan'] == 0}style="display:none"{/if}>
+								<span data-type="allowscan" data-alert="确定要将此回复恢复浏览吗？">恢复浏览</span>
+							</div>
+						</div>
+					</div>
+				{/loop}				
+				{$pager}
+			</div>
+			<div class="col-xs-12 col-md-3 text-left padding0 task_author">
+				<div class="task_author_head">
+					{if $taskinfo['uid'] > 0}
+					<img class="media-object img-rounded" src="{$taskinfo['avatar']}" style="width: 50px; height: 50px;">
+					<span class=""><a href="{php echo $this->createWebUrl('userinfo',array('uid'=>$taskinfo['uid']))}">{$taskinfo['nickname']}</a></span>
+					{else}
+					<img class="media-object img-rounded" src="{php echo tomedia($this->module['config']['siteimg'])}" style="width: 50px; height: 50px;">
+					<span class="">{php echo $this->module['config']['sitename']}</span>
+					{/if}
+				</div>
+				{if $taskinfo['uid'] > 0}
+					<div class="task_author_info ">
+						<span>发布：{$taskinfo['pubnumber']} 票</span>
+						<span>采纳：{$taskinfo['acceptnumber']} 票</span>
+						<span>余额：{$taskinfo['credit2']} 元</span>
+						<span>保证金：{$taskinfo['deposit']} 元</span>					
+					</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.reply_bottom span').click(function(){
+		var thisclass = $(this);
+		var httpdata = {
+			type: thisclass.attr('data-type'),
+			replyid : thisclass.parent().attr('data-replyid'),
+			taskid : thisclass.parent().attr('data-taskid'),
+			alertstr : thisclass.attr('data-alert')
+		};
+		if(confirm(httpdata.alertstr)){
+			$.ajax({
+				type: 'post',
+				data : httpdata,
+				dataType : 'html',
+				url : "{php echo $this->createWebUrl('taskinfo',array('op'=>'deal'))}",
+				beforeSend : function(){
+					$('#loadingToast').show();
+				},
+				success : function(data){
+					if(data=='1'){
+						thisclass.parent().hide();	
+						if(httpdata.type == 'accept') thisclass.parents('.media').find('.reply_status').text('已采纳');
+						if(httpdata.type == 'refuse')  thisclass.parents('.media').find('.reply_status').text('已拒绝');
+						if(httpdata.type == 'noscan') {
+							 thisclass.parents('.media').find('.reply_status').text('禁止浏览');
+							thisclass.parents('.task_status_outbox').next().show();
+						}
+						if(httpdata.type == 'allowscan'){
+							 thisclass.parents('.media').find('.reply_status').text('已恢复浏览');
+							thisclass.parent().prev().show().children().show();
+						}
+					}
+				},
+				complete:function(){
+					$('#loadingToast').hide();
+				}
+			})
+		}
+		
+	});
+	
+	//全部处理
+	$('.dealall').click(function(){
+		var type = $(this).attr('data-type');
+		var id = {php echo $_GPC['id']};
+		if(type == 'accept') var noticestr = '确定要将所有等待处理的回复采纳吗？';
+		if(type == 'refuse') var noticestr = '确定要将所有等待处理的回复拒绝吗？';
+		if(confirm(noticestr)){
+			$.ajax({
+				type: 'post',
+				data : {type:type,taskid:id},
+				dataType : 'html',
+				url : "{php echo $this->createWebUrl('taskinfo',array('op'=>'alldeal'))}",
+				beforeSend : function(){
+					$('#loadingToast').show();
+				},
+				success : function(data){
+					if(data=='1'){
+						alert('处理成功');
+					}else{
+						alert('处理失败');
+					}
+					location.href="";
+				},
+				complete:function(){
+					$('#loadingToast').hide();
+				}
+			})
+		}
+	});
+	
+</script>
+
+{template '../../../addons/zofui_task/template/web/temp/loading'}
+
+{template 'common/footer'}

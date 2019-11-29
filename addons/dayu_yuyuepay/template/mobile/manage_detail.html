@@ -1,0 +1,231 @@
+{template 'weheader'}
+<script src="{TEMPLATE_WEUI}iscroll.js"></script>
+<script>
+$(function(){	
+	$('#tab').tab({defaultIndex:0,activeClass:"tab-green"});
+});
+</script>
+<style>
+body{background-color:#f0f0f0;font-weight:300;}
+a{color:#666}
+.weui-form-preview::after {border-bottom: 0px solid #d9d9d9;}
+.weui-form-preview-value{color:#333;}
+.weui-form-preview-label{color:#666;}
+
+.weui-pay-area{margin-bottom:7px;border-top:0 dashed #DEDEDE;border-bottom:0.0625rem dashed #DEDEDE;}
+.placeholder {background-color:transparent;color:#333; height: 30px; line-height: 40px;}
+.weui-picker-modal3{width:100%;height:150px;overflow:auto;}
+
+.weui_cells {margin-top:0;}
+
+</style>
+{if ($openid == $activity['kfid'] && $activity['guanli']=='0') || $openid == $row['kf'] || ($setting['store']==1 && $openid==$store['openid']) || ($activity['guanli']=='1' && $isstaff)}
+<div class="weui_navbar" style="height:44px;">
+	<div class="weui_navbar_item">
+		预约详情
+	</div>
+	<div class="weui_navbar_item tcenter">
+		订单状态
+	</div>
+	{if pdo_tableexists('dayu_yuyuepay_plugin_car') && $carid}
+	<div class="weui_navbar_item" onclick="fetchgetjs(this)">
+		发车状态
+	</div>
+	{/if}
+</div>
+<div class="weui_tab_bd" style="margin-bottom:45px;">
+	<div class="weui_tab_bd_item">
+		{template 'manage_detail_basic'}
+	</div>
+	<div class="weui_tab_bd_item">
+		{template 'detail_status'}
+	</div>
+	{if pdo_tableexists('dayu_yuyuepay_plugin_car') && $carid}
+		<div class="weui_tab_bd_item">
+			{template 'detail_car'}
+		</div>
+	{/if}
+</div>
+	<div id="popup" class="weui-popup-container" style="z-index:999;">
+		<div class="weui-popup-modal">
+			<div class="weui-header bg-blue"> 
+				<div class="weui-header-left close-popup"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-down"></use></svg></div>
+				<h1 class="weui-header-title">更新预约{$row['mobile']}</h1>
+				<div class="weui-header-right"></div> 
+			</div>
+			<form action="" enctype="multipart/form-data" method="POST" id="form1">
+				<input type="hidden" name="repeat" value="<?php echo md5(sha1(time())); ?>">
+				<input type="hidden" name="rerid" value="{$row['rerid']}" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<div class="weui_cells weui_cells_form">
+					<div class="weui_cell weui_cell_select">
+						<div class="weui_cell_bd weui_cell_primary">
+							<select class="weui_select" id="status" name="status">
+							{loop $arr2 $c}
+								{loop $state[$c] $d}
+									<option value="{$c}" {if $row['status'] == $c}selected="selected"{/if}>{$d['name']}</option>
+								{/loop}
+							{/loop}
+							</select>
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<div class="weui_uploader">
+								<div class="weui_uploader_hd weui_cell">
+									<div class="weui_cell_bd weui_cell_primary">上传图片</div>
+									<div class="weui_cell_ft"></div>
+								</div>
+								<div class="weui_uploader_bd">
+									<ul class="weui_uploader_files" id="pub-pics">   
+									</ul>
+									<div class="weui_uploader_input_wrp">
+										<div id="chooseImage" style="width: 100%;height: 100%;" class="weui_uploader_input"></div> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea class="weui_textarea" name="kfinfo" rows="3" placeholder="请输入回复内容"></textarea>
+							<div class="weui_textarea_counter"></div>
+						</div>
+					</div>
+				</div>
+				{if pdo_tableexists('dayu_yuyuepay_plugin_car')}
+				<div class="weui_cells_title">选择车辆</div>
+				<div class="weui-picker-modal3">
+					<div class="weui_cells weui_cells_checkbox">
+					{loop $car $k $t}
+						<label class="weui_cell weui_check_label" for="car{$k}">
+							<div class="weui_cell_hd">
+								<input type="checkbox" class="weui_check" name="p_carid[]" id="car{$k}" value="{$t['id']}" {if !empty($id) && in_array($t['id'], $carids)}checked="checked"{/if}>
+								<i class="weui_icon_checked"></i>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>{$t['car']} {$t['name']} {$t['mobile']}</p>
+							</div>
+						</label>
+					{/loop}
+					</div>
+				</div>
+				{/if}
+				<div class="weui_btn_area weui_btn_area_inline">
+					<a href="javascript:;" class="weui_btn weui_btn_default close-popup">取消</a>
+					<button type="submit" name="button" class="weui_btn weui_btn_primary" {if $row['status'] ==2}disabled{/if}>提 交</button>
+				</div>
+			</form>
+		</div>
+	</div>
+<script type="text/javascript">
+	var images = {
+		localId: [],
+		serverId: []
+	};
+	document.querySelector('#chooseImage').onclick = function () {
+		wx.chooseImage({
+			success: function (res) {
+				images.localId = res.localIds;	        
+				if (images.localId.length == 0) {
+					return;
+				}
+				var m = 0, length = images.localId.length;
+				images.serverId = [];
+				function upload() {
+					wx.uploadImage({
+						localId: images.localId[m],
+						success: function (res) {
+							m++;
+							images.serverId.push(res.serverId);
+							var url = "{php echo $this->createMobileUrl('uploads',array('type'=>'image'));}&serverId=" + res.serverId + "&localId=" + m;
+							$.post(url, function(dat){
+								var dat = eval("("+dat+")");
+								$upload = $( '#pub-pics' );
+								$li = $('<li onclick="var delimg=$(this);$.confirm(\'您确定要删除该图片吗?\', \'确认删除?\', function() {delimg.remove();},function(){$.toast(\'取消操作\', \'cancel\');});" class="weui_uploader_file weui_uploader_status" style="background-image:url('+dat.imgurl+')"><input type="hidden" name="thumb[]" value="'+dat.path+'"/><div class="weui_uploader_status_content"><i class="weui_icon_cancel"></i></div></li>')
+								$upload.append($li);
+							});
+							if (m < length) {
+								upload();
+							}
+						},
+						fail: function (res) {
+							//上传失败
+							alert('filed');
+						}
+					});
+				}
+				upload();
+			}
+		});
+	};
+</script>
+<script>
+	function manage2(rerid,name,openid){
+		$.confirm("确定要指派给 "+name+" 吗？", "指派受理客服", function() {
+			$.post("{php echo $this->createMobileUrl('power');}",{'reid':'{$reid}','rerid':rerid,'openid':openid,'table':'case'},function(d){
+				if (d.message.status == 1) {
+					$.alert(d.message.msg)
+					setTimeout(function() {
+						window.location.reload();
+						return;
+					}, 2500)
+				}else{
+					$.alert(d.message.msg);
+					return false;
+				}
+			},"json");
+		}, function() {
+			$.toast("取消派单", "cancel");
+		});
+	}
+	function manage(obj,rerid){
+		$.actions({
+			title: obj.getAttribute("data")+" 派单给",
+			onClose: function() {
+				console.log("close");
+			},
+			actions: [
+				{loop $staff $sf}
+				{if $sf['openid']==$openid}
+				{else}
+					{
+					text: "{$sf['nickname']}",
+					className: "color-primary",
+					onClick: function() {
+						manage2(rerid,"{$sf['nickname']}","{$sf['openid']}")
+					}
+					},
+				{/if}
+				{/loop}
+			]
+		});
+	}
+function show(obj,id){
+	var pic=document.getElementById(id).src;
+	wx.previewImage({
+		current: pic,
+		urls: [pic]
+		
+	});
+}
+</script>
+{else}
+	<div class="weui_msg" id="msg2">
+		<div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+		<div class="weui_text_area">
+			<h2 class="weui_msg_title">操作失败</h2>
+			<p class="weui_msg_desc">你没有管理权限</p>
+		</div>
+		<div class="weui_opr_area">
+			<p class="weui_btn_area">
+			</p>
+		</div>
+		<div class="weui_extra_area">
+            
+		</div>
+	</div>
+
+{/if}
+{php $share = 1;}
+{template 'footers'}

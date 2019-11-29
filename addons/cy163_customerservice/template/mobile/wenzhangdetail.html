@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>{$wenzhang['title']}</title>	
+	<link rel="stylesheet" href="{MD_ROOT}static/iconfont/iconfont.css?v=20171128"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/jquery-weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/newui/css/common.css?v=20171128"/>
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+	<style>
+	#header{max-width:7.5rem;padding:0 0.2rem;height:0.9rem;line-height:0.9rem;background:{php echo $this->module["config"]['temcolor']};color:#fff;}
+	#header .back{width:20%;float:left;font-size:0.32rem;}
+	#header .back span{font-size:0.28rem;margin-left:0.05rem;}
+	#header .title{width:60%;float:left;font-size:0.32rem;}
+	#header .other{width:20%;float:right;}
+ 
+	.wenzhang{padding:0.2rem;background:#fff;}
+	.wenzhang .title{height:auto;line-height:0.5rem;font-size:0.34rem;color:#333;}
+	.wenzhang .des{margin-top:0.2rem;font-size:0.28rem;color:#666;}
+	</style>
+</head>
+
+<body style="background:#f5f5f5;">
+<div id="header">
+	<div class="back iconfont" onclick="history.go(-1)">&#xe612;<span>返回</span></div>
+	<div class="title text-c">常见问题</div>
+	<div class="other"></div>
+</div>
+
+<div class="wenzhang">
+	<div class="title">{$wenzhang['title']}</div>
+	<div class="des">{php echo htmlspecialchars_decode($wenzhang['des'])}</div>
+</div>
+
+<script src="{MD_ROOT}/static/newui/js/jquery-3.1.1.min.js"></script>
+<script src="{MD_ROOT}/static/newui/js/jquery-weui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('table');}">餐桌列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('addtable');}">添加/编辑餐桌</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">餐桌列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+                <th style="width:150px;">顺序</th>
+                <th style="width:200px;">名字</th>
+                <th style="width:150px;">标签</th>
+                <th style="width:150px;">所属分类</th>
+                 <th style="width:150px;">状态</th>
+                
+                <th style="width:80px;">操作</th>
+                <th style="width:80px;">查看</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>   
+                <td>
+                {$item['orderby']}
+                </td>
+                <td>
+                 {$item['name']}
+                </td>
+                <td>
+                {$item['tag']}
+                </td>
+                <td>
+                 {$item['type']}
+                </td>
+                  {if $item['status']==0}
+                <td >
+                <span class="label label-warning">空闲</span>
+                </td >
+                {elseif $item['status']==1}
+                <td >
+                <span class="label label-info">已开台</span>
+                </td>
+                {elseif $item['status']==2}
+                 <td >
+                 <span class="label label-primary">已下单</span>
+                </td>
+                {elseif $item['status']==3}
+                 <td >
+                 <span class="label label-success">已支付</span>
+                
+                </td>
+                 {/if}  
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('deltable', array('id'=>$item['id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+                <td>
+                <a href="{php echo $this->createWebUrl('addtable',array('id'=>$item['id']));}">编辑</a>
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加餐桌
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+<div class="text-right we7-margin-top">
+             {$pager}
+             </div>
+
+{template 'common/footer'}

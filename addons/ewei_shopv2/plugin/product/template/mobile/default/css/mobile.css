@@ -1,0 +1,17 @@
+.btn-bd{
+	margin:5% 3% 0 3%;
+	width:94%;outline:none;
+	padding:3% 0;
+	font-size:1rem;
+	background: linear-gradient(to right,#00A6DC, #00D6D6);
+	color:#fff;
+	border:none;
+	border-radius:6px;
+	display: block;
+	text-align: center;
+}
+.image {
+    margin: 0 auto;
+    width: auto;
+    text-align: center;
+}

@@ -1,0 +1,88 @@
+<!-- 
+ * 分销中心
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<link href="{MODULE_URL}template/mobile/style/cssv2/commission.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $setting['isfollow']>0 && $fans['follow']==0 && $userAgent}
+<div class="follow_topbar">
+	<div class="headimg">
+		<img src="{$_W['attachurl']}{$setting['qrcode']}">
+	</div>
+	<div class="info">
+		<div class="i">{$_W['account']['name']}</div>
+		<div class="i">{$setting['follow_word']}</div>
+	</div>
+	<div class="sub" onclick="location.href='{php echo $this->createMobileUrl('follow');}'">立即关注</div>
+</div>
+{/if}
+<div id="container">
+	<div class="commission-topbar">
+        <div class="user_face" style="background-image:url({$avatar});background-size:contain;"></div>
+        <div class="user_info">
+            <div class="user_name">{$member['nickname']} <span>[{$levelname} <!-- /上级:{php echo $parent['nickname']?$parent['nickname']:'总店';} -->] </span></div>
+            <div class="user_date">加入时间：{php echo date('Y-m-d H:i', $member['addtime']);}</div>
+        </div>
+    </div> 
+    <div class="commission-top">
+        <div class="top_1">
+            <div class="text">{php echo $font['total_commission'] ? $font['total_commission'] : '累计佣金';}：{php echo sprintf("%.2f", $member['pay_commission']+$member['nopay_commission']);} 元<br>{php echo $font['nopay_commission'] ? $font['nopay_commission'] : '可提现佣金';}（元）</div>
+			<a href="{php echo $this->createMobileUrl('commission', array('op'=>'cashlog'));}"><div class="ico"></div></a>
+        </div>
+        <div class="top_2">{$member['nopay_commission']}<a href="{if $member['nopay_commission']<$cash_lower}javascript:;{else}{php echo $this->createMobileUrl('commission', array('op'=>'cash'));}{/if}" id="cash_btn"><span class="{if $member['nopay_commission']<$cash_lower}disabled{/if}">提现</span></a></div>
+    </div> 
+    <div class="commission-menu"> 
+		<a href="{php echo $this->createMobileUrl('team', array('level'=>'1'));}"><div class="nav nav1"><i class="ico ico-team"></i><div class="title">{php echo $font['my_team'] ? $font['my_team'] : '我的团队';}</div><div class="con"><span>{$total}</span>个成员</div></div></a>
+		<a href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionlog'));}"><div class="nav nav2"><i class="ico ico-commission"></i><div class="title">{php echo $font['commission_log'] ? $font['commission_log'] : '佣金明细';}</div><div class="con">{php echo $font['commission_log'] ? $font['commission_log'] : '佣金明细';}</div></div></a>
+        <a href="{$posterUrl}"><div class="nav nav3"><i class="ico ico-qrcode"></i><div class="title">{php echo $font['poster'] ? $font['poster'] : '推广海报';}</div><div class="con">{php echo $font['poster'] ? $font['poster'] : '推广海报';}</div></div></a>        
+    </div>
+</div>
+
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+
+{if $member['nopay_commission']<$cash_lower}
+<script type="text/javascript">
+var cash_lower = {php echo $cash_lower;};
+$("#cash_btn").click(function(){
+	alert("当前提现最低额度为"+cash_lower+"元");
+});
+</script>
+{/if}
+
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+wx.ready(function(){
+	var shareData = {
+		title: "{$sharelink['title']} - {$setting['sitename']} - {$_W['account']['name']}",
+		desc: "{$sharelink['desc']}",
+		link: "{php echo $shareurl;}",
+		imgUrl: "{php echo $_W['attachurl'];}{$sharelink['images']}",
+		trigger: function (res) {},
+		complete: function (res) {},
+		success: function (res) {},
+		cancel: function (res) {},
+		fail: function (res) {}
+	};
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	wx.onMenuShareQZone(shareData);
+	
+});
+</script>
+
+{template '_footerv2'}

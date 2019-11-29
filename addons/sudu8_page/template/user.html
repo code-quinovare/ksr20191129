@@ -1,0 +1,130 @@
+{template 'common/header'}
+
+<div style="height:80px">
+	<h3 style="float: left;margin-top: 0;">用户管理</h3>
+</div>
+{if $op == 'display'}
+<div>
+	<table class="table we7-table table-hover article-list vertical-middle">
+        <tr>
+            <td>ID</td>
+            <td>头像</td>
+            <td>昵称</td>
+            <td>首次登录</td>
+            <td>姓名</td>
+            <td>手机号</td>
+            <td>地址</td>
+            <td>订单数</td>
+            <td>优惠券数</td>
+            <td>优惠券核销</td>
+        </tr>
+        <tbody id="shujl">
+        {loop $user $item}
+            <tr>
+                <td >
+                    {$item['id']}  
+                </td>
+                <td>
+                    <img src="{$item['avatar']}" width="50px">
+                </td>
+                <td>
+                    {$item['nickname']}
+                </td>
+                <td>
+                    {php echo date('Y-m-d H:i:s', $item['createtime'])}
+                </td>
+                <td>
+                    {$item['realname']}
+                </td>
+                <td>
+                    {$item['mobile']}
+                </td>
+                <td>
+                    {$item['address']}
+                </td>
+                <td>
+                    <a href="{php echo $this->createWeburl('orders', array('openid' => $item['openid'], 'op' =>'yh'))}">
+                    {$item['orders']}
+                    </a>
+                </td>
+                <td>
+                    {$item['coupon']}
+                </td>
+                <td>
+                    <a class="btn btn-default btn-sm" href="{php echo $this->createWeburl('user', array('uid' => $item['id'], 'op' =>'couspon'))}" >
+                        核销
+                    </a>
+                </td>
+            </tr>
+
+        {/loop}
+        </tbody>
+
+
+    </table>
+    <div id="fenye">
+        {$pager}
+    </div>
+    
+</div>
+{/if}
+
+{if $op == 'couspon'}
+    
+    <div>
+        <table class="table we7-table table-hover article-list vertical-middle">
+            <tr>
+                <td>标题</td>
+                <td style="width:80px">状态</td>
+                <td style="width:80px">操作</td>
+            </tr>
+            <tbody id="shujl">
+            {loop $coupon $item}
+                <tr>
+                    <td>
+                        {$item['title']}
+                    </td>
+                    <td>
+                        {if $item['flag'] == 0}
+                            未使用
+                        {/if}
+                        {if $item['flag'] == 1}
+                            已使用
+                        {/if}
+                        {if $item['flag'] == 2}
+                            已过期
+                        {/if}
+
+                    </td>
+                    <td>
+                        {if $item['flag'] == 0}
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWeburl('user', array('id' => $item['id'],'uid' => $item['uid'], 'op' =>'cousponpass'))}" >
+                                核销
+                            </a>
+                        {/if}
+                    </td>
+                </tr>
+
+            {/loop}
+            </tbody>
+
+
+        </table>
+        <div id="fenye">
+            {$pager}
+        </div>
+        
+    </div>
+    
+
+
+{/if}
+
+
+
+
+
+
+
+
+{template 'common/footer'}

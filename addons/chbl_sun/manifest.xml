@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://bbs.bcb5.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[吃货部落]]></name>
+		<identifie><![CDATA[chbl_sun]]></identifie>
+		<version><![CDATA[1.7]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[吃货部落]]></ability>
+		<description><![CDATA[小程序、商城]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[http://bbs.bcb5.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports><item type="wxapp" /></supports>
+    
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="系统首页" do="index" state="" direct="false" />
+		</menu>
+		<page>
+			<entry title="首页" do="/chbl_sun/pages/index/index" state="" direct="false" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `chbl_sun_account`;
+DROP TABLE IF EXISTS `chbl_sun_active`;
+DROP TABLE IF EXISTS `chbl_sun_activerecord`;
+DROP TABLE IF EXISTS `chbl_sun_ad`;
+DROP TABLE IF EXISTS `chbl_sun_address`;
+DROP TABLE IF EXISTS `chbl_sun_area`;
+DROP TABLE IF EXISTS `chbl_sun_banner`;
+DROP TABLE IF EXISTS `chbl_sun_bargain`;
+DROP TABLE IF EXISTS `chbl_sun_car`;
+DROP TABLE IF EXISTS `chbl_sun_car_my_tag`;
+DROP TABLE IF EXISTS `chbl_sun_car_tag`;
+DROP TABLE IF EXISTS `chbl_sun_car_top`;
+DROP TABLE IF EXISTS `chbl_sun_carpaylog`;
+DROP TABLE IF EXISTS `chbl_sun_comments`;
+DROP TABLE IF EXISTS `chbl_sun_commission_withdrawal`;
+DROP TABLE IF EXISTS `chbl_sun_coupon_order`;
+DROP TABLE IF EXISTS `chbl_sun_distribution`;
+DROP TABLE IF EXISTS `chbl_sun_earnings`;
+DROP TABLE IF EXISTS `chbl_sun_fabuset`;
+DROP TABLE IF EXISTS `chbl_sun_fx`;
+DROP TABLE IF EXISTS `chbl_sun_fxset`;
+DROP TABLE IF EXISTS `chbl_sun_fxuser`;
+DROP TABLE IF EXISTS `chbl_sun_gift`;
+DROP TABLE IF EXISTS `chbl_sun_gift_order`;
+DROP TABLE IF EXISTS `chbl_sun_goods`;
+DROP TABLE IF EXISTS `chbl_sun_goods_spec`;
+DROP TABLE IF EXISTS `chbl_sun_groups`;
+DROP TABLE IF EXISTS `chbl_sun_hblq`;
+DROP TABLE IF EXISTS `chbl_sun_help`;
+DROP TABLE IF EXISTS `chbl_sun_hotcity`;
+DROP TABLE IF EXISTS `chbl_sun_in`;
+DROP TABLE IF EXISTS `chbl_sun_information`;
+DROP TABLE IF EXISTS `chbl_sun_label`;
+DROP TABLE IF EXISTS `chbl_sun_like`;
+DROP TABLE IF EXISTS `chbl_sun_mylabel`;
+DROP TABLE IF EXISTS `chbl_sun_news`;
+DROP TABLE IF EXISTS `chbl_sun_order`;
+DROP TABLE IF EXISTS `chbl_sun_paylog`;
+DROP TABLE IF EXISTS `chbl_sun_share`;
+DROP TABLE IF EXISTS `chbl_sun_shop_car`;
+DROP TABLE IF EXISTS `chbl_sun_sms`;
+DROP TABLE IF EXISTS `chbl_sun_spec_value`;
+DROP TABLE IF EXISTS `chbl_sun_store`;
+DROP TABLE IF EXISTS `chbl_sun_store_active`;
+DROP TABLE IF EXISTS `chbl_sun_store_wallet`;
+DROP TABLE IF EXISTS `chbl_sun_storein`;
+DROP TABLE IF EXISTS `chbl_sun_storepaylog`;
+DROP TABLE IF EXISTS `chbl_sun_storetype`;
+DROP TABLE IF EXISTS `chbl_sun_storetype2`;
+DROP TABLE IF EXISTS `chbl_sun_system`;
+DROP TABLE IF EXISTS `chbl_sun_tab`;
+DROP TABLE IF EXISTS `chbl_sun_top`;
+DROP TABLE IF EXISTS `chbl_sun_type`;
+DROP TABLE IF EXISTS `chbl_sun_type2`;
+DROP TABLE IF EXISTS `chbl_sun_tzpaylog`;
+DROP TABLE IF EXISTS `chbl_sun_user`;
+DROP TABLE IF EXISTS `chbl_sun_user_active`;
+DROP TABLE IF EXISTS `chbl_sun_user_bargain`;
+DROP TABLE IF EXISTS `chbl_sun_user_groups`;
+DROP TABLE IF EXISTS `chbl_sun_user_vipcard`;
+DROP TABLE IF EXISTS `chbl_sun_userformid`;
+DROP TABLE IF EXISTS `chbl_sun_userinfo`;
+DROP TABLE IF EXISTS `chbl_sun_vipcard`;
+DROP TABLE IF EXISTS `chbl_sun_withdrawal`;
+DROP TABLE IF EXISTS `chbl_sun_yellowpaylog`;
+DROP TABLE IF EXISTS `chbl_sun_yellowset`;
+DROP TABLE IF EXISTS `chbl_sun_yellowstore`;
+DROP TABLE IF EXISTS `chbl_sun_yingxiao`;
+DROP TABLE IF EXISTS `chbl_sun_yjset`;
+DROP TABLE IF EXISTS `chbl_sun_yjtx`;
+DROP TABLE IF EXISTS `chbl_sun_zx`;
+DROP TABLE IF EXISTS `chbl_sun_zx_assess`;
+DROP TABLE IF EXISTS `chbl_sun_zx_type`;
+DROP TABLE IF EXISTS `chbl_sun_zx_zj`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

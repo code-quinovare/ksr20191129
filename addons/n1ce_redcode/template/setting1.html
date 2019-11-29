@@ -1,0 +1,321 @@
+{template 'common/header'} 
+<script>
+require(['bootstrap.switch', 'util'], function($, u){
+	$(function(){
+		$('.make-switch').bootstrapSwitch();
+	});
+});
+</script>
+<div class="main">
+<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+  <div class="panel panel-info">
+    <div class="panel-heading">服务号参数</div>
+    <div class="panel-body">
+	  <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">上次调用红包API</label>
+        <div class="col-sm-9">
+		{if $settings['api']['error']}
+          <kbd>发送错误原因:</kbd>  <span class="label label-danger">{$settings['api']['error']}</span>
+		{else}
+		<span class="label label-success">调用正常</span>
+		{/if}
+        </div>
+      </div>
+	  <div class="form-group">
+		<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">是否借权</label>
+		<div class="col-xs-12 col-sm-9">
+			<label class="radio-inline"><input type="radio" name="brrow"
+			 value="1" {if $settings['brrow'] !== 2}checked="checked" {/if}>不开启</label>
+			 <label class="radio-inline"><input type="radio" name="brrow"
+			 value="2" {if $settings['brrow'] == 2}checked="checked" {/if}>开启</label>
+			 <div class="help-block"><kbd>开启借权后需要前往-功能选项-借用oAuth授权-选择所借用的公众号</kbd></div>
+		</div>
+      </div>
+	  <div class="form-group">
+		<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">开启服务商发红包</label>
+		<div class="col-xs-12 col-sm-9">
+			{if $no_exists}
+			{php echo $no_exists}
+			{else}
+			<label class="radio-inline"><input type="radio" name="affiliate"
+			 value="1" {if $settings['affiliate'] !== 2}checked="checked" {/if}onClick="$('#self_red').show();">不开启</label>
+			 <label class="radio-inline"><input type="radio" name="affiliate"
+			 value="2" {if $settings['affiliate'] == 2}checked="checked" {/if} onClick="$('#self_red').hide();">开启</label>
+			 <div class="help-block"><kbd>开启服务商发红包的话上面的借权不要开启</kbd></div>
+			 {/if}
+		</div>
+      </div>
+	  <div id="self_red" {if $settings['affiliate'] == 2}style="display:none;"{/if}>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>AppId</label>
+        <div class="col-sm-9">
+          <input type="text" name="appid" value="{$settings['appid']}" class="form-control"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>AppSecret</label>
+        <div class="col-sm-9">
+          <input type="text" name="appsecret" value="{$settings['appsecret']}" class="form-control"/>
+        </div>
+      </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商户号</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$settings['pay_mchid']}" class="form-control" name="pay_mchid">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商户密钥</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$settings['pay_signkey']}" class="form-control" name="pay_signkey">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#rootca').click()">{if $settings['rootca']}{$settings['rootca']}{else}上传{/if}</button>
+        {if $settings['rootca']}<span class="label label-danger">已上传rootca.pem</span>{else}请上传rootca.pem{/if}
+        <input type="hidden" name="rootca2" value="{$settings['rootca']}"/>
+        <input type="file" name="rootca" id="rootca"  style="display:none;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#apiclient_cert').click()">{if $settings['apiclient_cert']}{$settings['apiclient_cert']}{else}上传{/if}</button>
+		{if $settings['apiclient_cert']}<span class="label label-danger">已上传apiclient_cert.pem</span>{else}请上传apiclient_cert.pem{/if}
+        <input type="hidden" name="apiclient_cert2" value="{$settings['apiclient_cert']}"/>
+        <input type="file" name="apiclient_cert" value="{$settings['apiclient_cert']}" id="apiclient_cert" style="display:none;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#apiclient_key').click()">{if $settings['apiclient_key']}{$settings['apiclient_key']}{else}上传{/if}</button>
+		{if $settings['apiclient_key']}<span class="label label-danger">已上传apiclient_cert.pem</span>{else}请上传apiclient_key.pem{/if}
+        <input type="hidden" name="apiclient_key2" value="{$settings['apiclient_key']}"/>
+        <input type="file" name="apiclient_key" id="apiclient_key" style="display:none;">
+      </div>
+    </div>
+    
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>*</span>活动名称</label>
+		<div class="col-sm-8">
+			<input type="text" name="act_name" class="form-control" value="{$settings['act_name']}" />
+			<div class="help-block"><code>必填1-10个字以内,包含标点符号</code></div>
+		</div>
+	</div>			
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>*</span>祝福语</label>
+		<div class="col-sm-8">
+			<input type="text" name="wishing" class="form-control" value="{$settings['wishing']}" />
+			<div class="help-block"><code>必填1-10个字以内,包含标点符号</code></div>
+		</div>
+	</div>				
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>*</span>备注信息</label>
+		<div class="col-sm-8">
+			<input type="text" name="remark" class="form-control" value="{$settings['remark']}" />
+			<div class="help-block"><code>必填</code></div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>*</span>商户名称</label>
+		<div class="col-sm-8">
+			<input type="text" name="send_name" class="form-control" value="{$settings['send_name']}" />
+			<div class="help-block"><code>必填1-10个字以内,包含标点符号</code></div>
+		</div>
+	</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">管理员openid</label>
+		<div class="col-sm-8">
+			<input type="text" name="mopenid" class="form-control" value="{$settings['mopenid']}" />
+			<div class="help-block">在粉丝营销-找到粉丝openid，可以在红包发放失败提醒管理员！</div>
+		</div>
+		
+	</div>
+  </div>
+  
+  <div class="panel panel-info">
+            <div class="panel-heading">粉丝可领取总次数</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">限制领取次数</label>
+					<div class="col-xs-12 col-sm-9">
+						<label class="radio-inline"><input type="radio" name="xianzhi"
+						 value="1" {if $settings['xianzhi'] !== 2}checked="checked" {/if}onClick="$('#numlimit').hide();">不开启</label>
+						 <label class="radio-inline"><input type="radio" name="xianzhi"
+						 value="2" {if $settings['xianzhi'] == 2}checked="checked" {/if} onClick="$('#numlimit').show();">开启</label>
+					</div>
+				</div>
+				<div class="form-group" id="numlimit" {if $settings['xianzhi'] == 1 || empty($settings['xianzhi'])}style="display:none;" {/if}>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">限制粉丝领取</label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10" style="padding: 0">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="getnum" value="{$settings['getnum']}">
+                                    <span class="input-group-addon">次奖品</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+            
+  </div>
+  <div class="panel panel-info">
+            <div class="panel-heading">粉丝每天领取次数</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">次数</label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10" style="padding: 0">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="today_num" value="{$settings['today_num']}">
+                                    <span class="input-group-addon">次奖品</span>
+                                </div>
+                            </div>
+                        </div>
+						<div class="help-block">留空或者0为不限制</div>
+                    </div>
+                </div>
+			</div>
+  </div>
+  <div class="panel panel-danger">
+            <div class="panel-heading">是否开启资料收集(此处为简单的收集粉丝姓名号码,不建议使用)</div>
+			<div class="panel-body">
+			<div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">资料收集</label>
+					<div class="col-xs-12 col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="userinfo"
+                         value="1" {if $settings['userinfo'] !== 2}checked="checked" {/if}>不开启</label>
+						 <label class="radio-inline"><input type="radio" name="userinfo"
+                         value="2" {if $settings['userinfo'] == 2}checked="checked" {/if}>开启</label>
+                    </div>
+            </div>
+			</div>
+            
+  </div>
+  <div class="panel panel-info">
+	<div class="panel-heading">提示语设置</div>
+	<div class="panel-body">
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendred" value="{$settings['sendred']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包发放失败提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendbad" value="{$settings['sendbad']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称，余额不足或者服务器波动会造成粉丝领取失败的提示语</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">卡券发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendcard" value="{$settings['sendcard']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">积分发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendcredit" value="{$settings['sendcredit']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称,|#积分#|代表所获得的积分,可加入a标签超链接</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">验证码错误提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="wrong" value="{$settings['wrong']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">卡密被使用提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="islater" value="{$settings['islater']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">限制重复领取提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="isget" value="{$settings['isget']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">超每天领取次数提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="todayget" value="{$settings['todayget']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+    </div>
+	</div>
+  </div>
+  
+  <div class="panel panel-default">
+	<div class="panel-heading">网页领取红包设置</div>
+	<div class="panel-body">
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">未关注跳转URL</label>
+        <div class="col-sm-9">
+          <input type="text" name="surl" value="{$settings['surl']}" class="form-control"/>
+		  <div class="help-block"><kbd>此处为网页领取入口的引导关注链接,链接例如:http://www.baidu.com</kbd></div>
+        </div>
+		
+    </div>
+	</div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">有赞API信息-适用有赞商城积分</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">AppID（应用ID）</label>
+        <div class="col-sm-9">
+          <input type="text" name="yzappId" value="{$settings['yzappId']}" class="form-control"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">AppSecret（应用密钥）</label>
+        <div class="col-sm-9">
+          <input type="text" name="yzappSecret" value="{$settings['yzappSecret']}" class="form-control"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-sm-12">
+    <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+    <input type="hidden" name="token" value="{$_W['token']}" />
+  </div>
+  
+</form>
+</div>
+<script>
+require(['jquery','util'], function($, util){
+	$(function(){
+		$('#icon1,#icon2,#icon3,#icon4').click(function(){
+			var types=$(this).attr("btnid");
+			util.iconBrowser(function(ico){
+				$('#icon_ipt'+types).val(ico);
+				$('#icon_show'+types+' i').attr("class",ico);
+				
+			});
+		});
+	});
+});
+</script> 
+{template 'common/footer'}

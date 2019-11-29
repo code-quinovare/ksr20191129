@@ -1,0 +1,379 @@
+{template 'common/header'}
+<div class="col-xs-12 col-sm-9 col-lg-10">
+    <ul class="nav nav-tabs">
+        <li {if $_GPC['action']==''}class="active"{/if}><a href="{php echo $this->createWebUrl('House',array('action'=>''))}">房型列表</a></li>
+        <li {if $_GPC['action']=='add'}class="active"{/if}><a href="{php echo $this->createWebUrl('House',array('action'=>'add'))}">添加房型</a></li>
+    </ul>
+</div>
+{if $_GPC['action'] == ""}
+<div class="main panel panel-default" style="margin-top:85px;">
+    <div class="panel-body table-responsive">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+            <tr>
+                <th style="width:70px;">ID</th>
+                <th style="width:150px;">房型名称</th>
+                <th style="width:150px;">房型类型</th>
+                <th style="width:120px;">房型主图</th>
+                <th>房间价格</th>
+                <th style="">剩余数量</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $set $v}
+            <tr>
+                <td>{$v['id']}</td>
+                <td>{$v['title']}</td>
+                <td>{$v['class']}</td>
+                <td><img src="{php echo tomedia($v['img'])}" width="30px" height="30px"></td>
+                <td>{$v['price']}元</td>
+                <td>{$v['shengyu']}件</td>
+                <td style="text-align:left;">
+                    <a href="{php echo $this->createWebUrl('House',array('action'=>'bianji', 'id' => $v['id']));}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="修改"><i class="fa fa-edit"></i></a>
+                    <a onclick="if (confirm('确定删除？')){ location.href='{php echo $this->createWebUrl('House',array('action'=>'delete', 'id' => $v['id']))}';}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+
+{/if}
+
+
+{if $_GPC['action'] == 'add'}
+<div class="" style="margin-top:75px;">
+    <form class="form-horizontal form" action="{php echo $this->createWebUrl('House',array('action'=>'add'))}" method="post" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">添加房型</div>
+            <div class="panel-body">
+                <input type="hidden" name="id" value="">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">房型名称</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="title" value="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店地址</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="address" value="" class="form-control" placeholder="请输入酒店地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理经度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jingdu" value="" class="form-control" placeholder="请输酒店经度">
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理纬度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="weidu" value="" class="form-control" placeholder="请输入酒店纬度">
+                        <div style="margin-top:5px;color:blue"><a href="http://lbs.qq.com/tool/getpoint/" target="_blank">点击跳转腾讯坐标拾取器</a></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">房型类型</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="class" value="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">房型主图</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('img');}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">价格</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="price" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">剩余数量</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shengyu" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">上网</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shangwang" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">卫浴</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="weiyu" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">窗户</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="chuanghu" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">可住</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="kezhu" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">床型</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="chuangxing" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">早餐</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="zaocan" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">说明</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="一句话说明，用于房型列表页面" name="shuoming" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">退款</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="tuikuan" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">使用</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shiyong" value="">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">使用类型</label>
+                    <div class="col-sm-9 col-xs-12" style="margin-top:8px;">
+                        全日房:<input type="radio" name="rooms" value="1">&nbsp;&nbsp;
+                        钟点房:<input type="radio" name="rooms" value="2">&nbsp;&nbsp;包夜房:<input type="radio" name="rooms" value="2">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐</label>
+                    <div class="col-sm-9 col-xs-12" style="margin-top:8px;">
+                        是:<input type="radio" name="is_rem" value="1">&nbsp;&nbsp;
+                        否:<input type="radio" name="is_rem" value="0">&nbsp;&nbsp;
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="97814b21" />
+            </div>
+        </div>
+    </form>
+</div>
+
+{/if}
+
+
+{if $_GPC['action'] == 'bianji'}
+<div class="" style="margin-top:75px;">
+    <form class="form-horizontal form" action="{php echo $this->createWebUrl('House',array('action'=>'bianji','id'=>$res['id']))}" method="post" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">编辑房型</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">房型名称</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="title" value="{$res['title']}">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店地址</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="address" value="{$res['address']}" class="form-control" placeholder="请输入酒店地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理经度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jingdu" value="{$res['jingdu']}" class="form-control" placeholder="请输酒店经度">
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理纬度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="weidu" value="{$res['weidu']}" class="form-control" placeholder="请输入酒店纬度">
+                        <div style="margin-top:5px;color:blue"><a href="http://lbs.qq.com/tool/getpoint/" target="_blank">点击跳转腾讯坐标拾取器</a></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">房型类型</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="class" value="{$res['class']}">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">房型主图</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('img',$res['img']);}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">价格</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="price" value="{$res['price']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">剩余数量</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shengyu" value="{$res['shengyu']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">上网</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shangwang" value="{$res['shangwang']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">卫浴</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="weiyu" value="{$res['weiyu']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">窗户</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="chuanghu" value="{$res['chuanghu']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">可住</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="kezhu" value="{$res['kezhu']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">床型</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="chuangxing" value="{$res['chuangxing']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">早餐</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="zaocan" value="{$res['zaocan']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">说明</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="一句话说明，用于房型列表页面" name="shuoming" value="{$res['shuoming']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">退款</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="tuikuan" value="{$res['tuikuan']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">使用</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" placeholder="" name="shiyong" value="{$res['shiyong']}">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">使用类型</label>
+                    <div class="col-sm-9 col-xs-12" style="margin-top:8px;">
+                        全日房:<input type="radio" name="rooms" value="1" {if $res['rooms']==1}checked{/if}>&nbsp;&nbsp;
+                        钟点房:<input type="radio" name="rooms" value="2" {if $res['rooms']==2}checked{/if}>&nbsp;&nbsp;
+                        包夜房:<input type="radio" name="rooms" value="3" {if $res['rooms']==3}checked{/if}>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐</label>
+                    <div class="col-sm-9 col-xs-12" style="margin-top:8px;">
+                        是:<input type="radio" {if $res['is_rem']==1}checked{/if} name="is_rem" value="1">&nbsp;&nbsp;
+                        否:<input type="radio" {if $res['is_rem']==0}checked{/if} name="is_rem" value="0">&nbsp;&nbsp;
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+            </div>
+        </div>
+    </form>
+</div>
+
+{/if}
+
+
+{template 'common/footer'}

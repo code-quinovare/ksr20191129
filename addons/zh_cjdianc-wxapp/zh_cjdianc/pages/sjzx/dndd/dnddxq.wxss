@@ -1,0 +1,11 @@
+@import "../../wddd/ddxq.wxss";
+
+.kttext {
+    font-weight: normal;
+    font-size: 24rpx;
+    color: #999;
+}
+
+.ddinfo {
+    padding-bottom: 0;
+}

@@ -1,0 +1,188 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .nav-tabs>li>a:hover{
+        color: #333;
+        border-color: #31C2A5;
+        background-color: white;
+    }
+    .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .nav.nav-tabs{border-color: #31C2A5;margin-top: 30px;}
+    .panel-body>.active{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .yg_limit{
+      height: 35px;
+      border: 1px solid #e5e5e5;
+      float: left;
+      border-radius: 6px;
+    }
+    .yg_active{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .yg_limittr{border-radius: 6px;}
+    .yg_limittr>td{padding: 0px 15px;border: 1px solid #e5e5e5;}
+    .yg_label{float: left;line-height: 35px;}
+    @media all and (min-width: 1400px) {
+        .yg-box1{width: 33%;height: 36px;float: left;}
+        .yg-box2{width: 27%;height: 36px;float: left;}
+        .yg-box3{width: 20%;height: 36px;float: left;}
+        .yg-box4{width: 10%;height: 36px;float: left;}
+    }
+    @media all and (max-width: 1399px) {
+        .yg-box4,.yg-box3,.yg-box2,.yg-box1{width: 49%;margin-bottom: 15px;height: 36px;float: left;}
+    }
+    
+</style>
+<ul class="nav nav-tabs">    
+    <li class="active"><a href="{php echo $this->createWebUrl('yg')}">提现管理</a></li>
+    <li ><a href="{php echo $this->createWebUrl('yg2')}">提现设置</a></li>
+</ul>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-primary" href="javascript:location.reload()"><i class="fa fa-refresh"></i>刷新</a>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            筛选查询
+        </div>
+        <div class="panel-body">
+             <div class="yg-box1">
+                <div class="yg_label">提现状态：</div>
+                <table class="yg_limit">
+                    <tr class="yg_limittr">
+                        <td class="yg_active">不限</td>
+                        <td>待处理</td>
+                        <td>已提现</td>
+                        <td>提现失败</td>
+                    </tr>
+                </table>
+             </div>  
+             <div class="yg-box2">
+                <div class="yg_label">帐号类型：</div>
+                <table class="yg_limit">
+                    <tr class="yg_limittr">
+                        <td class="yg_active">不限</td>
+                        <td>微信</td>
+                        <td>支付宝</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="yg-box3">
+                <div class="input-group" style="width: 100px">
+                    {php echo tpl_form_field_daterange('time');}
+                    <span class="input-group-btn"></span>
+                </div><!-- /input-group -->
+            </div>
+            <div class="yg-box4">
+                <button class="btn btn-info" style="width: 100px">搜索</button>
+            </div>
+        </div>
+     </div>
+ </div>
+ <div class="panel panel-default">
+   <div class="panel-heading">
+    门店列表
+   </div>
+   <div class="">
+    <form action="" method="post" class="form-horizontal form" >
+        <input type="hidden" name="storeid" value="{$storeid}" />
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="navbar-inner">
+                    <tr>
+                        <th style="width:200px;">申请时间</th>
+                        <th>提现金额</th>
+                        <th>手续费</th>
+                        <th>到账金额</th>
+                        <th>帐号信息</th>
+                        <th>所属门店</th>
+                        <th>状态</th>
+                        <th style="width:180px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="level-list">
+                    <tr>
+                        <td><div class="type-parent">2017-10-20&nbsp;&nbsp;</div></td>
+                        <td>
+                            <div class="type-parent">2000.00元&nbsp;&nbsp;</div>
+                        </td>
+                        <td><div class="type-parent">5元&nbsp;&nbsp;</div></td>
+                        <td><div class="type-parent">1995.00元&nbsp;&nbsp;</div></td>
+                        <td>微信</td>
+                        <td>蛋糕咖啡</td>
+                        <td><span style="color: #67d5b5">待处理</span><span>已提现</span><span style="color: #FFC125">提现失败</span></td>
+                        <td style="">
+                        <a class="btn btn-info btn-sm" href="{php echo $this->createWebUrl('ad', array('op' => 'post', 'id' => $row['id']))}" title="编辑">编辑</a>
+                        <a class="btn btn-info btn-sm" href="{php echo $this->createWebUrl('ad', array('op' => 'post', 'id' => $row['id']))}" title="管理">管理</a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+                        删除
+                      </button>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            确定删除么？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl('ad', array('op' => 'delete', 'id' => $row['id']))}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- {loop $list $row}
+                    <tr>
+                        <td><div class="type-parent">{$row['id']}&nbsp;&nbsp;</div></td>
+                        <td>
+                            <div class="type-parent">{$row['title']}&nbsp;&nbsp;</div>
+                            <div class="type-parent label label-info">{if $row['type'] == 1}首页幻灯片{/if}</div>
+                        </td>
+                        <td><div class="type-parent"><img height="40" src="{media $row['image']}">&nbsp;&nbsp;</div></td>
+                        <td><div class="type-parent">{$row['link']}&nbsp;&nbsp;</div></td>
+                        <td>2017-10-10</td>
+                        <td style="text-align:right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('ad', array('op' => 'post', 'id' => $row['id']))}" title="编辑">改</a>&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('ad', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除吗？');return false;" title="删除">删</a></td>
+                    </tr>
+                    {/loop} -->
+                    <!-- <tr>
+                        <td colspan="3">
+                            <input name="submit" type="submit" class="btn btn-primary" value="批量更新排序">
+                            <input type="hidden" name="token" value="{$_W['token']}" />
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </form>
+   </div> 
+</div>
+</div>
+{$pager}
+</div>
+
+<!-- {template 'common/footer'} -->
+<script type="text/javascript">  
+  $(function(){
+    $(".yg_limittr>td").click(function(){
+        $(this).addClass('yg_active').siblings().removeClass("yg_active");
+    })
+  })
+</script>

@@ -1,0 +1,134 @@
+{template 'common/myheader'}
+	<div class="guy_top">
+		<li class="authicon guy_headimg">
+			<img src="{$guyinfo['avatar']}">
+			<img src="http://hangjia.qiniudn.com/FkByoAtvOecYlsQp1xT9IXgA7l4H">
+		</li>
+		<li><span class="item_nickname">{$guyinfo['nickname']}</span></li>
+		<li class="guy_desc">{$guyinfo['guydesc']}</li>
+	</div>
+	
+	<div class="guy_center">
+	
+		<li class="guy_credit">		
+			{if $guyinfo['guytype'] == 1}
+				发布:{$guyinfo['pubnumber']} 采纳:{$guyinfo['acceptnumber']}
+			{elseif $guyinfo['guytype'] == 2}
+				回复:{$guyinfo['replynumber']} 被采纳:{$guyinfo['acceptednumber']}
+			{/if}
+				<font class="font_13px_999">保证金:<font><font class="font_ff5f27">{$guyinfo['deposit']}</font><font class="font_13px_999">元<font>
+			<span class="guylist_targericon fr" data-uid="{$guyinfo['uid']}">
+				{if $isfocus == 0}
+					<span class="ti-plus focus" data-status="0"></span>
+				{elseif $isfocus == 1}
+					<span class="ti-minus focused" data-status="1"></span>
+				{/if}
+			</span>
+		</li>
+		<li class="guy_contact">联系他 
+			<p class="fr">
+				<a {if $guyinfo['contacttype'] == 1 || $guyinfo['contacttype'] == 3}href="tel:{$guyinfo['mobile']}"{else}id="guy_nomobile"{/if}><span class="ti-mobile"></span></a>
+				<span id="guy_viewqrcode" {if $guyinfo['contacttype'] == 2 || $guyinfo['contacttype'] == 3}data-src="{php echo tomedia($guyinfo['qrcode'])}"{/if} class="ti-id-badge"></span>
+			</p>
+		</li>
+	</div>
+	
+	<div class="guy_givetask">
+		<li>
+			<span class="givetask_btn fr">{if $guyinfo['guytype']== '2'}给他发个私包任务{elseif $guyinfo['guytype'] == '1'}索要私包任务{/if}</span>
+		</li>
+		<span class="guy_notice font_13px_999">
+		{if $guyinfo['guytype']== '2'}
+			提示:给他发一个私包任务后，对方会接到通知，执行完任务后提交确认，您确认后才会将钱支付到对方的余额中。
+			对方在指定时间内没有处理，钱会自动退回您的账户。
+		{elseif $guyinfo['guytype']== '1'}
+			提示:向对方索要私包任务后，对方会接到通知，对方会进行支付或者取消，
+			对方支付后您就可以执行任务了，您执行完后提交，对方确认后，收益会支付到您的账户中。
+		{/if}
+		（平台使用费从任务执行者收益中扣除，平台服务费率{php echo $this->module['config']['servermoney']}%,最低{php echo $this->module['config']['leastserver']}元。）
+		</span>		
+	</div>
+	
+	<div class="guy_tasklist">	
+	</div>
+	
+	<!-- 任务框 -->
+<div id="sideup_guy">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideup_guy_down" id="weui_actionsheet">
+            <div class="weui_actionsheet_menu sideup_guy_body">
+				{if $guyinfo['guytype'] == '1'}
+					<div class="weui_cell guy_task_item">
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea class="weui_textarea border_bottom" name="tasktitle" placeholder="请在此输入您索要的任务内容" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="guy_task_item weui_cells_form">
+						<div class="weui_cell guy_task_input">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" name="taskmoney" type="number" placeholder="请在此输入您要求的赏金">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								要求赏金
+							</div>
+						</div>
+					</div>
+					<div class="guy_task_item weui_cells_form">
+						<div class="weui_cell guy_task_input">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" name="tasktime" type="tel" placeholder="您完成任务的时限，以小时为单位">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								完成时限
+							</div>
+						</div>
+					</div>
+				{elseif $guyinfo['guytype']== '2'}
+					<div class="weui_cell guy_task_item">
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea class="weui_textarea border_bottom" name="tasktitle" placeholder="请在此输入任务要求" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="overflow_hidden guy_task_item">
+						<ul class="pub_images_box fl upload_images_views">
+						</ul>
+						<div class="ti-plus fl upload_btn" id="pub_upload_images"></div>
+					</div>
+					<div class="guy_task_item weui_cells_form">
+						<div class="weui_cell guy_task_input">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" name="taskmoney" type="number" placeholder="请在此输入赏金金额">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								任务赏金
+							</div>
+						</div>
+					</div>
+					<div class="guy_task_item weui_cells_form">
+						<div class="weui_cell guy_task_input">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" name="tasktime" type="tel" placeholder="请在此输入数字，以小时为单位">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								任务时限
+							</div>							
+						</div>											
+					</div>
+				{/if}
+				
+				<div class="guy_task_item font_13px_999"><p>提示：</p>任务将扣除服务费:
+					<font class="server font_ff5f27">0</font>元，任务完成后执行者能获得收益:
+					<font class="income font_ff5f27">0</font>元。
+				</div>
+            </div>
+			<div class="sideup_guy_bottom">
+				<input type="hidden" value="{$guyinfo['uid']}" name="guyuid">
+				<a href="javascript:;" data-guytype="{$guyinfo['guytype']}" class="fff_button"  id="guy_confirm">确定</a>
+				<a href="javascript:;" value="" class="fff_button" id="actionsheet_cancel">取消</a>	
+			</div>	
+        </div>
+    </div>
+</div>	
+	
+{template 'common/myfooter'}

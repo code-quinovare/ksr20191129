@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.zheyitianshi.com" versionCode="0.8,1.0">
+	<application setting="true">
+		<name><![CDATA[服务商红包]]></name>
+		<identifie><![CDATA[n1ce_redcode_plugin_affiliate]]></identifie>
+		<version><![CDATA[1.6]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[服务商替子商户发红包]]></ability>
+		<description><![CDATA[服务商替子商户发红包]]></description>
+		<author><![CDATA[折翼天使资源社区]]></author>
+		<url><![CDATA[https://www.zheyitianshi.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<plugin-main name="n1ce_redcode" />
+	</platform>
+	<bindings>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

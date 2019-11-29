@@ -1,0 +1,23 @@
+
+	<div class="weui_cells">
+		<div class="weui_cell weui_cell_select weui_select_after">
+			<div class="weui_cell_hd"><label class="weui_label dayu-blue">选择车辆</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<select class="weui_select" id="carselect" name="carselect" data-url="{$car_info['config']['url']}" onchange="fetchgetjs(this)">
+					{loop $allcar $key $c}
+					<option {if $key=='0'}selected="selected"{/if} value="{$c['car']}">（{php echo $key+1}）{$c['car']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div><iframe id="mapPage2" name="mapPage2" width="100px" height="300px" frameborder="0" src="http://www.baidu.com"></iframe>
+	</div>
+				<div class="page-bd" id="car" style="width:100%;height: 100%;overflow: hidden;">
+				</div>
+<script type="text/javascript">
+	function fetchgetjs(obj) {
+		url = "{$car_info['config']['url']}";
+//		alert(url);
+		car=$("#carselect").find("option:selected").val(); 
+		$('#car').html('<iframe id="mapPage" name="mapPage" width="100px" height="300px" frameborder="0" src="'+url+car+'"></iframe>');
+	}
+</script>

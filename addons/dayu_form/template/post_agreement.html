@@ -1,0 +1,33 @@
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">基本设置</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">关键字回复<br>头部简介</label>
+                    <div class="col-xs-12 col-sm-9">
+                         <textarea style="height:80px;" class="form-control" id="description" name="description" cols="70">{$activity['description']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">协议标题</label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                         <input type="text" class="form-control" placeholder="" name="agreement" value="{$activity['agreement']}" /><span class="input-group-addon">设置协议标题后，提交表单必须勾选同意才可提交</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">表单详细说明<br>协议</label>
+                    <div class="col-xs-12 col-sm-9">
+						{php echo tpl_ueditor('content', $activity['content']);}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">提交提示信息</label>
+                    <div class="col-xs-12 col-sm-9">
+                            <textarea type="text" class="form-control"  placeholder="" name="information">{$activity['information']}</textarea>
+                            <span class="help-block">表单提交成功以后提示的信息. 例如: 您的表单我们已经收到, 请等待客服确认. </span>
+                    </div>
+                </div>
+            </div>
+        </div>

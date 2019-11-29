@@ -1,0 +1,156 @@
+.private_top{
+	background:#fff;
+}
+.private_top img{
+    width: 40px;
+    height: 40px;
+}
+.private_top li{
+	padding:5px 10px;
+}
+.top_title{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+.authicon img:nth-of-type(2) {
+    left: 34px;
+    top: 0px;
+}
+.private_top_name .contact{
+    font-size: 20px;
+    margin-left: 10px;
+    display: inline-block;
+    width: 30px;
+    text-align: right;	
+}
+.private_top_name{
+    padding-left: 10px;
+}
+.private_privatetion{
+	background:#fff;
+	margin-top:5px;
+    position: relative;	
+}
+.private_title{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+    overflow: hidden;	
+}
+.private_content{
+    padding: 5px 0;
+    font-size: 15px;
+    min-height: 60px;	
+}
+.private_content_img img{
+    width: 31%;
+    margin-right: 1%;
+    margin-top: 10px;
+    border: 1px solid #ddd;	
+}
+.private_content_title{
+	font-weight:700;
+}
+.private_answer_order{
+	line-height:20px;
+}
+
+.private_answer_main_item{
+    position: relative;
+    margin: 5px 0;
+}
+.private_answer_main_item .left{
+	width:20%;
+}
+.private_answer_main_item .right{
+	width:80%;
+	padding-bottom:5px;
+}
+
+.private_answer_main_item .bottom{
+    text-align: right;
+    padding: 5px 0;	
+	min-height: 20px;	
+}
+.private_answer_main_item .bottom span{
+    border: 1px solid #999;
+    padding: 3px 8px;
+    line-height: 12px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #999;
+    margin-left: 5px;
+    display: inline-block;
+}
+#privateer_accept span{
+	color:#ff5f27;
+	border:1px solid #ff5f27;
+}
+.private_reward{
+	position: absolute;
+    bottom: 7px;
+    color: #ff5f27;
+    transform: rotate(11deg);
+    border: 1px solid;
+    padding: 3px;
+    border-radius: 2px;
+	font-size: 12px;	
+}
+.private_server{
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 5px 10px;
+}
+
+/*°´Å¥*/
+.private_deal{
+	margin-top:10px;
+	text-align:center;
+}
+.private_deal a{
+    color: #fff;
+    background: #ff5f27;
+    padding: 7px 10px;
+    width: 42%;
+    display: inline-block;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.private_deal li{
+    text-align: left;
+    background: #fff;
+    padding: 10px;
+    margin-top: 10px;
+}
+.private_progress{
+	margin-top:5px;
+	background:#fff;
+    padding-bottom: 10px;	
+}
+.private_progress>li,.private_progress>ul{
+    padding: 5px 10px 0 10px;
+}
+.progress_item .item_cell_flex{
+	padding-left:5px;
+}
+#sideup_privatetask .sideuper_body {
+    height: 300px;
+}
+.sideuper_body_item{
+	padding-bottom: 5px!important;
+	text-align:justify;
+	overflow: hidden;
+}
+.sideuper_bottom  input:nth-of-type(3){
+	background:#ddd;
+}
+
+#sideup_complete .sideuper_body {
+    height: 380px;
+}
+
+.complete_box img{
+	width:50px;
+	height:50px;
+	margin:5px 5px 0 0;
+}

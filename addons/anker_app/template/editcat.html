@@ -1,0 +1,38 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">修改分类</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" method="post" action="" name="submit">       	
+			<div class="form-group">
+				<label class="col-sm-2 control-label">分类名称</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control"  name="name" value="{$data[name]}">
+					<input type="hidden" name="token" value="{$_W['token']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">分类图标</label>
+				<div class="col-sm-7">
+					  {php echo tpl_form_field_image('icon',$data['icon']);}
+				</div>
+				<div class="col-sm-3">提示：90*90像素</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">排序</label>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" name="sort" value="{$data[sort]}"> 
+				</div>
+				<div class="col-sm-8">数字越大越靠前</div>
+			</div>
+			<div class="form-group">			
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" name="submit" class="btn btn-default">					
+				</div>
+			</div>
+	</form>
+	{$page}
+    </div>
+</div>
+{template 'common/footer'}

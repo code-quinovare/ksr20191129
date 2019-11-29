@@ -1,0 +1,384 @@
+
+<script type="text/javascript">
+function changeAddress(){
+	location.href = '{php echo $this->createMobileUrl('address', array('from'=>'dayu_yuyuepay','reid'=>$reid,'sid' => $sid,'returnurl' => $returnUrl))}'
+}
+function changeInfo(){
+	location.href = '{php echo $this->createMobileUrl('profile', array('from'=>'dayu_yuyuepay','reid'=>$reid,'sid' => $sid,'returnurl' => $returnUrl))}'
+}
+{if $activity['restrict']==1}
+	var url = "{php echo $this->createMobileUrl('getprice', array('op'=>'num'))}";
+{else}
+	var url = "{php echo $this->createMobileUrl('getprice')}";
+{/if}
+	function check_id(value){
+    var arrExp = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];//加权因子  
+    var arrValid = [1, 0, "X", 9, 8, 7, 6, 5, 4, 3, 2];//校验码  
+    if(/^\d{17}\d|x$/i.test(value)){   
+        var sum = 0, idx;  
+        for(var i = 0; i < value.length - 1; i++){  
+            // 对前17位数字与权值乘积求和  
+            sum += parseInt(value.substr(i, 1), 10) * arrExp[i];  
+        }  
+        // 计算模（固定算法）  
+        idx = sum % 11;  
+        // 检验第18为是否与校验码相等  
+        return arrValid[idx] == value.substr(17, 1).toUpperCase();  
+    }else{  
+        return false;  
+    }  
+}
+	$(".weui_panel_bd div").click(function(){
+		$(this).toggleClass("actvd");
+	});
+function cleanhtml(){
+	$('#dayu').fadeIn();
+	$('#content').hide();
+	$('.content').html('');
+	$('.picker .weui-header-right').html('');
+	$('.footer').html('');
+}
+{if $initCami && pdo_tableexists('dayu_kami')}
+	function checkcard(obj,refid,cid){
+		var card = $("#"+refid).val();
+		$.showLoading('查询中...');
+		$.getJSON('{php echo murl('entry', array('do' => 'CheckCard','m' => 'dayu_kami'), true, true)}', {'op' : 'card', 'id' : cid, 'reid' : '{$reid}', 'card' : card, 'title' : obj.getAttribute("data")}, function(s){
+			if (s.message.status==0) {
+				setTimeout(function() {
+					$.hideLoading();
+				}, 1000);
+				$.alert(s.message.msg, "提示");
+				$("#kami").val("");
+				$("#check_"+refid).html('<svg class="icon f20 f-red" aria-hidden="true"><use xlink:href="#icon-close"></use></svg>');
+			}else if(s.message.status==1){
+				setTimeout(function() {
+					$.hideLoading();
+					$.toast(s.message.message);
+					$("#check_"+refid).html('<svg class="icon f20 f-green" aria-hidden="true"><use xlink:href="#icon-check"></use></svg>');
+				}, 1000);
+			}else{
+				setTimeout(function() {
+					$.hideLoading();
+					$('#mi').html("");
+				}, 1000);
+				$.toast(s.message.msg);
+			}
+		});
+	}
+{/if}
+{if $initOnly}
+	function checkonly(obj,refid){
+		var content = $("#"+refid).val();
+		$.getJSON('{php echo $this->createMobileUrl('checkonly')}', {'reid' : '{$reid}', 'refid' : refid, 'content' : content, 'title' : obj.getAttribute("data")}, function(s){
+			if (s.message.status==0) {
+				$.alert(s.message.msg, "提示");
+				setTimeout(function() {
+					$("#"+refid).val(""); 
+				}, 1000);
+			}
+		});
+	}
+{/if}
+function fetchgetjs(obj,type){
+	cleanhtml();
+	var result = '';
+	var result2 = '';
+	switch (type) {
+		case '0':
+			$('#content').fadeIn();
+			$('#dayu').fadeOut();
+		break;
+		case 1:
+			var result = '';
+			var result2 = '';
+			var xmid = $("#xmid").val();
+			var postData = {
+				'op' : 'item',
+				'reid' : '{$reid}',
+				'xmid' : xmid,
+			};
+			$.post("{php echo $this->createMobileUrl('GetData')}",postData,function(data){
+				var tplx = document.getElementById('iteminfo').innerHTML;
+				var arrLen = data.list.length;
+				if(arrLen > 0){
+					var result=tpl(tplx,data);
+				}else{
+					result='<div class="weui_msg"><div class="weui_msg_box"><p>无</p></div></div>';
+				}
+				result2='<div class="weui_btn_area"><a href="javascript:" class="weui_btn bg-blue" onclick="reselect(this,1)">确定</a></div>';
+				$('.content').html(result);
+				$('.footer').html(result2);
+				$('.picker .weui-header-title').html(data.title);
+				$('.picker .weui-header-right').html(data.right);
+			},"json");
+		break;
+		case 2:
+			var result = '';
+			var result2 = '';
+			var result3 = '';
+			var restime = $("#restime").val();
+			$.post("{php echo $this->createMobileUrl('GetData')}",{'op':'time', 'reid':'{$reid}', 'restime':restime},function(data){
+				var tplx = document.getElementById('datelist').innerHTML;
+				var tplt = document.getElementById('timelist').innerHTML;
+				var arrLen = data.list.length;
+				if(arrLen > 0){
+					var result=tpl(tplx,data);
+					var result2=tpl(tplt,data);
+				}
+				result3='<div class="weui_btn_area"><a href="javascript:" class="weui_btn bg-blue" onclick="reselect(this,2)">确定</a></div>';
+				$('.content').html(result);
+				$('#tagnavcontent').html(result2);
+				$('.footer').html(result3);
+		//		console.log(result2);
+				TagNav('#tagnav',{
+					type: 'scrollToFirst',
+				});
+				$('.weui_tab').tab({
+					defaultIndex: 0,
+					activeClass:'weui_bar_item_osn',
+					onToggle:function(index){
+						if(index>0){
+			//				alert(index)
+						}
+					}
+				});
+				$('.picker .weui-header-title').html(data.title);
+			},"json");
+		break;
+	}
+}
+function itemshow(obj,id){
+	$('#i'+id).show();
+}
+function chooseitem(obj,id,price){
+	$("#xmid").val(id);
+//	$(".price").html('<svg class="icon" aria-hidden="true"><use xlink:href="#icon-yuan"></use></svg>'+price);
+	if (price=='0.00') {
+		$("#money").html('<small>免费预约</small>');
+	}else{
+		$("#money").html('<svg class="icon" aria-hidden="true"><use xlink:href="#icon-renminbi"></use></svg>'+price);
+	}
+	$(".weui_media_box").removeClass("actvd");
+	$(obj).toggleClass("actvd");
+//	count_price();
+}
+function reselect(obj,type,id){
+	switch (type) {
+		case 1:
+			var xmid = $("#xmid").val();
+			var c = $(".weui_media_box.actvd .weui_media_title span").text();
+			var item = (!empty(c)) ? c : '';
+			if (empty(xmid)) {
+				$.toast("请选择{$par['xmname']}", "cancel");
+				return false;
+			}
+			$("#item").text(item);
+	//		$('.content').fadeOut();
+	//		$(this).parent().remove();
+			$.closePopup();
+//			count_price();
+		break;
+		case 2:
+		var restime = $("#restime").val();
+			if(restime==''){
+				$.toast('请选择{$activity['yuyuename']}', "cancel");
+				return false;
+			}else{
+				var choosetimes = $("#choosetimes").text();
+				var ii = $("#ii").val();
+				$.post("{php echo $this->createMobileUrl('CheckTime', array('type'=>'all','reid'=>$reid))}",{'ii' : ii, 'restime' : choosetimes},function(s){
+					if (s.message.status == '0') {
+						$.alert(s.message.msg, s.message.title);
+						$("#ii").val('');
+						$("#choosetimes").text('');
+						$("#restime").val('');
+						return;
+					}else{
+						$(".time").html('重选');
+						$("#restime").val(choosetimes);
+					}
+				},"json");
+				$.closePopup();
+			}
+		break;
+	}
+}
+function choosetime(obj,ii){
+	$("#ii").val(ii);
+	$("#choosetimes").text(obj.getAttribute("data"));
+	$("#restime").val(obj.getAttribute("data"));
+	$(".ctime").removeClass("actvd");
+	$(obj).toggleClass("actvd");
+}
+
+$("#showTool").on("click", function(){
+	var rand = Math.floor(Math.random () * 1000) + 1000;
+	$.showLoading('正在提交...');
+		var member = $('#member').val(),
+			mobile = $("#mobile").val(),
+			restime = $("#restime").val(),
+			xmid = $('#xmid').val(),
+			ii = $("#ii").val(),
+			state = '1';
+				{if $par['member']==1}
+					if(member=='' || is_chinese(member) == false){
+						$.hideLoading();
+						$.toast("请正确输入姓名", "forbidden");
+						return false;
+					}
+					if(mobile=='' || is_phone(mobile) == false){
+						$.hideLoading();
+						$.toast("请输入正确的手机号码", "forbidden");
+						return false;
+					}
+				{else if $activity['is_addr']==0}
+					if(member=='' || mobile==''){
+						$.hideLoading();
+						$.toast("请完善资料", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $par['smsid']!=0 && $par['member']==1}
+					var htel=$("#htel").val();
+					var hsms=$("#hsms").val();
+					var tel=$("#mobile").val();
+					var sms=$("#sms").val();
+					if(htel==tel){
+						if(hsms==sms){
+						}else{
+							$.hideLoading();
+							$.toast("请输入正确验证码", "forbidden");
+							return false;
+						}
+					}else{
+						$.hideLoading();
+						$.toast("请获取验证码", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $activity['is_time']!=1}
+					if(restime==''){
+						$.hideLoading();
+						$.toast('请选择{$par['yuyuename']}', "forbidden");
+						return false;
+					}
+				{/if}
+				if(xmid==''){
+					$.hideLoading();
+					$.toast('请选择{$par['xmname']}', "forbidden");
+					return false;
+				}
+					
+				{loop $ds $field}
+				{if $field['type']=='idcard'}
+					if(is_id($('input[name="field_{$field['refid']}_{$field['bind']}"]').val()) == false) {
+						$.hideLoading();
+						$.toast("请正确填写{$field['title']}", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $field['type']=='phone'}
+					if(is_phone($('input[name="field_{$field['refid']}_{$field['bind']}"]').val()) == false) {
+						$.hideLoading();
+						$.toast("请正确填写{$field['title']}", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $field['type']=='tel'}
+					if(is_tel($('input[name="field_{$field['refid']}_{$field['bind']}"]').val()) == false) {
+						$.hideLoading();
+						$.toast("请正确填写{$field['title']}", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $field['type']=='email'}
+					if(is_email($('input[name="field_{$field['refid']}_{$field['bind']}"]').val()) == false) {
+						$.hideLoading();
+						$.toast("请正确填写{$field['title']}", "forbidden");
+						return false;
+					}
+				{/if}
+				{if $field['essential']}
+					{if in_array($field['type'], array('text', 'calendar', 'email', 'range','image','textarea','number', 'select','idcard', 'phone', 'tel', 'cami', 'only'))}
+						if($('input[name="field_{$field['refid']}_{$field['bind']}"]').val() == '' || $('textarea[name="field_{$field['refid']}_{$field['bind']}"]').val() == '') {
+							$.hideLoading();
+							$.toast("{$field['title']} 不能为空", "forbidden");
+							return false;
+						}
+					{/if}
+					{if $field['type']=='radio'}
+						if($('input[name="field_{$field['refid']}_{$field['bind']}"]').val() == '') {
+							$.hideLoading();
+							$.toast("{$field['title']} 不能为空", 'forbidden');
+							return false;
+						}
+					{/if}
+					{if in_array($field['type'], array('image'))}
+						if($('input[name="field_{$field['refid']}_{$field['bind']}"]').val() == '') {
+							$.hideLoading();
+							$.toast("{$field['title']} 必须上传", "forbidden");
+							return false;
+						}
+					{/if}
+					{if in_array($field['type'], array('number'))}
+						var num = parseFloat($('input[name="field_{$field['refid']}_{$field['bind']}"]').val());
+						if(isNaN(num)) {
+							$.hideLoading();
+							$.toast('{$field['title']} 必须输入数字.', "forbidden");
+							return false;
+						}
+					{/if}
+					{if in_array($field['type'], array('email'))}
+						var mail = $(':text[name="field_{$field['refid']}_{$field['bind']}"]').val();
+						if(!(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/i).test(mail)) {
+							$.hideLoading();
+							$.toast("{$field['title']} 请正确邮箱地址", "forbidden");
+							return false;
+						}
+					{/if}
+				{/if}
+				{/loop}
+	setTimeout(function() {	
+		$.post("{php echo $this->createMobileUrl('CheckTime', array('type'=>'all','reid'=>$reid))}",{'ii':ii,'restime':restime},function(d){
+			if(d.message.status == '0'){
+				$.alert(d.message.msg, d.message.title);
+				$.hideLoading();
+				return false;
+			}else if (d.message.status == '1') {
+			//		alert($('textarea[name="field_1434_"]').val());
+			
+				var submitData = {
+					'member': member,
+					'mobile': mobile,
+					'xmid': xmid,
+					'restime': restime,
+					'ii': ii,
+					{loop $ds $field}
+						{if in_array($field['type'], array('textarea'))}
+							field_{$field['refid']}_{$field['bind']} : $('textarea[name="field_{$field['refid']}_{$field['bind']}"]').val(),
+						{else if in_array($field['type'], array('text', 'calendar', 'email', 'range','image','number', 'radio', 'checkbox', 'idcard', 'phone', 'tel', 'cami', 'only'))}
+							field_{$field['refid']}_{$field['bind']} : $('input[name="field_{$field['refid']}_{$field['bind']}"]').val(),
+						{else if in_array($field['type'], array('select'))}
+							field_{$field['refid']}_{$field['bind']} : document.getElementsByName("field_{$field['refid']}_{$field['bind']}")[0].value,
+						{/if}
+					{/loop}
+				};
+					
+				$.post("{php echo $this->createMobileUrl('post', array('reid' => $reid));}", submitData, function(s){
+					if (s.message.status == '1') {
+						$.hideLoading();
+						$.toast(s.message.msg);
+						setTimeout(function() {
+							window.location.href = s.message.url;
+						}, 1000)
+					}else{
+						$.hideLoading();
+						$.toast(s.message.msg, "forbidden");
+					}
+				},"json");
+			}
+		},"json");
+	
+	}, rand)
+});
+</script>

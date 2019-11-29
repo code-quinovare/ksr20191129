@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.mitusky.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[微预约支付版]]></name>
+		<identifie><![CDATA[dayu_yuyuepay]]></identifie>
+		<version><![CDATA[8.4.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[行业通用预约模块]]></ability>
+		<description><![CDATA[自建预约主题、自定义预约表单模型，想到就能做到；自定义可预约日期、自定义预约时间段、时间段自定义预约人数限制；…………]]></description>
+		<author><![CDATA[dayu]]></author>
+		<url><![CDATA[http://www.mitusky.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		<supports><item type="app" /></supports>
+		<plugin-main name="0" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="管理入口" do="manager" state="" direct="false" />
+			<entry title="首页入口" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="客服管理" do="staff" state="" direct="false" />
+			<entry title="幻灯片管理" do="slide" state="" direct="false" />
+			<entry title="统计" do="summary" state="" direct="false" />
+			<entry title="主题分类" do="category" state="" direct="false" />
+			<entry title="新建预约" do="post" state="" direct="false" />
+			<entry title="预约主题" do="display" state="" direct="false" />
+			<entry title="预约记录" do="manage" state="" direct="false" />
+		</menu>
+		<profile>
+			<entry title="我的" do="my" state="" direct="false" />
+			<entry title="预约记录" do="myrecord" state="" direct="false" />
+		</profile>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[m_install.php]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_dayu_member`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_category`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_data`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_fields`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_group`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_info`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_record`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_reply`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_role`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_slide`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_staff`;
+DROP TABLE IF EXISTS `ims_dayu_yuyuepay_xiangmu`;
+]]></uninstall>
+	<upgrade><![CDATA[m_upgrade.php]]></upgrade>
+</manifest>

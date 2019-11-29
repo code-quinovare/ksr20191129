@@ -1,0 +1,1350 @@
+ <!-- 
+ * 参数设置
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting');}">全局设置</a>
+	</li>
+	<li {if $op=='frontshow'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'frontshow'));}">手机端显示</a>
+	</li>
+	<li {if $op=='templatemsg'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'templatemsg'));}">模版消息</a>
+	</li>
+	<li {if $op=='vipservice'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'vipservice'));}">会员服务</a>
+	</li>
+	{if $op=='vipLevel'}
+	<li class="active">
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'vipLevel','level_id'=>$_GPC['level_id']));}">VIP等级</a>
+	</li>
+	{/if}
+	<li {if $op=='banner'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'banner'));}">首页幻灯片</a>
+	</li>
+	<li {if $op=='adv'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'adv'));}">课程页广告</a>
+	</li>
+	<li {if $op=='savetype'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'savetype'));}">存储方式</a>
+	</li>
+	<li {if $op=='sms'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'sms'));}">短信配置</a>
+	</li>
+	<li {if $op=='service'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('setting', array('op'=>'service'));}">加群客服</a>
+	</li>
+</ul>
+<style>
+.item_box img {width:100%; height:100%;}
+.focus-setting {border-bottom:1px #428BCA dashed; padding-bottom:20px;}
+</style>
+{if $op=='display'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">全局设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">非微信端访问</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="visit_limit" value="1" {if $setting['visit_limit']==1}checked{/if} /> 允许</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="visit_limit" value="0" {if $setting['visit_limit']==0}checked{/if} /> 禁止</label>
+						<span class="help-block"><font color="red"><script>document.write(unescape('%u8BF4%u56FE%u8C31%u6E90%u7801%u7F51%u5206%u4EAB'));</script></font>提示：开启非微信端访问后，用户可在浏览器里访问微课堂，<strong style="color:#609dd2;">但目前QQ浏览器未开放禁止下载按钮API，所以可能造成客户缓存下载您的视频</strong></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">需登录访问页面</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="checkbox" name="login_visit[]" value="index" {if in_array('index', $login_visit)}checked{/if} /> 首页</label>&nbsp;
+						<label class="radio-inline"><input type="checkbox" name="login_visit[]" value="lesson" {if in_array('lesson', $login_visit)}checked{/if} /> 课程详情页</label>&nbsp;
+						<label class="radio-inline"><input type="checkbox" name="login_visit[]" value="search" {if in_array('search', $login_visit)}checked{/if} /> 全部课程</label>&nbsp;
+						<label class="radio-inline"><input type="checkbox" name="login_visit[]" value="getcoupon" {if in_array('getcoupon', $login_visit)}checked{/if} /> 优惠券</label>&nbsp;
+						<span class="help-block">选中的前台页面，用户在手机端需要先登录帐号才能访问</span>
+					</div>
+				</div>
+				<div class="form-group hide">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">推广海报方式</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="poster_type" value="1" {if $setting['poster_type']==1}checked{/if} /> 识别海报进入微课堂</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="poster_type" value="2" {if $setting['poster_type']==2}checked{/if} /> 识别海报进入公众号</label>
+                        <span class="help-block">
+							<strong>识别海报进入微课堂：</strong>识别推广海报后进入微课堂首页；<br/>
+							<strong>识别海报进入公众号：</strong>识别推广海报后进入公众号，开启该方式后请禁止非微信端访问、开启需要登录访问首页和会员自动注册。该方式为附加功能，影响因素较多，如识别为二维码进入公众号无法绑定上下级关系，请切换识别二维码进微课堂。</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启课程库存</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="stock_config" value="1" {if $setting['stock_config']==1}checked{/if} /> 开启</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="stock_config" value="0" {if $setting['stock_config']==0}checked{/if} /> 关闭</label>
+						<span class="help-block"><strong></strong>开启课程库存后，库存为0的课程将显示为“已售罄”且不能购买</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">引导关注公众号</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="isfollow" value="1" {if $setting['isfollow']==1}checked{/if} /> 顶部引导关注</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="isfollow" value="2" {if $setting['isfollow']==2}checked{/if} /> 顶部和课程页关注</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="isfollow" value="0" {if $setting['isfollow']==0}checked{/if} /> 关闭</label>
+						<span class="help-block">该项仅在微信客户端中生效，未关注公众号的用户访问时，“顶部引导关注”为顶部引导关注；<strong>“顶部和课程页关注”为顶部引导关注和课程详情页强制关注，该方式请在“系统管理—公众号应用—订阅管理”里开启微课堂V2的订阅器</strong></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">顶部关注提示语</label>
+					<div class="col-sm-9">
+						<input type="text" name="follow_word" value="{$setting['follow_word']}" class="form-control" />
+						<span class="help-block"><font color="red"><script>document.write(unescape('%u8BF4%u56FE%u8C31%u6E90%u7801%u7F51%u5206%u4EAB'));</script></font>建议不超过12个汉字，包括标点符号</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程页关注标题</label>
+					<div class="col-sm-9">
+						<input type="text" name="lesson_follow_title" value="{$setting['lesson_follow_title']}" class="form-control" />
+						<span class="help-block">课程页强制关注公众号标题，默认为“长按指纹识别二维码，关注公众号”</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程页关注描述</label>
+					<div class="col-sm-9">
+						<input type="text" name="lesson_follow_desc" value="{$setting['lesson_follow_desc']}" class="form-control" />
+						<span class="help-block">课程页强制关注公众号标题，默认为“关注后继续学习，可接收最新课程通知”</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号二维码</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('qrcode', $setting['qrcode']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买课程开具发票</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="is_invoice" value="1" {if $setting['is_invoice']==1}checked{/if} /> 开启</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="is_invoice" value="0" {if $setting['is_invoice']==0}checked{/if} /> 关闭</label>
+						<span class="help-block">默认关闭，开启后用户购买课程将显示是否开具发票按钮</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页全部分类图标</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('category_ico', $setting['category_ico']);}
+						<span class="help-block">不上传全部分类图标，则首页不显示。<a href="{MODULE_URL}/template/mobile/images/ico-allcategory.png" target="_blank" style="color:blue;">点击查看默认图标</a></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员推广海报</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('posterbg', $setting['posterbg']);}
+						<span class="help-block">宽度:640 px，高度:940 px，处理技巧：从PS导出图片时，要导出为WEB所用的jpg图片格式(快捷键是：ctrl+shift+alt+s)，将会大大减少图片所占内存大小，提高用户打开速度！&nbsp;&nbsp;&nbsp;<a href="http://wx.haoshu888.com/sucai/posterbg.psd" style="color:blue;">模版海报下载</a></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">海报头像</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">离左侧距离</span>
+							<input type="text" name="poster_config[avatar_left]" value="{$poster['avatar_left']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">离顶部距离</span>
+							<input type="text" name="poster_config[avatar_top]" value="{$poster['avatar_top']}" class="form-control">
+							<span class="input-group-addon">px</span>
+						</div>
+						<span class="help-block">使用默认的海报设置请留空</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">海报二维码</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">离左侧距离</span>
+							<input type="text" name="poster_config[qrcode_left]" value="{$poster['qrcode_left']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">离顶部距离</span>
+							<input type="text" name="poster_config[qrcode_top]" value="{$poster['qrcode_top']}" class="form-control">
+							<span class="input-group-addon">px</span>
+						</div>
+						<span class="help-block">使用默认的海报设置请留空</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">海报用户昵称</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">离左侧距离</span>
+							<input type="text" name="poster_config[nickname_left]" value="{$poster['nickname_left']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">离顶部距离</span>
+							<input type="text" name="poster_config[nickname_top]" value="{$poster['nickname_top']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">字体大小</span>
+							<input type="text" name="poster_config[nickname_fontsize]" value="{$poster['nickname_fontsize']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">字体颜色</span>
+							<input type="text" name="poster_config[nickname_fontcolor]" value="{$poster['nickname_fontcolor']}" class="form-control" style="width:100px;">
+						</div>
+						<span class="help-block">使用默认的海报设置请留空，字体颜色请使用十六进制颜色值，例如：#056D9F</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">海报显示项</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="checkbox" name="poster_config[avatar_show]" value="1" {if $poster['avatar_show']==1}checked{/if} /> 显示头像</label>&nbsp;
+						<label class="radio-inline"><input type="checkbox" name="poster_config[nickname_show]" value="1" {if $poster['nickname_show']==1}checked{/if} /> 显示昵称</label>
+						<span class="help-block">选中的显示项将显示在会员海报里</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员openid</label>
+					<div class="col-sm-9">
+						<input type="text" name="manageopenid" value="{$setting['manageopenid']}" class="form-control">
+						<div class="help-block">
+							新订单和新提现申请(到微信零钱且提现为人工审核方式)提醒管理员，多个管理员openid之间用英文状态逗号“,”隔开
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">未付款订单关闭间隔</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" name="closespace" value="{$setting['closespace']}" class="form-control">
+							<span class="input-group-addon">分钟</span>
+						</div>
+						<div class="help-block">
+							默认为60分钟，0表示不自动关闭未付款订单
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">讲师分成</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" name="teacher_income" value="{$setting['teacher_income']}" class="form-control">
+							<span class="input-group-addon">%</span>
+						</div>
+						<div class="help-block">
+							留空或0表示关闭用户申请讲师，例如设为40%，即表示用户申请讲师后，该用户的课程每次出售都以出售价格的40%作为讲师的收入。
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">审核课程评价</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="audit_evaluate" value="1" {if $setting['audit_evaluate']==1}checked{/if} /> 开启</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="audit_evaluate" value="0" {if $setting['audit_evaluate']==0}checked{/if} /> 关闭</label>
+						<span class="help-block"><strong></strong>默认关闭，开启后用户评价课程需要后台审核后显示在前台课程评价里</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人中心设置按钮</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="self_setting" value="1" {if $setting['self_setting']==1}checked{/if} /> 显示</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="self_setting" value="0" {if $setting['self_setting']==0}checked{/if} /> 隐藏</label>
+						<span class="help-block"><strong></strong>开启后，手机端个人中心将显示“设置”按钮</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">绑定手机号码</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="modify_mobile" value="2" {if $setting['modify_mobile']==2}checked{/if} /> 个人中心和首页验证</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="modify_mobile" value="1" {if $setting['modify_mobile']==1}checked{/if} /> 个人中心验证</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="modify_mobile" value="0" {if $setting['modify_mobile']==0}checked{/if} /> 关闭</label>
+						<span class="help-block"><strong></strong>开启个人中心验证后，手机端个人中心将显示“绑定手机”按钮；开启个人中心和首页验证后，同时进入首页时，未绑定手机号码用户将提示绑定手机号码；该选项需要使用阿里短信验证</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页验证选项</label>
+					<div class="col-sm-9">
+						<label class="radio-inline">
+							<input type="checkbox" name="index_verify[]" value="password" {if in_array('password', $index_verify)}checked{/if}>密码
+						</label>
+						<span class="help-block">开启首页验证绑定手机号码时，需同时设置的选项</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">超时自动好评</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" name="autogood" value="{$setting['autogood']}" class="form-control">
+							<span class="input-group-addon">天</span>
+						</div>
+						<div class="help-block">
+							0或留空表示关闭自动好评(自购买课程日起，超过该期限未评价课程将自动好评)
+						</div>
+					</div>
+				</div>
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员课程足迹</label>
+					<div class="col-sm-4">
+						<select name="clearhistory" class="form-control">
+							<option value="0">不进行任何操作</option>
+							<option value="1">清空会员课程足迹</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">定时任务链接</label>
+					<div class="col-sm-9">
+						<a href="javascript:;" id="copyCrontab">{$_W['siteroot']}app/{php echo str_replace("./","",$this->createMobileUrl('crontab'));}</a>
+						<span class="help-block">建议定时每3分钟执行一次；定时任务用于取消超期未支付、未评价订单、会员过期优惠券等，您可以设置服务器定时执行该URL来操作定时任务。</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copyCrontab")[0], $("#copyCrontab").text());
+	});
+});
+</script>
+
+{elseif $op=='frontshow'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">手机端设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="sitename" value="{$setting['sitename']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站版权</label>
+					<div class="col-sm-9">
+						<input type="text" name="copyright" value="{$setting['copyright']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group hide">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站logo</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('logo', $setting['logo']);}
+						<span class="help-block">建议尺寸64px * 64px，建议格式PNG</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页最近更新课程数量</label>
+					<div class="col-sm-9">
+						<div class="col-sm-9">
+						<input type="text" name="show_newlesson" value="{$setting['show_newlesson']}" class="form-control" />
+						<span class="help-block">默认显示3个课程，0为关闭显示最新更新课程</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">底部自选菜单</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="teacherlist" value="0" {if $setting['teacherlist']==0}checked{/if} /> 不显示</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="teacherlist" value="1" {if $setting['teacherlist']==1}checked{/if} /> 讲师列表</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="teacherlist" value="2" {if $setting['teacherlist']==2}checked{/if} /> VIP会员</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="teacherlist" value="3" {if $setting['teacherlist']==3}checked{/if} /> 优惠券</label>&nbsp;
+						<span class="help-block">开启该选项后，在微课堂导航栏菜单将显示相应的菜单</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程详情页默认显示</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="lesson_show" value="0" {if $setting['lesson_show']==0}checked{/if} /> 课程详情</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="lesson_show" value="1" {if $setting['lesson_show']==1}checked{/if} /> 课程目录</label>
+						<span class="help-block">该选项为手机端用户进入课程详情页时默认显示的页面</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买需完善信息</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="mustinfo" value="0" {if $setting['mustinfo']==0}checked{/if} onclick="changeUserInfo(this.value)" /> 无须</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="mustinfo" value="1" {if $setting['mustinfo']==1}checked{/if} onclick="changeUserInfo(this.value)"/> 必须</label>
+						<span class="help-block">该选项指用户在购买课程或开通会员VIP前是否需要完善信息</span>
+					</div>
+				</div>
+				<div class="form-group" id="user_info" {if $setting['mustinfo']==0}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">需完善信息</label>
+					<div class="col-sm-9">
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="realname" {if in_array('realname',$user_info)}checked{/if}>姓名
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="mobile" {if in_array('mobile',$user_info)}checked{/if}>手机号码
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="msn" {if in_array('msn',$user_info)}checked{/if}>微信号
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="occupation" {if in_array('occupation',$user_info)}checked{/if}>职业
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="company" {if in_array('company',$user_info)}checked{/if}>公司
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="graduateschool" {if in_array('graduateschool',$user_info)}checked{/if}>学校
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="grade" {if in_array('grade',$user_info)}checked{/if}>班级
+						</label>
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="address" {if in_array('address',$user_info)}checked{/if}>地址
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页搜索框</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="search_box[isshow]" value="0" {if $search_box['isshow']==0}checked{/if} onclick="changeSearch(this.value)" /> 隐藏</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="search_box[isshow]" value="1" {if $search_box['isshow']==1}checked{/if} onclick="changeSearch(this.value)"/> 显示</label>
+					</div>
+				</div>
+				<div class="form-group" id="search_box" {if $search_box['isshow']==0}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索框位置</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">离左侧位置</span>
+							<input type="text" name="search_box[left]" value="{$search_box['left']}" class="form-control">
+							<span class="input-group-addon">px</span>
+							<span class="input-group-addon">离顶部位置</span>
+							<input type="text" name="search_box[top]" value="{$search_box['top']}" class="form-control">
+							<span class="input-group-addon">px</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义菜单①</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">名称</span>
+							<input type="text" name="diy_name[]" value="{$self_diy[0]['diy_name']}" class="form-control">
+							<span class="input-group-addon">链接</span>
+							<input type="text" name="diy_link[]" value="{$self_diy[0]['diy_link']}" placeholder="以http://或https://开头" class="form-control">
+							<span class="input-group-addon">图标</span>
+							<input type="text" name="diy_image[]" value="{$self_diy[0]['diy_image']}" class="form-control">
+						</div>
+						<span class="help-block">图标请参考<a href="http://fontawesome.dashgame.com/" target="_blank" style="color:#0f7cda;">Font Awesome图标集</a>，例如"address-book"、"bandcamp"</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义菜单②</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">名称</span>
+							<input type="text" name="diy_name[]" value="{$self_diy[1]['diy_name']}" class="form-control">
+							<span class="input-group-addon">链接</span>
+							<input type="text" name="diy_link[]" value="{$self_diy[1]['diy_link']}" placeholder="以http://或https://开头" class="form-control">
+							<span class="input-group-addon">图标</span>
+							<input type="text" name="diy_image[]" value="{$self_diy[1]['diy_image']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义菜单③</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">名称</span>
+							<input type="text" name="diy_name[]" value="{$self_diy[2]['diy_name']}" class="form-control">
+							<span class="input-group-addon">链接</span>
+							<input type="text" name="diy_link[]" value="{$self_diy[2]['diy_link']}" placeholder="以http://或https://开头" class="form-control">
+							<span class="input-group-addon">图标</span>
+							<input type="text" name="diy_image[]" value="{$self_diy[2]['diy_image']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义菜单④</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">名称</span>
+							<input type="text" name="diy_name[]" value="{$self_diy[3]['diy_name']}" class="form-control">
+							<span class="input-group-addon">链接</span>
+							<input type="text" name="diy_link[]" value="{$self_diy[3]['diy_link']}" placeholder="以http://或https://开头" class="form-control">
+							<span class="input-group-addon">图标</span>
+							<input type="text" name="diy_image[]" value="{$self_diy[3]['diy_image']}" class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+function changeUserInfo(status){
+	if(status==1){
+		document.getElementById("user_info").style.display = "block";
+	}else{
+		document.getElementById("user_info").style.display = "none";
+	}
+}
+function changeSearch(status){
+	if(status==1){
+		document.getElementById("search_box").style.display = "block";
+	}else{
+		document.getElementById("search_box").style.display = "none";
+	}
+}
+</script>
+{elseif $op=='templatemsg'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				模版消息通知 (所在行业：IT科技/互联网|电子商务)
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买成功通知</label>
+					<div class="col-sm-9">
+						<input type="text" name="buysucc" value="{$tplmessage['buysucc']}" class="form-control" />
+						<span class="help-block">用户支付成功后模版消息通知，选择编号TM00001(购买成功通知)</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">佣金提醒</label>
+					<div class="col-sm-9">
+						<input type="text" name="cnotice" value="{$tplmessage['cnotice']}" class="form-control" />
+						<div class="help-block">
+							下级购买课程时，上级获得佣金提醒，选择编号OPENTM201812627(佣金提醒)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">下级代理商加入提醒</label>
+					<div class="col-sm-9">
+						<input type="text" name="newjoin" value="{$tplmessage['newjoin']}" class="form-control" />
+						<div class="help-block">
+							成功推荐下级加入时，给推荐上级提醒，选择编号OPENTM405761879(下级代理商加入提醒)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程通知</label>
+					<div class="col-sm-9">
+						<input type="text" name="newlesson" value="{$tplmessage['newlesson']}" class="form-control" />
+						<div class="help-block">
+							讲师新开课程后，给购买过该讲师课程的学员发送消息，选择编号OPENTM400221044(课程通知)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单通知(管理员)</label>
+					<div class="col-sm-9">
+						<input type="text" name="neworder" value="{$tplmessage['neworder']}" class="form-control" />
+						<div class="help-block">
+							用户下新订单后通知管理员，选择编号OPENTM206930158(订单通知)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现申请通知(管理员)</label>
+					<div class="col-sm-9">
+						<input type="text" name="newcash" value="{$tplmessage['newcash']}" class="form-control" />
+						<div class="help-block">
+							用户申请提现到微信钱包且提现为人工审核时通知管理员，选择编号OPENTM405485000(提现申请通知)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请讲师入驻审核通知</label>
+					<div class="col-sm-9">
+						<input type="text" name="apply_teacher" value="{$tplmessage['apply_teacher']}" class="form-control" />
+						<div class="help-block">
+							用户申请讲师入驻时通知管理员审核，选择编号OPENTM408471635(等待审核通知)
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券到账通知</label>
+					<div class="col-sm-9">
+						<input type="text" name="receive_coupon" value="{$tplmessage['receive_coupon']}" class="form-control" />
+						<div class="help-block">
+							优惠券到达账户后通知用户，选择编号OPENTM405464954(到账通知)
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$tplmessage['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{elseif $op=='vipservice'}
+<div class="main">
+	<div class="alert alert-info">
+	    请勿随意删除VIP等级，删除VIP等级会影响已购买该等级的会员使用.
+	</div>
+	<form action="" method="post" onsubmit="return formcheck(this)">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				VIP等级设置
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th style="width:8%;">ID</th>
+							<th style="width:15%;">等级名称</th>
+							<th style="width:10%;">有效期</th>
+							<th style="width:10%;">价格</th>
+							<th style="width:11%;">赠送积分</th>
+							<th style="width:11%;">会员折扣</th>
+							<th style="width:10%;">状态</th>
+							<th style="width:10%;">排序</th>
+							<th style="width:18%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $level_list $item}
+						<tr>
+							<td>{$item['id']}</td>
+							<td>{$item['level_name']}</td>
+							<td>{$item['level_validity']}天</td>
+							<td>{$item['level_price']}元</td>
+							<td>{php echo $item['integral']>0 ? $item['integral'].'积分' : '无';}</td>
+							<td>{$item['discount']}%</td>
+							<td>{php echo $item['is_show']==1 ? '显示':'隐藏';}</td>
+							<td>{$item['sort']}</td>
+							<td>
+                            	<a class="btn btn-default" href="{php echo $this->createWebUrl('setting', array('op'=>'vipLevel','level_id'=>$item['id']));}">编辑</a>
+                            	<a class="btn btn-default" href="{php echo $this->createWebUrl('setting', array('op'=>'delVipLevel','level_id'=>$item['id']));}" onclick="return confirm('确认删除此等级吗？');return false;">删除</a>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+			</div>
+			<div class="panel-footer">
+				<a class="btn btn-default" href="{php echo $this->createWebUrl('setting',array('op'=>'vipLevel'));}"><i class="fa fa-plus"></i> 添加新等级</a>
+			</div>
+		</div>
+	</form>
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">购买会员服务</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">VIP分销开关</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="vip_sale" value="1" {if $comsetting['vip_sale']==1}checked{/if} /> 开启</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="vip_sale" value="0" {if $comsetting['vip_sale']==0}checked{/if} /> 关闭</label>
+						<span class="help-block"><strong></strong>开启后，下级购买或续费VIP服务时，上级也会获得分销佣金</span>
+					</div>
+				</div>
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">一级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="com[commission1]" value="{$commission['commission1']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group item {if in_array($comsetting['level'],array('1'))}hide{/if}">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">二级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="com[commission2]" value="{$commission['commission2']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group item {if in_array($comsetting['level'],array('1','2'))}hide{/if}">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">三级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="com[commission3]" value="{$commission['commission3']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">留空或填写0表示使用全局佣金比例参数</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员服务描述</label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('vipdesc', $comsetting['vipdesc']);}
+						<div class="help-block">
+							该描述不为空时，会显示在前台手机端“VIP服务”页面，尽量仅填写文字而不包含图品、音视频等其他多媒体元素。
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$comsetting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{elseif $op=='vipLevel'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				VIP等级设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 等级名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="level_name" class="form-control" value="{$level['level_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 有效期</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="text" name="level_validity" class="form-control" value="{$level['level_validity']}">
+							<span class="input-group-addon">天</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 价格</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="text" name="level_price" class="form-control" value="{$level['level_price']}">
+							<span class="input-group-addon">元</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 赠送积分</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="text" name="integral" class="form-control" value="{$level['integral']}">
+							<span class="input-group-addon">积分</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 是否显示</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="is_show" value="1" {if $level['is_show']==1}checked{/if} /> 显示</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="is_show" value="0" {if $level['is_show']==0}checked{/if} /> 隐藏</label>
+						<span class="help-block"><strong></strong>隐藏的VIP等级不会显示在手机端，且用户无法购买</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 会员折扣</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="text" name="discount" class="form-control" value="{$level['discount']}">
+							<span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">会员购买课程时，享受的折扣，留空或0表示不享受任何折扣</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="sort" class="form-control" value="{$level['sort']}">
+						<span class="help-block">排序越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="id" value="{$level_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>
+
+{elseif $op=='banner'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				首页幻灯片
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片1</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("banner[0][img]", $banner[0]['img']);}
+						<span>建议尺寸750px * 400px，也可根据自己需要进行设置大小</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片链接1</label>
+					<div class="col-sm-9">
+						<input type="text" name="banner[0][link]" value="{$banner[0]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片2</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("banner[1][img]", $banner[1]['img']);}
+						<span>建议尺寸750px * 400px，也可根据自己需要进行设置大小</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片链接2</label>
+					<div class="col-sm-9">
+						<input type="text" name="banner[1][link]" value="{$banner[1]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片3</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("banner[2][img]", $banner[2]['img']);}
+						<span>建议尺寸750px * 400px，也可根据自己需要进行设置大小</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片链接3</label>
+					<div class="col-sm-9">
+						<input type="text" name="banner[2][link]" value="{$banner[2]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片4</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("banner[3][img]", $banner[3]['img']);}
+						<span>建议尺寸750px * 400px，也可根据自己需要进行设置大小</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片链接4</label>
+					<div class="col-sm-9">
+						<input type="text" name="banner[3][link]" value="{$banner[3]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片5</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("banner[4][img]", $banner[4]['img']);}
+						<span>建议尺寸750px * 400px，也可根据自己需要进行设置大小</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">幻灯片链接5</label>
+					<div class="col-sm-9">
+						<input type="text" name="banner[4][link]" value="{$banner[4]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{elseif $op=='adv'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				课程页广告(该广告随机展示于课程详情页脚部)
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告一</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("adv[0][img]", $adv[0]['img']);}
+						<span>建议尺寸400px * 100px</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">链接一</label>
+					<div class="col-sm-9">
+						<input type="text" name="adv[0][link]" value="{$adv[0]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告二</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("adv[1][img]", $adv[1]['img']);}
+						<span>建议尺寸400px * 100px</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">链接二</label>
+					<div class="col-sm-9">
+						<input type="text" name="adv[1][link]" value="{$adv[1]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告三</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("adv[2][img]", $adv[2]['img']);}
+						<span>建议尺寸400px * 100px</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">链接三</label>
+					<div class="col-sm-9">
+						<input type="text" name="adv[2][link]" value="{$adv[2]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告四</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("adv[3][img]", $adv[3]['img']);}
+						<span>建议尺寸400px * 100px</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">链接四</label>
+					<div class="col-sm-9">
+						<input type="text" name="adv[3][link]" value="{$adv[3]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告五</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image("adv[4][img]", $adv[4]['img']);}
+						<span>建议尺寸400px * 100px</span>
+					</div>
+				</div>
+				<div class="form-group focus-setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">链接五</label>
+					<div class="col-sm-9">
+						<input type="text" name="adv[4][link]" value="{$adv[4]['link']}" class="form-control" />
+						<span>请填写完整URL地址，包括http://</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{elseif $op=='savetype'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">存储方式</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">存储方式设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline">
+                            <input type="radio" name="savetype" value="0" {if $setting['savetype']==0}checked{/if}>其他存储方式
+                        </label>
+						<label class="radio-inline">
+                            <input type="radio" name="savetype" value="1" {if $setting['savetype']==1}checked{/if}>七牛云存储
+                        </label>
+						<label class="radio-inline">
+                            <input type="radio" name="savetype" value="2" {if $setting['savetype']==2}checked{/if}>腾讯云存储
+                        </label>
+						<span class="help-block">默认课程视频存储方式，设置后也可以在课程章节里修改</span>
+					</div>
+				</div>
+				<!-- 七牛 Start -->
+				<div class="form-group qiniu-params-admin" {if $setting['savetype']!=1}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">Bucket</label>
+					<div class="col-sm-9">
+						<input type="text" name="qiniu[bucket]" class="form-control" value="{$qiniu[bucket]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qiniu-params-admin" {if $setting['savetype']!=1}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛ACCESS_KEY</label>
+					<div class="col-sm-9">
+						<input type="text" name="qiniu[access_key]" class="form-control" value="{$qiniu[access_key]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qiniu-params-admin" {if $setting[ 'savetype']!=1}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛SECRET_KEY</label>
+					<div class="col-sm-9">
+						<input type="text" name="qiniu[secret_key]" class="form-control" value="{$qiniu[secret_key]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qiniu-params-admin" {if $setting[ 'savetype']!=1}style="display: none;" {/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">存储区域</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="qiniu[qiniu_area]" value="1" {if $qiniu['qiniu_area']==1}checked{/if}> 华东</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="qiniu[qiniu_area]" value="2" {if $qiniu['qiniu_area']==2}checked{/if}> 华北</label>
+						&nbsp;
+                        <label class="radio-inline"><input type="radio" name="qiniu[qiniu_area]" value="3" {if $qiniu['qiniu_area']==3}checked{/if}> 华南</label>
+						&nbsp;
+                        <label class="radio-inline"><input type="radio" name="qiniu[qiniu_area]" value="4" {if $qiniu['qiniu_area']==4}checked{/if}> 北美</label>
+                        <span class="help-block">请根据您的对象存储空间选择对应的区域</strong></span>
+                    </div>
+                </div>
+				<div class="form-group qiniu-params-admin" {if $setting['savetype']!=1}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛加速域名</label>
+					<div class="col-sm-9">
+						<input type="text" name="qiniu[url]" class="form-control" value="{$qiniu[url]}" autocomplete="off">
+						<span class="help-block">不带http://或https://，例如：v.haoshu888.com</span>
+					</div>
+				</div>
+				<div class="form-group qiniu-params-admin" {if $setting['savetype']!=1}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启https</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="qiniu[https]" value="1" {if $qiniu[https]==1}checked{/if} /> 开启</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="qiniu[https]" value="0" {if $qiniu[https]==0}checked{/if} /> 关闭</label>
+						<span class="help-block">开启https后，系统将自动把视频链接的http协议转为https，如果你的站点没有开启https化，请不要开启该选项</span>
+					</div>
+				</div>
+				<!-- 七牛 End -->
+
+				<!-- 腾讯云 Start -->
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">腾讯云APPID</label>
+					<div class="col-sm-9">
+						<input type="text" name="qcloud[appid]" class="form-control" value="{$qcloud[appid]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">Bucket</label>
+					<div class="col-sm-9">
+						<input type="text" name="qcloud[bucket]" class="form-control" value="{$qcloud[bucket]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">腾讯云SecretID</label>
+					<div class="col-sm-9">
+						<input type="text" name="qcloud[secretid]" class="form-control" value="{$qcloud[secretid]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">腾讯云SecretKey</label>
+					<div class="col-sm-9">
+						<input type="text" name="qcloud[secretkey]" class="form-control" value="{$qcloud[secretkey]}" autocomplete="off">
+					</div>
+				</div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">存储区域</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="bj" {if $qcloud['qcloud_area']=='bj'}checked{/if}>北京</label>
+						<label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="tj" {if $qcloud['qcloud_area']=='tj'}checked{/if}>北京一区(华北)</label>
+						<label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="sh" {if $qcloud['qcloud_area']=='sh'}checked{/if}>上海(华东)</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="gz" {if $qcloud['qcloud_area']=='gz'}checked{/if}>广州(华南)</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="cd" {if $qcloud['qcloud_area']=='cd'}checked{/if}>成都(西南)</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="sgp" {if $qcloud['qcloud_area']=='sgp'}checked{/if}>新加坡</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="hk" {if $qcloud['qcloud_area']=='hk'}checked{/if}>香港</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="ca" {if $qcloud['qcloud_area']=='ca'}checked{/if}>多伦多</label>
+                        <label class="radio-inline"><input type="radio" name="qcloud[qcloud_area]" value="ger" {if $qcloud['qcloud_area']=='ger'}checked{/if}> 法兰克福</label>
+                        <span class="help-block">请根据您的对象存储空间选择对应的区域</strong></span>
+                    </div>
+                </div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">腾讯云加速域名</label>
+					<div class="col-sm-9">
+						<input type="text" name="qcloud[url]" class="form-control" value="{$qcloud[url]}" autocomplete="off">
+						<span class="help-block">不带http://或https://，例如：video.haoshu888.com</span>
+					</div>
+				</div>
+				<div class="form-group qcloud-params-admin" {if $setting['savetype']!=2}style="display: none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启https</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="qcloud[https]" value="1" {if $qcloud[https]==1}checked{/if} /> 开启</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="qcloud[https]" value="0" {if $qcloud[https]==0}checked{/if} /> 关闭</label>
+						<span class="help-block">开启https后，系统将自动把视频链接的http协议转为https，如果你的站点没有开启https化，请不要开启该选项</span>
+					</div>
+				</div>
+				<!-- 腾讯云 End -->
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$(':radio[name="savetype"]').click(function() {
+			if($(this).val() == '0') {
+				$('.qiniu-params-admin').hide();
+				$('.qcloud-params-admin').hide();
+			} else if($(this).val() == '1') {
+				$('.qiniu-params-admin').show();
+				$('.qcloud-params-admin').hide();
+			} else if($(this).val() == '2') {
+				$('.qiniu-params-admin').hide();
+				$('.qcloud-params-admin').show();
+			}
+		});
+	});
+</script>
+
+{elseif $op=='sms'}
+<div class="main">
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                阿里大于短信配置
+            </div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信接口</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="dayu_sms[versions]" value="0" {if $sms['versions']==0}checked{/if} /> 阿里大于</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="dayu_sms[versions]" value="1" {if $sms['versions']==1}checked{/if} /> 阿里短信服务</label>
+						<span class="help-block">2017.6.22之前开通的用户如果看到的是阿里大于请选择“阿里大于”，之后开通的用户看到的是“短信服务”选择短信服务</span>
+					</div>
+				</div>
+                <div class="form-group old_versions" {if $sms['versions']!=0}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">App Key</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[app_key]" class="form-control" value="{$sms[app_key]}">
+					</div>
+				</div>
+				<div class="form-group old_versions" {if $sms['versions']!=0}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">App Secret</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[app_secret]" class="form-control" value="{$sms[app_secret]}">
+					</div>
+				</div>
+				<div class="form-group new_versions" {if $sms['versions']!=1}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">Access Key ID	</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[access_key]" class="form-control" value="{$sms[access_key]}">
+					</div>
+				</div>
+				<div class="form-group new_versions" {if $sms['versions']!=1}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">Access Key Secret	</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[access_secret]" class="form-control" value="{$sms[access_secret]}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信签名</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[sign]" class="form-control" value="{$sms[sign]}">
+					</div>
+				</div>
+            </div>
+        </div>
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                短信模版ID
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证码模版ID</label>
+					<div class="col-sm-9">
+						<input type="text" name="dayu_sms[verify_code]" class="form-control" value="{$sms[verify_code]}">
+						<span class="help-block">如果您不希望验证手机号码，请不要输入模版ID。<br/>短信验证码模版应包含变量：${code}，例如：您的短信验证码是:${code}，请不要告诉任何人。</span>
+					</div>
+				</div>				
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="hidden" name="id" value="{$setting['id']}" />
+            <input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$(function() {
+	$(':radio[name="dayu_sms[versions]"]').click(function() {
+		if($(this).val() == '0') {
+			$(".old_versions").show();
+			$(".new_versions").hide();
+		} else if($(this).val() == '1') {
+			$(".old_versions").hide();
+			$(".new_versions").show();
+		}
+	});
+});
+</script>
+
+{elseif $op== 'service'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="alert alert-info">
+			<p style="text-indent:2em;">加群客服最多可设置10个，用户购买课程或VIP等级成功后，将随机弹出客服名片让用户添加入群，方便在微信群里做营销活动。</p>
+			<p style="text-indent:2em;">客服昵称、头像和二维码填写不完整的不会保存，头像建议使用200px * 200px方形图片；如果您不想开启该功能，请不要添加任何客服信息。</p>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				客服信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服①</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[0][nickname]" value="{$service[0]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[0][avatar]', $service[0]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[0][qrcode]', $service[0]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服②</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[1][nickname]" value="{$service[1]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[1][avatar]', $service[1]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[1][qrcode]', $service[1]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服③</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[2][nickname]" value="{$service[2]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[2][avatar]', $service[2]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[2][qrcode]', $service[2]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服④</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[3][nickname]" value="{$service[3]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[3][avatar]', $service[3]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[3][qrcode]', $service[3]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑤</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[4][nickname]" value="{$service[4]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[4][avatar]', $service[4]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[4][qrcode]', $service[4]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑥</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[5][nickname]" value="{$service[5]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[5][avatar]', $service[5]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[5][qrcode]', $service[5]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑦</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[6][nickname]" value="{$service[6]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[6][avatar]', $service[6]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[6][qrcode]', $service[6]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑧</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[7][nickname]" value="{$service[7]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[7][avatar]', $service[7]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[7][qrcode]', $service[7]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑨</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[8][nickname]" value="{$service[8]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[8][avatar]', $service[8]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[8][qrcode]', $service[8]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑩</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[9][nickname]" value="{$service[9]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[9][avatar]', $service[9]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[9][qrcode]', $service[9]['qrcode']);}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{/if}
+
+{template 'common/footer'}

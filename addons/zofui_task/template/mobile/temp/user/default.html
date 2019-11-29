@@ -1,0 +1,91 @@
+	<div class="usertop">
+		<div class="mengc"></div>
+		<div class="userimg">
+			<ul>
+				<li><img src="{php echo empty($userinfo['headimg'])?$userinfo['avatar']:$userinfo['headimg'];}"></li>
+			</ul>
+		</div>
+	</div>
+	<div class="userinfo">
+		<span class="fl userinfo_nickname">{php echo empty($userinfo['authname'])?$userinfo['nickname']:$userinfo['authname'];}</span>
+		<a href="{php echo $this->createMobileUrl('user',array('op'=>'money'))}">		
+			<li>
+				<span>{$userinfo['credit2']}</span>
+				<p>账户余额</p>
+			</li>
+		</a>
+		<a href="{php echo $this->createMobileUrl('user',array('op'=>'scorelog'))}">
+			<li id="look_scorerule">
+				<span>{php echo $userinfo['creditscore']}</span>
+				<p>信誉积分</p>
+			</li>
+		</a>
+	</div>
+	<div class="userother">
+		<div class="weui_cells weui_cells_access">
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'userexe'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-comment-alt"></span> 我回复的</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'userpubed'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-help-alt"></span> 我发布的</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'love'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-heart"></span> 我收藏的</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>			
+        </div>
+	</div>
+	<div class="userother">
+		<div class="weui_cells weui_cells_access">
+            <a class="weui_cell" href="{if $userinfo['guytype'] == 1}{php echo $this->createMobileUrl('user',array('op'=>'pvtpub'))}{else}{php echo $this->createMobileUrl('user',array('op'=>'pvtaccept'))}{/if}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-package"></span> 私包任务</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'userfocus'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-pin-alt"></span> 订阅的人物</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'adddeposit'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-pin-alt"></span> 保证金</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'money'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-money"></span> 提现/充值</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>			
+        </div>
+	</div>	
+	
+	<div class="userother">
+		<div class="weui_cells weui_cells_access">
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'setting'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-settings"></span> 账户设置</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>		
+            <a class="weui_cell" href="{php echo $this->createMobileUrl('user',array('op'=>'aboutus'))}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p><span class="ti-info-alt"></span> 关于</p>
+                </div>
+                <span class="weui_cell_ft"></span>
+            </a>			
+        </div>
+	</div>	
+	

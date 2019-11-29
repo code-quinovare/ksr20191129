@@ -1,0 +1,89 @@
+{template 'common/header'}
+<SCRIPT LANGUAGE=javascript> 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</SCRIPT> 
+<ul class="nav nav-pills">
+  <li {if $type==''}class="active"{/if}><a href="{php echo $this->createWebUrl('info');}">当前</a></li>
+  <li {if $type==1}class="active"{/if}><a href="{php echo $this->createWebUrl('info');}&type=1">过期</a></li>
+  <li {if $type==2}class="active"{/if}><a href="{php echo $this->createWebUrl('info');}&type=2">审核中</a></li>
+  <li {if $type==3}class="active"{/if}><a href="{php echo $this->createWebUrl('info');}&type=3">拒绝</a></li>
+  <li {if $type==4}class="active"{/if}><a href="{php echo $this->createWebUrl('info');}&type=4">置顶</a></li>
+</ul>
+<div style="height:10px;"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            拼车信息
+        </h3>
+    </div>
+    <div class="panel-body">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>置顶</th>
+      <th>类型</th>
+	  <th>出发地 - 目的地</th>
+      <th>出发时间</th>
+      <th>昵称</th>
+      <th>管理</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{loop $info $index $item}
+    <tr>
+      <td>
+      {if $item['pci_top']>0}
+      <span class="label label-primary">置顶 {$item['pci_top']}天</span><br />
+      {php echo date('m/d H:i', strtotime($item['pci_toptime']))}
+      {/if}
+      </td>
+      <td>
+      {if $item['pci_type']==1}
+      <span class="label label-warning">人找车</span>
+      {elseif $item['pci_type']==2}
+      <span class="label label-info">车找人</span>
+      {elseif $item['pci_type']==3}
+      <span class="label label-default">货找车</span>
+      {else}
+      <span class="label label-success">车找货</span>
+      {/if}
+      <div style="height:5px;"></div>
+      {if $item['pci_show_flag']==1}
+      <span class="label label-default">审核中</span>
+      {elseif $item['pci_show_flag']==2}
+      <span class="label label-success">已审</span>
+      {else}
+      <span class="label label-danger">拒绝</span>
+      {/if}
+      </td>
+      <td>{$item['pci_chuaddress']} - {$item['pci_muaddress']}
+      <br /><span class="label label-default">{$item['pci_tuaddress']}</span>
+      </td>
+      <td>{php echo date('m/d H:i', strtotime($item['pci_chuaddtime']))}</td>
+      <td>{$item['pcu_wx_title']}<br />{$item['pci_phone']}</td>
+      <td>
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+            	<span class="btn btn-default"><a href="{php echo $this->createWebUrl('top');}&pciid={$item['pci_id']}">置顶</a></span>
+                {if $item['pci_show_flag']!=2}
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('infosh');}&pciid={$item['pci_id']}">审核</a></span>
+                {/if}
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('infoedit');}&pciid={$item['pci_id']}">编辑</a></span>
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('infodel');}&pciid={$item['pci_id']}&type={$type}" onclick="javascript:return p_del()">删除</a></span>
+            </div>
+        </div>
+      </td>
+    </tr>
+	{/loop}
+  </tbody>
+</table>
+    </div>
+</div>
+{template 'common/footer'}

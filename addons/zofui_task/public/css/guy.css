@@ -1,0 +1,103 @@
+
+.guy_top{
+	text-align:center;
+	background:#fff;
+    padding-top: 20px;	
+}
+.guy_headimg img:nth-of-type(2){
+
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    top: 5px;
+	margin-left:14px;
+}
+.guy_headimg img:nth-of-type(1){
+	width:60px;
+	height:60px;
+}
+.guy_desc{
+    text-align: justify;
+    padding: 10px;
+}
+.guy_center{
+    margin-top: 5px;
+    background: #fff;
+}
+.guy_center li{
+	padding:5px 10px;
+	border-bottom:1px solid #ddd;
+}
+.guylist_targericon font{
+    color: #fff;
+    padding: 4px;
+    border-radius: 50%;
+    font-weight: 700;
+}
+.guy_credit{
+	overflow: hidden;
+    line-height: 40px;
+}
+.guy_contact{
+    line-height: 40px;
+}
+.guy_contact span{
+	font-size: 20px;
+    margin-left: 10px;
+    text-align: center;
+    display: inline-block;
+    width: 50px;
+}
+.guy_givetask{
+    margin-top: 5px;
+    background: #fff;
+    padding: 10px;
+}
+.guy_notice{
+	text-align:justify;
+    display: inline-block;
+    margin-top: 5px;	
+}
+.givetask_btn{
+	color: #fff;
+    background: #ff5f27;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+
+/*上拉框*/
+.sideup_guy_down{
+    height: 440px;	
+}
+.fff_button{
+    width: 90%;
+    margin-left: 5%;
+}
+.fff_button:nth-of-type(2){
+    background:#ddd;
+}
+.sideup_guy_bottom{
+    position: fixed;
+    width: 100%;
+    bottom: 10px;
+}
+.guy_task_item{
+	padding: 10px 10px 0 10px;
+}
+.sideup_guy_bottom input,.sideup_guy_bottom textarea{
+	border-radius:0;
+}
+.guy_task_input{
+    border-bottom: 1px solid #ddd;
+    height: 40px;
+}
+
+
+
+
+
+
+
+

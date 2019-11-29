@@ -1,0 +1,198 @@
+{template 'common/header'}
+<style type="text/css">
+	.require{color:red;}
+	.info{padding:6px;width:400px;margin:-20px auto 3px auto;text-align:center;}
+</style>
+{if $reid}
+<div class="alert alert-info info">
+	<i class="fa fa-info-circle"></i>
+	<a href="{php echo $this->createWebUrl('post', array('id' => $_GPC['reid']))}">【编辑】主题: {$activity['title']}</a>
+</div>
+{/if}
+<ul class="we7-page-tab">
+	<li><a href="{php echo $this->createWebUrl('display')}">返回预约主题列表</a></li>
+	<li{if $op == 'list'} class="active"{/if}><a href="{php echo $this->createWebUrl('staff', array('op' => 'list','reid' => $_GPC['reid']))}">客服列表</a></li>
+	<li{if $op == 'post' && !$id} class="active"{/if}><a href="{php echo $this->createWebUrl('staff', array('op' => 'post','reid' => $_GPC['reid']))}">添加客服</a></li>
+	{if $id}<li class="active"><a href="#">编辑客服</a></li>{/if}
+	{if $reid}<li><a href="{php echo $this->createWebUrl('item', array('op' => 'list','reid' => $_GPC['reid']))}">{$par['xmname']}管理</a></li>{/if}
+</ul>
+{if $op == 'post'}
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="weid" value="{$weid}">
+        <div class="we7-form">
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">* </span>绑定微信：</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-btn"><a href="javascript:;" class="btn btn-warning" onclick="$('#modal-module-fans').modal();"><i class="fa fa-plus"></i> 选择粉丝</a></span>
+							<div id="new-reply" class="col-xs-12 {if empty($staff['openid'])}hide{/if}" style="margin:0;padding:0;">
+								<div class="reply-fans">
+								<div class="input-group">
+									<input type="hidden" name="nickname" value="{$staff['nickname']}" autocomplete="off"/>
+									<input type="hidden" name="openid" value="{$staff['openid']}" autocomplete="off"/>
+									<span class="input-group-addon">昵称</span>
+									<span class="form-control nickname"><strong>{$fans['nickname']}</strong></span>
+									<span class="input-group-addon">粉丝编号</span>
+									<span class="form-control openid">{$staff['openid']}</span>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input name="submit" id="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+			</div>	
+		</div>
+	</form>
+<div id="modal-module-fans"  class="modal fade" tabindex="-1">
+    <div class="modal-dialog" style='width: 920px;'>
+        <div class="modal-content">
+            <div class="modal-header"><span aria-hidden="true" data-dismiss="modal" class="close" type="button">×</span><h3>客服绑定微信粉丝</h3></div>
+            <div class="modal-body" >  
+                <div class="keyword-list-head">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="输入粉丝的微信昵称" />
+						<span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_entries();">搜索</button></span>
+                    </div>
+                </div>
+                <div id="module-menus" style="padding-top:5px;"></div>
+            </div>
+            <div class="modal-footer"><a href="#" class="btn btn-warning" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+        </div>
+     </div>
+</div>
+<script type="text/javascript">
+	function search_entries() {
+		var kwd = $.trim($('#search-kwd').val());
+		$.post('{php echo $this->createWebUrl('fanssearch');}', {keyword: kwd}, function(dat){
+			$('#module-menus').html(dat);
+		});
+	}
+	function select_boss(o) {
+		$(".closeboss").click();
+		$('.reply-fans .nickname').html("<strong>"+ o.nickname + "</strong>");
+		$('.reply-fans .openid').html(o.openid);
+		$('#new-reply').removeClass('hide');
+		$(':hidden[name="nickname"]').val(o.nickname);
+		$(':hidden[name="openid"]').val(o.openid);
+	}
+		require(['util'], function(u){
+			$('#form1').submit(function(){
+				if($.trim($(':hidden[name="openid"]').val()) == '') {
+					u.message('必须绑定粉丝');
+					return false;
+				}
+				return true;
+			});
+		});
+</script>
+{elseif $op == 'list'}
+	<style type="text/css">
+		.status-toggle{cursor:pointer;}
+	</style>
+	<div class="main">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body">
+				<form action="./index.php" method="get" class="form-horizontal" role="form">
+					<input type="hidden" name="c" value="site">
+					<input type="hidden" name="a" value="entry">
+					<input type="hidden" name="m" value="dayu_yuyuepay">
+					<input type="hidden" name="do" value="staff"/>
+					<input type="hidden" name="op" value="list"/>
+					<input type="hidden" name="reid" value="{$_GPC['reid']}">
+					<div class="form-group clearfix">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">客服</label>
+						<div class="col-sm-7 col-lg-8 col-md-8 col-xs-12">
+							<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+						</div>
+						<div class="col-xs-12 col-sm-3 col-md-2 col-lg-1">
+							<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		{if $reid}
+			<div class="alert alert-info" style="width:100%:">
+				{if $activity['guanli'] == 0}
+					<a class="btn btn-warning pull-right" href="javascript:void(0);" onclick="change('{$reid}','guanli','1')">切换为 多管理员</a>
+				<h4>点击 <i class="fa fa-dot-circle-o" style="font-size:2rem"></i> 设置为管理员</h4> <i class="fa fa-check-square-o" style="font-size:2rem"></i> 为微信端管理员，<i class="fa fa-dot-circle-o" style="font-size:2rem"></i> 为普通客服，只接收通知，无管理权限
+				{elseif $activity['guanli'] == 1}
+					<a class="btn btn-success" href="javascript:void(0);" onclick="change('{$reid}','guanli','0')">切换为 单管理员多客服</a>
+				{/if}
+			</div>
+		{else}
+				<div class="alert alert-info" style="width:100%:">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4>此客服为接收用户注册通知，</h4>
+				</div>
+		{/if}
+		<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead class="navbar-inner">
+							<tr>
+								<th width="80px">管理员</th>
+								<th>客服</th>
+								<th><a href="/web/index.php?c=mc&a=fans&" target="_blank">openid：粉丝管理中的粉丝编号</a></th>
+								<th>归属</th>
+								<th style="width:80px; text-align:right;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop $lists $item}
+							<tr {if $item['openid'] == $activity['kfid']}style="background-color:#fff8e1;"{/if}>
+								<input type="hidden" name="ids[]" value="{$item['id']}">
+								<input type="hidden" name="weid[]" value="{$weid}">
+								<td>
+									{if $item['openid'] != $activity['kfid'] && $reid && $activity['guanli']=='0'}
+										<a class="btn" href="javascript:void(0);" onclick="change('{$item['reid']}','kfid','{$item['openid']}')" title="设置 {$item['nickname']} 为微信端管理员"><i class="fa fa-dot-circle-o" style="font-size:3rem"></i></a>
+									{elseif ($item['openid'] === $activity['kfid'] && $reid) || $activity['guanli']=='1'}
+										<span class="btn" title="微信端管理员"><i class="fa fa-check-square-o" style="font-size:3rem"></i></span>
+									{/if}
+								</td>
+								<td><input type="text" name="nickname[]" class="form-control" value="{$item['nickname']}"></td>
+								<td><input type="text" name="openid[]" class="form-control" value="{$item['openid']}"></td>
+								<td><input type="text" class="form-control" value="{if $reid}{$activity['title']}{else}注册通知{/if}" disabled></td>
+								<td style="text-align:right;">
+									<a href="{php echo $this->createWebUrl('staff', array('op' => 'staffdel', 'id' => $item['id'], 'reid' => $_GPC['reid']))}" class="btn btn-default btn-sm" title="删除" data-toggle="tooltip" data-placement="top" onclick="if(!confirm('删除客服，确定删除吗?')) return false;"><i class="fa fa-times"> </i></a>
+								</td>
+							</tr>
+							{/loop}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input name="submit" id="submit" type="submit" value="批量修改" class="btn btn-primary">
+				</div>	
+			</div>
+			{$pager}
+		</form>
+	</div>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+	function change(id, field, change){
+		$.post('{php echo $this->createWebUrl("changecheckedAjax")}',{"id":id, "field":field, "change":change},function (data){
+			location.reload();
+		});
+	}
+</script>
+{/if}
+{template 'common/footer'}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>{$set['title']}</title>
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        header{width: 100%;font-size: 14px;color: #333;}
+        .headi{height: 50px;line-height: 50px;width: 100%;padding:0 3%;font-size:17px;font-weight:500;border-bottom: 1px solid #eee;}
+        .head{height: 40px;width: 100%;padding:0 3%;line-height: 40px;border-bottom: 1px solid #eee;}
+        .head p{display: block;float: left}
+        .head span{display: block;float: right;color: #999;font-size: 14px;}
+        .array{height: 65px;padding: 10px 0;}
+        .array li{width: 25%;font-size: 13px;color: #666;float: left;text-align: center}
+        .bookroom-title {padding: 5px 3%;font-size: 12px;line-height: 25px;color: #333;background-color: #eee}
+        .room {display: -webkit-box;display: flex;}
+        .item {padding: 10px 0 10px 10px;border-bottom: 1px solid #e5e5e5;color: #999;line-height: normal;}
+        .room-left {overflow: hidden;width: 55%;flex: 1;margin-left:10px;}
+        .room-right {position: relative;width: 24%;text-align: center;}
+        .room-left-title {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color: #333;font-size: 14px;margin: 0;font-weight: normal;}
+        .tags-item:not(:last-child) {padding-right: 2px;border-right: 1px solid #e5e5e5;}
+        .tags-item {display: inline-block;font-size: 14px;line-height: 14px; height: 5px;}
+        .room-desc {font-size: 12px;color: #999;padding: 2px 0;}
+        .price {position: relative;color: #999;font-weight: normal;font-size: 12px;margin: 0;}
+        .price-num {font-size: 14px;}
+        .room-right-center {position: absolute;top: 50%; transform: translateY(-50%);}
+        .room-right-redtip {font-size: 14px;color: #06c1ae;margin-bottom: 30px;}
+        .room-button{height: 25px;width: 80px;color: #f90;font-size: 12px; border-radius: 5px;border: 1px solid #f90;background-color: #fff}
+        .footer{position: fixed;bottom: 0;width: 100%;background-color: #fff;border-top: 1px solid #eee}
+        .footer li{float: left;width:25%;text-align: center;background-color: #fff;font-size: 14px}
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="headi">我的订单</div>
+</header>
+<content>
+    <div class="array">
+        <a>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"weiorder_list"))}">
+                <li>
+                    <img src="{ASSETS_PATH}img/daifukuan.png" width="25px" height="25px">
+                    <p>待付款</p>
+                </li>
+            </a>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"daiorder_list"))}">
+            <li>
+                <img src="{ASSETS_PATH}img/daishiyong.png" width="25px" height="25px">
+                <p>待使用</p>
+            </li>
+            </a>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"pingorder_list"))}">
+            <li>
+                <img src="{ASSETS_PATH}img/daipingjia.png" width="25px" height="25px">
+                <p>待评价</p>
+            </li>
+            </a>
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"tuiorder_list"))}">
+            <li>
+                <img src="{ASSETS_PATH}img/tuikuan.png" width="25px" height="25px">
+                <p>退款</p>
+            </li>
+            </a>
+    </div>
+    {if $_GPC['action'] == "order_list"}
+    <div>
+        <div class="bookroom-title">
+            <span>全部订单</span>
+        </div>
+        <ul>
+            {loop $order $v}
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_info",'id'=>$v['id']))}">
+            <li class="item room">
+                <div style="">
+                    <img src="{php echo tomedia($v['img'])}" width="50px" height="50px" style="border-radius: 5px">
+                </div>
+                <div class="room-left">
+                    <h2 class="room-left-title">{$v['title']}</h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['count']}间，{$v['class']}</li>
+                    </ul>
+                    <div class="room-desc"> {$v['ruzhu']}-{$v['lidian']} </div>
+                    <h2 class="price">房价：¥ <span class="price-num">{$v['price']}</span> </h2>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        <div class="room-right-redtip"> 订购成功 </div>
+                        <button class="room-button" type="button" name="button">再次预订</button>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+
+
+    {if $_GPC['action'] == "weiorder_list"}
+    <div>
+        <div class="bookroom-title">
+            <span>未付款订单</span>
+        </div>
+        <ul>
+            {loop $order $v}
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_info",'id'=>$v['id']))}">
+            <li class="item room">
+                <div style="">
+                    <img src="{php echo tomedia($v['img'])}" width="50px" height="50px" style="border-radius: 5px">
+                </div>
+                <div class="room-left">
+                    <h2 class="room-left-title">{$v['title']}</h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['count']}间，{$v['class']}</li>
+                    </ul>
+                    <div class="room-desc"> {$v['ruzhu']}-{$v['lidian']} </div>
+                    <h2 class="price">房价：¥ <span class="price-num">{$v['price']}</span> </h2>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        <div class="room-right-redtip"> 待付款 </div>
+
+                        <button class="room-button" onclick="pay({$v['numberid']})" name="button">立即付款</button>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+
+
+    {if $_GPC['action'] == "daiorder_list"}
+    <div>
+        <div class="bookroom-title">
+            <span>待使用订单</span>
+        </div>
+        <ul>
+            {loop $order $v}
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_info",'id'=>$v['id']))}">
+            <li class="item room">
+                <div style="">
+                    <img src="{php echo tomedia($v['img'])}" width="50px" height="50px" style="border-radius: 5px">
+                </div>
+                <div class="room-left">
+                    <h2 class="room-left-title">{$v['title']}</h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['count']}间，{$v['class']}</li>
+                    </ul>
+                    <div class="room-desc"> {$v['ruzhu']}-{$v['lidian']} </div>
+                    <h2 class="price">房价：¥ <span class="price-num">{$v['price']}</span> </h2>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        <div class="room-right-redtip"> 待使用 </div>
+
+                        <button class="room-button" onclick="qrcode({$v['id']})" name="button">立即使用</button>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+
+    {if $_GPC['action'] == "pingorder_list"}
+    <div>
+        <div class="bookroom-title">
+            <span>待评价订单</span>
+        </div>
+        <ul>
+            {loop $order $v}
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_info",'id'=>$v['id']))}">
+            <li class="item room">
+                <div style="">
+                    <img src="{php echo tomedia($v['img'])}" width="50px" height="50px" style="border-radius: 5px">
+                </div>
+                <div class="room-left">
+                    <h2 class="room-left-title">{$v['title']}</h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['count']}间，{$v['class']}</li>
+                    </ul>
+                    <div class="room-desc"> {$v['ruzhu']}-{$v['lidian']} </div>
+                    <h2 class="price">房价：¥ <span class="price-num">{$v['price']}</span> </h2>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        <div class="room-right-redtip"> 待评价 </div>
+
+                        <button class="room-button" onclick="pinglun({$v['id']})" name="button">立即评价</button>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+
+    {if $_GPC['action'] == "tuiorder_list"}
+    <div>
+        <div class="bookroom-title">
+            <span>退款订单</span>
+        </div>
+        <ul>
+            {loop $order $v}
+            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"order_info",'id'=>$v['id']))}">
+            <li class="item room">
+                <div style="">
+                    <img src="{php echo tomedia($v['img'])}" width="50px" height="50px" style="border-radius: 5px">
+                </div>
+                <div class="room-left">
+                    <h2 class="room-left-title">{$v['title']}</h2>
+                    <ul class="tags">
+                        <li class="tags-item" style="color: rgb(153, 153, 153);">{$v['count']}间，舒适景观房</li>
+                    </ul>
+                    <div class="room-desc"> {$v['ruzhu']}-{$v['lidian']} </div>
+                    <h2 class="price">房价：¥ <span class="price-num">{$v['price']}</span> </h2>
+                </div>
+                <div class="room-right">
+                    <div class="room-right-center">
+                        <div class="room-right-redtip" style="display: none;">  </div>
+                        {if $v['pay_status'] == -2}
+                        <div class="room-right-redtip">退款处理中</div>
+                        {else}
+                        <div class="room-right-redtip">退款成功</div>
+                        {/if}
+                        <button class="room-button" type="button" name="button">再次购买</button>
+                    </div>
+                </div>
+            </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+
+</content>
+<div style="height:55px;line-height: 55px;color:white;">
+    1
+</div>
+    <div class="footer">
+        <ul>
+            {loop $footer $v}
+            <a href="{$v['url']}">
+                <li>
+                    <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                    <p>{$v['title']}</p>
+                </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+</body>
+</html>
+
+<script>
+    function qrcode(id) {
+        //alert(id);
+        event.preventDefault();
+        window.location.href='{php echo $this->createMobileUrl('Index',array('action'=>'qrcode'))}&id='+ id+'';
+        //alert(1);
+    }
+    function delete1(id){
+        event.preventDefault();
+
+        window.location.href='{php echo $this->createMobileUrl('Index',array('action'=>'delete'))}&id='+ id+'';
+        //alert(1);
+    }
+    function pinglun(id){
+        event.preventDefault();
+
+        window.location.href='{php echo $this->createMobileUrl('Index',array('action'=>'xing'))}&id='+ id+'';
+        //alert(1);
+    }
+    //
+    function pay(num){
+        event.preventDefault();
+
+        window.location.href='{php echo $this->createMobileUrl('Pay')}&orderid='+ num+'';
+        //alert(1);
+    }
+</script>

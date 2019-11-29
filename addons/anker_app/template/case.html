@@ -1,0 +1,51 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">详细信息<a href="{url 'site/entry/AddCase',array('m'=>'anker_app')}" style="color:#428bca;float:right;">添加案列</a></h3>
+    </div>
+    <?php if($list): ?>
+    	<div class="panel-body">
+       <form action="" method="post" class="form-horizontal form">
+			<input type="hidden" name="storeid" value="">
+            <div class="table-responsive panel-body">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                    <tr>
+                       <th>Id</th>                   
+                       <th>名称</th>
+                       <th>类别</th>
+                       <th>缩略图</th>
+                       <th>咨询人数</th>
+                       <th>轮播图片</th>
+                       <th style="text-align:right;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $index $item}
+                     <tr>
+                     	<td>{$item['id']}</td>  
+                     	<td>{$item['title']}</td>               	
+                        <td>{$item['name']}</td>
+                        <td><img src="{php echo tomedia($item['thumb']);}" height="50"/></td>
+                        <td>
+                        	<?php  if($item['count_join'] > 0): ?>
+								<a class="btn btn-default btn-sm" href="{url 'site/entry/Comment',array('id'=>$item['id'],'m'=>'anker_app')}" title="查看留言用户">{$item['count_join']}</a>	
+							<?php else: ?>
+								<label class="btn btn-default btn-sm" style="cursor:not-allowed;">{$item['count_join']}</label>								
+                        	<?php endif; ?>
+                        </td>
+                        <td><a class="btn btn-default btn-sm" href="{url 'site/entry/CaseImg',array('case_id'=>$item['id'],'m'=>'anker_app')}" title="编辑">管理（{$item['case_num']}）</a></td>
+                        <td style="text-align:right;"><a class="btn btn-default btn-sm" href="{url 'site/entry/EditCase',array('id'=>$item['id'],'m'=>'anker_app')}" title="编辑">改</a>&nbsp;&nbsp;<a class="btn btn-default btn-sm" href="{url 'site/entry/DelCase',array('id'=>$item['id'],'m'=>'anker_app')}" onclick="return confirm('确认删除此条数据吗？');return false;" title="删除">删</a></td>
+                    </tr>
+                    {/loop}     
+                    </tbody>
+                </table>
+                 {$pager}   
+            </div>
+        </form>
+    </div>
+    <?php else:?>
+    	<div class="panel-body">没有数据</div>
+    <?php endif;?>
+</div>
+{template 'common/footer'}

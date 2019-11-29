@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html style="background:#f5f5f5;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>{if $this->module["config"]['footertext2']}{php echo $this->module["config"]['footertext2']}{else}群聊中心{/if}</title>
+    <link rel="stylesheet" href="{MD_ROOT}static/iconfont/iconfont.css?v=20171228"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/jquery-weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/newui/css/common.css?v=20180813"/>
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+	{php echo register_jssdk(false);}
+	<style>	
+	.search{background:#f5f5f5;padding:0.3rem 0.2rem;height:1.2rem;border-bottom:solid 1px #f1f1f1;}
+	.search input{display:block;-webkit-box-flex:1;-webkit-flex:1;flex:1;height:0.4rem;line-height:0.4rem;font-size:0.26rem;color:#666;padding:0.1rem 0;text-indent:5px;width:100%;border:solid 1px #f1f1f1;border-radius:0.1rem;margin-right:0.2rem;-webkit-appearance: none;}
+	.search button{display:block;width:1.2rem;height:0.6rem;line-height:0.6rem;text-align:center;background:#E64340;color:#fff;font-size:0.26rem;border:none;border-radius:0.1rem;}
+	
+	.qunliaolist .item{padding:0.2rem;border-bottom:solid 1px #f1f1f1;background:#fff;}
+	.qunliaolist .item img{width:0.9rem;height:0.9rem;border-radius:100%;}
+	.qunliaolist .item .text{-webkit-box-flex:1;-webkit-flex:1;flex:1;margin-left:0.2rem;font-size:0.3rem;line-height:0.9rem;}
+	.qunliaolist .item .buttons{width:1.2rem;}
+	.qunliaolist .item .buttons a{font-size:0.24rem;display:block;width:100%;text-align:center;border-radius:0.05rem;background:#E64340;color:#fff;width:100%;height:0.5rem;line-height:0.5rem;margin-top:0.2rem;}
+	
+	.copyright{padding:0.2rem;font-size:0.28rem;color:#666;line-height:0.5rem;}
+	.copyright a{color:#E64340;}
+	
+	#header{background:{php echo $this->module["config"]['temcolor']};}
+	.copyright a,#footer .now .iconfont, #footer .now .text{color:{php echo $this->module["config"]['temcolor']};}
+	.search button{background:{php echo $this->module["config"]['temcolor']};}
+	.qunliaolist .item .buttons a{background:{php echo $this->module["config"]['temcolor']};}
+	</style>
+</head>
+
+<body style="background:#f5f5f5;padding-bottom;1.2rem;">
+
+<div class="search">
+	<form action="{php echo $this->createMobileUrl('groupcenter',array('op'=>'search'))}" method="post" id="form" class="flex">
+		<input type="text" placeholder="输入群名称搜索" name="qunname" value="" />
+		<button type="submit">搜索</button>
+	</form>
+</div>
+<div class="qunliaolist">
+	{if !empty($grouplist)}
+		{loop $grouplist $row}
+			<div class="item flex">
+				<img src="{php echo tomedia($row['thumb']);}">
+				<a href="{php echo $this->createMobileUrl('groupchatdetail',array('groupid'=>$row['id']))}" style="-webkit-box-flex:1;-webkit-flex:1;flex:1;color:#666;">
+					<div class="text textellipsis1">{$row['groupname']}</div>
+				</a>
+				<div class="buttons">
+					{if $row['admin'] == $_W['fans']['from_user']}
+						<a href="{php echo $this->createMobileUrl('guanligroup',array('groupid'=>$row['id']))}">管理群</a>
+					{/if}
+				</div>
+			</div>
+		{/loop}
+	{else}
+		<div class="nodata text-c">
+			<div class="iconfont">&#xe67c;</div>
+			<div class="text">暂没有群聊哦</div>
+		</div>
+	{/if}
+</div>
+
+<div class="copyright text-c">{php echo nl2br($this->module["config"]['copyright'])}</div>
+
+<div id="footer" class="flex">
+	<div class="item">
+		<a href="{php echo $this->createMobileUrl('chosekefu');}">
+			<div class="iconfont">&#xe6b3;</div>
+			<div class="text">{if $this->module["config"]['footertext1']}{php echo $this->module["config"]['footertext1']}{else}客服{/if}</div>
+		</a>
+	</div>
+	<div class="item now">
+		<a href="{php echo $this->createMobileUrl('groupcenter');}">
+			<div class="iconfont">&#xe933;</div>
+			<div class="text">{if $this->module["config"]['footertext2']}{php echo $this->module["config"]['footertext2']}{else}群聊{/if}</div>
+		</a>
+	</div>
+	<div class="item">
+		<a href="{php echo $this->createMobileUrl('mychat');}">
+			<div class="icon iconfont">&#xe66d;</div>
+			<div class="text">{if $this->module["config"]['footertext4']}{php echo $this->module["config"]['footertext4']}{else}消息{/if}</div>
+			{if $notread > 0}<div class="badge">{$notread}</div>{/if}
+		</a>
+	</div>
+	{if $this->module['config']['footer4on'] == 1}
+		<div class="item">
+			<a href="{php echo $this->module['config']['footer4url'];}">
+				<img src="{php echo tomedia($this->module['config']['footer4thumb']);}" />
+				<div class="text">{php echo $this->module['config']['footertext3'];}</div>
+			</a>
+		</div>
+	{/if}
+</div>
+<script src="{MD_ROOT}/static/newui/js/jquery-3.1.1.min.js"></script>
+<script src="{MD_ROOT}/static/newui/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/js/jquery.form.js"></script>
+<script type="text/javascript">
+$("#form").ajaxForm({
+	type: "POST",
+	dataType:"json",
+	success: function(data) {
+		if(data.error == 1){
+			$.alert(data.msg);
+		}else{
+			$('.qunliaolist').html(data.html);
+		}
+	},
+});
+$(function(){
+
+})
+</script>
+<script type="text/javascript">
+wx.ready(function () {
+	sharedata = {
+		title: '{php echo $this->module["config"]["sharetitle"]}',
+		desc: '{php echo $this->module["config"]["sharedes"]}',
+		link: '{php echo $this->module["config"]["shareurl"]}',
+		imgUrl: '{php echo tomedia($this->module["config"]["sharethumb"]);}',
+		trigger: function (res) {
+			//alert('用户点击发送给朋友');
+		},
+		success: function (res) {
+			//alert('已分享');
+		},
+		cancel: function (res) {
+			//alert('已取消');
+		},
+		fail: function (res) {
+			$.alert("分享失败");
+		}
+	};
+	wx.onMenuShareAppMessage(sharedata);
+	wx.onMenuShareTimeline(sharedata);
+	wx.onMenuShareQQ(sharedata);
+	wx.onMenuShareWeibo(sharedata);
+});
+</script>
+</body>
+</html>

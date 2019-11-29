@@ -1,0 +1,55 @@
+
+<script type="text/javascript">
+function upimg(obj,id){
+	var images = {
+		localId: [],
+		serverId: []
+	};
+	wx.chooseImage({
+		count: 1,
+		sizeType: ['original', 'compressed'],
+		sourceType: ['album', 'camera'],
+		success:function(res){
+		images.localId = res.localIds;
+		var i = 0, length = images.localId.length;
+		var wxUpload = function() {
+			wx.uploadImage({
+				localId: images.localId[i],
+				isShowProgressTips: 1,
+				success: function (res) {
+					i++;
+					images.serverId.push(res.serverId);
+					var url = "{php echo $this->createMobileUrl('uploads',array('type'=>'image'));}&serverId=" + res.serverId + "&localId=" + i;
+					$.post(url, function(dat){
+						var dat = eval("("+dat+")");
+							if (dat.status == 'success') {
+								$.toast(dat.message, "success");
+								$('input[name="'+obj.getAttribute("data")+'"]').val(tomedia(dat.path));
+								document.getElementById('show'+id).src = tomedia(dat.path);
+							}else{
+								$.toast(dat.message, "cancel");
+								document.getElementById('show'+id).src = "";
+							}
+					});
+					if(i < length){
+						wxUpload();
+					}
+				},
+				fail: function (res) {
+					alert(JSON.stringify(res));
+				}
+			});						
+		};
+		wxUpload();
+		}
+	});
+}
+function show(obj,id){
+	var pic=document.getElementById(id).src;
+	wx.previewImage({
+		current: pic,
+		urls: [pic]
+		
+	});
+}
+</script>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>{$initParams['title']}</title>
+		{php echo register_jssdk();}
+		<meta content="telephone=no, address=no" name="format-detection">
+		<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="../app/resource/css/bootstrap.min.css">
+		<link href="../addons/zofui_task/public/css/weui.min.css" rel="stylesheet">
+		<link href="../addons/zofui_task/public/css/themify-icons.css" rel="stylesheet">
+		<link href="../addons/zofui_task/public/css/common.css" rel="stylesheet">
+		<link href="../addons/zofui_task/public/css/footer.css" rel="stylesheet">
+		<link href="../addons/zofui_task/public/css/{$_GPC['do']}.css" rel="stylesheet">
+		<script src="{$_W['siteroot']}app/resource/js/require.js" ></script>
+		<script src="../addons/zofui_task/public/js/app/fenda_config.js"></script>
+		<script src="../addons/zofui_task/public/js/app/fendaJS.js"></script>
+		<script>
+			var urlParams = {'do':"{$_GPC['do']}",op:"{$_GPC['op']}",status:"{$_GPC['status']}",type:"{$_GPC['type']}"};
+			var getPage = "{$_GPC['op']}";
+			var getpageurl = "{php echo $this->createMobileUrl('pagedeal',array('from'=>$_GPC['do'],'op'=>$_GPC['op'],'status'=>$_GPC['status'],'type'=>$_GPC['type'],'for'=>$_GPC['for'],'id'=>$_GPC['id']))}";
+			var initPageData = {page:1,taskauther:"{php echo $taskinfo['uid']}"};
+			var shareData = {title:"{php echo $this->module['config']['sharetitle']}",desc:"{php echo $this->module['config']['sharedesc']}",link:'',imgUrl:"{php echo tomedia($this->module['config']['shareimg'])}"};
+			var initParams = {php echo json_encode($initParams)};
+		</script>
+	</head>
+	<body>
+		<div class="fenda_container">

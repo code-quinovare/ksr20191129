@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>客服个人中心</title>
+	<link rel="stylesheet" href="{MD_ROOT}static/jqueryweui/css/weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/jqueryweui/css/jquery-weui.min.css"/>
+	<style>
+	.red{font-size:1.4rem;color:#f76260;}
+	.green{font-size:1.4rem;color:#09bb07;}
+	
+	.textellipsis1{
+		overflow:hidden;
+		text-overflow:ellipsis;
+		-o-text-overflow:ellipsis;
+		-webkit-text-overflow:ellipsis;
+		-moz-text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+
+	.weui-cells{margin-top:0px;}
+	.weui-cell__hd{width:15%;margin-right:2%;}
+	.weui-cell__hd img{width:100%;border-radius:0.1rem;margin-right:8px;}
+	.weui-cell__bd .time{color:#989898;font-size:0.3rem;}
+	.weui-cell__bd .title2{color:#989898;margin-top:0.15rem;}
+	</style>
+</head>
+
+<body ontouchstart>
+<div class="weui-search-bar" id="searchBar">
+	<form class="weui-search-bar__form" action="{php echo $this->createMobileUrl('kefucenter',array('op'=>'search'))}" id="form">
+		<div class="weui-search-bar__box">
+			<i class="weui-icon-search"></i>
+			<input type="search" class="weui-search-bar__input" name="nickname" placeholder="搜索粉丝昵称、标签、姓名、电话" required="">
+			<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+		</div>
+		<label class="weui-search-bar__label" id="searchText">
+			<i class="weui-icon-search"></i>
+			<span>搜索粉丝昵称、标签、姓名、电话</span>
+		</label>
+	</form>
+	<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+</div>
+<div class="weui-cells">
+
+</div>
+<div class="weui-msg">
+	{if $iscservice['iszx'] == 1}
+		{if $iscservice['isrealzx'] == 1}
+		<div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+		<div class="weui-msg__text-area">
+			<p class="weui-msg__desc green">您目前处于在线状态</p>
+		</div>
+		<div class="weui-msg__opr-area">
+			<p class="weui-btn-area">
+				<a href="javascript:;" onclick="xiaxian($(this));" class="weui-btn weui-btn_warn">我要离线</a>
+				<a href="{php echo $this->createMobileUrl('mychat')}" class="weui-btn weui-btn_default">消息中心</a>
+			</p>
+		</div>
+		{else}
+		<div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+		<div class="weui-msg__text-area">
+			<p class="weui-msg__desc red">您目前处于离线状态</p>
+		</div>		
+		<div class="weui-msg__opr-area">
+			<p class="weui-btn-area">
+				<a href="javascript:;" onclick="xiaxian($(this));" class="weui-btn weui-btn_primary">我要上线</a>
+				<a href="{php echo $this->createMobileUrl('mychat')}" class="weui-btn weui-btn_default">消息中心</a>
+			</p>
+		</div>
+		{/if}
+	{else}
+		<div class="weui-msg__icon-area"><i class="weui-icon-waiting weui-icon_msg"></i></div>
+		<div class="weui-msg__opr-area">
+			<p class="weui-btn-area">
+				<a href="{php echo $this->createMobileUrl('mychat')}" class="weui-btn weui-btn_default">消息中心</a>
+			</p>
+		</div>
+	{/if}
+</div>
+<script type="text/javascript" src="{MD_ROOT}static/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/jqueryweui/js/fastclick.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/jqueryweui/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/js/jquery.form.js"></script>
+<script type="text/javascript">
+$("#form").ajaxForm({
+	type: "POST",
+	dataType:"json",
+	success: function(data) {
+		if(data.error == 1){
+			$.alert(data.message);
+		}else{
+			$('.weui-cells').html(data.html);
+		}
+	},
+});
+$(function(){
+	FastClick.attach(document.body);
+})
+
+function xiaxian(obj){
+	$.ajax({
+		url:"{php echo $this->createMobileUrl('kefucenter',array('op'=>'sxx'))}",
+		data:{
+		},
+		dataType:'json',
+		type:'post',        
+		success:function(data){
+			if(data.error == 0){
+				if(obj.hasClass('weui-btn_warn')){
+					obj.removeClass('weui-btn_warn').addClass('weui-btn_primary').text('我要上线');
+					$('.weui-msg__desc').addClass('red').removeClass('green').text('您目前处于离线状态');
+					$('.weui-icon-success').removeClass('weui-icon-success').addClass('weui-icon-warn');
+				}else{
+					obj.removeClass('weui-btn_primary').addClass('weui-btn_warn').text('我要离线');
+					$('.weui-msg__desc').addClass('green').removeClass('red').text('您目前处于在线状态');
+					$('.weui-icon-warn').removeClass('weui-icon-warn').addClass('weui-icon-success');
+				}
+			}
+		},
+	});
+}
+</script>
+</body>
+</html>

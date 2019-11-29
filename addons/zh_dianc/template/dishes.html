@@ -1,0 +1,106 @@
+﻿{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('dishes');}">菜品列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('adddishes');}">添加/编辑菜品</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">菜品列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+                <th style="width:100px;">菜品图片</th>
+                <th style="width:200px;">菜品名称</th>
+                <th style="width:120px;">分类</th>
+                <th style="width:140px;">店内价格</th>
+                  <th style="width:140px;">外卖价格</th>
+                 <th style="width:80px;">库存</th>
+                <th style="width:150px;">菜品选项</th>
+          <!--       <th style="width:100px;">招牌</th> -->
+                <th style="width:150px;">是否上架</th>
+
+                <th style="width:80px;">操作</th>
+                <th style="width:80px;">查看</th>
+                <th style="width:100px;">规格</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+               
+                <td>
+                <img style="height:80px;width:80px" src="{php echo tomedia($item['img'])}"/>
+                </td>
+                <td>
+                 {$item['name']}
+                </td>
+                <td>
+                {$item['type_name']}
+                </td>
+                <td>
+                 {$item['money']}
+                </td>
+                  <td>
+                 {$item['wm_money']}
+                </td>
+                 <td>
+                 {$item['num']}
+                </td>
+             {if $item['dishes_type']==2}
+              <td> <span class="label label-info">店内菜品</span></td>
+              {elseif $item['dishes_type']==1}
+              <td> <span class="label label-success">外卖菜品</span></td>
+              {elseif $item['dishes_type']==3}
+              <td>  <span class="label label-warning">店内+外卖</span></td>
+              {/if} 
+             <!--  <td>
+                {if $item['signature']==1}
+                <a onclick="if(!confirm('确定取消招牌')) return false;" href="{php echo $this->createWebUrl('updzhaop',array('id'=>$item['id'],'signature'=>2));}"><span class="label label-warning">取消招牌</span></a>
+                {elseif $item['signature']==2}
+                 <a onclick="if(!confirm('确定设为招牌')) return false;" href="{php echo $this->createWebUrl('updzhaop',array('id'=>$item['id'],'signature'=>1));}"><span class="label label-success">设为招牌</span></a>
+                {/if}
+                </td> -->
+                <td>
+                 {if $item['is_shelves']==1}
+                  <a onclick="if(!confirm('确定是否下架')) return false;" href="{php echo $this->createWebUrl('updxiajia',array('id'=>$item['id'],'is_shelves'=>2));}"><span class="label label-warning">点击下架</span></a>
+                {elseif $item['is_shelves']==2}
+                <a onclick="if(!confirm('确定是否上架')) return false;" href="{php echo $this->createWebUrl('updxiajia',array('id'=>$item['id'],'is_shelves'=>1));}"><span class="label label-success">点击上架</span></a>
+
+
+                
+                {/if}
+                </td>
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('deldishes', array('id'=>$item['id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+                <td>
+                <a href="{php echo $this->createWebUrl('adddishes',array('id'=>$item['id']));}">编辑</a>
+                </td>
+                <td>  <a href="{php echo $this->createWebUrl('spec',array('dishes_id' => $item['id']));}">添加规格</a></td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加菜品
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+ <div class="text-right we7-margin-top">
+             {$pager}
+             </div>
+
+{template 'common/footer'}

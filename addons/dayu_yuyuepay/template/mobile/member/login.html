@@ -1,0 +1,66 @@
+{template 'weheader'}
+<div class="weui_msg" id="weui_msg">
+	<div class="weui_media_hd" style="margin:0 auto;">
+		<img class="circle" src="{if tomedia('headimg_'.$_W['acid'].'.jpg')}{php echo tomedia('headimg_'.$_W['acid'].'.jpg');}{else}resource/images/MicroEngine.ico{/if}" style="height:80px;">
+	</div>
+	<div class="weui_cells_tips">
+		<form id="form" class="form-horizontal" method="post" role="form">
+			<div class="weui_cells weui_cells_form">
+				<div class="weui_cell">
+					<div class="weui_cell_bd weui_cell_primary">
+						<input class="weui_input" type="tel" name="mobile" id="mobile" value="{$member['mobile']}" required pattern="[0-9]{11}" maxlength="11" placeholder="手机号码" emptyTips="请输入手机号" notMatchTips="请输入正确的手机号">
+					</div>
+				</div>
+				<div class="weui_cell weui_vcode">
+					<div class="weui_cell_bd weui_cell_primary">
+						<input class="weui_input" type="password" name="password" id="password" value="" placeholder="密码"/>
+					</div>
+					<div class="weui_cell_ft">
+						<a href="{php echo $this->createMobileUrl('forget', array('op' => 'member', 'forward' => $_GPC['forward']))}" class="weui-vcode-btn f14">忘记密码</a>
+					</div>
+				</div>
+			</div>
+			<div class="weui_opr_area">
+				<p class="weui_btn_area">
+					<a class="weui_btn weui_btn_primary" id="formSubmitBtn">登录</a>
+				</p>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+$("#formSubmitBtn").on("click", function(){
+	var mobile = $('#mobile').val(),
+		password = $('#password').val();
+	if (!mobile) {
+		$.toast("请填写手机号码！", "cancel");
+		return false;
+	}
+	if(mobile=='' || is_phone(mobile) == false){
+		$('#mobile').val(""); 
+		$.toast("手机号格式错误", "cancel");
+		return false;
+	}
+	if (!password) {
+		$.toast("请填写登录密码！", "cancel");
+		return false;
+	}
+	var submitData = {
+		'mobile':mobile,
+		'password':password
+	};
+	$.post("{php echo $this->createMobileUrl('login', array('do' => 'basic'))}", submitData, function (data){
+		if (data.message.status == 1) {
+			$.toast(data.message.msg, "success");
+			setTimeout(function() {
+				window.location.href = decodeURIComponent(data.message.url);
+				return;
+			}, 1500)
+			return;
+		} else {
+			$.toast(data.message.msg, "cancel");
+		}
+	},"json");
+});
+</script>
+{template 'footers'}

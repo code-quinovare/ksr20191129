@@ -1,0 +1,194 @@
+{template 'weheader'}
+<script src="{TEMPLATE_WEUI}iscroll.js"></script>
+<script src="{TEMPLATE_WEUI}qrcode.js"></script>
+<script>
+$(function(){	
+	$('#tab').tab({defaultIndex:0,activeClass:"tab-green"});
+});
+</script>
+<style>
+body{background-color:#f0f0f0;font-weight:300;}
+a{color:#666}
+
+.weui-form-preview::after {border-bottom: 0px solid #d9d9d9;}
+.weui-form-preview-value{color:#333;}
+.weui-form-preview-label{color:#666;}
+
+.weui-pay-area{margin-bottom:7px;border-top:0 dashed #DEDEDE;border-bottom:0.0625rem dashed #DEDEDE;}
+.placeholder {background-color:transparent;color:#333; height: 30px; line-height: 40px;}
+
+.weui_navbar{line-height:20px;}
+.weui_cells {margin-top:0;}
+.weui_media_box.weui_media_text .weui_media_info {margin-top: 0px;}
+.weui_tabbar_icon {height: 24px;}
+.weui_bar_item_on .weui_tabbar_icon i {color: #09BB07;}
+.weui_cell_bd i {color:#666;}
+
+.dayu_cells {overflow: hidden;position: relative;}
+.sticky-fixed {width: 100%;position: fixed;bottom: 0;z-index:9998;}
+
+.weui_cell_ft {margin-left:10px;font-size:14px;}
+.weui_cell_bd {font-size:16px;}
+.weui_cells_title {margin-top: 10px;}
+
+.weui_actionsheet {background-color: transparent;}
+.weui_actionsheet_action, .weui_actionsheet_menu{width:96%;border-radius:5px;margin:0 auto;}
+.weui_actionsheet_action{margin:10px auto;}
+#actionSheet_wrap, #weui_actionsheet{z-index:99999;}
+</style>
+<div class="weui_navbar" style="height:45px;">
+	<div class="weui_navbar_item">
+		预约详情
+	</div>
+	<div class="weui_navbar_item tcenter">
+		订单状态
+	</div>
+	{if pdo_tableexists('dayu_yuyuepay_plugin_car') && $carid}
+	<div class="weui_navbar_item" onclick="fetchgetjs(this)">
+		发车状态
+	</div>
+	{/if}
+</div>
+<div class="weui_tab_bd" style="margin-bottom:45px;">
+		<!--		<a href="{$index_url}"><svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-home"></use></svg></a>-->
+	<div class="weui_tab_bd_item">
+		{template 'member/detail_basic'}
+	</div>
+	<div class="weui_tab_bd_item">
+		{template 'detail_status'}
+	</div>
+	{if pdo_tableexists('dayu_yuyuepay_plugin_car') && $carid}
+		<div class="weui_tab_bd_item">
+			{template 'detail_car'}
+		</div>
+	{/if}
+</div>
+<div id="actionSheet_wrap">
+	<div class="weui_mask_transition" id="mask"></div>
+	<div class="weui_actionsheet" id="weui_actionsheet">
+		<div class="weui_actionsheet_menu">
+			<div class="weui_actionsheet_cell">核销二维码 请出示给工作人员</div>
+			<div class="weui_actionsheet_cell"><div id="qrcodeCanvas"></div></div>
+		</div>
+		<div class="weui_actionsheet_action">
+			<div class="weui_actionsheet_cell" id="actionsheet_cancel">取消</div>
+		</div>
+	</div>
+</div>
+{if !empty($par['comment']) && pdo_tableexists('dayu_comment')}
+	{template 'comment'}
+{/if}
+<script type="text/javascript">
+	$(document).ready(function () {
+		var ActionUrl = "{php echo $this->createMobileUrl('dayu_Delete', array(), true);}";
+		$("#changeAjax").bind('click',function () {
+			$.confirm("删除本记录，此操作不可恢复，确认删除？", "确认?", function() {
+				var submitData = {
+					id:"{$row['rerid']}",
+					reid:"{$reid}"
+				};
+				$.post(ActionUrl, submitData,function(data) {
+					if (data.status == 1) {
+						$.toast(data.message);
+							setTimeout('window.location.href=location.href',1000);
+							return;
+					} else {
+						$.toast(data.message);
+					}
+				},"json")
+			}, function() {
+			//取消操作
+			});
+		});
+	});
+$(document).ready(function () {
+	var ActionUrl = "{php echo $this->createMobileUrl('changeAjax', array(), true);}";
+	$("#cancel").bind('click',function () {
+		$.confirm("确定要取消此订单吗？", "确认?", function() {
+			var submitData = {
+				id:"{$row['rerid']}",
+				reid:"{$reid}",
+				status: "9"
+			};
+			$.post(ActionUrl, submitData,function(data) {
+				if (data.status == 1) {
+					$.toast(data.message);
+					setTimeout('window.location.href=location.href',1000);
+					return;
+				} else {
+					$.toast(data.message);
+				}
+			},"json")
+		}, function() {
+		 //取消操作
+		});
+	});
+});
+$("#sa").click(function(){
+	var mask = $('#mask');
+	var weuiActionsheet = $('#weui_actionsheet');
+	weuiActionsheet.addClass('weui_actionsheet_toggle');
+	mask.show().addClass('weui_fade_toggle').one('click', function () {
+		hideActionSheet(weuiActionsheet, mask);
+	});
+	$('#actionsheet_cancel').one('click', function () {
+		hideActionSheet(weuiActionsheet, mask);
+	});
+	weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
+
+	function hideActionSheet(weuiActionsheet, mask) {
+		weuiActionsheet.removeClass('weui_actionsheet_toggle');
+		mask.removeClass('weui_fade_toggle');
+		weuiActionsheet.on('transitionend', function () {
+			mask.hide();
+		}).on('webkitTransitionEnd', function () {
+			mask.hide();
+		})
+	}
+});
+var qrnode = new AraleQRCode({
+	render: 'canvas',
+	correctLevel: 3,
+	text: '{$qrcode}',
+	size: 200,
+	background: '#eeeeee',
+	foreground: '#667766',
+	pdground: '#00aaee',
+	image : '{$qrcodesrc}',
+	imageSize : 50
+});
+document.getElementById('qrcodeCanvas').appendChild(qrnode);
+function Location(id){
+	wx.getLocation({
+		success: function (res) {
+			var latitude = res.latitude; 
+			var longitude = res.longitude; 
+			var url = "{php echo $this->createMobileUrl('LocateStore')}";
+			$.post(url,{'id':id},function(dat){
+				var dat = eval("("+dat+")");
+	//			$.toast('354', "success");
+				lat = parseFloat(dat.lat);
+				lng = parseFloat(dat.lng);
+				address= dat.address+' 电话:'+dat.mobile
+				wx.openLocation({
+					latitude: lat,
+					longitude: lng,
+					name: dat.name,
+					address: address,
+					scale: 15,
+					infoUrl: 'http://weixin.qq.com'
+				});
+			});
+		}
+	});
+}
+function show(obj,id){
+	var pic=document.getElementById(id).src;
+	wx.previewImage({
+		current: pic,
+		urls: [pic]		
+	});
+}
+</script>
+{php $share = 1;}
+{template 'footers'}

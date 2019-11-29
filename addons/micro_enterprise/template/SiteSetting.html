@@ -1,0 +1,110 @@
+{template 'common/header'}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">站点设置</h3>
+    </div>
+    <div class="panel-body">
+
+        <form class="form-horizontal" method="post" action="">
+            <div class="form-group">
+                <label for="pName" class="col-sm-2 control-label">公司名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pName" id="pName" value="{$enterprise_info['enterpriseName']}">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pLace" class="col-sm-2 control-label">公司地址</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pLace" id="pLace" value="{$enterprise_info['enterpriseName']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pHone1" class="col-sm-2 control-label">公司客服电话①</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pHone1" id="pHone1"value="{$enterprise_info['enterprisePhone1']}">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="pHone2" class="col-sm-2 control-label">公司客服电话②</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pHone2" id="pHone2"value="{$enterprise_info['enterprisePhone2']}">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="pQQ1" class="col-sm-2 control-label">公司客服QQ①</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pQQ1" id="pQQ1"value="{$enterprise_info['enterpriseQQ1']}">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="pQQ2" class="col-sm-2 control-label">公司客服QQ②</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pQQ2" id="pQQ2"value="{$enterprise_info['enterpriseQQ2']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pEmail" class="col-sm-2 control-label">公司邮箱</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pEmail" id="pEmail"value="{$enterprise_info['enterpriseEmail']}">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="enterpriseLogo" class="col-sm-2 control-label">LOGO</label>
+                <div class="col-sm-10">
+                    <div class="mui-input-cell">
+                        {php echo tpl_form_field_image('enterpriseLogo',$enterprise_info['enterpriseLogo']);}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="images" class="col-sm-2 control-label">首页轮播图</label>
+                <div class="col-sm-10">
+                    <div class="mui-input-cell">
+                        {php echo tpl_form_field_multi_image('multi-image',$images);}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="map" class="col-sm-2 control-label">公司定位</label>
+                <div class="col-sm-10">
+                    <div class="mui-input-cell">
+                        {php echo tpl_form_field_coordinate('baidumap', array('lng' => $enterprise_info['lng'], 'lat' => $enterprise_info['lat']));}
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">保存</button>
+                </div>
+            </div>
+        </form>
+
+
+
+    </div>
+</div>
+
+
+
+</div>
+
+{template 'common/footer'}

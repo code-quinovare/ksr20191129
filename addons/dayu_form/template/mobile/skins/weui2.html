@@ -1,0 +1,149 @@
+{template 'weheader'}
+{if $reside}<script src="{MODULE_URL}template/weui/js/city-picker.min.js"></script>{/if}
+{if $isloc}<script type="text/javascript" src="{TEMPLATE_WEUI}js/QQgetLocation.js"></script>{/if}
+<link rel="stylesheet" href="{MODULE_URL}template/weui/style/post.css">
+<style>
+.weui_cells{background-color:transparent;padding:0px 15px 0;margin:0;}
+.weui_cells:before, .weui_cell:before{border-top:0px solid #d9d9d9;}
+.weui_cells:after, .weui_cell:after{border-bottom:0px solid #d9d9d9;}
+.weui_cell{padding:0px;position:relative;display:-webkit-box;display:-webkit-flex;display:block;}
+.weui_cell_hd{float:left;display:block;margin:20px 0 5px;width:100%;}
+.weui_label{font-weight:700;width:100%;}
+.weui_cell_bd{width:100%;float:left;display:block;}
+.weui_input, .weui_textarea{border: solid 1px #f5f5f5;border-radius: 3px;padding:5px 10px;background-color:#fff;width:95%;}
+.weui_textarea{margin-top:20px;}
+.weui_vcode .weui_cell_bd {width:auto;}
+.weui_vcode .weui-vcode-btn{background-color:#3190e8;padding:2px 10px;height: 24px;line-height: 24px;border: solid 1px #e3f2fd;border-radius: 3px;}
+.weui_cell_ft small {color:#fff;}
+
+.weui_cells_title{position:relative;margin-top:20px;display:block;float:left;width:100%;word-wrap: break-word;word-break: break-all;left:-10px;}
+.weui-form{border: solid 1px #f5f5f5;border-radius: 3px;background-color:#fff;padding:0;display:block;float:left;width:100%;}
+.weui-form-li:before{content:" ";position:absolute;border-top:1px solid #d9d9d9;height:1px;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5);}
+.weui-form-li:after{content:" ";position:absolute;border-bottom:1px solid #d9d9d9;height:1px;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scaleY(.5);transform:scaleY(.5);}
+
+.weui_uploader_hd{margin-top:20px;display:block;float:left;width:100%;}
+.weui_uploader_hd.weui_cell .weui_cell_bd{width:auto;}
+.weui_uploader_hd .weui_cell_ft{float:right;}
+.weui_uploader_bd{margin-top:5px;display:block;float:left;width:95%;background-color:#fff;padding:10px 10px 0;border-radius: 3px;word-wrap: break-word;word-break: break-all;}
+
+.weui_msg .weui_extra_area {margin-bottom: 5px;}
+.weui_extra_area {z-index:0;}
+.record .weui_cells:first-child {margin-top:30px;}
+.record .weui_cells {margin:0;}
+.record img{width:1.2rem;height:1.2rem;}
+.m-img {background-position: top center;padding-bottom: 0;}
+.m-img img{width:100%;height:auto;}
+.m-masker {background-color: rgba(0, 0, 0, 0);position: relative;}
+.weui_cells_title, .weui_label{font-size:14px;}
+select {direction: rtl;}
+select option {direction: ltr;}
+</style>
+
+	{template 'insert/header'}
+
+	{if $activity['isinfo']}
+		{template 'insert/field_address'}
+	{/if}
+
+<form action="{php echo $this->createMobileUrl('dayu_form', array('weid' => $_W['uniacid'], 'id' => $reid))}" class="" enctype="multipart/form-data" method="POST" id="form">
+<input type="hidden" name="repeat" value="<?php echo md5(sha1(time())); ?>">
+
+	{if $activity['paixu']==0}
+		{template 'insert/join'}
+	{/if}
+
+	{if !empty($par['kami']) && pdo_tableexists('dayu_kami')}
+		{template 'insert/field_kami'}
+	{/if}
+	
+	{if !empty($linkage)}
+		{template 'insert/field_linkage'}
+	{/if}
+	
+	<div class="weui_cells weui_cells_form">
+	<div class="fields">
+	
+	{loop $ds $fields}
+					
+		{if in_array($fields['type'], array('text', 'phone', 'tel', 'idcard'), TRUE)}
+			{template 'insert/field_text'}
+		{/if}
+		
+		{if $fields['type'] == 'photograph'}
+			{template 'insert/field_photograph'}
+		{/if}
+			
+		{if $fields['type'] == 'email'}
+			{template 'insert/field_email'}
+		{/if}
+					
+		{if $fields['type'] == 'number'}
+			{template 'insert/field_number'}
+		{/if}
+					
+		{if $fields['type'] == 'textarea'} 
+			{template 'insert/field_textarea'}
+		{/if}
+					
+		{if $fields['type'] == 'radio'}
+			{template 'insert/field_radio'}
+		{/if}
+					
+		{if $fields['type'] == 'checkbox'}
+			{template 'insert/field_checkbox'}
+		{/if}
+							
+		{if $fields['type'] == 'select'}
+			{template 'insert/field_select'}
+		{/if}
+
+		{if $fields['type'] == 'image'}
+			{template 'insert/field_image'}
+		{/if}
+			
+		{if $fields['type'] == 'calendar'}
+			{template 'insert/field_calendar'}
+		{/if}
+			
+		{if $fields['type'] == 'range'}
+			{template 'insert/field_range'}
+		{/if}
+			
+		{if $fields['type'] == 'reside'}
+			{template 'insert/field_reside'}
+		{/if}
+			
+	{/loop}
+	</div>
+	</div>
+	{if $activity['plural']==1}
+		{template 'insert/pics'}
+	{/if}
+	{if $activity['isvoice']==1}
+		{template 'insert/voice'}
+	{/if}
+	{if $activity['paixu']==1}
+		{template 'insert/join'}
+	{/if}
+	
+    <div class="weui_btn_area row">
+	{if !empty($activity['agreement'])}
+		{template 'insert/field_agreement'}
+	{/if}
+		{template 'insert/field_var'}
+		<input type="hidden" name="token" value="{$_W['token']}" />
+        <button class="weui_btn {$btncolor}" name="submit" type="submit" id="formSubmitBtn">{$submitname}</button>
+    </div>
+</form>
+	{template 'insert/field_footer'}
+	{if !empty($par['comment']) && pdo_tableexists('dayu_comment')}
+	</div>
+        <div class="weui_tab_bd_item">
+            {template 'insert/comment'}
+        </div>
+	{/if}
+</div>
+	{template 'insert/popup'}
+
+	{template 'insert/script'}
+{template 'footers'}

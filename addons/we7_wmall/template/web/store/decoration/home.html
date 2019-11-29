@@ -1,0 +1,52 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<div class="clearfix">
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title" id="page">门店首页</div>
+			<div class="main" id="app-preview"></div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="parts" id="parts"></div>
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存门店首页</nav>
+	</div>
+</div>
+
+{itemplate 'store/decoration/diyTpl'}
+<script language="javascript">
+	var path = '../../plugin/wxapp/static/js/src/diy';
+	irequire([path, 'tmodtpl'],function(diy, tmodtpl){
+		diy.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			store_id: {$store_id},
+			type: 3,
+			data: {if !empty($homepage['data'])}{php echo json_encode($homepage['data'])}{else}null{/if},
+		});
+	});
+	function callbackGoods(data) {
+		irequire([path],function(diy) {
+			diy.callbackGoods(data);
+		});
+	}
+	function callbackStore(data) {
+		irequire([path],function(diy) {
+			console.dir(data)
+			diy.callbackStore(data);
+		});
+	}
+</script>
+{/if}
+
+{itemplate 'public/footer'}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://zy.weiaokeji.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[微预约提交页皮肤管理]]></name>
+		<identifie><![CDATA[dayu_yuyuepay_plugin_skins]]></identifie>
+		<version><![CDATA[1.0]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[微预约提交页皮肤管理]]></ability>
+		<description><![CDATA[微预约提交页皮肤管理]]></description>
+		<author><![CDATA[为傲资源zy.weiaokeji.com]]></author>
+		<url><![CDATA[http://zy.weiaokeji.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="皮肤管理" do="skins" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_dayu_yuyuepay_skins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `thumb` varchar(250) NOT NULL DEFAULT '',
+  `description` varchar(100) NOT NULL,
+  `mode` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

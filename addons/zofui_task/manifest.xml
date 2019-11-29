@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[超级任务]]></name>
+		<identifie><![CDATA[zofui_task]]></identifie>
+		<version><![CDATA[6.9.5]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[超级任务]]></ability>
+		<description><![CDATA[管理员和会员都可以发布任务需求让会员来完成任务。用户完成任务后回复完成的内容，任务作者对他的回复进行采纳、拒绝操作，被采纳的回复者能得到事先设置好的赏金]]></description>
+		<author><![CDATA[涵创网络]]></author>
+		<url><![CDATA[www.hcexe.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="接任务" do="index" state="" direct="false" />
+			<entry title="发任务" do="pub" state="" direct="false" />
+			<entry title="找人" do="find" state="" direct="false" />
+			<entry title="个人中心" do="user" state="" direct="false" />
+			<entry title="计划任务页面" do="crontab" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="模块使用说明" do="index" state="" direct="false" />
+			<entry title="任务分类" do="tasksort" state="" direct="false" />
+			<entry title="人物分类" do="guysort" state="" direct="false" />
+			<entry title="普通任务" do="task" state="" direct="false" />
+			<entry title="私包任务" do="privatetask" state="" direct="false" />
+			<entry title="会员管理" do="user" state="" direct="false" />
+			<entry title="提现管理" do="drwmoney" state="" direct="false" />
+			<entry title="保证金管理" do="deposit" state="" direct="false" />
+			<entry title="资金记录" do="moneylog" state="" direct="false" />
+			<entry title="编辑关于" do="aboutus" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_zofui_task_aboutus` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `content` mediumtext COMMENT '内容',
+  PRIMARY KEY (`id`),
+  KEY `inx_uni` (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='关于我们';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_depositlog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用d',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '额',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1增退回',
+  `time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '记录时间',
+  `aftermoney` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变额',
+  `title` varchar(100) NOT NULL DEFAULT '0' COMMENT '标题',
+  PRIMARY KEY (`id`),
+  KEY `inx_depositlog` (`uniacid`,`uid`,`openid`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资金记录';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_drwdeposit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL DEFAULT '0',
+  `uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户uid',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态绝',
+  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `dealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处理时间',
+  `backreason` varchar(125) NOT NULL DEFAULT '0' COMMENT '退回理由',
+  PRIMARY KEY (`id`),
+  KEY `inx_money` (`openid`,`uniacid`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提取保证金表';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_drwmoney` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL DEFAULT '0',
+  `uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户出错',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状绝',
+  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创时间',
+  `dealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '处时间',
+  `backreason` varchar(125) NOT NULL DEFAULT '0' COMMENT '退回由',
+  PRIMARY KEY (`id`),
+  KEY `inx_money` (`openid`,`uniacid`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提表';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_focus` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(64) NOT NULL DEFAULT 'NULL' COMMENT '订阅发起者openid',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订阅发起者uid',
+  `focuseduid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '被订阅者uid',
+  PRIMARY KEY (`id`),
+  KEY `inx_focus` (`uniacid`,`openid`,`uid`,`focuseduid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订阅表';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_guysort` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `title` varchar(32) NOT NULL DEFAULT '0' COMMENT '标题',
+  `desc` varchar(200) NOT NULL DEFAULT '0' COMMENT '描述',
+  `order` int(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `time` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `inx_guysort` (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='人物分类';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_love` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `taskid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '对应的任务id',
+  `uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '收藏者uid',
+  PRIMARY KEY (`id`),
+  KEY `inx` (`uniacid`,`openid`,`uid`,`taskid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='收藏';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_moneylog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `taskid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '对任d',
+  `money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '资金状态',
+  `time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '变化时间',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '资金收入',
+  `title` varchar(200) NOT NULL DEFAULT '0' COMMENT '收入标题',
+  `aftermoney` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变余额',
+  PRIMARY KEY (`id`),
+  KEY `inx_moneylog` (`uniacid`,`uid`,`openid`,`taskid`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='资金记录';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_paylog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '支付或者创建时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型付',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类值',
+  `fee` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `orderid` varchar(64) NOT NULL DEFAULT '0' COMMENT '内部订单编号',
+  `uorderid` varchar(64) NOT NULL DEFAULT '0' COMMENT '微信订单编号',
+  PRIMARY KEY (`id`),
+  KEY `inx_many` (`uniacid`,`openid`,`uid`,`orderid`,`uorderid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付记录';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_privatetask` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `pubuid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发起者uid',
+  `acceptuid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '接受者uid',
+  `workeruid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '任务执行者uid',
+  `workeropenid` varchar(64) NOT NULL DEFAULT '0' COMMENT '任务执行者openid',
+  `bossuid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '任务雇主uid',
+  `bossopenid` varchar(64) NOT NULL DEFAULT '0' COMMENT '任务雇主openid',
+  `tasktitle` varchar(255) NOT NULL DEFAULT '0' COMMENT '任务内容',
+  `taskmoney` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '任务金额',
+  `servermoney` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '任务平台使用费',
+  `images` varchar(700) NOT NULL DEFAULT '0' COMMENT '任务图片',
+  `limittime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '限时，小时为单位',
+  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `accepttime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '接受者处理时间',
+  `workerdealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '执行者消时间',
+  `bossdealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '雇主确时间',
+  `complaintime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '雇员同诉时间',
+  `admindealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '管理员理时间',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '任务状给雇主而结束',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型，1索要的付的',
+  `complainreason` varchar(200) NOT NULL DEFAULT '0' COMMENT '投诉内容',
+  `admindealresult` varchar(200) NOT NULL DEFAULT '0' COMMENT '管理员处理结果',
+  `refusereason` varchar(200) NOT NULL DEFAULT '0' COMMENT '雇主拒绝理由',
+  `overtime0` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '待消时间',
+  `overtime2` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '执行中时间',
+  `overtime3` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '待雇主确认时间',
+  `overtime7` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '雇员确认时间',
+  `completecontent` text COMMENT '回复的内容',
+  PRIMARY KEY (`id`),
+  KEY `inx_private` (`uniacid`,`pubuid`,`acceptuid`,`workeruid`,`workeropenid`,`bossuid`,`bossopenid`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='私包任务';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `taskid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '对应d',
+  `content` varchar(255) NOT NULL DEFAULT '0' COMMENT '回复内容',
+  `images` varchar(750) NOT NULL DEFAULT '0' COMMENT '图片',
+  `time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '回复时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否被绝',
+  `dealtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '采纳或拒绝时间',
+  `income` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '此回复获得的收入',
+  `isscan` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否禁止浏览',
+  PRIMARY KEY (`id`),
+  KEY `inx_code` (`uid`,`openid`,`taskid`,`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='回复';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_scorelog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `openid` varchar(64) NOT NULL DEFAULT '0',
+  `money` decimal(10,1) NOT NULL DEFAULT '0.0' COMMENT '积分值',
+  `time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '变化时间',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '变变化',
+  PRIMARY KEY (`id`),
+  KEY `inx_moneylog` (`uniacid`,`uid`,`openid`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='信记录';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_tasklist` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `openid` varchar(50) NOT NULL DEFAULT '0',
+  `money` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '金额',
+  `number` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '任数',
+  `lastnumber` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '票数',
+  `pic` varchar(750) NOT NULL DEFAULT '0' COMMENT '图片',
+  `city` varchar(20) NOT NULL DEFAULT '0' COMMENT '任城市',
+  `title` text NOT NULL COMMENT '任务等标题',
+  `createtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `contime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '完成时间',
+  `status` tinyint(3) unsigned DEFAULT '0' COMMENT '任务闭',
+  `typeid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '对应的任务类型ID',
+  `typename` varchar(100) NOT NULL DEFAULT '0' COMMENT '类型名称',
+  `closereason` varchar(200) DEFAULT '0' COMMENT '关闭理由',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1隐可见',
+  `maxreply` int(10) unsigned NOT NULL DEFAULT '100' COMMENT '每人复数量',
+  `overtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '任务自时间',
+  `urgmoney` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '加急额',
+  `urgnumber` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '加急的还',
+  `addurgtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '加急处理时间',
+  `istop` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '默顶',
+  PRIMARY KEY (`id`),
+  KEY `inx_user` (`uniacid`,`uid`,`openid`,`city`,`typeid`,`urgmoney`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='任务列表';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_tasksort` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(100) NOT NULL DEFAULT '0' COMMENT '分称',
+  `order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分类后',
+  `time` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='任类';
+CREATE TABLE IF NOT EXISTS `ims_zofui_task_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `logintime` int(11) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '默认黑',
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `deposit` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '保金',
+  `city` varchar(20) NOT NULL DEFAULT '0',
+  `mobile` varchar(15) NOT NULL DEFAULT '0' COMMENT '手码',
+  `qrcode` varchar(200) NOT NULL DEFAULT '0' COMMENT '微维码',
+  `pubnumber` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布数量',
+  `acceptnumber` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '采纳数量',
+  `creditscore` decimal(6,1) NOT NULL DEFAULT '10.0' COMMENT '信誉分数',
+  `guytype` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '人物务的',
+  `guydesc` varchar(200) NOT NULL DEFAULT '0' COMMENT '个人描述',
+  `guysort` int(5) unsigned NOT NULL DEFAULT '0' COMMENT '所属人物分类',
+  `contacttype` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '联系支持',
+  `replynumber` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '回复数量',
+  `acceptednumber` int(9) unsigned NOT NULL DEFAULT '0' COMMENT '被采纳数量',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `inx_uid` (`uid`),
+  KEY `inx_openid` (`openid`,`uniacid`),
+  KEY `inx_guy` (`guysort`,`guydesc`,`city`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_zofui_task_aboutus`;
+DROP TABLE IF EXISTS `ims_zofui_task_depositlog`;
+DROP TABLE IF EXISTS `ims_zofui_task_drwdeposit`;
+DROP TABLE IF EXISTS `ims_zofui_task_drwmoney`;
+DROP TABLE IF EXISTS `ims_zofui_task_focus`;
+DROP TABLE IF EXISTS `ims_zofui_task_guysort`;
+DROP TABLE IF EXISTS `ims_zofui_task_love`;
+DROP TABLE IF EXISTS `ims_zofui_task_moneylog`;
+DROP TABLE IF EXISTS `ims_zofui_task_paylog`;
+DROP TABLE IF EXISTS `ims_zofui_task_privatetask`;
+DROP TABLE IF EXISTS `ims_zofui_task_reply`;
+DROP TABLE IF EXISTS `ims_zofui_task_scorelog`;
+DROP TABLE IF EXISTS `ims_zofui_task_tasklist`;
+DROP TABLE IF EXISTS `ims_zofui_task_tasksort`;
+DROP TABLE IF EXISTS `ims_zofui_task_user`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

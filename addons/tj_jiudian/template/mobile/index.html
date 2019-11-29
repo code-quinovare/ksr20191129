@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>{$set['title']}</title>
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+   
+    
+    
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #f0efed;}
+        .tab-wrapper{background: #fff;border-radius: 2px;margin: 20px 3% 0;border: 1px solid #f3f3f3;  }
+        .xuanxiang{width: 100%;}
+        .xuan-1 li{text-align: center;float: left;width: 30%;}
+        .xuan-1 a{height: 40px;line-height: 40px;display: inline-block;width: auto;color: #333;font-size: 15px;padding: 0 0.5rem;}
+        .guding{border-top: 1px solid #eee}
+        .active{border-bottom: 3px solid #06C1AE;color: #06C1AE;}
+        .active a{color: #06C1AE;}
+        .xxy{display: inline-block;width: 100%;}
+        .xx1{width: 100%;padding: 5px 10px;}
+        .xx2{display: none;width: 100%;padding: 5px 10px;}
+        .xx3{display: none;width: 100%;padding: 5px 10px;}
+        .arr_xx{height: 40px;width: 100%;font-size: 14px;line-height: 40px;color: #333}
+        .arr_xx li,.arr_xy li{float: left;text-align: center}
+        .arr_xy{height:45px;width: 100%;font-size: 14px;color: #333;}
+        .arr_xz{height: 45px;width: 100%;font-size: 14px;color: #fff;}
+        .arr_xz span{display: block;width: 100%;height: 40px;background-color: #2BB2A3;margin: 5px 0;text-align: center;border-radius: 5px;line-height: 40px}
+        .arr_input1{width: 90%;border: none;background-color: #fff;height: 45px;line-height: 45px}
+        .form-control{width: 90%;border: none;background-color: #fff;}
+        .arr_input_a{width: 90%;border: none;background-color: #fff;}
+        .arr_input_b{width: 90%;border: none;background-color: #fff;}
+        .arr_input_2{width: 90%;border: none;background-color: #fff;}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+        .remroom{margin: 20px auto 10px; background: #fff;}
+        .remroom h3{color: #06C1AE;text-align: center;line-height: 30px;padding-top: 15px;font-size: 16px;font-weight: normal; letter-spacing: 2px;}
+        .text{width: 98%;margin:15px 1% 5px;  text-align: center;}
+        .text p{line-height: 28px;color: #b3b3b3;font-size: 12px;}
+        .roombox{padding: 10px 8px;border-radius: 10px;box-shadow:2px 2px 5px #C7C7C7;margin:15px 5%;border: 1px solid #f2f2f2;}
+        .price {position: relative;color: #06c1ae;font-size: 12px;margin: 0;}
+        .help{margin:20px auto 55px;background: #fff;height: auto; }
+        .am-list-border li{height: 140px;}
+        .am-list-border li p{line-height: 140px;text-align: center;font-size: 36px;}
+        .am-list-border li p a{color: #06c1ae;}
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+<div>
+    <div data-am-widget="slider" id="huandeng" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="" >
+        <ul class="am-slides">
+            {loop $set['logo'] $v}
+            <li>
+                <img src="{php echo tomedia($v)}" width="100%" height="auto">
+            </li>
+            {/loop}
+        </ul>
+    </div>
+
+    <div class="tab-wrapper">
+        
+        <div class="xuanxiang">
+            <div  style="width: 100%;display: block">
+                <div class="xuan-1">
+                    <ul class="xxy">
+                        <li class="active" stat="1" cname="xx1">
+                            <a href="javascript:void(0)">全日房</a>
+                        </li>
+                        <li stat="0" cname="xx2">
+                            <a href="javascript:void(0)">钟点房</a>
+                        </li>
+                        <li stat="0" cname="xx3">
+                            <a href="javascript:void(0)">包夜房</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="guding">
+                    <form action="{php echo $this->createMobileUrl('Index',array('rooms'=>1))}" method="post">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <div class="xx1">
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/weizhi.png" width="16px" style="margin-left:45%;display: inline-block;" height="16px">
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:95%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="address"  class="arr_input_a" placeholder="" value="" readonly  />
+                                </li>
+                                </a>
+                                
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:75%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="ruzhu"  class="arr_input_a" id="ruzhu" placeholder="请选择入住时间" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" value="{php echo date('Y-m-d')} 12:00" readonly required />
+                                </li>
+                                </a>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">离店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;">
+                                    <input type="text" id="lidian" name="lidian" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" class="arr_input_a" placeholder="请选择离店时间" value="{php echo date('Y-m-d',time()+24*3600)} 11:30" readonly required />
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="arr_xz" id="zhudian">
+                            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"list"))}">
+                                <input type="submit" class="arr_xz" value="现在去选择房型" style="border: none;border-radius:5px;height:40px;line-height:40px;background-color: #2BB2A3;">
+                            </a>
+                        </div>
+                    </div>
+                        </form>
+                    <form action="{php echo $this->createMobileUrl('Index',array('rooms'=>2))}" method="post">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <div class="xx2">
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/weizhi.png" width="16px" style="margin-left:45%;display: inline-block;" height="16px">
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:95%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="address"  class="arr_input_a" placeholder="" value="" readonly  />
+                                </li>
+                                </a>
+                                
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right">
+                                    <input type="text" class="arr_input1" id="ruzhu1" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" name="ruzhu" placeholder="请选择入住时间" {if date('H')>=12}value="{php echo date('Y-m-d H')}:00" {else} value="{php echo date('Y-m-d')} 12:00"{/if} readonly required onfocus="this.blur()"/>
+                                    
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">住店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;color: #ccc;">
+                                    <select name="time"  class="form-control">
+                                      <option value="2">2小时</option>
+                                      <option value="3">3小时</option>
+                                      <option value="4">4小时</option>
+                                      <option value="5">5小时</option>
+                                      <option value="6">6小时</option>
+                                    </select>
+
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xz" id="zhudian1">
+                            
+                            <input type="submit" class="arr_xz" value="现在去选择房型" style="border: none;border-radius:5px;height:40px;line-height:40px;background-color: #2BB2A3;">
+                            
+                        </div>
+                    </div>
+                </form>
+
+                <form action="{php echo $this->createMobileUrl('Index',array('rooms'=>3))}" method="post">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <div class="xx3">
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/weizhi.png" width="16px" style="margin-left:45%;display: inline-block;" height="16px">
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:95%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="address"  class="arr_input_a" placeholder="" value="" readonly  />
+                                </li>
+                                </a>
+                                
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:75%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="ruzhu" id="ruzhu2" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" class="arr_input_b" placeholder="请选择入住时间" value="{php echo date('Y-m-d')} 21:00" readonly />
+                                </li>
+                                </a>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">住店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;">
+                                    <input type="text"  value="次日11:30前" class="arr_input_2" readonly required onfocus="this.blur()"/>
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="arr_xz" id="zhudian3">
+                            <a href="{php echo $this->createMobileUrl("Index",array("action"=>"list"))}">
+                                <input type="submit" class="arr_xz" value="现在去选择房型" style="border: none;border-radius:5px;height:40px;line-height:40px;background-color: #2BB2A3;">
+                            </a>
+                        </div>
+                    </div>
+                        </form>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+               
+
+                $(".xxy").find("li").each(function () {
+                    $(this).on("click",function () {
+                        var s = $(this).attr('stat');
+                        $(".xxy").find("li").each(function () {
+                            if($(this).attr('stat') == 1)
+                            {
+                                $(this).attr('stat',0);
+                                $(this).removeClass();
+                                var cname = $(this).attr('cname');
+                                $("."+cname).hide();
+                            }
+                        });
+                        if(s == 0)
+                        {
+                            $(this).attr("stat",1);
+                            $(this).addClass("active");
+                            var cname = $(this).attr('cname');
+                            $("."+cname).show();
+                        }
+                    });
+
+                });
+                
+
+                $("#xuanze").click(function(){
+                   $("#fangjian").toggle();
+                });
+
+                $("#zhudian").click(function () {
+                    if($("#my-start-2").val() == ""){
+                        alert("请选择入住时间!");
+                        return false;
+                    }
+                    if($("#my-end-2").val() == ""){
+                        alert("请选择离店时间!");
+                        return false;
+                    }
+                });
+                $("#zhudian1").click(function () {
+                    if($("#ruzhu1").val() == ""){
+                        alert("请选择到店时间!");
+                        return false;
+                    }
+                });
+
+            });
+        </script>
+    </div>
+    </div>
+    <!-- 推荐房源 -->
+    
+    <div class="remroom">
+        <h3>房源推荐</h3>
+        <div
+          class="am-slider am-slider-default am-slider-carousel"
+          data-am-flexslider="{itemWidth: 200, itemMargin: 5, slideshow: false,controlNav:false,directionNav:false}">
+          <ul class="am-slides">
+             {loop $remhouse $v}
+            <li>
+                <div class="roombox">
+                <a href={php echo $this->createMobileUrl("Index",array("action"=>"show","rooms"=>$v["rooms"],"id"=>$v["id"]))}>
+                <img src="{php echo tomedia($v['img'])}" />
+                </a>
+                <div class="text">
+                    <p style="color: #666;">{$v['title']}</p>
+                    <p class="price"> <span class="price-num">
+                        {if $zk}<span style="color: red;">¥ {$v['price']}</span>  &nbsp;&nbsp;学生价：¥ {php echo $v['price']*$zk['discount']/10}{else}¥ {$v['price']}{/if}</span> </p>
+                </div>
+                </div>
+            </li>
+            {/loop}
+          </ul>
+        </div>
+    </div>
+    <div style="height: 50px;"></div>
+    <!-- 帮助 -->
+    <!-- <div class="help">
+        <ul class="am-list am-list-border">
+          <li style="background: url({ASSETS_PATH}img/about.jpg) repeat-x;"><p><a href="#">番茄介绍</a></p></li>
+          <li style="background: url({ASSETS_PATH}img/help.jpg) repeat-x;"><p><a href="#">订房须知</a></p></li>
+        </ul>
+    </div> -->
+    
+    <script src="{ASSETS_PATH}js/jquery.date.js"></script>
+    <script type="text/javascript"> 
+            $.date('#ruzhu');
+            $.date('#lidian');
+            $.date('#ruzhu1');
+            $.date('#ruzhu2');
+    </script>
+
+
+    <script>
+
+             
+
+
+        
+
+
+        // 方法 增添dayNumber天（整形），date：如果没传就使用今天（日期型）
+        function addDay(dayNumber, date) {
+            date = date ? date : new Date();
+            var ms = dayNumber * (1000 * 60 * 60 * 24)
+            var newDate = new Date(date.getTime() + ms);
+            return newDate;
+        }
+
+        // 时间格式化
+        function dateFtt(fmt,date)   
+        { //author: meizz   
+          var o = {   
+            "M+" : date.getMonth()+1,                 //月份   
+            "d+" : date.getDate(),                    //日   
+            "h+" : date.getHours(),                   //小时   
+            "m+" : date.getMinutes(),                 //分   
+            "s+" : date.getSeconds(),                 //秒   
+            "q+" : Math.floor((date.getMonth()+3)/3), //季度   
+            "S"  : date.getMilliseconds()             //毫秒   
+          };   
+          if(/(y+)/.test(fmt))   
+            fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));   
+          for(var k in o)   
+            if(new RegExp("("+ k +")").test(fmt))   
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+          return fmt;   
+        } 
+        
+    </script>
+    <!-- <div style="width:100%;height:60px;line-height: 60px;color:rgba(0,0,0,0)">
+        1
+    </div> -->
+    {php echo register_jssdk(false)}
+    <script type="text/javascript">
+
+    wx.ready(function(){
+        wx.getLocation({
+            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            success: function (res) {
+                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                var speed = res.speed; // 速度，以米/每秒计
+                var accuracy = res.accuracy; // 位置精度
+
+                $("input[name=latitude]").val(latitude);
+                $("input[name=longitude]").val(longitude);
+              
+               $.post("{php echo $this->createMobileUrl("Index",array("action"=>"address"))}",{latitude:latitude,longitude:longitude},function(result){
+                    // $result = jQuery.parseJSON(result);
+                    $("input[name=address]").val(result);
+                  });
+            }
+        });
+    });
+    </script>
+    <div class="footer" style="">
+        <ul>
+            {loop $footer $v}
+            <a href="{$v['url']}">
+                <li>
+                    <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                    <p>{$v['title']}</p>
+                </li>
+            </a>
+            {/loop}
+        </ul>
+    </div>
+
+
+
+</body>
+</html>

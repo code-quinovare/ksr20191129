@@ -1,0 +1,65 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('dyj');}">打印机列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('adddyj');}">添加/编辑打印机</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">分类列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+                <th style="width:200px;">打印标题</th>
+                 <th style="width:200px;">打印机编号</th>
+                  <th style="width:200px;">打印机key</th>
+                
+                     <th style="width:80px;">操作</th>
+                 <th style="width:80px;">查看</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+                 <td>
+                {$item['dyj_title']}
+                </td>
+                <td>
+                {$item['dyj_id']}
+                </td>
+                  <td>
+                {$item['dyj_key']}
+                </td>
+                
+
+             
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('deldyj', array('id'=>$item['id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+                <td>
+                <a href="{php echo $this->createWebUrl('adddyj',array('id'=>$item['id']));}">编辑</a>
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加打印机
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+
+
+{template 'common/footer'}

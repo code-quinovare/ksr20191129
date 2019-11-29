@@ -1,0 +1,342 @@
+{template 'common/header'}
+<link rel="stylesheet" href="../addons/zofui_task/public/css/weui.min.css"/>
+<style>
+.task_body{
+	max-width:800px;
+}
+.row{
+	padding:20px 0;
+}
+.media-body, .media-left, .media-right {
+	display: table-cell;
+	vertical-align: top;
+}
+.media-body{
+	padding-left:10px;
+}
+.media-left img{
+	width:50px;
+	height:50px;
+}
+.font_13px{
+	font-size:13px;
+	color:#999;
+}
+.task_body .panel-default>.panel-heading {
+	color: #333;
+	background-color: #fff;
+	border: none;
+}
+.task_body .panel-default {
+	border:none;
+	border-radius:0;
+	border-bottom:1px solid #ddd;
+}
+.deal_btn{
+	color: #fff;
+	background: #ff5f27;
+	padding: 10px;
+	border-radius: 3px;
+	cursor: pointer;
+	margin-right: 20px;
+}
+.padding0{
+	padding:0;
+}
+.task_head{
+	padding-bottom: 20px;		
+}
+
+.task_title{
+	overflow: hidden;
+	margin-bottom:10px;
+}
+.task_title img , .task_images img{
+	float:left;
+	margin-right:10px;
+	margin-top:5px;
+	width:60px;
+	height:60px;	
+}
+.task_status{
+	color: #ff5f27;
+	border: 1px solid #ff5f27;
+	padding: 5px 10px;
+	transform: rotate(25deg);
+	display: inline-block;
+	position: absolute;
+	right: 12px;
+	top: -4px;
+}
+.guy_inco span{
+	display:inline-block;margin-right:10px;
+}
+.panel-body{
+	position:relative;
+}
+.task_puber{
+	color:#00ADEC;
+	border-color:#00ADEC;
+}
+.guy_name{
+	color:#ff5f27;
+}
+.deal_textarea textarea{
+	margin-top: 25px;
+	width: 100%;
+	height: 50px;
+	border-color: #ddd;
+	border-radius: 5px;
+	padding:5px;
+}
+</style>
+
+<div class="panel panel-default task_body">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="panel panel-default">
+			  <div class="panel-heading">雇主</div>
+			  <div class="panel-body">
+					<div class="media">
+					  <div class="media-left">
+						  <img class="media-object img-rounded" src="{php echo $bossinfo['avatar']}">
+					  </div>
+					  <div class="media-body">
+						<h4 class="media-heading">{$bossinfo['nickname']}</h4>
+						<p class="font_13px guy_inco">
+							<span>账户余额:{$bossinfo['credit2']} 元</span> 
+							<span>保证金:{$bossinfo['deposit']} 元</span> 
+							<span>信誉积分:{$bossinfo['creditscore']}</span> 
+							<span>发布任务:{$bossinfo['pubnumber']} 项</span>
+							<span>回复任务:{$bossinfo['replynumber']} 项</span>
+						</p>
+						{if $bossinfo['uid'] == $taskinfo['pubuid']}<span class="task_status task_puber">发起者</span>{/if}
+					  </div>
+					</div>
+			  </div>
+			</div>
+			<div class="panel panel-default">
+			  <div class="panel-heading">雇员</div>
+			  <div class="panel-body">
+					<div class="media">
+					  <div class="media-left">
+						  <img class="media-object img-rounded" src="{php echo $workerinfo['avatar']}">
+					  </div>
+					  <div class="media-body">
+						<h4 class="media-heading">{$workerinfo['nickname']}</h4>
+						<p class="font_13px guy_inco">
+							<span>账户余额:{$workerinfo['credit2']} 元</span> 
+							<span>保证金:{$workerinfo['deposit']} 元</span> 
+							<span>信誉积分:{$workerinfo['creditscore']}</span> 
+							<span>发布任务:{$workerinfo['pubnumber']} 项</span>
+							<span>回复任务:{$workerinfo['replynumber']} 项</span>
+						</p>
+						{if $workerinfo['uid'] == $taskinfo['pubuid']}<span class="task_status task_puber">发起者</span>{/if}
+					  </div>
+					</div>
+			  </div>
+			</div>			
+			
+			<div class="panel panel-default">
+			  <div class="panel-heading">任务信息</div>
+			  <div class="panel-body" style="padding-top: 0;">
+					<div class="col-xs-12 padding0 task_head">
+						<div class="task_title">
+							<h4>{$taskinfo['tasktitle']}</h4>
+							{loop $taskinfo['images'] $item}
+								<a target="_blank" href="{php echo tomedia($item)}"><img class="media-object" src="{php echo tomedia($item)}"></a>
+							{/loop}
+						</div>
+						<div class="task_head_bottom font_13px guy_inco">
+							<span>创建时间：{php echo date('Y-m-d H:i:s',$taskinfo['createtime'])}</span>
+							{if $taskinfo['status'] == 0}
+								<span>自动处理倒计时：{php echo Util::lastTime($taskinfo['overtime0'])}</span>
+							{elseif $taskinfo['status'] == 2}
+								<span>自动处理倒计时：{php echo Util::lastTime($taskinfo['overtime2'])}</span>
+							{elseif $taskinfo['status'] == 3}
+								<span>自动处理倒计时：{php echo Util::lastTime($taskinfo['overtime3'])}</span>
+							{elseif $taskinfo['status'] == 7}
+								<span>自动处理倒计时：{php echo Util::lastTime($taskinfo['overtime7'])}</span>
+							{/if}
+						</div>
+						<div class="font_13px guy_inco">
+							<span>任务金额:{$taskinfo['taskmoney']} 元</span>
+							<span>平台使用费:{$taskinfo['servermoney']} 元</span>
+							<span>限时:{$taskinfo['limittime']} 小时</span>
+							<span>{if $taskinfo['status'] == 0 && $taskinfo['type'] == 1}雇主还未付款{else}雇主已付款{/if}</span>
+						</div>
+						<span class="task_status">
+							{if $taskinfo['status'] == 0}等待确认
+							{elseif $taskinfo['status'] == 1}已取消
+							{elseif $taskinfo['status'] == 2}雇员执行中
+							{elseif $taskinfo['status'] == 3}待雇主确认完成
+							{elseif $taskinfo['status'] == 4}已取消
+							{elseif $taskinfo['status'] == 5}已取消
+							{elseif $taskinfo['status'] == 6}已完成
+							{elseif $taskinfo['status'] == 7}任务结果被雇主拒绝
+							{elseif $taskinfo['status'] == 8}已取消
+							{elseif $taskinfo['status'] == 9}投诉中
+							{elseif $taskinfo['status'] == 10}已取消
+							{elseif $taskinfo['status'] == 11}已完成
+							{elseif $taskinfo['status'] == 12}已取消
+							{elseif $taskinfo['status'] == 13}已完成
+							{elseif $taskinfo['status'] == 14}已取消							
+							{/if}
+						</span>
+						
+					</div>
+					{if $taskinfo['status'] == 9}
+					<div class="deal_btn_list" data-taskid="{$taskinfo['id']}">
+						<span class="deal_btn" data-type="1">将赏金判给雇员</span>  
+						<span class="deal_btn" data-type="2">将赏金退还雇主</span>
+					</div>
+					<div class="deal_textarea">
+						<textarea class="" name="reason" placeholder="在此输入操作理由"></textarea>
+					</div>
+					{/if}
+			  </div>
+			</div>			
+			<div class="panel panel-default" style="display:none">
+			  <div class="panel-heading">回复内容</div>
+			  <div class="panel-body" style="padding-top: 0;">
+					<div class="col-xs-12 padding0 task_head">
+						<div class="task_title">
+							<h4>让我去任务区人气王热情问题我前天我</h4>
+							{loop $taskinfo['pic'] $item}
+								<a target="_blank" href="{php echo tomedia($item)}"><img class="media-object" src="{php echo tomedia($item)}"></a>
+							{/loop}
+						</div>
+					</div>
+			  </div>
+			</div>			
+			
+			<div class="panel panel-default">
+			  <div class="panel-heading">任务日志</div>
+			  <div class="panel-body">
+				{if $taskinfo['createtime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['createtime'])}</dt>
+					  {if $taskinfo['type'] == 1}
+						<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)向雇主索要当前私包任务。</dd>
+					  {elseif $taskinfo['type'] == 2}
+						<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)发给雇员当前私包任务。</dd>
+					  {/if}
+					</dl>
+				{/if}
+				{if $taskinfo['accepttime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['accepttime'])}</dt>
+					  {if $taskinfo['status'] == 1}
+						{if $taskinfo['type'] == 1}
+							<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)拒绝了雇员索要任务。</dd>
+						{elseif $taskinfo['type'] == 2}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)拒绝了雇主发给的任务。</dd>
+						{/if}
+					  {else}
+						{if $taskinfo['type'] == 1}
+							<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)接受了雇员索要任务，并支付赏金。雇员开始执行任务。</dd>
+						{elseif $taskinfo['type'] == 2}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)接受了雇主发给的任务，开始执行任务。</dd>
+						{/if}
+					  {/if}
+					</dl>
+				{/if}
+				
+				{if $taskinfo['workerdealtime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['workerdealtime'])}</dt>
+						{if $taskinfo['status'] == 4}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)主动取消了正在执行之中的任务，被扣除1信誉积分。</dd>	
+						{elseif $taskinfo['status'] == 5}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)没有在限定时间内提交完成任务，任务自动取消。</dd>
+						{else}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)提交完成任务，等待雇主确认任务。回复内容：</dd>
+							<dd>{$taskinfo['completecontent']['title']}</dd>
+							<dd>
+								{loop $taskinfo['completecontent']['images'] $item}
+									<a target="_blank" href="{php echo tomedia($item)}"><img src="{php echo tomedia($item)}" style="width:60px;height:60px;float:left;margin:10px 10px 0 0;"></a>
+								{/loop}
+							</dd>
+						{/if}
+					</dl>
+				{/if}
+				
+				{if $taskinfo['bossdealtime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['bossdealtime'])}</dt>
+						{if $taskinfo['status'] == 6}
+							<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)接受了任务结果，确认任务，任务完成。</dd>	
+						{elseif $taskinfo['status'] == 11}
+							<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)没有在限定时间内确认任务，任务自动完成。</dd>
+						{else}
+							<dd><span class="guy_name">{$bossinfo['nickname']}</span> (雇主)拒绝了任务结果，等待雇员确认雇主的拒绝。理由：</dd>
+							<dd>{$taskinfo['refusereason']}。</dd>
+						{/if}
+					</dl>
+				{/if}	
+
+				{if $taskinfo['complaintime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['complaintime'])}</dt>
+						{if $taskinfo['status'] == 8}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)接受了雇主的拒绝，任务取消，资金退回给雇主。</dd>	
+						{elseif $taskinfo['status'] == 12}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)没有在限定时间内处理雇主的拒绝，任务自动取消，资金退回给雇主。</dd>
+						{else}
+							<dd><span class="guy_name">{$workerinfo['nickname']}</span> (雇员)投诉了雇主对任务结果的拒绝，任务进入投诉阶段。理由：</dd>
+							<dd>{$taskinfo['complainreason']}。</dd>
+						{/if}
+					</dl>
+				{/if}
+				{if $taskinfo['admindealtime'] > 0}
+					<dl class="dl-horizontal">
+					  <dt>{php echo date('Y-m-d H:i:s',$taskinfo['admindealtime'])}</dt>
+						{if $taskinfo['status'] == 13}
+							<dd><span class="guy_name">系统管理员</span> 将结果判给雇员，赏金发放给雇员。任务结束。</dd>	
+						{elseif $taskinfo['status'] == 14}
+							<dd><span class="guy_name">系统管理员</span> 将结果判给雇主，赏金退还给雇主。任务结束</dd>
+						{/if}
+							<dd><span class="guy_name">处理理由：</span> {$taskinfo['admindealresult']}</dd>
+					</dl>
+				{/if}
+				
+			  </div>
+			</div>			
+		</div>
+	</div>
+</div>
+{template '../../../addons/zofui_task/template/web/temp/loading'}
+
+<script>
+
+	$('.deal_btn').click(function(){
+		var thisclass = $(this);
+		var httpdata = {
+			type: thisclass.attr('data-type'),
+			taskid : thisclass.parent().attr('data-taskid'),
+			reason : $('textarea[name=reason]').val()
+		};
+		if(httpdata.reason == '') {alert('请输入理由');return false;}
+		if(confirm('处理后将不可恢复状态，确定要进行此操作吗？')){
+			$.ajax({
+				type: 'post',
+				data : httpdata,
+				dataType : 'html',
+				url : "{php echo $this->createWebUrl('privatetaskinfo',array('op'=>'deal'))}",
+				beforeSend : function(){
+					$('#loadingToast').show();
+				},
+				success : function(data){
+					if(data=='1'){
+						location.href = "";
+					}
+				},
+				complete:function(){
+					$('#loadingToast').hide();
+				}
+			})
+		}
+		
+	});
+</script>
+{template 'common/footer'}

@@ -1,0 +1,60 @@
+﻿{template 'common/header'}
+<ul class="nav nav-tabs">
+<li ><a href="{php echo $this->createWebUrl('dishes');}">返回菜品列表</a></li>
+  <li class="active" ><a href="{php echo $this->createWebUrl('spec',array('dishes_id'=>$_GPC['dishes_id']));}">规格列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('addspec',array('dishes_id'=>$_GPC['dishes_id']));}">添加/编辑规格</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">规格列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+              <th style="width:300px;">规格名称</th>
+                <th style="width:100px;">价格</th>
+                <th style="width:80px;">操作</th>
+                 <th style="width:80px;">查看</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+                <td>
+                {$item['name']}
+                </td>
+               
+                <td>
+                {$item['cost']}
+                </td>
+             
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('delspec', array('id'=>$item['id'],'dishes_id'=>$_GPC['dishes_id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+                <td>
+                <a href="{php echo $this->createWebUrl('addspec',array('id'=>$item['id'],'dishes_id'=>$_GPC['dishes_id']));}">编辑</a>
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加规格
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+
+
+{template 'common/footer'}

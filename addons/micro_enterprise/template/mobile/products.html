@@ -1,0 +1,47 @@
+{template 'header'}
+
+{if empty($_GET['pid'])}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<hr>
+<div class="show">
+
+    {loop $Productsres $index $item}
+
+    <a href="{php echo $_SERVER['REQUEST_URI']."&pid=".$item['id'];}"><div class="show_img"><img src="/attachment/{$item['productImages']}"></div><div>{$item['productName']}</div></a>
+
+    {/loop}
+
+
+
+
+
+    <div class="clear"></div>
+</div>
+
+
+
+
+<div class="page" style=" text-align: center; ">
+    {$pager}
+</div>
+
+
+{else}
+
+<div class="newslist">
+    <div class="newslist_title" style=" line-height: 66px; ">{$product_info['productName']}</div>
+    <div class="newslist_xiangxi">
+        <span>发布者：admin</span>
+        <span>|</span>
+        <span>发布时间：{$product_info['productInsertTime']}</span>
+
+    </div>
+    <div class="newslist_nei">{$product_info['productContent']}</div>
+</div>
+
+
+
+{/if}
+
+
+{template 'footer'}

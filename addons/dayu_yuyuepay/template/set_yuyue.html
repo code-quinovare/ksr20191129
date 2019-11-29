@@ -1,0 +1,63 @@
+
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">付款后更改为已受理</label>
+					<div class="col-xs-12 col-sm-9">
+					<div class="btn-group" data-toggle="buttons">					  
+						<label class="btn btn-default {if $settings['paystate'] == 1}active{/if}"><input type="radio" name="paystate" value="1" {if $settings['paystate'] == 1} checked="checked"{/if} >开启</label>
+						<label class="btn btn-default {if $settings['paystate'] == 0}active{/if}"><input type="radio" name="paystate" value="0" {if $settings['paystate'] == 0} checked="checked"{/if}>关闭</label>
+					</div>
+					</div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">非工作时间不接收通知</label>
+					<div class="col-xs-12 col-sm-9">
+						<div class="input-group">
+							 <span class="input-group-addon">上班时间 例：830</span>
+							 <input type="text" class="form-control" name="stime" value="{$settings['stime']}" />
+							 <span class="input-group-addon">下班时间 例：1820</span>
+							 <input type="text" class="form-control" name="etime" value="{$settings['etime']}" />
+						</div>
+	        			<span class="help-block"><font style="color:#ff0000;">830=8点30分，1820=18点20分。</font>留空则任何时间都接收通知</span>
+					</div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">通知客服方式</label>
+					<div class="col-xs-12 col-sm-9">
+						<div class="btn-group" data-toggle="buttons">					  
+							<label class="btn btn-default {if $settings['newtemp'] == 0}active{/if}"><input type="radio" name="newtemp" value="0" {if $settings['newtemp'] == 0} checked="checked"{/if}>通知所有客服</label>
+							<label class="btn btn-default {if $settings['newtemp'] == 1}active{/if}"><input type="radio" name="newtemp" value="1" {if $settings['newtemp'] == 1} checked="checked"{/if} >只通知管理员</label>
+						</div>
+					</div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">模板消息通知</label>
+					<div class="col-xs-12 col-sm-9">
+						<div class="btn-group" data-toggle="buttons">					  
+							<label class="btn btn-default {if $settings['notice'] == 1}active{/if}"><input type="radio" name="notice" value="1" {if $settings['notice'] == 1} checked="checked"{/if} >仅付款通知</label>
+							<label class="btn btn-default {if $settings['notice'] == 0}active{/if}"><input type="radio" name="notice" value="0" {if $settings['notice'] == 0} checked="checked"{/if}>提交及付款通知</label>
+						</div>
+					</div>
+                </div>
+			<blockquote class="alert-info">
+				<p>时间段超时设置</p>
+			</blockquote>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约今天</label>
+                    <div class="col-xs-12 col-sm-9">
+					<div class="input-group">
+						<span class="input-group-addon">当前时间加</span>
+                        <input type="text" class="form-control" placeholder="" name="today" value="{$today}" />
+						<span class="input-group-addon">分钟不可预约，默认60分钟</span>
+					</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">付款超时设置</label>
+                    <div class="col-xs-12 col-sm-9">
+					<div class="input-group">
+						<span class="input-group-addon">提交后</span>
+                        <input type="text" class="form-control" placeholder="" name="paytime" value="{$paytime}" />
+						<span class="input-group-addon">分钟内未付款，放开预约名额（时间段）。默认30分钟</span>
+					</div>
+                    </div>
+                </div>

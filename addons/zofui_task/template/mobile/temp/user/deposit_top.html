@@ -1,0 +1,12 @@
+	<div class="page_top deposit_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'adddeposit'))}"><span {if $_GPC['op'] == 'adddeposit'}class="font_activity"{/if}>加保证金</span></a>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'drwdeposit'))}"><span {if $_GPC['op'] == 'drwdeposit'}class="font_activity"{/if}>取保证金</span></a>	
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'depositlog'))}"><span {if $_GPC['op'] == 'depositlog'}class="font_activity"{/if} >记录</span></a>
+			{if $_GPC['op'] == 'depositlog'}
+				<span class="zhanwei"></span>
+				<i class="ti-search" id="showFilter"></i>
+			{/if}
+		</div>
+	</div>	
+	{template 'temp/user/filter'}	

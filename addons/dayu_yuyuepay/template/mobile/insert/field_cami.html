@@ -1,0 +1,8 @@
+
+	<div class="weui_cell">
+		<div class="weui_cell_hd"><label class="weui_label {if $field['essential']}weui-start{/if}">{$field['title']}</label></div>
+		<div class="weui_cell_bd weui_cell_primary">
+			<input class="weui_input" id="{$field['refid']}" name="field_{$field['refid']}_{$field['bind']}" onblur="checkcard(this,'{$field['refid']}','{$field['cami']}')" type="text" value="{$field['default']}" placeholder="{$field['tixing']}">
+		</div>
+		<div class="weui_cell_ft" id="check_{$field['refid']}"></div>
+	</div>

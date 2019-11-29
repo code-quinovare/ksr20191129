@@ -1,0 +1,53 @@
+<div class="second-sidebar-title">
+	数据
+</div>
+<div class="nav slimscroll">
+	{ifp 'statcenter.takeout'}
+	<div class="menu-header">外卖</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'takeout'}class="active"{/if}>
+			<a href="{php echo iurl('statcenter/takeout');}">外卖统计</a>
+		</li>
+
+		<li {if $_W['_action'] == 'paytype'}class="active"{/if}>
+			<a href="{php echo iurl('statcenter/paytype');}">支付方式统计</a>
+		</li>
+
+		<li {if $_W['_action'] == 'takeoutOrder'}class="active"{/if}>
+			<a href="{php echo iurl('statcenter/takeoutOrder');}">店铺订单统计</a>
+		</li>
+		<li {if $_W['_action'] == 'takeoutOrderChannel'}class="active"{/if}>
+		<a href="{php echo iurl('statcenter/takeoutOrderChannel');}">订单来源统计</a>
+		</li>
+
+		<!-- <li {if $_W['_action'] == 'box'}class="active"{/if}>
+			<a href="{php echo iurl('statcenter/box');}">餐盒费统计</a>
+		</li> -->
+	</ul>
+	{/if}
+	{ifp 'statcenter.delivery'}
+		<div class="menu-header">配送</div>
+		<ul class="menu-item">
+			<li {if $_W['_op'] == 'index'}class="active"{/if}>
+				<a href="{php echo iurl('statcenter/delivery/index');}">配送统计</a>
+			</li>
+		</ul>
+		<ul class="menu-item">
+			<li {if $_W['_op'] == 'day'}class="active"{/if}>
+				<a href="{php echo iurl('statcenter/delivery/day');}">配送详情</a>
+			</li>
+		</ul>
+	{/if}
+	<div class="menu-header">营业统计</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'hot'}class="active"{/if}>
+			<a href="{php echo iurl('statcenter/hot')}">热门商品</a>
+		</li>
+	</ul>
+	<div class="menu-header">财务</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'finance'}class="active"{/if}>
+		<a href="{php echo iurl('statcenter/finance');}">财务统计</a>
+		</li>
+	</ul>
+</div>

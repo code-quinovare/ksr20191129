@@ -1,0 +1,68 @@
+{template 'common/header'} 
+<script>
+require(['bootstrap.switch', 'util'], function($, u){
+	$(function(){
+		$('.make-switch').bootstrapSwitch();
+	});
+});
+</script>
+<style type='text/css'>
+    .tab-pane { padding:5px 0 5px 0;}
+</style>
+
+<div class="main">
+  <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+    <h4>&nbsp;</h4>
+    <ul class="nav nav-tabs" id="myTab">
+      <li class="active"><a href="#tab_red"><i class="fa fa-cog"></i> 红包参数设置</a></li>
+      <li><a href="#tab_fans"><i class="fa fa-unlock-alt"></i> 粉丝领取限制</a></li>
+      <li><a href="#tab_msginfo"><i class="fa fa-comments-o"></i> 模板消息&提示语设置</a></li>
+      <li><a href="#tab_salt"><i class="fa fa-file-image-o"></i> 智能二维码关注页</a></li>
+      <li><a href="#tab_other"><i class="fa fa-plus"></i> 其他参数</a></li>
+    </ul>
+    <div class="tab-content">
+      <!------------------- 红包参数设置 ---------------------->
+      <div class="tab-pane active" id="tab_red">{template 'setmore/redinfo'}</div>
+      <!------------------- 红包参数设置 END ---------------------->
+
+      <!------------------- 粉丝领取限制 ---------------------->
+      <div class="tab-pane" id="tab_fans">{template 'setmore/fanslimit'}</div>
+      <!------------------- 粉丝领取限制 END ---------------------->
+
+      <!------------------- 模板消息&&提示语设置 ---------------------->
+      <div class="tab-pane" id="tab_msginfo">{template 'setmore/messageinfo'}</div>
+      <!------------------- 提示语设置 END ---------------------->
+
+      <!------------------- 模板消息&&提示语设置 ---------------------->
+      <div class="tab-pane" id="tab_salt">{template 'setmore/salt'}</div>
+      <!------------------- 提示语设置 END ---------------------->
+
+      <!------------------- 其他参数---------------------->
+      <div class="tab-pane" id="tab_other">{template 'setmore/redother'}</div>
+      <!------------------- 其他参数 END ---------------------->
+    </div>
+
+    <table class="tb">
+          <tr>
+            <th></th>
+            <td>
+              <input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+              <input type="hidden" name="token" value="{$_W['token']}" />
+            </td>
+          </tr>
+        </table>
+
+
+	</form>
+</div>
+
+<script type="text/javascript">
+$(function () {
+  $('#myTab a').click(function (e) {
+    e.preventDefault();//阻止a链接的跳转行为
+    $(this).tab('show');//显示当前选中的链接及关联的content
+  })
+});
+
+</script>
+{template 'common/footer'}

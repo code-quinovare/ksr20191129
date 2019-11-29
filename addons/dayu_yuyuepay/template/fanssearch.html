@@ -1,0 +1,30 @@
+
+<table class="table we7-table table-hover">
+	<thead class="navbar-inner">
+		<tr>
+			<th style="width:50px;">头像</th>
+			<th style="width:200px;">微信昵称</th>
+			<th style="width:150px;" class="text-center">关注时间</th>
+			<th style="width:100px;" class="text-center">关注状态</th>
+			<th style="width:80px;" class="text-right">操作</th>
+		</tr>
+	</thead>
+		{loop $boss $item}
+		<tr>
+			<td>
+				<img src="{if !empty($item['fans']['tag']['avatar'])}{$item['fans']['tag']['avatar']}{else}resource/images/noavatar_middle.gif{/if}" width="48" data-toggle="tooltip" data-placement="bottom" class="btn btn-xs" title="{$item['fans']['nickname']}">
+			</td>
+			<td>{$item['nickname']}</td>
+			<td class="text-center">{php echo date('Y-m-d H:i:s', $item[followtime]);}</td>
+			<td class="text-center">
+				{if $item['follow'] == 0}
+					<span class="btn btn-warning btn-xs" >取消关注</span>
+				{else}
+					<span class="btn btn-success btn-xs">已关注</span>
+				{/if}
+			</td>
+			<td class="text-right"><a class="btn btn-primary" href="javascript:;" onclick='select_boss({php echo json_encode($item["entry"]);})' data-dismiss="modal" aria-hidden="true">选择</a></td>
+		</tr>
+		{/loop}
+	</tbody>
+</table>

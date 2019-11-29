@@ -1,0 +1,131 @@
+{template 'common/header'}
+<div class="panel panel-default">
+            <div class="panel-heading">排行榜页面</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">链接地址:</label>
+                    <div class="col-sm-8 col-xs-12">
+                     {php echo $_W['siteroot']}app/index.php?i={if !empty($_W['uniacid'])}{$_W['uniacid']}{/if}&c=entry&do=rank&m=n1ce_redcode
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="panel panel-default">
+            <div class="panel-heading">自定义字段入口</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">链接地址:</label>
+                    <div class="col-sm-8 col-xs-12">
+                     {php echo $_W['siteroot']}app/index.php?i={if !empty($_W['uniacid'])}{$_W['uniacid']}{/if}&c=entry&do=diyindex&m=n1ce_redcode
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="clearfix">
+    <form class="form-horizontal form" action="" method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">温馨提示：即将更新新页面</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">背景图</label>
+                    <div class="col-sm-8 col-xs-12">
+                        {php echo tpl_form_field_image('bgimg', $data['bgimg'])}
+						<div class="help-block">建议尺寸:640 x 960px</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="panel panel-default">
+            <div class="panel-heading">自定义字段</div>
+            <div class="panel-body">
+                <div class="form-group">
+				  <label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义输入资料</label>
+				  <div class="col-sm-9 form-inline">
+					<div id="parama"></div>
+					<a href="javascript:addparama()"><i class="icon-plus-sign-alt"></i> 添加</a>
+				  </div>
+				</div>
+            </div>
+        </div>
+        <div class="form-group margin-bottom">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+var i=0;
+
+function addparama(){
+
+	var temp="<div><label dd='"+i+"' class='form-inline'><input type='checkbox' name='parama-need-new["+i+"]' value='1' />必填 : <input class='form-control' name='parama-key-new["+i+"]' placeholder='键'/> : <select class='form-control' name='parama-val-new["+i+"]'><option value='1'>文本</option></select> : <input class='form-control' name='parama-default-new["+i+"]' placeholder='默认值'/> <a href='javascript:del("+i+")'><i class='glyphicon glyphicon-remove-circle'></i></a></label></div>";
+
+	$("#parama").append(temp);
+
+	i++;
+
+}
+
+oparama=eval({php echo $data['parama']});
+
+addOldparama(oparama);
+
+function addOldparama(parama){
+
+	if(parama.length<5)return;
+
+	for(var key in parama) {
+
+		_valary=parama[key].split("|#|");//type，isneed，default，
+
+		temp="<div><label ddold='"+key+"' class='form-inline' >";
+
+		temp+="<input type='checkbox' name='parama-need["+key+"]' value='1' "
+
+		if(parseInt(_valary[1])) temp+=" checked ";
+
+		temp+="/>必填 : ";
+
+		temp+="<input class='form-control' name='parama-key["+key+"]' value='"+key+"' placeholder='键'/> : ";
+
+		temp+="<select class='form-control' name='parama-val["+key+"]'>";
+
+		switch(parseInt(_valary[0])){
+
+			case 1:
+
+			temp+="<option value='1' selected>文本</option>";
+
+			break;
+
+
+		}
+
+		temp+="</select> : ";
+
+		temp+="<input class='form-control' name='parama-default["+key+"]' value='"+_valary[2]+"' placeholder='默认值'/> ";
+
+		temp+="<a href=\"javascript:delo('"+key+"')\"><i class='glyphicon glyphicon-remove-circle'></i></a></label></div>";
+
+		$("#parama").append(temp);
+
+	}
+
+}
+
+function del(obj){
+
+	$("label[dd='"+obj+"']").remove();
+
+}
+
+function delo(obj){
+
+	$("label[ddold='"+obj+"']").remove();
+
+}
+</script>
+{template 'common/footer'}

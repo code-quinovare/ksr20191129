@@ -1,0 +1,32 @@
+{template 'common/header'}
+<script>
+require(['bootstrap.switch', 'util'], function($, u){
+	$(function(){
+		$('.make-switch').bootstrapSwitch();
+	});
+});
+</script>
+<input type="hidden" name="pici" value="{$pici}" />
+<div class="main">
+		<form class="form-horizontal form" action="" method="post" >
+		
+        <div class='panel panel-default'>
+            
+                <div class="alert alert-success" role="alert"><i class="fa fa-clock-o"></i>  第{$pici}批次备注设置</div>
+           
+            <div class='panel-body'>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">备注信息</label>
+                    <div class="col-sm-9 col-xs-12">
+						<textarea style="height:160px;" name="codeinfo" class="form-control" cols="60">{$codeinfo['codeinfo']}</textarea>
+                     </div>
+			</div>
+		</div>
+		<div class="form-group margin-bottom">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </div>
+        </div> 
+		</form>
+</div>
+{template 'common/footer'}

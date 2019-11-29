@@ -1,0 +1,65 @@
+
+	{if $activity['is_time']==0}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label weui-start">{$par['yuyuename']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<input class="weui_input" type="text" name="restime" id="restime" value="" placeholder="点击选择{$par['yuyuename']}">
+			</div>
+			<div class="weui_cell_ft"></div>
+		</div>
+		<script>
+			$("#restime").datetimePicker();
+		</script>
+	{elseif $activity['is_time']==2}
+		<div class="weui_cell" href="{php echo $this->createMobileUrl('timelist',array('id' => $reid,'ii' => $ii,'sid' => $sid))}">
+			<div class="weui_cell_hd"><label class="weui_label weui-start">{$par['yuyuename']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary open-popup" onclick="fetchgetjs(this,2)" data-target="#popup">
+		<!--		<input class="weui_input f-black open-popup" name="restime" id="restime" type="text" value="{$srvtime}" onclick="bookings(this)" data-target="#popup" readonly>-->
+				<span class="" id="choosetimes">请选择{$par['yuyuename']}</span>
+				<input class="weui_input" name="restime" id="restime" type="hidden" value="">
+				<input class="weui_input" type="hidden" name="ii" id="ii" value="" readonly>
+			</div>
+			<div class="weui_cell_ft f-green time"></div>
+		</div>
+	{/if}
+<script id="datelist" type="text/html">
+<div id="tagnav" class="weui-navigator weui-navigator-wrapper weui_navbar" style="background-color:#f5f5f5;">
+	<ul class="weui-navigator-list" style="margin:0;">
+	<% for(var i in list) { %>
+		<li class="weui_navbar_item">
+			<span class=""><%=list[i].weekarray%></span>
+			<%=list[i].date%>
+		</li>
+	<% } %>
+	</ul>
+</div>
+<div id="tagnavcontent" class="weui_tab_bds">
+</div>
+</script>
+{if $activity['timelist']==2}
+<script id="timelist" type="text/html">
+	<% for(var i in time) { %>
+	<div class="weui_tab_bd_item" style="padding:1% 0;">
+		<div class="weui_grids">
+			<% for(var ii in time[i]) { %>
+				<%=time[i][ii].time%>
+			<% } %>
+		</div>
+	</div>
+	<% } %>
+</script>
+{else}
+<script id="timelist" type="text/html">
+	<% for(var i in time) { %>
+	<div class="weui_tab_bd_item">
+	<div class="page-bd" style="margin-top:10px;">
+        <ul>
+			<% for(var ii in time[i]) { %>
+				<%=time[i][ii].time%>
+			<% } %>
+		</ul>
+	</div>
+	</div>
+	<% } %>
+</script>
+{/if}

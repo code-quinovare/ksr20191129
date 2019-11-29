@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>消息管理</title>
+    <link rel="stylesheet" href="{MD_ROOT}static/iconfont/iconfont.css?v=20171228"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/css/jquery-weui.min.css"/>
+	<link rel="stylesheet" href="{MD_ROOT}static/newui/css/common.css?v=20180813"/>
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+	{php echo register_jssdk(false);}
+	<style>		
+	.chatlist .newmsg{padding:0.2rem;font-size:0.28rem;border-bottom:solid 1px #f1f1f1;}
+	.chatlist .newmsg a{color:#999;}
+	.chatlist .newmsg a .newmsgname{color:#E64340;margin-right:0.1rem;}
+	.chatlist .item{padding:0.2rem;border-bottom:solid 1px #f1f1f1;position:relative;background:#fff;}
+	.chatlist .item .mychatbadge{position:absolute;width:0.4rem;height;0.4rem;line-height:0.4rem;text-align:center;background:red;color:#fff;font-size:0.22rem;border-radius:100%;left:0.9rem;}
+	.chatlist .item a.tohref{-webkit-box-flex:1; -moz-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;}	
+	.chatlist .item img{width:0.9rem;height:0.9rem;border-radius:100%;}
+	.chatlist .item .text{-webkit-box-flex:1; -moz-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;margin-left:0.2rem;}
+	.chatlist .item .text .name{height:0.4rem;line-height:0.5rem;color:#333;font-size:0.3rem;}
+	.chatlist .item .text .lastmsg{height:0.4rem;line-height:0.4rem;font-size:0.26rem;margin-top:0.1rem;color:#999;}
+	.chatlist .item .text .do{height:0.5rem;}
+	.chatlist .item .timedo{width:1.4rem;margin-left:0.2rem;}
+	.chatlist .item .timedo .time{font-size:0.24rem;color:#999;height:0.4rem;line-height:0.4rem;text-align:right;}
+	.chatlist .item .timedo .dodel{font-size:0.24rem;color:red;height:0.4rem;line-height:0.4rem;margin-top:0.1rem;text-align:right;}
+	
+
+	.copyright{padding:0.2rem;font-size:0.28rem;color:#666;line-height:0.5rem;}
+	.copyright a{color:#E64340;}
+	
+	.copyright a,#footer .now .iconfont, #footer .now .text,.chatlist .newmsg a .newmsgname{color:{php echo $this->module["config"]['temcolor']};}
+	
+	.weui-dialog__btn{color:{php echo $this->module["config"]['temcolor']};}
+	</style>
+</head>
+
+<body style="background:#f5f5f5;padding-bottom:1rem;">
+{if $chatlist}
+<div class="chatlist">
+	{loop $chatlist $row}
+		<div class="item flex textellipsis1 fkid{$row['id']}">
+		{if $isservice}
+			<a href="{php echo $this->createMobileUrl('servicechat',array('toopenid'=>$row['fansopenid']))}" class="flex tohref textellipsis1">
+		{else}
+			<a href="{php echo $this->createMobileUrl('chat',array('toopenid'=>$row['kefuopenid']))}" class="flex tohref textellipsis1">
+		{/if}
+		{if $isservice}
+			<img src="{$row['fansavatar']}">
+			{if $row['notread'] > 0}
+			<div class="mychatbadge">{$row['notread']}</div>
+			{/if}
+		{else}
+			<img src="{$row['kefuavatar']}">
+			{if $row['kefunotread'] > 0}
+			<div class="mychatbadge">{$row['kefunotread']}</div>
+			{/if}
+		{/if}
+		<div class="text textellipsis1">
+			{if $isservice}
+			<div class="name textellipsis1">{$row['fansnickname']}</div>
+			<div class="lastmsg textellipsis1">
+				{if $row['msgtype'] == 4}
+					<span style="color:#900;">[图片消息]</span>
+				{else if $row['msgtype'] == 5}
+					<span style="color:green;">[语音消息]</span>
+				{else}
+					{php echo preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '[无法识别字符]', $row['lastcon'])}
+				{/if}
+			</div>
+			{else}
+			<div class="name textellipsis1">{$row['kefunickname']}</div>
+			<div class="lastmsg textellipsis1">
+				{if $row['kefumsgtype'] == 3}
+					<span style="color:#900;">[图片消息]</span>
+				{else if $row['kefumsgtype'] == 6}
+					<span style="color:green;">[语音消息]</span>
+				{else}
+					{if $row['kefulastcon'] != ''}
+						{php echo preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '[无法识别字符]', $row['kefulastcon'])}
+					{else}
+						<span style="color:#900;">[暂无回复]</span>
+					{/if}
+				{/if}
+			</div>
+			{/if}
+		</div>
+		</a>
+		<div class="timedo">
+			<div class="time">
+			{if $isservice}
+				{if $row['lasttime'] > 0}
+					{php echo $this->format_date($row['lasttime']);}
+				{else}
+					无
+				{/if}
+			{else}
+				{if $row['kefulasttime'] > 0}
+					{php echo $this->format_date($row['kefulasttime']);}
+				{else}
+					无
+				{/if}
+			{/if}
+			</div>
+			<div class="dodel" data-fkid="{$row['id']}">删除</div>
+		</div>
+	</div>
+	{/loop}
+</div>
+{else}		
+	<div class="nodata text-c">
+		<div class="iconfont">&#xe67c;</div>
+		<div class="text">暂无记录</div>
+	</div>
+{/if}
+<div class="weui-loadmore hide" style="margin:0.2rem auto;color:#999;">
+	<i class="weui-loading"></i>
+	<span class="weui-loadmore__tips">正在加载</span>
+</div>
+
+<div class="copyright text-c">{php echo nl2br($this->module["config"]['copyright'])}</div>
+
+<div id="footer" class="flex">
+	<div class="item">
+		<a href="{php echo $this->createMobileUrl('chosekefu');}">
+			<div class="iconfont">&#xe6b3;</div>
+			<div class="text">{if $this->module["config"]['footertext1']}{php echo $this->module["config"]['footertext1']}{else}客服{/if}</div>
+		</a>
+	</div>
+	{if $this->module["config"]['isgroupon'] == 1}
+	<div class="item">
+		<a href="{php echo $this->createMobileUrl('groupcenter');}">
+			<div class="iconfont">&#xe933;</div>
+			<div class="text">{if $this->module["config"]['footertext2']}{php echo $this->module["config"]['footertext2']}{else}群聊{/if}</div>
+		</a>
+	</div>
+	{/if}
+	<div class="item now">
+		<a href="{php echo $this->createMobileUrl('mychat');}">
+			<div class="icon iconfont">&#xe66d;</div>
+			<div class="text">{if $this->module["config"]['footertext4']}{php echo $this->module["config"]['footertext4']}{else}消息{/if}</div>
+		</a>
+	</div>
+	{if $this->module['config']['footer4on'] == 1}
+		<div class="item">
+			<a href="{php echo $this->module['config']['footer4url'];}">
+				<img src="{php echo tomedia($this->module['config']['footer4thumb']);}" />
+				<div class="text">{php echo $this->module['config']['footertext3'];}</div>
+			</a>
+		</div>
+	{/if}
+</div>
+</body>
+<script src="{MD_ROOT}/static/newui/js/socket.io.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/js/fastclick.js"></script>
+<script type="text/javascript" src="{MD_ROOT}static/js/jquery-weui.min.js"></script>
+<script type="text/javascript">
+var uid = "{$openid}";
+var touid = "";
+var fkid = "";
+{if $isservice}
+var xxtype = "kefu";
+{else}
+var xxtype = "kehu";
+{/if}
+var xxurl = "{php echo $_W['siteroot'].'app/'.str_replace('./','',$this->createMobileUrl('xiaxian'));}";
+var sendurl = "https://api.qiumipai.com:2121/?type=publish2&to="+touid;
+$(function(){
+	FastClick.attach(document.body);
+	// 连接服务端
+	var socket = io('https://api.qiumipai.com:2120');
+	// 连接后登录
+	socket.on('connect', function(){
+		socket.emit('login',{'uid':uid,'fkid':fkid,'xxtype':xxtype,'xxurl':xxurl});
+	});
+	
+	// 后端推送来消息时
+	socket.on('new_msg', function(msg){
+		var dataopenid = "openid"+msg.toopenid;
+		$(".newmsg").each(function(){
+			if($(this).attr('data-openid') == dataopenid){
+				$(this).remove();
+			}
+		});
+		{if $isservice}
+		var newhref = "{php echo $this->createMobileUrl('servicechat')}&toopenid="+msg.toopenid;
+		{else}
+		var newhref = "{php echo $this->createMobileUrl('chat')}&toopenid="+msg.toopenid;
+		{/if}
+		var newhtml = '<div class="newmsg" data-openid="'+dataopenid+'"><a href="'+newhref+'"><span class="newmsgname">'+msg.newnickname+'</span>发来1条信息</a></div>';
+		$(".chatlist").prepend(newhtml); 
+	});
+	
+	$(document).on("click",".dodel", function() {
+		var fkid = $(this).attr('data-fkid');
+		$.confirm("确定要删除吗？", function() {
+			$.ajax({
+				url:"{php echo $this->createMobileUrl('mychat')}",
+				data:{
+					fkid:fkid,
+					op:'delete',
+					type:xxtype,
+				},
+				dataType:'json',
+				type:'post',        
+				success:function(data){
+					if(data.error == 1){
+						$.alert(data.message);
+					}else{
+						$(".fkid"+fkid).remove();
+					}
+				},
+			});
+		}, function() {
+
+		});
+	});
+})
+//滚动加载
+var loading = false;  //状态标记
+var count = 2;
+$(document.body).infinite().on("infinite", function() {
+	if(loading) return;
+	loading = true;
+	if(count < {$allpage}){
+		$('.weui-loadmore').removeClass('hide');
+		setTimeout(function() {			
+			$.ajax({
+				url:"{php echo $this->createMobileUrl('mychat')}",
+				data:{
+					page:count,
+					isajax:1,
+				},
+				dataType:'html',
+				type:'post',        
+				success:function(data){
+					if(data != ''){
+						$('.chatlist').append(data);
+						count++;
+					}
+					loading = false;
+				},
+			});
+		}, 500);   //模拟延迟
+	}else{
+		$('.weui-loadmore .weui-loading').remove();
+		$('.weui-loadmore .weui-loadmore__tips').text('全部数据已经加载完毕');
+	}
+});
+wx.ready(function () {
+	wx.hideOptionMenu();
+});
+</script>
+<script type="text/javascript">
+window.onpageshow = function(event){
+	if (event.persisted) {
+		window.location.reload();
+	}
+}
+</script>
+</html>

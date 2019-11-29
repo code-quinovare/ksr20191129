@@ -1,0 +1,333 @@
+@media screen and (max-width:414px) {
+	html {
+		font-size: 100px
+	}
+}
+@media screen and (min-width:520px) {
+	html {
+		font-size: 126px
+	}
+}
+@keyframes wave-animation-1 {
+	0% {
+		background-position: 0 top
+	}
+	100% {
+		background-position: 600px top
+	}
+}
+@keyframes wave-animation-2 {
+	0% {
+		background-position: 0 top
+	}
+	100% {
+		background-position: 600px top
+	}
+}
+.my-main {
+	height: calc(100vh - 54px);
+	width: calc(100vw)
+}
+.my-main .about-panel-copyright {
+	bottom: 40px
+}
+.my-message-scroll {
+	top: calc(100vw * 9 /16);
+	position: relative;
+    margin-bottom: 70px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	animation-fill-mode: forwards;
+	background-color: #FFFFFF;
+}
+.my-head {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: calc(100vw);
+	background: url(../../images/agency-top.jpg) 0 0 no-repeat;
+	background-size: cover
+}
+.my-head-c {
+	position: relative;
+	color: #fff;
+	height: calc(100vw * 9 /16);
+	width: 100%;
+	background: rgba(0, 0, 0, .2);
+	-webkit-box-pack: center;
+	justify-content: center;
+	-webkit-justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+	display: -webkit-flex
+}
+.my-head-c .nickname{
+	display: block;
+	text-align: center;
+}
+.my-head-c .studentno{
+	text-align: center;
+}
+@supports (-webkit-backdrop-filter:none) {
+	.my-head-c {
+		background: rgba(0, 0, 0, .2);
+		-webkit-backdrop-filter: brightness(1) blur(3px)
+	}
+}
+.my-head .water {
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	height: 30px;
+	width: 100%;
+	z-index: 3
+}
+.my-head .water-c {
+	position: relative
+}
+.my-head .water-1, .water-2 {
+	position: absolute;
+	width: 100%;
+	height: 30px
+}
+.my-head .water-1 {
+	background: url(../../images/water-1.svg) repeat-x;
+	background-size: 600px;
+	-webkit-animation: wave-animation-1 3.5s infinite linear;
+	animation: wave-animation-1 3.5s infinite linear
+}
+.my-head .water-2 {
+	top: 5px;
+	background: url(../../images/water-2.svg) repeat-x;
+	background-size: 600px;
+	-webkit-animation: wave-animation-2 6s infinite linear;
+	animation: wave-animation-2 6s infinite linear
+}
+.my-head .water-stop .water-1, .my-head .water-stop .water-2 {
+	-webkit-animation-play-state: paused
+}
+.my-head .setting {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 25px;
+	font-size: 22px;
+	line-height: 22px;
+	text-shadow: 0 1px 0 #666
+}
+.my-head-c-avatar {
+	position: relative;
+	display: block;
+	width: 66px;
+	height: 66px;
+	padding: 3px;
+	background: rgba(255, 255, 255, .5);
+	border-radius: 50%;
+	margin: 0 auto 10px auto
+}
+.my-head-c-avatar img {
+	width: 100%;
+	border-radius: 50%
+}
+.my-head-c-avatar .userinfo-avatar-vip {
+	width: 30%;
+	height: 30%;
+	bottom: 3px;
+	right: 3px
+}
+.my-head-c-avatar .userinfo-avatar-vip i {
+	font-size: 80%
+}
+.my-head-c-sign {
+	display: block;
+	text-shadow: 0 1px 0 #333
+}
+.my-head-vip {
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 100px;
+	height: 100px;
+	background: url(../../images/vip-icon.png) no-repeat;
+	background-size: 100%;
+	z-index: 2;
+	-webkit-animation-duration: 2s;
+	animation-duration: 2s;
+}
+.my-data {
+	padding: 5px 30px 0;
+}
+.my-data li {
+	padding: 20px 0;
+}
+.my-data li.wallet {
+	width: 48%;
+	float: left;
+	text-align: center;
+	margin-right: 15px;
+}
+.my-data li.credit {
+	text-align: center;
+	margin-left: 15px;
+}
+.my-data strong {
+	color: #F05654;
+	display: block;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+.my-data span {
+	color: #999;
+	font-size: 12px
+}
+.my-apps {
+	font-size: 16px;
+	margin: 0 30px;
+	min-height: calc(100% - 93px);
+	padding-bottom: 30px;
+	position: relative;
+	box-sizing: border-box;
+    text-align: center;
+}
+.my-apps .my-apps-a {
+	position: relative;
+	float: left;
+	width: 50%;
+	color: #535353
+}
+.my-apps .my-apps-c {
+	padding: 10px 0
+}
+.my-apps .my-apps-a:nth-child(odd) .my-apps-c {
+	margin-right: 15px
+}
+.my-apps .my-apps-a:nth-child(even) .my-apps-c {
+	margin-left: 15px
+}
+.my-apps .my-apps-a:nth-child(1) .my-apps-c, .my-apps .my-apps-a:nth-child(2) .my-apps-c {
+	padding-top: 20px
+}
+.my-apps .my-apps-a span {
+	display: block;
+	line-height: 24px;
+	line-height: 24px
+}
+.my-apps .my-apps-a em {
+	display: block;
+	line-height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	color: #ccc
+}
+.my-apps-one .my-apps-a {
+	width: 100%;
+	float: none
+}
+.my-apps-one .my-apps-a:nth-child(odd) .my-apps-c {
+	margin-right: 0
+}
+.fa-blue{
+	color: #3665D2;
+}
+.fa-red{
+	color: #f75858;
+}
+.fa-orange{
+	color: #f9681e;
+}
+.fa-green{
+	color: #00a700;
+}
+.fa-edit{
+	color: #1499ce;
+}
+.fa-pink{
+	color: #f6686e;
+}
+.logout {
+    width: 90%;
+    margin: 0 auto 45px;
+}
+.logout a{
+	display: inline-block;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border: #dcdcdc 1px solid;
+    margin-top: 14px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    color: #636282;
+    font-size: 16px;
+}
+
+/* VIP服务样式 */
+.myvip{font-family: "微软雅黑";}
+.myvip ul li{color: #fff;}
+.myvip-container{font-size: .14rem;}
+.tab-wrap.fixed{height: .37rem;}
+.myvip-tab{background-color: #FE7875; overflow: hidden;}
+.fixed .myvip-tab{position: fixed; left: 0; top: 0; z-index: 90; width: 100%;}
+.myvip-tab li{width: 100%; height: .46rem; line-height: .46rem; font-size: .16rem; color: #666; text-align: center; border-bottom: 1px solid #e6e6e6;}
+.myvip-tab li.cur{color: #43c0b5; border-color: #43c0b5;}
+.myvip-list{background: #FFFFFF;}
+.myvip-list li{margin-bottom: .1rem;}
+.myvip-list .myvip-info{font-family: "微软雅黑"; line-height: .4rem; color: #999; font-size: .13rem; border-bottom: 1px solid #efefef;}
+.myvip-list .myvip-info .myvip-time{white-space: nowrap; margin-left: .05rem; display: inline-block; text-align: right; width: 60%;}
+.myvip-list .normal{color: #158A08;}
+.myvip-list .disabled{color: #FD0000;}
+.myvip-list .pay-state{display: inline-block; color: #ff7f00; font-size: .12rem;}
+.myvip-list .school{font-size: .14rem; color: #999;}
+.course-list2.wider .state-down{position: relative;}
+.course-list2.wider .state-down img{opacity: .4;}
+.course-list2 .ico-state-down{position: absolute; left: .87rem; top: -.1rem; display: inline-block; width: .55rem; height: .55rem; background: url(../images/ico-course-down.png) no-repeat;}
+.course-list2 .buyvip{height: .4rem; padding-top: .08rem;}
+.course-list2 .buyvip li{font-family: "微软雅黑"; width: 33.33333%; font-size: .14rem; float: left; margin: 0; text-align: center;}
+.course-list2 .buyvip .align{padding-top: .05rem;}
+.course-list2 .buyvip .buybtn a{color: #FFFFFF; display: inline-block; width: .5rem; padding: .04rem .15rem; background-color: #F1C332; border-radius: .07rem; border: 1px solid #F1C332;}
+.course-list2 .vip-card{padding: 10px; text-align: right;}
+.course-list2 .vip-card .vip-gallery{font-size: 14px; text-align: right; font-family: "微软雅黑"; color: #656565; display: inline-block; padding: .04rem .15rem; border-radius: .07rem;}
+.border{border-top: 1px solid #EEE; width: 100%;}
+.lvzi,
+.rizi{position: absolute; z-index: 2; right: 38px; color: #FFF;}
+.vip-prompt{width: 100%; height: .5rem; line-height: .5rem; text-align: center; font-size: .15rem; background: #FFFFFF;}
+.vip-list{border-radius: .1rem; background-color: #FFFFFF;}
+.vip-list .no-content{padding: 40px 0; margin: 0 auto; text-align: center;}
+.buy-vip-list{border-top-left-radius:0; border-top-right-radius:0; margin-bottom: 8px;}
+.vip-prompt .red{padding: 5px 15px; border: 1px solid #BC2838; border-radius: 20px; font-size: .13rem;}
+.vip-prompt .green{color: #2b9c05; padding: 5px 15px; border:1px solid #2b9c05; border-radius: 20px; font-size: .13rem;}
+.myvip-list .wider{background: #EEEEEE;}
+#notice{font-size: 14px; float: left; font-family: "微软雅黑"; color: red; display: inline-block; padding: .04rem .3rem; /*background: url(../images/wenhao.png) center right no-repeat;*/ background-height: 55%;}
+#loglist li{font-size: 14px;padding: 10px 5%;background-color: #FFFFFF;}
+.vip-back{width: 100%;}
+.vip-back img{max-width: 100%; vertical-align: middle; border: 0;}
+#popup{position: fixed;z-index: 100000001;width: 80%;margin: 0 10%;padding: 7% 0;background-color: #FFFFFF;font-size: .15rem;border-radius: 10px;}
+.popup-centent{overflow-y: scroll;height: 100%;padding: 0 5%;}
+#popup:before{content: "";background: url(../../images/vip-top.png) no-repeat;width: .6rem;height: .6rem;position: absolute;background-size: contain;right: 11px;top: -15px;}
+#popup:after{content: "";background: url(../../images/vip-bottom.png) no-repeat;width: 1.6rem;height: .6rem;position: absolute;background-size: contain;right: 11px;}
+::-webkit-scrollbar-thumb{border-radius: 5px;background-color: red;border: 0px solid #fff;}
+#bak{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0, 0, 0, 0.6);z-index: 100000000;}
+.num-time{color: #9C9C9C;font-size: 13px;}
+.order-time{float: right;}
+.order-info,
+.myviplog{border-bottom: 1px dashed #999;}
+.myviplog h3{font-size:13px; line-height: 23px;}
+.myviplog span{height: 25px;line-height: 25px;color: #646464;font-weight: bold;}
+.viporder-list .order-info {padding: 0;line-height: 40px;color: #999;font-size: 12px;border-bottom: 1px solid #efefef; }
+.viporder-list .order-info .order-time {white-space: nowrap;}
+.viporder-list .order-info .num-time {white-space: nowrap;}
+
+.vipdesc{background-color:#fff; margin-bottom: 20px;}
+.vipdesc .content{padding:15px;}
+
+/* 验证VIP服务卡 */
+.vipcard input {-webkit-appearance:none; outline:none; border: none;}
+.vipcard .balance_num {width:100%; margin-top:10px; text-align:center; line-height:24px; font-size:22px; color:#444;}
+.vipcard .balance_num .vipcard-title{font-size: 14px; float: left; margin: 14px 14px 2px;}
+.vipcard .balance_sub {height:44px; width:94%; margin:14px 3% 0px; background:#31cd00; border-radius:4px; text-align:center; font-size:18px; line-height:44px; color:#fff;}
+.vipcard .disabled { background:#ccc;}

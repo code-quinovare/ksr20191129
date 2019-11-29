@@ -1,0 +1,10 @@
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label {if $fields['essential']}weui-start{/if}">{$fields['title']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<input class="weui_input" type="text" name="field_{$fields['refid']}_{$fields['bind']}" value="" placeholder="{$fields['tixing']}" id="{$fields['refid']}" {if $fields['essential']}required tips="{$fields['tixing']}"{/if}>
+			</div>              
+		</div>
+    <script>
+      $("#{$fields['refid']}").datetimePicker();
+    </script>

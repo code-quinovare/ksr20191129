@@ -1,0 +1,23 @@
+<view class="container">
+    <view>
+        <view bindtap="toArticle" class="news" data-id="{{item.id}}" wx:for="{{news}}">
+            <view class="newsPic">
+                <view>{{item.title}}</view>
+                <image src="{{url}}{{item.img}}"></image>
+            </view>
+            <view class="listBot">
+                <view class="msg">
+                    <view class="watch">
+                        <image class="icn" src="../../../../style/images/icon31.png"></image>
+                        <text>{{item.seenum}}</text>
+                    </view>
+                    <view class="watch">
+                        <image class="icn" src="../../../../style/images/icon32.png"></image>
+                        <text>{{item.likenum}}</text>
+                    </view>
+                </view>
+                <view>{{item.addtime}}</view>
+            </view>
+        </view>
+    </view>
+</view>

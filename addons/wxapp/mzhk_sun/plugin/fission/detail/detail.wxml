@@ -1,0 +1,45 @@
+<view class="container">
+    <view>
+        <view class="wrap">
+            <view class="head">
+                <image class="bg" src="http://img4.imgtn.bdimg.com/it/u=2066584298,1763950916&fm=26&gp=0.jpg"></image>
+                <view class="head-cont">
+                    <view class="store-name">门店名称</view>
+                    <view class="time">有效期至：2018-10-10</view>
+                    <view class="remark">使用说明：到店即可消费</view>
+                </view>
+            </view>
+        </view>
+        <view class="wrap session">
+            <view bindtap="toShop" class="list">
+                <view>门店名称</view>
+                <image class="icon" src="../../resource/images/icon1.png"></image>
+            </view>
+            <view bindtap="callPhone" class="list">
+                <view>
+          电话：
+        </view>
+                <image class="icon" src="../../resource/images/icon2.png"></image>
+            </view>
+            <view bindtap="getAddress" class="list">
+                <view class="address">
+                    <text>地址：</text>
+                    <text class="adr">地址a啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</text>
+                </view>
+                <image class="icon" src="../../resource/images/icon3.png"></image>
+            </view>
+        </view>
+        <view class="wrap">
+            <view class="wrap-title">
+                <text>店铺详情</text>
+            </view>
+            <view class="content">
+                <rich-text nodes="详情啊啊啊啊啊啊"></rich-text>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="footer">
+    <button bindtap="getCoupon" class="receive">立即领取</button>
+    <view bindtap="toIndex" class="home"></view>
+</view>

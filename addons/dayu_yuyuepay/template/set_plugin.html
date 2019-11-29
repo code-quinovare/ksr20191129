@@ -1,0 +1,43 @@
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证</label>
+                    <div class="col-xs-12 col-sm-9">
+					{if pdo_tableexists('dayu_sms')}
+						<select name="smsid" class='form-control'>
+							<option value="0">不使用短信</option>
+							{loop $sms $s}
+							<option value="{$s['id']}" {if $s['id'] == $settings['smsid']}selected="selected"{/if}>{$s['title']}</option>
+							{/loop}
+						</select>
+					{else}
+						<span class="btn btn-default" disabled>需要【dayu短信】支持</span>
+					{/if}
+	        			<span class="help-block">短信验证手机号码的真实性</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">充值入口：</label>
+					<div class="col-xs-12 col-sm-9">
+					<div class="btn-group" data-toggle="buttons">					  
+						<label class="btn btn-default {if $settings['pay'] == 0}active{/if}"><input type="radio" name="pay" value="0" {if $settings['pay'] == 0} checked="checked"{/if}>系统内置充值</label>
+						{if pdo_tableexists('dayu_card_plugin_deposit')}
+						<label class="btn btn-default {if $settings['pay'] == 1}active{/if}"><input type="radio" name="pay" value="1" {if $settings['pay'] == 1} checked="checked"{/if}>{$modules['dayu_card_plugin_deposit']['title']}</label>
+						{else}
+						<label class="btn btn-default {if $settings['pay'] == 1}active{/if}" disabled><input type="radio" name="pay" value="1" {if $settings['pay'] == 1} checked="checked"{/if}>需要【充值中心】支持，返金额+送券</label>
+						{/if}
+					</div>
+					</div>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打通微商户插件</label>
+                    <div class="col-xs-12 col-sm-9">
+					{if pdo_tableexists('dayu_yuyuepay_plugin_store_store')}
+					<div class="btn-group" data-toggle="buttons">					  
+						<label class="btn btn-default {if $settings['store'] == 1}active{/if}"><input type="radio" name="store" value="1" {if $settings['store'] == 1} checked="checked"{/if} >开启</label>
+						<label class="btn btn-default {if $settings['store'] == 0}active{/if}"><input type="radio" name="store" value="0" {if $settings['store'] == 0} checked="checked"{/if}>关闭</label>
+					</div>
+					{else}
+						<span class="btn btn-default" disabled>需要【多城市网点商圈】支持</span>
+					{/if}
+                    </div>
+                </div>

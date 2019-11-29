@@ -1,0 +1,59 @@
+<!-- 
+ * 讲师中心
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<link href="{MODULE_URL}template/mobile/style/cssv2/teacherCenter.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div id="container">
+    <div class="teacher-topbar">
+        <div class="user_face" style="background-image:url({$avatar});background-size:contain;"></div>
+        <div class="user_info">
+            <div class="user_name">{$teacher['nickname']} <span>[uid:{$teacher['uid']}] </span></div>
+            <div class="user_date">加入时间：{php echo date('Y-m-d H:i', $teacher['addtime']);}</div>
+        </div>
+    </div> 
+    <div class="teacher-top">
+        <div class="top_1">
+            <div class="text">累计课程收入：{php echo sprintf("%.2f",$member['pay_lesson']+$member['nopay_lesson']);} 元<br>可提现课程收入（元）</div>
+            <a href="{php echo $this->createMobileUrl('applyteacher');}">
+                <div class="ico {if $teacher['status']==-1}no_status{/if}">
+                    {if empty($teacher)}未申请{elseif $teacher['status']==-1}审核未通过{elseif $teacher['status']==1}申请通过{elseif $teacher['status']==2}审核中{/if}
+                </div>
+            </a>
+        </div>
+        <div class="top_2">{$member['nopay_lesson']}<a href="{if $member['nopay_lesson']<$comsetting['cash_lower_teacher']}javascript:;{else}{php echo $this->createMobileUrl('lessoncash', array('op'=>'display'));}{/if}" id="cash_btn"><span class="{if $member['nopay_lesson']<$comsetting['cash_lower_teacher']}disabled{/if}">提现</span></a></div>
+    </div> 
+    <div class="teache-menu"> 
+        <a href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$teacher['id']));}"><div class="nav nav1"><i class="ico ico-team"></i><div class="title">我的课程</div><div class="con"><span>{$mylessoncount}</span>节课程</div></div></a>
+        <a href="{php echo $this->createMobileUrl('income');}"><div class="nav nav2"><i class="ico ico-commission"></i><div class="title">课程收入</div><div class="con">课程收入明细</div></div></a>
+        <a href="{php echo $this->createMobileUrl('lessoncashlog');}"><div class="nav nav3"><i class="ico ico-qrcode"></i><div class="title">提现记录</div><div class="con">收入提现记录</div></div></a>        
+    </div>
+    <div class="teache-menu"> 
+        <a href="{php echo $this->createMobileUrl('teachercenter', array('op'=>'account'));}"><div class="nav nav1"><i class="ico ico-account"></i><div class="title">账号管理</div><div class="con">登录讲师平台凭证</div></div></a>
+    </div>
+</div>
+
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+{if $member['nopay_lesson']<$comsetting['cash_lower_teacher']}
+<script type="text/javascript">
+    var cash_lower_teacher = {php echo $comsetting['cash_lower_teacher']; };
+    $("#cash_btn").click(function () {
+        alert("当前提现最低额度为" + cash_lower_teacher + "元");
+    });
+</script>
+{/if}
+
+{template '_footerv2'}

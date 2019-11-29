@@ -1,0 +1,79 @@
+	<div class="panel panel-info">
+	    <div class="panel-heading">
+				<div class="input-group" style="display: inline-block;">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{if $_GPC['status']=='0'}未支付
+						{elseif $_GPC['status']=='1'}已支付				
+						{else}全部状态订单{/if}
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'status'=>0,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">未支付</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'status'=>1,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">已支付</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">全部状态订单</a></li>
+					  </ul>
+					</div>
+				</div>	
+				<div class="input-group" style="display: inline-block;margin-left:50px;">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{if $_GPC['order']=='fee'}金额大小排序
+						{elseif $_GPC['order']=='uid'}用户id排序					
+						{else}最新排序{/if}
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'status'=>$_GPC['status'],'order'=>'fee'))}">金额大小排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'status'=>$_GPC['status'],'order'=>'uid'))}">用户id排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'status'=>$_GPC['status'],'order'=>'id'))}">最新排序</a></li>
+					  </ul>
+					</div>
+				</div>					
+		</div>
+	    <div class="panel-body table-responsive">
+			<table class="table">
+				<thead class="navbar-inner">
+					<div class="col-sm-3 col-lg-1" style="text-align:left;">
+					<tr>				
+						<th style="width:80px;">用户id</th>
+						<th style="width:80px;">金额</th>
+						<th style="width:120px;">类型</th>
+						<th style="width:120px;">状态</th>
+						<th style="width:180px;">微信订单号</th>
+						<th style="width:150px;">时间</th>
+					</tr>
+				</thead>
+				<tbody>
+						{loop $payinfo $item}
+						<tr>
+							<td><a target="_blank" href="{php echo $this->createWebUrl('userinfo',array('uid'=>$item['uid']))}">{$item['uid']}</a></td>
+							<td>{$item['fee']}</td>	
+							<td>
+								{if $item['type'] == 1 }
+								<span class='label label-info'>任务保证金</span>
+								{elseif $item['type'] == 2}
+								<span class='label label-primary'>充值余额</span>
+								{/if}		
+							</td>
+							<td>
+								{if $item['status'] == 0 }
+								<span class='label label-danger'>未支付</span>
+								{elseif $item['status'] == 1}
+								<span class='label label-success'>已支付</span>
+								{/if}		
+							</td>
+							<td>{php echo empty($item['uorderid'])?'还未生成':$item['uorderid']}</td>
+							<td>{php echo date("Y-m-d H:i",$item['time'])}</td>	
+						</tr>
+						{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+{$pager}

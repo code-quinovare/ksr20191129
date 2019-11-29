@@ -1,0 +1,134 @@
+{template 'common/header'}
+<div class="panel panel-info">
+		<div class="panel-heading">查询</div>
+		<div class="panel-body">
+			<form action="" method="get" class="form-horizontal" role="form">	
+				<input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="n1ce_redcode" />
+                <input type="hidden" name="do" value="usershow" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">昵称</label>
+					<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+						 <div class="col-sm-9">
+                      <input type="text" name="nickname" class="form-control" value="{$_GPC['nickname']}" />
+                    </div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">卡密</label>
+					<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+						 <div class="col-sm-9">
+                      <input type="text" name="code" class="form-control" value="{$_GPC['code']}" />
+                    </div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">批次</label>
+					<div class="col-sm-8 col-xs-12">
+						<select name="pici" class="form-control">
+						{loop $category $row}
+                            <option value="{$row['pici']}" {if $pici == $row['pici']}selected="selected"{/if}>第{$row['pici']}批次</option>
+						{/loop}}
+							<option value="" {if empty($pici)}selected="selected"{/if}>全部批次</option>
+                        </select>
+					</div>
+				</div>
+					<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">领取状态</label>
+					<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+						<label>
+				      <input type="radio" name="status" 
+				         value="1">领取成功
+				   </label>
+				      <label>
+				      <input type="radio" name="status"  value="2" >领取失败
+				   </label>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+			<button type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交">查询一下</button>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+			</form>
+		</div>
+		
+	</div>
+<div class="alert alert-info">
+	<a href="{php echo $this->createWebUrl('userpost')}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="导出"><i class="fa fa-download"></i>  导出所有领取成功记录</a>
+	{if $pici}
+	<a href="{php echo $this->createWebUrl('userpost',array('pici' => $pici))}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="导出第{$pici}批次"><i class="fa fa-cloud-download"></i>  导出<kbd>第{$pici}批次</kbd>领取成功记录</a>
+	{/if}
+	<a href="{php echo $this->createWebUrl('userdelete')}" onclick="return confirm('确认清空吗，清空后，不可恢复？');return false;" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="清空"><i class="fa fa-times-circle"></i>  清空领取记录</a>
+</div>	
+<div class="main">
+	<div class="category">
+	
+	<div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th width="100">粉丝标识</th>
+                            <th width="100">奖品</th>
+							<th width="120">姓名</th>
+							<th width="150">自定义资料</th>
+							<th width="50">红包金额</th>
+							<th width="100">对应卡密</th>
+                            <th width="150">领取时间</th>
+							<th width="100">领取状态</th>
+                            <th width="100">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {loop $list $row}
+						{php $p=json_decode($row['parama'],true);}
+                        <tr>
+							
+							
+                            <td>{$row['nickname']}</td>
+							
+                            <td>{php echo $row['name']}</td>
+							<td>{php echo $row['realname']}<br/>{php echo $row['mobile']}</td>
+							<td>
+							{loop $field $index $val}
+								<div><span class="grade">{php echo $index}:</span> 
+								{php echo $p[$index]}
+								</div>
+							{/loop}
+							</td>
+							<td>{php echo $row['money']/100}元</td>
+							<td>
+                                {$row['code']}
+                            </td>
+                            <td>{php echo date('Y-m-d H:i:s',$row['time'])}</td>
+							<td>
+                                {if $row['status'] == 1}
+                                    <span class="label label-success">领取成功</span>
+                                {elseif $row['status'] == 3}
+                                    <span class="label label-success">待领取</span>
+								{else}
+									<span class="label label-danger">领取失败</span>
+                                {/if}
+                            </td>
+                            <td>
+                                {if $row['status'] == 1}
+                                    <span class="label label-success">无需操作</span>
+                                {elseif $settings['brrow'] == 2}
+                                    <a href="{php echo $this->createWebUrl('sendred', array('op' => 'send', 'id' => $row['id'],'openid' => $row['bopenid'],'money' => $row['money']))}" onclick="return confirm('确认发送吗，发送后，无法撤回？');return false;" title="手动发送"><span class="label label-danger">点击发送红包</span></a>
+								{else}
+									<a href="{php echo $this->createWebUrl('sendred', array('op' => 'send', 'id' => $row['id'],'openid' => $row['openid'],'money' => $row['money']))}" onclick="return confirm('确认发送吗，发送后，无法撤回？');return false;" title="手动发送"><span class="label label-danger">点击发送红包</span></a>
+                                {/if}
+                            </td>
+                        </tr>
+                        {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+	</div>
+
+</div>
+{$pager}
+		
+{template 'common/footer'}

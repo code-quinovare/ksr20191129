@@ -1,0 +1,13 @@
+	<div class="page_top money_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'money'))}"><span {if $_GPC['op'] == 'money'}class="font_activity"{/if} >提现</span></a>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'moneylog'))}"><span {if $_GPC['op'] == 'moneylog'}class="font_activity"{/if}>记录</span></a>
+			{if $_GPC['op'] == 'moneylog'}
+				<i class="ti-search" id="showFilter"></i>	
+			{/if}
+		</div>
+	</div>
+
+	{if $_GPC['op'] == 'moneylog'}
+		{template 'temp/user/filter'}
+	{/if}

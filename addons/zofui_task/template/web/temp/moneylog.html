@@ -1,0 +1,123 @@
+	<div class="panel panel-info">	
+	    <div class="panel-heading">
+				<div class="input-group" style="display:inline-block">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{if $_GPC['type']=='1'}发布任务支出
+						{elseif $_GPC['type']=='2'}平台使用费
+						{elseif $_GPC['type']=='3'}提现支出
+						{elseif $_GPC['type']=='4'}完成任务收入
+						{elseif $_GPC['type']=='5'}私包任务支出
+						{elseif $_GPC['type']=='7'}私包任务收入
+						{elseif $_GPC['type']=='9'}加急支出
+						{elseif $_GPC['type']=='10'}管理员变动	
+						{elseif $_GPC['type']=='11'}提现退回	
+						{elseif $_GPC['type']=='12'}充值收入
+						{elseif $_GPC['type']=='13'}任务审核不通过退回
+						{else}全部{/if}
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>1,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">发布任务支出</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>2,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">平台使用费</a></li>
+						<li role="separator" class="divider"></li>					
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>3,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">提现支出</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>4,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">完成任务收入</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>5,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">私包任务支出</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>7,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">私包任务收入</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>9,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">加急支出</a></li>	
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>10,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">管理员变动</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>11,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">提现退回</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>12,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">充值收入</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>13,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">审核不通过退回</a></li>	
+						<li role="separator" class="divider"></li>						
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>0,'uid'=>$_GPC['uid'],'order'=>$_GPC['order']))}">全部</a></li>
+					  </ul>
+					</div>
+				</div>
+				
+				<div class="input-group" style="display:inline-block;margin-left:50px;">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{if $_GPC['order']=='money'}金额大小排序
+						{elseif $_GPC['order']=='uid'}用户id排序
+						{else}最新排序{/if}
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>$_GPC['type'],'uid'=>$_GPC['uid'],'order'=>'money'))}">金额大小排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>$_GPC['type'],'uid'=>$_GPC['uid'],'order'=>'uid'))}">用户id排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'type'=>$_GPC['type'],'uid'=>$_GPC['uid']))}">最新排序</a></li>
+					  </ul>
+					</div>
+				</div>				
+		</div>
+	    <div class="panel-body table-responsive">
+			<table class="table">
+				<thead class="navbar-inner">
+					<div class="col-sm-3 col-lg-1" style="text-align:left;">
+					<tr>
+						<th style="width:70px;">用户id</th>
+						<th style="width:160px;">资金记录标题</th>
+						<th style="width:80px;">对应任务id</th>
+						<th style="width:80px;">金额</th>
+						<th style="width:100px;">变动后余额</th>
+						<th style="width:120px;">类型</th>
+						<th style="width:150px;">时间</th>
+					</tr>
+				</thead>
+				<tbody>
+						{loop $moneyinfo $item}
+						<tr>
+							<td><a target="_blank" href="{php echo $this->createWebUrl('userinfo',array('uid'=>$item['uid']))}">{$item['uid']}</a></td>
+							<td>{php echo strip_tags(htmlspecialchars_decode(htmlspecialchars_decode($item['title'])))}</td>
+							<td>{php echo empty($item['taskid'])?'无':$item['taskid']}</td>
+							<td>{$item['money']}</td>
+							<td>{$item['aftermoney']}</td>			
+							{if $item['type'] == 1}
+							<td><span class='label label-info'>发布任务支出</span></td>
+							{elseif $item['type'] == 2}
+							<td><span class='label label-success'>平台使用费</span></td>
+							{elseif $item['type'] == 3}
+							<td><span class='label label-warning'>提现扣除</span></td>
+							{elseif $item['type'] == 4}
+							<td><span class='label label-primary'>完成任务收入</span></td>
+							{elseif $item['type'] == 5}
+							<td><span class='label label-danger'>私包任务支出</span></td>	
+							{elseif $item['type'] == 6}
+							<td><span class='label label-info'>私包任务取消退回资金</span></td>	
+							{elseif $item['type'] == 7}
+							<td><span class='label label-success'>私包任务收入</span></td>		
+							{elseif $item['type'] == 8}
+							<td><span class='label label-warning'>结算任务退回资金</span></td>	
+							{elseif $item['type'] == 9}
+							<td><span class='label label-info'>加急处理支出</span></td>	
+							{elseif $item['type'] == 10}
+							<td><span class='label label-warning'>管理员变动</span></td>
+							{elseif $item['type'] == 11}
+							<td><span class='label label-primary'>提现退回</span></td>	
+							{elseif $item['type'] == 12}
+							<td><span class='label label-primary'>充值收入</span></td>	
+							{elseif $item['type'] == 13}
+							<td><span class='label label-primary'>审核不通过退回</span></td>								
+							{/if}
+							<td>{php echo date("Y-m-d H:i",$item['time'])}</td>	
+						</tr>
+						{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+{$pager}

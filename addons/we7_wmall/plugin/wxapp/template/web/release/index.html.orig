@@ -1,0 +1,51 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>发布与审核</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-info">
+			<h2>授权说明</h2>
+			将微信小程序授权给系统，系统会自动帮你生成店铺小程序，并提交到微信；你不需要做复杂操作，即可获得店铺的微信小程序<br>
+			注意：你的小程序的主体必须是「企业」，并开通了微信支付，才能具备支付权限<br>
+			如果你还没有注册微信小程序，点击此处注册；注册成功后，再授权给系统即可<br>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<a href="javascript:;" id="btn-release" class="btn btn-primary">授权微信小程序</a>
+			</div>
+		</div>
+	</form>
+    <div class="wxapp-detail">
+        <div class="logo">
+            <img src="../addons/we7_wmall/static/img/" />
+        </div>
+        <div class="name">啦啦外卖APP</div>
+        <div class="qrcode">
+            <div class="layer">
+                未提交
+            </div>
+            <img src="../addons/we7_wmall/static/img/" />
+        </div>
+        <div class="line"></div>
+        <div class="texts">
+            <p>线上版本：未提交</p>
+            <p>审核状态：<span>未提交</span></p>
+            <p>提交时间：<span>未提交</span></p>
+            <p>授权状态：已授权<span class="text-primary" id="btn-reauth">重新授权</span></p>
+        </div>
+        <div class="btn btn-primary">提交审核</div>
+        <div class="btn btn-default">上传代码</div>
+    </div>
+</div>
+<script>
+$('#btn-release').click(function(){
+        $.post("{php echo iurl('wxapp/release/index')}", function(data) {
+		var result = $.parseJSON(data);
+		if(result.message.errno != 0) {
+			Notify.error("获取授权url失败,请刷新重试,错误详情" + result.message.message);
+			return false;
+		}
+		window.open(result.message.message);
+	});
+});
+</script>
+{itemplate 'public/footer'}

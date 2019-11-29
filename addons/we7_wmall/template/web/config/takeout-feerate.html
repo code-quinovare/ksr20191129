@@ -1,0 +1,34 @@
+{itemplate 'public/header'}
+<div class="page clearfix page-config-fee-rate">
+	<h2>费率设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" >
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">美金人民币兑换费率</label>
+			<div class="col-sm-9 col-xs-12 col-md-6">
+				<input type="text" class="form-control" name="dollar_rate" value="{$order['dollar_rate']}">
+			</div>
+			<div class="col-md-9 col-xs-12 col-md-3">(数字型 四位小数)</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">税率%</label>
+			<div class="col-sm-9 col-xs-12 col-md-6">
+				<input type="number" name="tax_rate" value="{$order['tax_rate']}" class="form-control"/>
+			</div>
+			<div class="col-md-9 col-xs-12 col-md-3">(数字型 两位小数)</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小费比率%</label>
+			<div class="col-sm-9 col-xs-12 col-md-6">
+				<input type="number" name="tip_rate" value="{$order['tip_rate']}" class="form-control">
+			</div>
+			<div class="col-md-9 col-xs-12 col-md-3">(数字型 两位小数)</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+
+{itemplate 'public/footer'}

@@ -1,0 +1,225 @@
+.page_top_item span{
+    width: 30%;
+    line-height: 25px;
+    border-radius: 3px;
+    border: 1px solid #ff5f27;
+    margin-top: 7px;
+    text-align: center;
+    color: #ff5f27;
+    display: inline-block;
+}
+.pub_main{
+	padding:5px 0;
+}
+.pub_item{
+    background: #fff;
+    padding: 5px;
+    margin-top: 5px;	
+}
+.pub_item_headpic{
+	width:20%;
+	min-width:50px;
+}
+.pub_item_bottom div{
+	float:left;
+}
+.pub_item_headpic img{
+	width:40px;
+	height:40px;
+	border-radius:50%;
+}
+.pub_item_name {
+	width:40%;
+    line-height: 40px;	
+}
+.pub_item_time {
+	width:40%;
+	text-align:right;
+    line-height: 40px;
+    color: #999;
+    font-size: 13px;
+}
+.pub_item_bottom{
+    margin-top: 5px;
+    border-top: 1px solid #ddd;
+    padding: 5px 0;	
+}
+.ques_question{
+    margin-top: 5px;
+    background: #fff;
+    padding: 10px;
+}
+.pub_city{
+	width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
+}
+.pub_city select{
+    border-bottom: 1px solid #ddd;
+	padding:0;
+	font-size:14px;
+}
+.select_money_title{
+	padding-left:10%;
+}
+.pub_isshow{
+	margin-top:0!important;
+}
+.pub_isshow label{
+	padding: 10px 0;
+	font-size:14px;	
+}
+.weui_check:checked+.weui_icon_checked:before {
+    color: #ff5f27!important;
+}
+/*悬赏提问*/
+.page_top_item span{
+    width: 30%;
+    line-height: 25px;
+    border-radius: 3px;
+    border: 1px solid #ff5f27;
+    margin-top: 7px;
+    text-align: center;
+    color: #ff5f27;
+    display: inline-block;
+}
+.pub_main{
+	padding:5px 0;
+}
+.pub_textarea{
+    padding: 10px;
+    background: #fff;
+    padding-bottom: 100px;	
+}
+.weui_textarea_counter span:nth-of-type(1),.weui_textarea_counter span:nth-of-type(2),.weui_textarea_counter span:nth-of-type(3){
+	display:inline-block;
+    width: 40px;
+	text-align:center;
+    height: 30px;
+    line-height: 30px;	
+}
+/*录音sheet*/
+.pub_record_down {
+	height:60%;
+	min-height:340px;
+	padding:10px;
+}
+.pub_record_body{
+	background:#efeff4;
+	position:relative;
+    height: 100%;	
+}
+.pub_record_bottom{
+	position:absolute;
+	width:100%;
+	left:0;
+	bottom:0;
+}
+.pub_record_bottom a:nth-of-type(2){
+	background:#ddd;
+}
+.pub_recording{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left: -75px;
+}
+.pub_recording span{
+    background: #1ccda6;
+	color:#fff;
+    padding: 10px 70px 10px 10px;
+    border-radius: 5px;
+}
+.pub_recording img{
+	height:20px;
+	padding-right:5px;
+}
+
+.pub_content{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.pub_money_money{
+    text-align: center;	
+}
+.pub_money_money input{
+	display:none;
+}
+
+.pub_money_money span{
+	padding: 2px 10px;
+    border: 1px solid #ff5f27;
+    font-size: 17px;
+    color: #ff5f27;
+    border-radius: 4px;
+    width: 25%;
+    display: inline-block;
+    text-align: center;
+    margin-top: 5px;	
+}
+.pub_money_money span  font{
+    font-size: 14px;	
+}
+.pub_edit_money {
+    margin-top: 10px;
+    border-bottom: 1px solid #ddd;
+    width: 80%;
+    margin-left: 10%;
+	display:none;	
+}
+.pub_edit_money  input{
+    height: 30px;
+}
+
+
+.pub_number{
+    width: 80%;
+    margin-left: 10%;
+    border-bottom: 1px solid #ddd;		
+}
+.pub_number input{
+    height: 30px;
+}
+.pub_money,.pub_number{
+	margin-top:10px;
+}
+input,select{
+	border-radius: 0;
+}
+
+.pub_task_divedit{
+	min-height:80px;
+	word-break: break-word;	
+	text-align:justify;
+}
+.pub_task_divedit a{
+    font-size: 18px;
+    color: #428bca;
+    padding: 0 2px;
+}
+.content_box{
+	display:none;
+}
+
+/*编辑超链接*/
+.sideup_link_body{
+    padding: 20px 0;
+}
+.sideup_link_body .sideuper_body_item{
+    padding: 10px;
+}
+.sideup_link_body .sideuper_body_item .weui_cell{
+    border-bottom:1px solid #ddd;
+}
+.sideup_link_body .deleteurl{
+    margin-left:0;
+}
+
+#sideup_link .sideuper_body {
+	height:350px;
+}
+
+
+
+

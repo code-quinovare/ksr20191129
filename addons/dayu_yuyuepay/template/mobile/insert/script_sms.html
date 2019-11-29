@@ -1,0 +1,59 @@
+
+<script type="text/javascript">
+	var wait=60;  
+	function time(o) {
+		if (wait == 0) {
+			o.removeAttribute("disabled");
+			o.value="获取验证码";
+			wait = 60;
+		} else {
+			o.setAttribute("disabled", true);
+			o.value="重新发送(" + wait + ")";
+			wait--;  
+			setTimeout(function() {
+				time(o)
+			},
+           1000)
+		}
+	}
+	
+	var countdown=60;
+	function settime() {
+		var code = $('#code');
+		if (countdown == 0) {
+			code.removeAttr('disable');
+			code.text("获取验证码");
+			countdown = 60;
+			return;
+		} else {
+			code.text("重新发送(" + countdown + ")");
+			code.attr('disable',true);
+			countdown--;
+		}
+		setTimeout('settime()', 1000);
+	}
+	$("#sendsms").bind("click",function(){
+		var mobile = $("#mobile").val();
+		var checktel = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if(mobile=='' || !checktel.test(mobile)){
+				$('#mobile').attr("readonly",false);
+				$.toast("请输入正确的手机号码", "cancel");
+				return false;
+			}else{
+				$('#mobile').attr('readonly',true);
+				var submitData = {
+					'mobile': mobile,
+				};
+				$.post("{php echo murl('entry', array('do' => 'SendSms', 'id' => $par['smsid'], 'm' => 'dayu_sms', 'form' => $_W['current_module']['name'], 'openid' => $openid), true, true)}", submitData,function(data){
+					if(data.message.state == 1) {
+						$("#htel").val(data.message.mobile);
+						$("#hsms").val(data.message.yzm);
+						$.toast(data.message.msg, "success");
+					}else{
+						$.alert(data.message.msg, "错误提示");
+					}
+				},"json");
+				time(this);
+			}
+	});
+</script>

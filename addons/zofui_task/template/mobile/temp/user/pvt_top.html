@@ -1,0 +1,6 @@
+	<div class="page_top pvt_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'pvtpub'))}"><span {if $_GPC['op'] == 'pvtpub'}class="font_activity"{/if} >我发起的</span></a>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'pvtaccept'))}"><span {if $_GPC['op'] == 'pvtaccept'}class="font_activity"{/if}>我接到的</span></a>	
+		</div>
+	</div>

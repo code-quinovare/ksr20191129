@@ -1,0 +1,91 @@
+{template 'common/header'}
+
+<form action="{php echo $this->createWebUrl('Xiangqing',array('action'=>'set'))}" method="post" class="form-horizontal bv-form" role="form" id="form1" novalidate="novalidate">
+    <div class="panel panel-info">
+        <div class="panel-heading">酒店详情设置</div>
+        <div class="panel-body">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店电话</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="phone" value="{$setting['phone']}" class="form-control" placeholder="请输入酒店联系电话">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地铁站名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="ditie" value="{$setting['ditie']}" class="form-control" placeholder="请输入最近的地铁站名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地铁距离</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="ditiejuli" value="{$setting['ditiejuli']}" class="form-control" placeholder="请输入到地铁站的大概距离">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">车站名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="huoche" value="{$setting['huoche']}" class="form-control" placeholder="请输入最近的车站或火车站名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">车站距离</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="huochejuli" value="{$setting['huochejuli']}" class="form-control" placeholder="请输入到车站的大概距离">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">机场名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jichang" value="{$setting['jichang']}" class="form-control" placeholder="请输入附近机场名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">机场距离</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jichangjuli" value="{$setting['jichangjuli']}" class="form-control" placeholder="请输入到机场的大概距离">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">装修年份</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="zhuangxiu" value="{$setting['zhuangxiu']}" class="form-control" placeholder="请输入酒店最新装修年份">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">开业年份</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="kaiye" value="{$setting['kaiye']}" class="form-control" placeholder="请输入酒店开业时间年份">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">所属楼层</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="louceng" value="{$setting['louceng']}" class="form-control" placeholder="请输入酒店所在楼层">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">总房间数</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="fangjian" value="{$setting['fangjian']}" class="form-control" placeholder="请输入酒店总房间数">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店简介</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jianjie" value="{$setting['jianjie']}" class="form-control" placeholder="请输入酒店简介">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: 10%;">
+            <div class="col-sm-9 col-xs-12">
+                <input type="submit" value="提交" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{template 'common/footer'}

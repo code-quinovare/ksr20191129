@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$set['title']}</title>
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        .title{height: auto;width: 100%;background-color: #06c1ae;color: #fff;text-align: center;padding: 10px 3%;}
+        .tit_ck{display: block;width: 100px;height: 30px;font-size: 14px;border: 1px solid #fff;line-height: 30px;text-align: center;margin: 10px auto;}
+        .tit_ck_img{display: block;float: left;margin-top: 6px;}
+        .array{line-height: 40px;font-size: 14px;padding: 0 3%;}
+        .array li{float: left;}
+        .arr_a{display: block;border: 1px solid #eee;padding: 5px 10px;color: #999;font-size: 12px;line-height: 22px;border-radius: 20px;float: left;width: 100px;text-align: center;margin-right: 5px;}
+        .arr_b{font-size: 12px;color: #333;width: 100%;padding: 5px 3%;border-bottom: 1px solid #eee;line-height: 25px;}
+        .arr_c{border-bottom: 10px solid #eee;line-height: 30px;padding: 10px 0;color: #06c1ae;font-size: 14px;}
+        .arr_c li{float: left;width: 33%;text-align: center;}
+        .arr_d{width: 100%;padding: 10px 3%;color: #333;font-size: 14px;}
+        .arr_d li{float: left;line-height: 28px;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="title">
+    <img src="{ASSETS_PATH}img/zuo.png" width="16px" height="16px" class="tit_ck_img">
+    {if $res['pay_status'] == 1 & $res['use_status'] == 0}
+    <p style="font-size: 16px">
+        支付成功
+    </p>
+        <span style="font-size: 14px">订单支付成功，请及时到店使用！</span>
+        <span class="tit_ck" onclick="qrcode({$res['id']})">立即使用</span>
+        <span class="tit_ck" onclick="tk({$res['id']})">申请退款</span>
+    <div style="clear: both"></div>
+    {else if $res['use_status'] == 1 & $res['ping'] == 0}
+        <p style="font-size: 16px">
+            成功入住
+        </p>
+        <span style="font-size: 14px">您已成功入住了，来个五分好评呗！</span>
+        <span class="tit_ck" onclick="pinglun({$res['id']})">立即评价</span>
+        <div style="clear: both"></div>
+
+    {else if $res['pay_status'] == 0}
+        <p style="font-size: 16px">
+            等待付款
+        </p>
+        <span style="font-size: 14px">订单未付款，7天未支付订单将自动删除</span>
+        <span class="tit_ck">现在去付款</span>
+        <div style="clear: both"></div>
+    {else if $res['pay_status'] == -2}
+    <p style="font-size: 16px">
+        退款处理中
+    </p>
+    <span style="font-size: 14px">订单退款处理中，若有疑问请联系客服</span>
+    <span class="tit_ck">退款处理中</span>
+    <div style="clear: both"></div>
+    {else if $res['pay_status'] == -1}
+    <p style="font-size: 16px">
+        退款成功
+    </p>
+    <span style="font-size: 14px">订单退款成功，欢迎您再次消费</span>
+    <span class="tit_ck">退款成功</span>
+    <div style="clear: both"></div>
+    {/if}
+</div>
+</header>
+<content>
+    <div>
+        <div class="array" style="height: 40px">
+            <ul>
+                <li style="width: 75%">
+                    <p>在线支付 <span style="color: #FE6C31">￥{$res['money']}</span></p>
+                </li>
+            </ul>
+        </div>
+        <div class="array" style="border-top: 5px solid #eee;padding: 5px 3% 10px;border-bottom: 1px solid #eee ">
+            <ul>
+                <li style="width: 70%;line-height: 20px">
+                    <p style="line-height: 40px">{$set['title']}</p>
+                    <span style="font-size: 12px;color: #999;">{$set['address']}</span>
+                </li>
+                <a href="{php echo $this->createMobileUrl("Index",array("action"=>"fuwu_info"))}">
+                <li style="width: 25%;text-align: right">
+                    <span style="color: #06c1ae">查看商家</span>
+                </li>
+                </a>
+                <li style="width: 5%;text-align: right">
+                    <img src="{ASSETS_PATH}img/you.png" width="15px" height="15px" style="vertical-align: -2px;">
+                </li>
+            </ul>
+            <div style="clear: both"></div>
+        </div>
+        <div class="arr_b">
+            <p style="font-size: 14px">{$res['title']}</p>
+            <span>入住：{$res['ruzhu']} 离店：{$res['lidian']} 共{$res['day']}晚{$res['count']}间</span>
+            <p style="color: #999">其他特色床 | {$row['zaocan']} | {$row['shangwang']}</p>
+        </div>
+        <div class="arr_c">
+            <ul>
+                <!--<li>
+                    <img src="{ASSETS_PATH}img/shizhong.png" width="15px" height="15px">
+                    <span>查看房型</span>
+                </li>-->
+                <li style="border-right: 1px solid #eee;border-left: 1px solid #eee;" onclick="dili()">
+                    <img src="{ASSETS_PATH}img/dingwei.png" width="15px" height="15px">
+                    <span>查看路线</span>
+                </li>
+                <a href="tel:{$xq['phone']}">
+                <li>
+                    <img src="{ASSETS_PATH}img/dianhua.png" width="15px" height="15px">
+                    <span>联系商家</span>
+                </li>
+                </a>
+            </ul>
+            <div style="clear: both"></div>
+        </div>
+        <div class="arr_d">
+            <p style="font-size: 14px">预定信息</p>
+            <ul>
+                <li style="color: #999;width: 25%">
+                    <span>入住人</span>
+                    <p>联系手机</p>
+                    <span>房间类型</span>
+                </li>
+                <li>
+                    <span>{$res['username']}</span>
+                    <p>{$res['phone']}</p>
+                    <span>{$res['title']}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</content>
+</body>
+</html>
+{php echo register_jssdk(false);}
+<script>
+    function pinglun(id){
+        event.preventDefault();
+
+        window.location.href='{php echo $this->createMobileUrl('Index',array('action'=>'xing'))}&id='+ id+'';
+        //alert(1);
+    }
+    function qrcode(id) {
+        //alert(id);
+        event.preventDefault();
+        window.location.href='{php echo $this->createMobileUrl('Index',array('action'=>'qrcode'))}&id='+ id+'';
+        //alert(1);
+    }
+    function dili() {
+        var a1=parseFloat({$set['weidu']});
+        var a2=parseFloat({$set['jingdu']});
+        wx.openLocation({
+            latitude: a1, // 纬度，浮点数，范围为90 ~ -90
+            longitude:a2, // 经度，浮点数，范围为180 ~ -180。
+            name: '{$set['title']}', // 位置名
+            address: '{$set['address']}', // 地址详情说明
+            scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: 'http://baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+    }
+    
+    function tk(id) {
+        var r = confirm('申请退款后不可恢复');
+        if(r){
+            window.location.href="{php echo $this->createMobileUrl('Index',array('action' => 'tk'))}&id="+id;
+        }
+    }
+</script>

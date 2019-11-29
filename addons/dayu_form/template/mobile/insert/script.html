@@ -1,0 +1,395 @@
+
+<style type="text/css">
+.weui_grid{width:50%;}
+.weui_grid_icon {width:100%;height:100%;}
+.weui_grid_icon img {max-width:150px;}
+</style>
+<script type="text/javascript">
+$(function(){
+	$('#slide1').swipeSlide({
+		autoSwipe:true,
+		speed:3000,
+		continuousScroll:true,
+		transitionType:'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
+		lazyLoad:true,
+		firstCallback : function(i,sum,me){
+			me.find('.dot').children().first().addClass('cur');
+		},
+		callback : function(i,sum,me){
+			me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+		}
+	});
+});
+{if $activity['smsid']!='0' && empty($par['smstype'])}
+	var wait=60;
+	var mobile = $("#mobile").val();
+	function time(o) {
+		if (wait == 0) {
+			o.removeAttribute("disabled");
+			o.value="获取验证码";
+			wait = 60;
+		} else {
+			o.setAttribute("disabled", true);
+			o.value="重新发送(" + wait + ")";
+			wait--;  
+			setTimeout(function() {
+				time(o)
+			}, 1000)
+		}
+	}
+	$("#sendsms").bind("click",function(){
+		var mobile = $("#mobile").val();
+		var checktel = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(19[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if(mobile=='' || !checktel.test(mobile)){
+				$('#mobile').attr("readonly",false);
+				$.toast("请输入正确的手机号码", "cancel");
+				return false;
+			}else{
+				$('#mobile').attr('readonly',true);
+				var submitData = {};
+				$.post("{php echo murl('entry', array('do' => 'SendSms', 'id' => $activity['smsid'], 'm' => 'dayu_sms', 'form' => $_W['current_module']['name'], 'openid' => $openid), true, true)}"+"&mobile="+mobile, submitData,function(data){
+					if(data.message.state == 1) {
+						$("#htel").val(data.message.mobile);
+						$("#hsms").val(data.message.yzm);
+						$.toast(data.message.msg, "success");
+					}else{
+						$.alert(data.message.msg, "错误提示");
+					}
+				},"json");
+				time(this);
+			}
+	});
+{/if}
+{if $setting['qqkey'] && $par['getadd']!=''}
+$(document).ready(function() {
+	var getadd = '{$par['getadd']}';
+	wx.ready(function(){
+		wx.getLocation({
+			type: 'gcj02',
+			success: function (res) {
+				var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+				var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+				var speed = res.speed; // 速度，以米/每秒计
+				var accuracy = res.accuracy; // 位置精度
+				var MJKD_LATLNG = latitude+','+longitude;	
+ //         alert(address);
+				var data={
+					location:MJKD_LATLNG,
+					key:'{$setting['qqkey']}',
+					get_poi:0    
+				}
+				var url="//apis.map.qq.com/ws/geocoder/v1/?";
+				data.output="jsonp";
+		$.ajax({
+			type:"get",
+			dataType:'jsonp',
+			data:data,
+			jsonp:"callback",
+			jsonpCallback:"QQmap",
+			url:url,
+			success:function(json){
+	//					$.toptips(s.message.msg, "ok");
+						$('input[name=getadd]').val(json.result.address_component.province+json.result.address_component.city+json.result.address_component.district+json.result.address_component.street+json.result.address_component.street_number);
+	//					$('input[name=address]').val(json.result.address_component.street+json.result.address_component.street_number);
+	//					cascdeInit(json.result.address_component.province, json.result.address_component.city, json.result.address_component.district);
+			},
+		error : function(err){alert("服务端错误，请刷新浏览器后重试")}
+		});
+			},
+			cancel: function (){
+				if(getadd=='2'){
+					var html = '<div class="weui_msg" id="weui_msg"><div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>' +
+								'<div class="weui_text_area">' +
+								'<h2 class="weui_msg_title">操作失败</h2>' +
+								'<p class="weui_msg_desc">需要获取你的地理位置才能继续使用</p>' +
+								'</div>' +
+								'<div class="weui_opr_area">' +
+								'<p class="weui_btn_area">' +
+								'<a href="javascript:history.back(-2);" class="weui_btn weui_btn_default">重来一遍</a>' +
+								'</p>' +
+								'</div></div>';
+					document.getElementById('dayu_body').innerHTML = html;
+					$('#formSubmitBtn').attr('disabled',true);
+				}
+			}
+		});		
+	});
+	wx.error(function(res){
+		$.alert("丫丫");
+	});
+});
+{/if}
+{if !empty($par['kami']) && pdo_tableexists('dayu_kami')}
+	function checkcard(obj,id){
+		var card = $("#kami").val();
+		var divA = document.getElementById("ka");
+		$.showLoading('查询中...');
+		$.getJSON('{php echo murl('entry', array('do' => 'CheckCard','m' => 'dayu_kami'), true, true)}', {'op' : 'card', 'id' : id, 'reid' : '{$reid}', 'card' : card, 'title' : obj.getAttribute("data")}, function(s){
+			if (s.message.status==0) {
+				setTimeout(function() {
+					$.hideLoading();
+				}, 1000);
+				$.alert(s.message.msg, "提示");
+				$("#kami").val("");
+				divA.innerHTML = '<i class="weui_icon_warn"></i>';
+			}else if(s.message.status==1){
+				setTimeout(function() {
+					$.hideLoading();
+					divA.innerHTML = '<i class="weui_icon_success"></i>';
+				}, 1000);
+			}else{
+				setTimeout(function() {
+					$.hideLoading();
+					$('#mi').html("");
+				}, 1000);
+				$.toast(s.message.msg);
+			}
+		});
+	}
+	function checkpass(obj,id){
+		var card = $("#kami").val();
+		var pass = $("#pass").val();
+		var divA = document.getElementById("mi");
+		$.getJSON('{php echo murl('entry', array('do' => 'CheckCard','m' => 'dayu_kami'), true, true)}', {'op' : 'pass', 'id' : id, 'reid' : '{$reid}', 'card' : card, 'pass' : pass, 'title' : obj.getAttribute("data")}, function(s){
+			if (s.message.status==0) {
+				setTimeout(function() {
+					$.hideLoading();
+				}, 1000);				
+				$.alert(s.message.msg, "提示");
+				$("#pass").val("");
+				divA.innerHTML = '<i class="weui_icon_warn"></i>';
+			}else if(s.message.status==1){
+				setTimeout(function() {
+					$.hideLoading();
+					divA.innerHTML = '<i class="weui_icon_success"></i>';
+				}, 1000);
+			}else{
+				setTimeout(function() {
+					$.hideLoading();
+					$('#mi').html("");
+				}, 1000);
+			}
+		});
+	}
+{/if}
+function upimg(obj,id){
+	var images = {
+		localId: [],
+		serverId: []
+	};
+	wx.chooseImage({
+		count: 1,
+		sourceType: ['album', 'camera'],
+		success:function(res){
+			images.localId = res.localIds;
+			var i = 0, length = images.localId.length;
+			var wxUpload = function() {
+				wx.uploadImage({
+					localId: images.localId[i],
+					isShowProgressTips: 1,
+					success: function (res) {
+						i++;
+						images.serverId.push(res.serverId);
+						var url = "{php echo $this->createMobileUrl('uploads',array('type'=>'image'));}&serverId=" + res.serverId + "&localId=" + i;
+						$.post(url, function(dat){
+							var dat = eval("("+dat+")");
+								if (dat.status == 'success') {
+									$.toast(dat.message, "success");
+									$('input[name="'+obj.getAttribute("data")+'"]').val(tomedia(dat.path));
+									document.getElementById('show'+id).src = tomedia(dat.path);
+								}else{
+									$.toast(dat.message, "cancel");
+									document.getElementById('show'+id).src = "";
+								}
+						});
+						if(i < length){
+							wxUpload();
+						}
+					},
+					fail: function (res) {
+						alert(JSON.stringify(res));
+					}
+				});						
+			};
+			wxUpload();
+		}
+	});
+}
+function show(obj,id){
+	var pic=document.getElementById(id).src;
+	wx.previewImage({
+		current: pic,
+		urls: [pic]
+		
+	});
+}
+{if !empty($linkage)}
+	function fetchgetjs(obj) {
+		$('#linkage2').empty();
+		$('#linkage2').append('<option value="">请选择</option>');
+		if (!$(obj).val()) {
+			return false;
+		}
+
+		$.getJSON('{php echo $this->createMobileUrl('GetLinkage')}', {'linkage1' : $(obj).val()}, function(s){
+			if (s.message.status == 0) {
+				$.toast(s.message.jss, 'cancel');
+				return false;
+			}
+			$('#linkage2').empty();
+			if (s.message.jss) {
+				for (i in s.message.jss) {
+					$('#linkage2').append('<option value="'+s.message.jss[i].id+'">'+s.message.jss[i].title+'</option>');
+				}
+			} 
+		});
+	}
+{/if}
+		
+	function check(obj,refid){
+		var content = $("#n_"+refid).val();
+		$.getJSON('{php echo $this->createMobileUrl('checkonly')}', {'reid' : '{$reid}', 'refid' : refid, 'content' : content, 'title' : obj.getAttribute("data")}, function(s){
+			if (s.message.status==0) {
+				$.alert(s.message.msg, "提示");
+				setTimeout(function() {
+					$("#n_"+refid).val(""); 
+				}, 2000);
+			}
+		});
+	}
+var $form = $("#form");
+$form.form();
+$("#formSubmitBtn").on("click", function(){
+//	$.showLoading('提交中...');
+	{if $activity['paixu']=='0' || $activity['paixu']=='1'}
+		{if $activity['smsid']!='0' && empty($par['smstype'])}
+			var htel=$("#htel").val();
+			var hsms=$("#hsms").val();
+			var tel=$("#mobile").val();
+			var sms=$("#sms").val();
+			if(htel==tel){
+				if(hsms==sms){
+				}else{
+					$.toast("请输入正确验证码", "cancel");
+					return false;
+				}
+			}else{
+				$.toast("请获取验证码", "cancel");
+				return false;
+			}
+		{/if}
+		if($('input[name="member"]').val()=='' || is_chinese($('input[name="member"]').val()) == false){
+			$.toast("请正确输入{$activity['member']}", "cancel");
+//			$.hideLoading();
+			return false;
+		}
+		if($('input[name="mobile"]').val()=='' || is_phone($('input[name="mobile"]').val()) == false){
+			$.toast("请输入正确的{$activity['phone']}", "cancel");
+			return false;
+		}
+	{/if}
+	{if $ycredit < "0" && $par['icredit']=='0'}
+		$.toptips("{$creditnames[$behavior['activity']]['title']}不足{$activity['credit']},不能提交", 'warning');
+		return false;
+	{/if}
+	{if !empty($linkage)}
+		if($('select[name="linkage1"]').val() == '') {
+			$.toast("{$la['l1']} 不能为空", 'cancel');
+			return false;
+		}
+		if($('select[name="linkage2"]').val() == '') {
+			$.toast("{$la['l2']} 不能为空", 'cancel');
+			return false;
+		}
+	{/if}
+	{loop $ds $fields}
+		{if $fields['type']=='idcard'}
+			if(is_id($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == false) {
+				$.toast("请正确填写{$fields['title']}", "cancel");
+				return false;
+			}
+		{/if}
+		{if $fields['type']=='phone'}
+			if(is_phone($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == false) {
+				$.toast("请正确填写{$fields['title']}", "cancel");
+				return false;
+			}
+		{/if}
+		{if $fields['type']=='tel'}
+			if(is_tel($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == false) {
+				$.toast("请正确填写{$fields['title']}", "cancel");
+				return false;
+			}
+		{/if}
+		{if $fields['type']=='number'}
+			if(is_num($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == false) {
+				$.toast("{$fields['title']} 必须为数字", "cancel");
+				return false;
+			}
+		{/if}
+		{if $fields['essential']}
+			{if $fields['type']=='email'}
+				if(is_email($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == false) {
+					$.toast("请正确填写{$fields['title']}", "cancel");
+					return false;
+				}
+			{/if}
+			{if in_array($fields['type'], array('text', 'calendar', 'range','image','textarea','number', 'select','idcard','phone','tel'))}
+				if($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val() == '' || $('textarea[name="field_{$fields['refid']}_{$fields['bind']}"]').val() == '') {
+					$.toast("{$fields['title']} 不能为空", 'cancel');
+					return false;
+				}
+			{/if}
+			{if $fields['type']=='radio'}
+				{if $fields['loc']=='-1'}
+				if($('input[name="field_{$fields['refid']}_{$fields['bind']}"]:checked').length == 0) {
+					$.toast("{$fields['title']} 不能为空", 'cancel');
+					return false;
+				}
+				{else}
+					if($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val() == '') {
+						$.toast("{$fields['title']} 不能为空", 'cancel');
+						return false;
+					}
+				{/if}
+			{/if}
+			{if $fields['type']=='checkbox'}
+				{if $fields['loc']=='-1'}
+	//			if($('input[name="field_{$fields['refid']}_{$fields['bind']}[]"]:checked').val() == null) {
+				if($('input[name="field_{$fields['refid']}_{$fields['bind']}[]"]:checked').length == 0) {
+					$.toast("{$fields['title']} 不能为空", 'cancel');
+					return false;
+				}
+			{else}
+				if($('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val() == '') {
+					$.toast("{$fields['title']} 不能为空", 'cancel');
+					return false;
+				}
+				{/if}
+			{/if}
+		{/if}
+	{/loop}
+	
+	{if $par['isplural']=='1'}
+		var thumb1 = $('input[name="thumb[]"]').length;
+		if(thumb1 =='0') {
+			$.toast('请上传{$activity['pluraltit']}', 'cancel');
+			return false;
+		}
+	{/if}
+		
+	{if $activity['isvoice']==1 && $activity['ivoice']==1}
+		if($('input[name="voice"]').val() == '') {
+			$.alert("请上传{$activity['voice']}", "提示");
+			return false;
+		}
+	{/if}
+	{if !empty($activity['agreement'])}
+		if (document.getElementById("agreement").checked == false){
+			$.alert("请仔细阅读并同意{$activity['agreement']}", "提示");
+			document.getElementById("agreement").focus();
+			return false;
+		}
+	{/if}
+});
+</script>

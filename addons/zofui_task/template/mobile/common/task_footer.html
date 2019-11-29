@@ -1,0 +1,127 @@
+<div class="fixed_bottom task_footer">
+	<li class="fr changeShow0 task_toindex" id="task_toindex" data-isShow="0">返回</li>
+	<div class="backtosite">
+		<p data-do="index">接任务</p>
+		<p data-do="pub">发任务</p>
+		<p data-do="find">找人</p>
+		<p data-do="user">我的</p>
+		<span class="arrow_in"></span>
+	</div>
+	<li class="fr changeShow0 {if !empty($loveinfo)}font_ff5f27{/if}" id="task_love" data-isShow="0">收藏</li>
+	{if $userinfo['uid'] == $taskinfo['uid']}
+		<li class="changeShow0 task_account fr">结算</li>
+		<li class="changeShow0 task_setting fr" id="task_answertask" data-isShow="0">设置</li>
+	{else}
+		<li class="changeShow0 task_reply fr">回答</li>
+	{/if}	
+</div>
+
+<!-- 回复 -->
+<div id="sideup_answertask">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_answertask_body">
+				<div class="weui_cell">
+					<div class="weui_cell_bd weui_cell_primary">
+						<textarea class="weui_textarea" name="replaycontent" placeholder="请输入回复内容" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="overflow_hidden">
+					<ul class="pub_images_box fl upload_images_views">
+					</ul>
+					<div class="ti-plus fl upload_btn" id="pub_upload_images"></div>
+				</div>
+				<input type="hidden" value="{$taskinfo['id']}" name="taskid">
+				<input type="hidden" value="{$userinfo['creditscore']}" name="creditscore">
+				<input type="hidden" value="{$taskinfo['lastnumber']}" name="lastnumber">
+				<li class="answertask_pub"><span class="font_activity_noback">发表</span></li>
+				<p class="font_13px_999">提示：请确保达到了任务要求再回复，若提交虚假内容被作者拒绝，您的信誉积分将会被减1点，信誉积分小于0将无法发布任务，也不能接任务。</p>
+            </div>
+			<input value="取消" type="button" class="ff5f27_input_button" id="actionsheet_cancel">
+        </div>
+    </div>
+</div>
+
+<div id="sideup_tasksetting" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_tasksetting_body sideuper_body_in">
+				<div class="weui_cells weui_cells_checkbox sideuper_body_item">
+					<label class="weui_cell weui_check_label border_bottom" for="pub_isshow">
+						<div class="weui_cell_hd">
+							<input type="checkbox" class="weui_check" {if $taskinfo['isshow'] == 1}checked="checked"{/if} name="ishide" value="1" id="pub_isshow">
+							<i class="weui_icon_checked"></i>
+						</div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<p>是否隐藏回复？<span class="font_13px_999">(勾选后隐藏)</span></p>
+						</div>
+					</label>
+				</div>
+				{if $taskinfo['urgmoney'] > 0}
+					<div class="weui_cells weui_cells_checkbox sideuper_body_item">
+						<label class="weui_cell weui_check_label border_bottom" for="pub_isurg">
+							<div class="weui_cell_hd">
+								<input type="checkbox" class="weui_check" name="isurged" checked="checked" disabled value="1" id="pub_isurg">
+								<i class="weui_icon_checked"></i>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>此任务已加急</p>
+							</div>
+						</label>
+					</div>							
+				{else}
+					<div class="weui_cells weui_cells_checkbox sideuper_body_item">
+						<label class="weui_cell weui_check_label border_bottom" for="pub_isurg">
+							<div class="weui_cell_hd">
+								<input type="checkbox" class="weui_check" name="isurg" value="1" id="pub_isurg">
+								<i class="weui_icon_checked"></i>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>是否加急处理？</p>
+							</div>
+						</label>
+					</div>
+					<div class="pub_number weui_cells_form sideuper_body_item sideuper_urgmoney" style="display:none;">
+						<div class="weui_cell border_bottom">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" type="number" name="urgmoney" value="{if $taskinfo['urgmoney']>0}{$taskinfo['urgmoney']}{/if}" placeholder="请在此输入加急单价">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								加急单价
+							</div>							
+						</div>						
+					</div>						
+				{/if}
+
+				<div class="sideuper_body_item">
+					<p>提示:</p>
+					<p class="font_13px_999">隐藏回复后，只有您和相应的回复者才能看见相应的回复内容。增加加急金额后，会给执行任务的用户多发放加急金额的收益。</p>
+				</div>
+            </div>
+			<input type="hidden" value="{$taskinfo['lastnumber']}" name="nowlastnumber">
+			<input type="hidden" value="{$taskinfo['urgmoney']}" name="isurged">
+			<input type="hidden" value="{$taskinfo['status']}" name="taskstatus">
+			<div class="sideuper_bottom">
+				<input value="确定" type="button" class="fff_button confirm" id="confirmsetting" >
+				<input value="取消" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+        </div>
+    </div>
+</div>	
+{if $userinfo['openid'] == $this->module['config']['adminopenid'] && $taskinfo['status'] == 3}
+<!-- 审核 -->
+<div id="sideup_verify" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+			<div class="sideuper_bottom">
+				<input value="审核不通过" type="button" class="fff_button verifytask" data-type="1" >
+				<input value="审核通过" type="button" class="fff_button confirm verifytask"  data-type="2">
+				<input value="取消" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+        </div>
+    </div>
+</div>
+{/if}

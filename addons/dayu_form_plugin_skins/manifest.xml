@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[万能表单提交页皮肤管理]]></name>
+		<identifie><![CDATA[dayu_form_plugin_skins]]></identifie>
+		<version><![CDATA[1.3.1]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[万能表单提交页皮肤管理]]></ability>
+		<description><![CDATA[万能表单提交页皮肤管理]]></description>
+		<author><![CDATA[91精挑细选资源]]></author>
+		<url><![CDATA[https://bbs.91jtxx.cn]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="皮肤管理" do="skins" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

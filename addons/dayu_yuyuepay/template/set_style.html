@@ -1,0 +1,50 @@
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页(主题列表)标题</label>
+                    <div class="col-xs-12 col-sm-9">
+                         <input type="text" class="form-control" placeholder="" name="title" value="{$title}" />
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页预约分类</label>
+					<div class="col-xs-12 col-sm-9">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default {if $settings['style']['sort'] == 0}active{/if}"><input type="radio" name="sort" value="0" {if $settings['style']['sort'] == 0} checked="checked"{/if}>滑动横排</label>
+							<label class="btn btn-default {if $settings['style']['sort'] == 1}active{/if}"><input type="radio" name="sort" value="1" {if $settings['style']['sort'] == 1} checked="checked"{/if} >十六宫格</label>
+						</div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页预约主题</label>
+                    <div class="col-xs-12 col-sm-9">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default {if $settings['style']['list'] == 1}active{/if}"><input type="radio" name="list" value="1" {if $settings['style']['list'] == 1} checked="checked"{/if} /> 一行1个主题</label>
+							<label class="btn btn-default {if $settings['style']['list'] == 3}active{/if}"><input type="radio" name="list" value="3" {if $settings['style']['list'] == 3} checked="checked"{/if} /> 一行3个主题</label>
+						</div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">介绍导航栏背景色</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_color('nav_page', $settings['style']['nav_page']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">首页按钮栏背景色</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_color('nav_btn', $settings['style']['nav_btn']);}
+					</div>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页标题</label>
+                    <div class="col-xs-12 col-sm-9">
+                         <input type="text" class="form-control" placeholder="" name="subject" value="{$subject}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户中心背景</label>
+                    <div class="col-xs-12 col-sm-9">
+                         {php echo tpl_form_field_image('memberbg',$settings['memberbg']);}
+	      				<span class="help-block">尺寸建议 680 × 320 像素</span>
+                    </div>
+                </div>

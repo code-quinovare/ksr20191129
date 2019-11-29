@@ -1,0 +1,40 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {$user['pcu_wx_title']}_金额
+        </h3>
+    </div>
+    <div class="panel-body">
+<form class="bs-example bs-example-form" role="form" action="{php echo $this->createWebUrl('user');}&pcuid={$user['pcu_id']}&act=save" method="post">
+		<input type="hidden" name="pcu_id" value="{$user['pcu_id']}" />
+        <div class="input-group">
+            <span class="input-group-addon">余额</span>
+            <input type="text" disabled="disabled" class="form-control" readonly="readonly" placeholder="{$user['pcu_money']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon">金额</span>
+            <input type="text" class="form-control" placeholder="0" name="pcu_money">
+            <span class="input-group-addon">元</span>
+        </div>
+        <br />
+         <div class="input-group">
+            <span class="input-group-addon">类型</span>
+            &nbsp;<input type="radio" name="type" checked="checked" value="1">&nbsp;&nbsp;增加
+            &nbsp;<input type="radio" name="type" value="2">&nbsp;&nbsp;减少
+        </div>
+		<br />
+         <div class="input-group">
+            <span class="input-group-addon">说明</span>
+            <input type="text" class="form-control" placeholder="说明"  name="es_openmoney">
+        </div>
+<br />
+        <div class="input-group">
+		<input name="111" type="submit" id="111" value="提交" />
+		</div>
+    </form>
+    </div>
+</div>
+{template 'common/footer'}

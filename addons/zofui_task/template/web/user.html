@@ -1,0 +1,278 @@
+{template 'common/header'}
+<link rel="stylesheet" href="../addons/zofui_task/public/css/weui.min.css"/>
+<ul class="nav nav-tabs">
+	<li {if $op == 'list'}class="active"{/if}><a href="{php echo $this->createWebUrl('user', array('op' => 'list'))}">会员列表</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+<div class="panel panel-default">
+  <div class="panel-body">
+  <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+        <input type="hidden" name="c" value="site" />
+        <input type="hidden" name="a" value="entry" />
+        <input type="hidden" name="m" value="zofui_task" />
+        <input type="hidden" name="do" value="user" />
+        <input type="hidden" name="op" value="search" />
+	<div class="col-xs-5">
+		<div class="input-group">
+		  <input type="text" class="form-control" name="for" placeholder="请输入用户id或者昵称" style="z-index: 0;">
+		  <span class="input-group-btn">
+			<button class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		  </span>
+		</div>
+	</div>
+	</form>
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{if $_GPC['item']=='deposit'}已缴纳保证金用户{elseif $_GPC['item']=='status2'}黑名单用户{else}查看全部会员{/if}<span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','item'=>'deposit','orderby'=>$_GPC['orderby']))}">已缴纳保证金用户</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','item'=>'status2','orderby'=>$_GPC['orderby']))}">黑名单用户</a></li>				
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','item'=>'all','orderby'=>$_GPC['orderby']))}">查看全部会员</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{if $_GPC['orderby']=='pub'}任务发布量排序{elseif $_GPC['orderby']=='reply'}任务回复量排序{elseif $_GPC['orderby']=='credit2'}余额排序{elseif $_GPC['orderby']=='deposit'}保证金排序{else}id排序{/if}<span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>'pub','item'=>$_GPC['item']))}">任务发布量排序</a></li>
+				<li role="separator" class="divider"></li>		
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>'reply','item'=>$_GPC['item']))}">任务回复量排序</a></li>
+				<li role="separator" class="divider"></li>					
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>'credit2','item'=>$_GPC['item']))}">余额排序</a></li>	
+				<li role="separator" class="divider"></li>					
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>'deposit','item'=>$_GPC['item']))}">保证金排序</a></li>		
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','item'=>$_GPC['item']))}">id排序</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{if $_GPC['seq']=='ASC'}正序
+					{else}倒序
+				{/if}
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">				
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'seq'=>'ASC'))}">正序</a></li>		
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl('user',array('op'=>'list','orderby'=>$_GPC['orderby'],'item'=>$_GPC['item']))}">倒序</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+
+
+
+{if $op == 'list' || $op == 'search'}
+
+<div class="main">
+	<div class="category">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+				<form action="" method="post">
+					<table class="table">
+						<thead class="navbar-inner">
+							<tr>
+								<th style="width:70px">用户id</th>								
+								<th class="col-sm-1">昵称/头像</th>								
+								<th class="col-sm-1">联系方式</th>
+								<th class="col-sm-1">资金</th>
+								<th class="col-sm-1">发布任务</th>
+								<th class="col-sm-1">回复任务</th>	
+								<th class="col-sm-1">其他</th>	
+								<th class="col-sm-1">状态</th>
+								<th class="col-sm-1">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $userinfo $item}
+						<tr>
+							<td><label><input type="checkbox" name="uidlist[]" value="{$item['uid']}" class=""> {$item['uid']}</label></td>
+							<td><div>{$item['nickname']}</div><img width="30px" height="30px" src="{$item['avatar']}"></td>							
+							<td><div>{php echo empty($item['mobile'])?'无':$item['mobile']}</div><a target="_blank" href="{php echo tomedia($item['qrcode'])}"><img width="30px" height="30px" src="{php echo tomedia($item['qrcode'])}"></a></td>	
+							<td><div>余额:{$item['credit2']}</div><div>保证金:{$item['deposit']}</div></td>
+							<td><div>发布:{$item['pubnumber']}</div><div>采纳:{$item['acceptnumber']}</div></td>
+							<td><div>回复:{$item['replynumber']}</div><div>被采纳:{$item['acceptednumber']}</div></td>	
+							<td><div>信誉:{$item['creditscore']}</div><div>城市:{php echo  empty($item['city'])?'无':$item['city']}</div></td>
+							<td>
+								{if $item['status']==0}
+								<span class='label label-success'>正常</span>
+								{elseif $item['status']==2}
+								<span class='label label-danger'>黑名单</span>
+								{/if}
+							</td>
+							<td>
+								<a class="btn btn-default btn-sm opuser" data-id="{$item['uid']}" data-name="{$item['nickname']}" title="编辑"><span class="fa fa-edit"></span></a>	
+								<a href="{php echo $this->createWebUrl('userinfo', array('uid' => $item['uid']))}" 
+									class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="会员详情"><span class="fa  fa-search"></span>
+								</a>
+							</td>
+						</tr>
+						{/loop}
+						<tr>
+							<td><label><input type="checkbox" name="" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});">全选/取消</label></td>
+							<input name="token" type="hidden" value="{$_W['token']}" />
+							<td colspan="8">
+								<!-- <input type="submit" name="delete" class="btn btn-danger" value="删除" onclick="return confirm('删除用户可能导致此用户参与过的任务出错，确定要删除吗？');"> -->
+								<input type="submit" name="blacklist" class="btn btn-primary" value="加入黑名单" onclick="return confirm('确定要将这些会员加入黑名单吗？');">
+								<input type="submit" name="getright" class="btn btn-success" value="恢复正常" onclick="return confirm('确定要将这些会员恢复到正常状态吗？');">
+								<input type="submit" name="credit2" class="btn btn-success" data-alert="确定要改变这些会员的余额吗？" value="改变余额" >
+								<input type="submit" name="doposit" class="btn btn-success" data-alert="确定要改变这些会员的保证金吗？" value="改变保证金" >	
+								<input type="submit" name="creditscore" class="btn btn-success" data-alert="确定要改变这些会员的保证金吗？" value="改变信誉积分">
+								<input style="width:200px;height:35px;" placeholder="在此输入数值,加-号是减" type="text" name="changevalue">
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					</form>
+				</div>
+			</div>	
+		{$pager}
+	</div>
+</div>
+{/if}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal"  role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close closeme" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">对 <span id="nickname"></span> 进行操作处理</h4>
+      </div>
+      <div class="modal-body">
+			<div class="form-group" style="overflow: hidden;">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作类型</label>
+				<div class="col-sm-9 col-xs-12">
+					<select name="type" class="form-control">
+						<option value="1">改变余额</option>
+						<option value="2">改变信誉积分</option>
+						<option value="3">改变保证金</option>
+						<option value="4">拉入黑名单</option>
+						<option value="5">恢复正常</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group" style="overflow: hidden;"  id="addmoney">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">输入数值</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="money" class="form-control" value="" />
+					<span class="help-block">如果输入负数就是减少。</span>
+				</div>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closeme" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary toedit">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{template '../../../addons/zofui_task/template/web/temp/loading'}
+
+<script>
+$(function(){
+	$('input[name=credit2],input[name=doposit],input[name=creditscore]').click(function(){
+		var value = $('input[name=changevalue]').val();
+		var alertstr = $(this).attr('data-alert');
+		if(value == '' || isNaN(value)) {
+			alert('请输入正确的数值');return false;
+		}
+		if(confirm(alertstr)){
+			return true;
+		}else{
+			return false;
+		}
+	});
+	
+	
+	$('.opuser').click(function(){
+		$('#myModal').modal('toggle');
+		id = $(this).attr('data-id');
+		$('#nickname').text($(this).attr('data-name'));	
+	});
+	var type = 1;
+	$('select[name=type]').change(function(){
+		type = $(this).val();
+		if(type == 1 || type == 2 || type == 3){
+			$('#addmoney').show();
+		}else{
+			$('#addmoney').hide();		
+		}
+	});
+	$('body').on('click','.toedit',function(){
+		money = $('input[name=money]').val();	
+		if(type == 1 || type == 2 || type == 3){
+			if(money == ''){
+				alert('没有输入数值');
+				return false;
+			}else{
+				var r = confirm('确定要进行此操作吗？');
+				if(!r){
+					return false;
+				}
+			}
+		}else if(type == 4){
+			var r = confirm('把他拉入黑名单后，他将无法进入网站，确定操作吗？');
+			if(!r){
+				return false;
+			}
+		}else if(type == 5){
+			var r = confirm('确定将用户恢复正常吗？');
+			if(!r){
+				return false;
+			}
+		}
+		$.ajax({
+			type: 'post',
+			data : {taskuid:id,money:money,type:type},
+			dataType : 'html',
+			url : "{php echo $this->createWebUrl('user',array('op'=>'edit'))}",
+			beforeSend : function(){
+				$('#loadingToast').show();
+			},
+			success : function(data){
+				if(data == 1){
+					alert('操作成功');
+					location.href="{php echo $this->createWebUrl('user',array('op'=>$_GPC['op'],'item'=>$_GPC['item'],'page'=>$_GPC['page'],'for'=>$_GPC['for'],'orderby'=>$_GPC['orderby'],'id'=>$_GPC['id']))}";			
+				}else{
+					alert('出现异常');
+				}
+			},
+			complete:function(){
+				$('#loadingToast').hide();
+			}
+		});
+	});
+
+	$('tbody tr:even').css({'background':'rgb(233, 255, 238)'});
+	$('tbody tr:odd').css({'background':'rgb(255, 220, 165)'});
+
+})
+
+
+
+</script>
+
+{template 'common/footer'}

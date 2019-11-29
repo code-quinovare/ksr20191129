@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.vipcenter {font-family:"微软雅黑"; padding: 0px; font-size:14px; margin-bottom: 100px;}
+.vipcenter .vipheader { padding: 20px; height: 165px; background: url(../../images/agency-top.jpg); background-size: cover;}
+.vipcenter .vipheader .touxiang { width: 72px; height: 72px; margin: 0px auto; border-radius: 100%; border: 2px solid #fff;}
+.vipcenter .vipheader .touxiang img { border-radius: 100%; width: 100%;}
+.vipcenter .vipsan { padding: 14px 0; background: #fff; border-bottom:1px solid #ccc; overflow: auto; margin-bottom: 10px;}
+.vipcenter .vipsan div { border-right:1px solid #ccc; width:25%; float:left; text-align:center;}
+.vipcenter .vipsan div:last-child { border: 0px;}
+.vipcenter .vipsan a { color: #666; }
+.vipcenter .vipsan h4 { font-size: 1em; line-height: 1.5em;}
+.vipcenter .vipsan p { color: red; padding: 0px; margin: 0px;}
+.vipcenter .vipheader .name {
+	font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+}.vipcenter .vipheader .gztt {
+	font-size: 14px;
+	text-align:center;
+	color: #fff;
+}
+.uc-userboard-project {
+	margin: 3px;
+    border-top: solid #e1e7ee 1px;
+    border-left: solid #e1e7ee 1px;
+    background-color: #fff;
+}
+.uc-userboard-project .item {
+    float: left;
+    width: 25%;
+    position: relative;
+}
+.uc-userboard-project .item .fa-32{
+	font-size: 32px;
+    margin-top: 10px;
+}
+.uc-userboard-project a:visited {
+    color: #63625e;
+}
+.uc-userboard-project a {
+    display: block;
+    height: 74px;
+    border: solid #e1e7ee;
+    border-width: 0 1px 1px 0;
+    color: #63625f;
+    text-align: center;
+}
+.uc-userboard-project .grid {
+    display: block;
+    width: 100%;
+    height: 44px;
+    padding-top: 5px;
+    line-height: 44px;
+    text-align: center;
+}
+.uc-userboard-project .vip-service{
+	color:#00B285;
+}
+.uc-userboard-project .mylesson{
+	color:#00A1DF;
+}
+
+.uc-userboard-project .history {
+	color:#3665D2;
+}
+.uc-userboard-project .collect-lesson{
+	color:#FF4D4D;
+}
+.uc-userboard-project .collect-teacher{
+	color:#00468C;
+}
+.uc-userboard-project .teacher-center{
+	color:#21CA0E;
+}
+.uc-userboard-project .share-center{
+	color:red;
+}
+.uc-userboard-project .edit-mobile{
+	color:#17B5A9;
+}
+.uc-userboard-project .self-diy{
+	color:#EF7D18;
+}
+.uc-userboard-project .grid .iconfont{
+	font-size: 32px;
+}
+.uc-userboard-project .text {
+    display: block;
+    font-size: 14px;
+    line-height: 2.2;
+    text-align: center;
+}
+.uc-userboard-project .fn-clear {
+    margin-bottom: -1px;
+}
+.logout {
+    width: 90%;
+    margin: 40px auto 10px;
+}
+.logout a{
+	display: inline-block;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border: #dcdcdc 1px solid;
+    margin-top: 14px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    color: #636282;
+    font-size: 16px;
+}

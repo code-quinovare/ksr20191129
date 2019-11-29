@@ -1,0 +1,52 @@
+<view class="container">
+    <view>
+        <image class="slide-image" height="374" mode="scaleToFill" src="{{url}}{{welfareList.img}}" wx:if="{{welfareList.img}}"></image>
+        <view class="block">
+            <view class="block-up">
+                <text class="title">{{welfareList.title}}</text>
+                <navigator class="bname" openType="navigateTo" url="/mzhk_sun/pages/index/shop/shop?id={{welfareList.bid}}">
+                    <image class="addrIcons" src="../../../../style/images/shop.png"></image>
+                    <text>店铺名称：{{welfareList.bname}}</text>
+                </navigator>
+                <view class="bname">
+                    <image class="addrIcons" src="../../../../style/images/clock.png"></image>
+                    <text wx:if="{{welfareList.starttime!=0&&welfareList.endtime!=0}}">
+        营业时间：{{welfareList.starttime}}-{{welfareList.endtime}}</text>
+                </view>
+            </view>
+            <view class="block-down">
+                <view bindtap="showmap" class="addr" data-address="{{welfareList.address}}" data-latitude="{{welfareList.latitude}}" data-longitude="{{welfareList.longitude}}">
+                    <image class="addrIcon" src="../../../../style/images/address.png"></image>
+                    <text>{{welfareList.address}}</text>
+                </view>
+                <view bindtap="callphone" class="dialogue" data-phone="{{welfareList.phone}}">
+                    <image class="phone" src="../../../../style/images/phone.png"></image>
+                </view>
+            </view>
+        </view>
+        <view class="session" wx:if="{{welfareList.content}}">
+            <view class="session-title">
+                <image class="phone" src="../../../../style/images/icon18.png"></image>
+                <text>福利详情</text>
+            </view>
+            <view class="details">
+                <rich-text nodes="{{welfareList.content}}"></rich-text>
+            </view>
+        </view>
+        <view class="navFix">
+            <view bindtap="toMember" class="tobuy over" wx:if="{{viptype==0}}">
+                <text>开通会员即可获赠</text>
+            </view>
+            <view bindtap="receive" class="tobuy over" data-id="{{welfareList.id}}" data-receive="1" wx:if="{{viptype>0}}">
+                <text wx:if="{{receive==0}}">马上领取</text>
+                <text wx:if="{{receive==1}}">已领取</text>
+            </view>
+        </view>
+        <view bindtap="toIndex" class="index">
+            <view>
+                <image class="indexHome" src="/style/images/tab3.png"></image>
+            </view>
+        </view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

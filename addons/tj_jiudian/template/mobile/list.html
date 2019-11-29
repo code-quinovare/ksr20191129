@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$set['title']}</title>
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=AB8650f063ed5cb61a3073ad56608cb7"></script>
+
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        .xqtp{height: 50px;width: 100%;padding:10px 3%;}
+        .xqtp-a{position: relative;float: left;width: 30px;height: 30px;border-radius: 50%;line-height: 28px;text-align: center;background-color: #000;background-color:rgba(0,0,0,0.3)}
+        .xqdb{position: relative;height: 50px;width: 100%;padding: 0 3%;line-height: 50px;bottom: -80px;color: #fff;}
+        .xqdb li{float: left;}
+        .cont_arr{height: 110px;width: 100%;font-size: 12px;padding: 0 0 5px;border-bottom: 1px solid #eee;}
+        .cont_arr li{float: left}
+        .cont_arr_a{width: 100%;height: 80px;padding: 0 3%;font-size: 14px;color: #666;line-height: 25px}
+        .arr-a-li{float: left;height: 60px}
+        .arr-b-li{float: left;width: 80px;text-align: center;font-size: 12px;color: #999}
+        .arr-b-li img{vertical-align: -2px;}
+        .arr_sj{height: 80px;width: 100%;border:solid #F0F0F0;border-width: 2px 0px;line-height: 30px;position: absolute;padding-top:12px; }
+        .arr_sj li{float: left;text-align: center;width: 50%;font-size: 14px;color: #666}
+        .datebox-count {position: relative;font-size: 12px;color: #666;border: 1px solid #e5e5e5;border-radius: 10px; background-color: #fff;width: 50px;height: 22px;text-align: center;margin-top: 41px;left: 43%;}
+        .bookroom-title {padding: 5px 3%;font-size: 12px;line-height: 25px;color: #333;border-bottom: 1px solid #e5e5e5;}
+        .bookroom-title-icon {display: inline-block;height: 18px;line-height: 18px;width: 18px;margin-right: 10px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px;color: #e41616;background-color: #fff;}
+        .bookroom-title-desc {float: right;font-size: 12px;color: #f90;}
+
+        .weizhi{width: 90%;margin:15px auto; }
+
+        .room {display: -webkit-box;display: flex;}
+        .roombox{width: 90%;padding: 10px 8px;border-radius: 10px;box-shadow:2px 2px 5px #C7C7C7;margin:15px 5%;border: 1px solid #f2f2f2; }
+        .boximg{width: 100%;margin:5px 0; }
+        .am-img-responsive{border-radius: 10px;}
+        .text{width: 98%;margin:15px 1% 5px;  text-align: center;}
+        .text p{line-height: 28px;color: #b3b3b3;}
+        .text h2{line-height: 28px;}
+        .item {margin: 10px 0 0 10px;padding-bottom:10px;border-bottom: 1px solid #e5e5e5;color: #999;line-height: normal;}
+        .room-left {overflow: hidden;width: 75%;flex: 1;}
+        .room-right {position: relative;width: 20%;text-align: center;}
+        .room-left-title {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color: #333;font-size: 14px;margin: 0;font-weight: normal;}
+        .textico-gray {display: inline-block;height: 10px;line-height: 10px;padding: 0 2px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px; color: #999;background-color: #fff;}
+        .tags-item:not(:last-child) {padding-right: 2px;border-right: 1px solid #e5e5e5;}
+        .tags-item {display: inline-block;font-size: 14px;line-height: 14px; height: 5px;}
+        .room-desc {font-size: 12px;color: #999;padding: 2px 0;}
+        .price {position: relative;color: #06c1ae;font-size: 12px;margin: 0;}
+        .price-num {font-size: 14px;}
+        .room-right-center {position: absolute;top: 50%; transform: translateY(-50%);}
+        .room-right-redtip {font-size: 14px;color: #e41616;margin-bottom: .1rem;}
+        .room-button{height: 25px;width: 60px;color: #fff;font-size: 12px; border: transparent;border-radius: 5px;background-color: #f90;}
+        #div_a{background:black;filter:alpha(opacity:30);opacity:0.7;height:100%;position:absolute;width:100%;top:0;z-index:3;}
+        .box_a{width: 100%;background:#fff; position: fixed; bottom: 0;z-index: 5;font-size: 14px;}
+        .roomDetail {position: fixed;top: 35%;bottom: 0;left: 0;right: 0;z-index: 20;background-color: #fff;font-size: 14px;}
+        .roomDetail-header {position: fixed;z-index: 10;background-color: #fff;left: 0;right: 0;}
+        .roomDetail-header-title {position: relative;padding: 10px 0;line-height: normal;text-align: center;font-size: 14px;color: #333; border-bottom: 1px solid #e5e5e5;margin: 0;font-weight: normal;}
+        .roomDetail-block:not(:last-child) {border-bottom: 1px solid #e5e5e5;}
+        .roomDetail-baseInfo {position: relative;}
+        .roomDetail-block {margin: 10px 12px;padding-bottom: 10px;color: #333;}
+        .roomDetail-baseInfo-item:nth-child(odd) {width: 50%;float: left;}
+        .roomDetail-baseInfo-item {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;padding-bottom: 5px;}
+        .roomDetail-baseInfo-item-name {color: #999;padding-right: 5px;}
+        .roomDetail-refundRule-title {padding-bottom: 5px;}
+        .roomDetail-refundRule-content {display: -webkit-box;display: flex;line-height: normal;}
+        .roomDetail-refundRule-content-left {padding-right: 3px;}
+        .icon{display: inline-block;width: 15px;height: 15px;margin-right: 5px;vertical-align: middle;}
+        .roomDetail-refundRule-content-right {-webkit-box-flex: 1;flex: 1;}
+        .roomDetail-refundRule-content-desc {padding-right: 10px;color: #06c1ae;}
+        .roomDetail-useRule-title {padding-bottom: 10px;}
+        .roomDetail-useRule-item {line-height: 25px;list-style: inside;}
+        .roomDetail-pay {position: fixed;left: 0;right: 0;bottom: 0;height: 50px;display: -webkit-box;display: flex;text-align: center;}
+        .roomDetail-pay-info {flex: 1;background: #fafafa;box-shadow: inset 0 0 0 0 #e5e5e5;}
+        .roomDetail-pay-price {font-size: 14px;line-height: 50px;color: #06c1ae;}
+        .roomDetail-pay-action-active {color: #fff;background-color: #f90;}
+        .roomDetail-pay-action {flex: 1;line-height: 50px;font-size: 14px;}
+        .roomDetail-content {position: absolute;top: 0;margin-top: 0;bottom: 50px;width: 100%;overflow-y: scroll;}
+        .xqyh_arr{height: 30px}
+        .xqyh_arr_span{display: block;width: 24px;height: 24px;font-size: 12px;line-height: 24px;text-align: center;color: #fff;background-color: #FD9901;margin: 3px auto;border-radius: 2px;}
+        .xqyh_arr li{float: left;height: 30px;line-height: 30px;font-size: 14px;color: #333}
+        .xqjg{display: block;float: left;margin: 0 0 0 25%;}
+        .xqjg_q{display: block;float: left;font-size: 12px;color: #FD9901;border: 1px solid #FD9901;padding: 1px 2px;border-radius: 5px;margin: 13px 0 0 5px;}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+<header>
+    <div data-am-widget="slider" id="huandeng" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="" >
+        <ul class="am-slides">
+            {loop $set['logo'] $v}
+            <li>
+                <img src="{php echo tomedia($v)}" width="100%" height="auto">
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <p ><img src="{ASSETS_PATH}img/weizhi.png" class="dingwei" width="20px" style="display: inline-block;width: 5%;float: left;margin:20px 10px 0 25px;" height="20px">
+    <input type="text" class="am-form-field am-radius weizhi" value="{$weizhi['result']['sematic_description']}"  name="address" id="address" style="width: 80%;float: left;border-radius:5px;border:none;" />
+    </p>
+    <p id="l-map" style="display: none;"></p>
+    <p id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></p>
+    <p  style="height: 70px;"></p>
+</header>
+
+<content>
+    
+    <div class="arr_sj">
+        <ul>
+            <li style="border-right: 1px solid #eee">
+                <p>入住</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']} &nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {/if}
+            </li>
+            <li style="padding-left: 10px; ">
+                <p>离店</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {/if}
+            </li>
+        </ul>
+    </div>
+    <div class="datebox-count">{if $_GPC['rooms']==1} 共{$c}天 {else if $_GPC['rooms']==2}共{$m}小时 {else if $_GPC['rooms']==3}共一夜{/if}</div>
+    <div style="height: 27px;width: 100%"></div>
+    <div style="margin-bottom:60px">
+        
+        {loop $house $v}
+        <div class="roombox">
+            <div class="boximg"><a href={php echo $this->createMobileUrl("Index",array("action"=>"show","rooms"=>$v["rooms"],"id"=>$v["id"]))}><img src="{php echo tomedia($v['img'])}" class="am-img-responsive" height="40" alt=""/></a></div>
+            <div class="text">
+                <p style="color: #666;">{$v['title']}</p>
+                <p>距离{$v['distance']}km | {$v['chuanghu']} 
+                | 剩{$v['shengyu']}间</p>
+                <h2 class="price"> <span class="price-num">
+                    {if $zk}<span style="text-decoration:line-through;color: red;">¥ {$v['price']}</span>  &nbsp;&nbsp;学生价：¥ {php echo $v['price']*$zk['discount']/10}{else}¥ {$v['price']}{/if}</span> </h2>
+            </div>
+        </div>
+        {/loop}
+    </div>
+    
+</content>
+<div class="footer">
+    <ul>
+        {loop $footer $v}
+        <a href="{$v['url']}">
+            <li>
+                <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                <p>{$v['title']}</p>
+            </li>
+        </a>
+        {/loop}
+    </ul>
+</div>
+
+</body>
+</html>
+{php echo register_jssdk(false);}
+<script>
+
+// 百度地图API功能
+  function G(id) {
+    return document.getElementById(id);
+  }
+
+  weizhi = "{$weizhi['result']['sematic_description']}";
+
+  var map = new BMap.Map("l-map");
+  map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+  map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+  map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+  var navigationControl = new BMap.NavigationControl({
+    // 靠左上角位置
+    anchor: BMAP_ANCHOR_TOP_LEFT,
+    // LARGE类型
+    type: BMAP_NAVIGATION_CONTROL_LARGE,
+    // 启用显示定位
+    enableGeolocation: true
+  });
+  map.addControl(navigationControl);
+  // 添加定位控件
+  var geolocationControl = new BMap.GeolocationControl();
+  var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+    {"input" : "address"
+    ,"location" : map
+  });
+
+
+    ac.setInputValue(weizhi);
+   ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+    var str = "";
+    var _value = e.fromitem.value;
+    var value = "";
+    if (e.fromitem.index > -1) {
+      value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    }    
+    str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+    
+    value = "";
+    if (e.toitem.index > -1) {
+      _value = e.toitem.value;
+      value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    }    
+    str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+    // $("#searchResultPanel").html(str);
+    G("searchResultPanel").innerHTML = str;
+  });
+
+   ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+    var _value = e.item.value;
+
+       $.post('{php echo $this->createMobileUrl("Index",array("action"=>"addresslist"))}',{address:_value,'rooms':"{$_GPC['rooms']}"},function(data){
+
+                // url = '{php echo $this->createMobileUrl("Index",array("action"=>"list","longitude"=>"'+data.lng+'","latitude"=>"'+data.lat+'",zuobiaotype=>1,"address"=>"'+address+'"))}';
+                // alert(url);
+                window.location.href=data;
+            }) 
+    });
+
+
+   // 微信获取地址
+    wx.ready(function(){
+        wx.getLocation({
+            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            success: function (res) {
+                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                var speed = res.speed; // 速度，以米/每秒计
+                var accuracy = res.accuracy; // 位置精度
+
+                var url = "{php echo $this->createMobileUrl('Index',array('action'=>'list'))}&latitude="+latitude+"&longitude="+longitude+"&rooms={$_GPC['rooms']}&zuobiaotype=0";
+             
+             $(".dingwei").click(function(){
+                    // alert(latitude+'----'+longitude+'-----'+url);
+                     window.location.href=url;
+             });
+              
+               
+            }
+        });
+    });
+</script>

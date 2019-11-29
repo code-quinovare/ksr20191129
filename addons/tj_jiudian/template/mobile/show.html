@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$set['title']}</title>
+    
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;font-size: 12px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        
+        .tab-wrapper{background: #fff;border-radius: 2px;margin: 20px 3% 0;border: 1px solid #f3f3f3;  }
+        .xuanxiang{width: 100%;}
+        .xuan-1 li{text-align: center;float: left;width: 100%;margin: 0 auto;}
+        .xuan-1 a{height: 40px;line-height: 40px;display: inline-block;width: auto;color: #333;font-size: 15px;padding: 0 0.5rem;}
+        .guding{border-top: 1px solid #eee}
+        .active{border-bottom: 3px solid #06C1AE;color: #06C1AE;}
+        .active a{color: #06C1AE;}
+        .xxy{display: inline-block;width: 100%;}
+        .xx1{width: 100%;padding: 5px 10px;}
+        .xx2{width: 100%;padding: 5px 10px;}
+        .xx3{width: 100%;padding: 5px 10px;}
+        .arr_xx{height: 40px;width: 100%;font-size: 14px;line-height: 40px;color: #333}
+        .arr_xx li,.arr_xy li{float: left;text-align: center}
+        .arr_xy{height:45px;width: 100%;font-size: 14px;color: #333;}
+        .arr_xz{height: 45px;width: 100%;font-size: 14px;color: #fff;}
+        .arr_xz span{display: block;width: 100%;height: 40px;background-color: #2BB2A3;margin: 5px 0;text-align: center;border-radius: 5px;line-height: 40px}
+        .arr_input1{width: 90%;border: none;background-color: #fff;height: 45px;line-height: 45px}
+        .form-control{width: 90%;border: none;background-color: #fff;}
+        .arr_input_a{width: 90%;border: none;background-color: #fff;}
+        .arr_input_b{width: 90%;border: none;background-color: #fff;}
+        .arr_input_2{width: 90%;border: none;background-color: #fff;}
+
+
+        .xqtp{height: 50px;width: 100%;padding:10px 3%;}
+        .xqtp-a{position: relative;float: left;width: 30px;height: 30px;border-radius: 50%;line-height: 28px;text-align: center;background-color: #000;background-color:rgba(0,0,0,0.3)}
+        .xqdb{position: relative;height: 50px;width: 100%;padding: 0 3%;line-height: 50px;bottom: -80px;color: #fff;}
+        .xqdb li{float: left;}
+        .xqdb .order_buy{background: none;border: none;}
+        .cont_arr{height: 110px;width: 100%;font-size: 12px;padding: 0 0 5px;border-bottom: 1px solid #eee;}
+        .cont_arr li{float: left}
+        .cont_arr_a{width: 100%;height: 100px;padding: 0 3%;font-size: 14px;color: #666;line-height: 25px}
+        .arr-a-li{float: left;height: 60px}
+        .arr-b-li{float: left;width: 80px;text-align: center;font-size: 12px;color: #999;width: 24%;}
+        .arr-b-li img{vertical-align: -2px;}
+        .arr_sj{height: 80px;width: 100%;border:solid #F0F0F0;border-width: 10px 15px;line-height: 30px;position: absolute;}
+        .arr_sj li{float: left;text-align: center;width: 50%;font-size: 14px;color: #666}
+        .datebox-count {position: relative;font-size: 12px;color: #666;border: 1px solid #e5e5e5;border-radius: 10px; background-color: #fff;width: 50px;height: 22px;text-align: center;margin-top: 31px;left: 45%;}
+        .bookroom-title {padding: 5px 3%;font-size: 12px;line-height: 25px;color: #333;border-bottom: 1px solid #e5e5e5;}
+        .bookroom-title-icon {display: inline-block;height: 18px;line-height: 18px;width: 18px;margin-right: 10px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px;color: #e41616;background-color: #fff;}
+        .bookroom-title-desc {float: right;font-size: 12px;color: #f90;}
+        .room {display: -webkit-box;display: flex;}
+        .item {margin: 10px 0 0 10px;padding-bottom:10px;border-bottom: 1px solid #e5e5e5;color: #999;line-height: normal;}
+        .room-left {overflow: hidden;width: 75%;flex: 1;}
+        .room-right {position: relative;width: 20%;text-align: center;}
+        .room-left-title {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;color: #333;font-size: 14px;margin: 0;font-weight: normal;}
+        .textico-gray {display: inline-block;height: 10px;line-height: 10px;padding: 0 2px;border: 1px solid;border-radius: 3px;text-align: center;font-size: 12px; color: #999;background-color: #fff;}
+        .tags-item:not(:last-child) {padding-right: 2px;border-right: 1px solid #e5e5e5;}
+        .tags-item {display: inline-block;font-size: 14px;line-height: 14px; height: 5px;}
+        .room-desc {font-size: 12px;color: #999;padding: 2px 0;}
+        .price {position: relative;color: #06c1ae;font-size: 12px;margin: 0;}
+        .price-num {font-size: 14px;}
+        .room-right-center {position: absolute;top: 50%; transform: translateY(-50%);}
+        .room-right-redtip {font-size: 14px;color: #e41616;margin-bottom: .1rem;}
+        .room-button{height: 25px;width: 60px;color: #fff;font-size: 12px; border: transparent;border-radius: 5px;background-color: #f90;}
+        #div_a{height:100%;position:absolute;width:100%;top:0;z-index:3;}
+        .box_a{width: 100%;background:#fff; position: fixed; bottom: 0;z-index: 5;font-size: 14px;}
+        .roomDetail {position: fixed;top: 35%;bottom: 0;left: 0;right: 0;z-index: 20;background-color: #fff;font-size: 14px;}
+        .roomDetail-header {position: fixed;z-index: 10;background-color: #fff;left: 0;right: 0;}
+        .roomDetail-header-title {position: relative;padding: 10px 0;line-height: normal;text-align: center;font-size: 14px;color: #333; border-bottom: 1px solid #e5e5e5;margin: 0;font-weight: normal;}
+        .roomDetail-block:not(:last-child) {border-bottom: 1px solid #e5e5e5;}
+        .roomDetail-baseInfo {position: relative;}
+        .roomDetail-block {margin: 10px 12px;padding-bottom: 10px;color: #333;}
+        .roomDetail-baseInfo-item:nth-child(odd) {width: 50%;float: left;}
+        .roomDetail-baseInfo-item {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;padding-bottom: 5px;}
+        .roomDetail-baseInfo-item-name {color: #999;padding-right: 5px;}
+        .roomDetail-refundRule-title {padding-bottom: 5px;}
+        .roomDetail-refundRule-content {display: -webkit-box;display: flex;line-height: normal;}
+        .roomDetail-refundRule-content-left {padding-right: 3px;}
+        .icon{display: inline-block;width: 15px;height: 15px;margin-right: 5px;vertical-align: middle;}
+        .roomDetail-refundRule-content-right {-webkit-box-flex: 1;flex: 1;}
+        .roomDetail-refundRule-content-desc {padding-right: 10px;color: #06c1ae;}
+        .roomDetail-useRule-title {padding-bottom: 10px;}
+        .roomDetail-useRule-item {line-height: 25px;list-style: inside;}
+        .roomDetail-pay {position: fixed;left: 0;right: 0;bottom: 0;height: 50px;display: -webkit-box;display: flex;text-align: center;}
+        .roomDetail-pay-info {flex: 1;background: #fafafa;box-shadow: inset 0 0 0 0 #e5e5e5;}
+        .roomDetail-pay-price {font-size: 14px;line-height: 50px;color: #06c1ae;}
+        .roomDetail-pay-action-active {color: #fff;background-color: #f90;}
+        .roomDetail-pay-action {flex: 1;line-height: 50px;font-size: 14px;}
+        .roomDetail-content {position: absolute;top: 0;margin-top: 0;bottom: 50px;width: 100%;overflow-y: scroll;}
+        .xqyh_arr{height: 30px}
+        .xqyh_arr_span{display: block;width: 24px;height: 24px;font-size: 12px;line-height: 24px;text-align: center;color: #fff;background-color: #FD9901;margin: 3px auto;border-radius: 2px;}
+        .xqyh_arr li{float: left;height: 30px;line-height: 30px;font-size: 14px;color: #333}
+        .xqjg{display: block;float: left;margin: 0 0 0 25%;}
+        .xqjg_q{display: block;float: left;font-size: 12px;color: #FD9901;border: 1px solid #FD9901;padding: 1px 2px;border-radius: 5px;margin: 13px 0 0 5px;}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+        .header_footer{
+            margin:15px auto; 
+            float: left;
+            width: 96%;
+            color: #ccc;
+        }
+        .header_footer ul{
+            margin:5px 2%; 
+        }
+        .header_footer ul li{
+            float: left;width: 50%;
+            line-height: 25px;
+        }
+        .header_footer ul li h2{color: #c6c6c6;padding: 2px 0;}
+        .header_footer ul li p{width: 100%;float: left;}
+        .clear{clear: both;border-bottom: 1px solid #f3f3f3;width: 96%;margin:15px auto; }
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+<header>
+    <div>
+        <img src="{php echo tomedia($res['img'])}" width="100%" height="180px" style="z-index: -1;transition: 1s;background-size: cover;background-position: 50%;position: absolute">
+        <div class="xqtp">
+           
+        </div>
+        <form action='{php echo $this->createMobileUrl("Index",array("action"=>"order_buy",))}' method="post">
+        <!-- 'id'=>$res['id'],'day'=>$day,'rooms'=>$_GPC['rooms'] -->
+        <input type="hidden" name="id" value="{$res['id']}">
+        <input type="hidden" name="day" value="{$day}">
+        <input type="hidden" name="rooms" value="{$_GPC['rooms']}">
+        <div class="xqdb">
+            <ul>
+                <li style="width: 60%">
+                    <span style="font-size: 14px">{$res['title']}</span>
+                </li>
+               <!--  <li style="width: 5%;text-align: center">
+                  <img src="{ASSETS_PATH}img/tupian.png" width="12px" height="12px">
+              </li> -->
+              <li style="width: 30%;text-align: center;float: right;">
+                  <span style="font-size: 12px;background: #50C5A8;color: #fff;padding:0px 8px;border-radius:12px;float: right;opacity: 0.7;height: 34px;line-height: 30px;margin-top:10px;margin-right: 10px; "><input type="submit" class="order_buy"  style="color: #fff;" value="立即预约"></span>
+              </li>
+            </ul>
+        </div>
+    </div>
+    
+</header>
+<div style="height: 80px"></div>
+
+<content>
+
+    <div class="tab-wrapper">
+        
+        <div class="xuanxiang">
+            <div  style="width: 100%;display: block">
+                <div class="xuan-1">
+                    <ul class="xxy">
+                        {if $_GPC['rooms'] == 1}
+                        <li class="active" stat="1" cname="xx1">
+                            <a href="javascript:void(0)">全日房</a>
+                        </li>
+                        {/if}
+                        {if $_GPC['rooms'] == 2}
+                        <li class="active" stat="1" cname="xx2">
+                            <a href="javascript:void(0)">钟点房</a>
+                        </li>
+                        {/if}
+                         {if $_GPC['rooms'] == 3}
+                        <li class="active" stat="1" cname="xx3">
+                            <a href="javascript:void(0)">包夜房</a>
+                        </li>
+                        {/if}
+                    </ul>
+                </div>
+                <div class="guding">
+                    
+                    {if $_GPC['rooms'] == 1}
+                    <div class="xx1">
+                        
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:75%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="ruzhu"  class="arr_input_a" id="ruzhu" placeholder="请选择入住时间" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" {if $_SESSION['ruzhu']} value="{php echo $_SESSION['ruzhu']}" {else} value="{php echo date('Y-m-d')} 12:00" {/if} readonly required />
+                                </li>
+                                </a>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">离店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;">
+                                    <input type="text" id="lidian" name="lidian" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" class="arr_input_a" placeholder="请选择离店时间" {if $_SESSION['lidian']} value="{php echo $_SESSION['lidian']} " {else} value="{php echo date('Y-m-d',time()+24*3600)} 11:30" {/if} readonly required />
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        
+                    </div>
+                    {/if}
+                    
+                    {if $_GPC['rooms'] == 2}
+                    <div class="xx2">
+                       
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right">
+                                    <input type="text" class="arr_input1" id="ruzhu1" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" name="ruzhu" placeholder="请选择入住时间" 
+                                    {if $_SESSION['ruzhu']} value="{php echo $_SESSION['ruzhu']}" {else}
+                                    {if date('H')>=12} value="{php echo date('Y-m-d H')}:00" {else}  value="{php echo date('Y-m-d')} 12:00"{/if} {/if}  readonly required />
+                                    
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">住店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;color: #ccc;">
+                                    <select name="time"  class="form-control">
+                                      <option {if $_SESSION['hour'] == 2} selected {/if} value="2">2小时</option>
+                                      <option {if $_SESSION['hour'] == 3} selected {/if} value="3">3小时</option>
+                                      <option {if $_SESSION['hour'] == 4} selected {/if} value="4">4小时</option>
+                                      <option {if $_SESSION['hour'] == 5} selected {/if} value="5">5小时</option>
+                                      <option {if $_SESSION['hour'] == 6} selected {/if} value="6">6小时</option>
+                                    </select>
+
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                      
+                    </div>
+                    {/if}
+                    {if $_GPC['rooms'] == 3}
+                    <div class="xx3">
+                        
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">入住时间</span>
+                                </li>
+                                <a href="#ttt">
+                                <li style="width:75%;text-align:right;line-height:45px;height:45px;">
+                                    <input type="text" name="ruzhu" id="ruzhu2" data-options="{'type':'YYYY-MM-DD hh:mm','beginYear':2010,'endYear':2088}" class="arr_input_b" placeholder="请选择入住时间" {if $_SESSION['ruzhu']} value="{php echo $_SESSION['ruzhu']}" {else} value="{php echo date('Y-m-d')} 21:00" {/if} readonly />
+                                </li>
+                                </a>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arr_xy">
+                            <ul>
+                                <li style="width: 20%;line-height: 45px">
+                                    <span style="color: #ccc">离店时间</span>
+                                </li>
+                                <li style="width: 75%;text-align: right;line-height: 45px;height: 45px;">
+                                    <input type="text"  value="次日11:30前" class="arr_input_2" readonly required onfocus="this.blur()"/>
+                                </li>
+                                <li style="width: 5%;line-height: 45px">
+                                    <img src="{ASSETS_PATH}img/you.png" width="16px" height="16px">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                      {/if}  
+            </div>
+        </div>
+    <script src="{ASSETS_PATH}js/jquery.date.js"></script>
+    <script type="text/javascript"> 
+            $.date('#ruzhu');
+            $.date('#lidian');
+            $.date('#ruzhu1');
+            $.date('#ruzhu2');
+            
+        </script>
+    </div>
+    </div>
+    
+    </form>
+    
+    <div class="clear"></div>
+
+    <div class="header_footer">
+        <ul>
+            <li>
+            <h2 style="margin:0;">{$res['title']}</h2>
+            <p>{$res['address']}</p>
+            </li>
+            <li >
+                <p ><span style="background: #50C5A8;color: #fff;padding:2px 8px;border-radius:12px;float: right;">￥{$res['stuprice']}元</span></p>
+                <p ><span style="float: right;">非学生价：￥{$res['price']}元</span></p>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    
+ 
+                   
+    <section class="roomDetail-block roomDetail-baseInfo">
+        <ul class="clearfix">
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">上网</span>&nbsp<span id="a1">{$res['shangwang']}</span>
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">卫浴</span>&nbsp<span id="a2">{$res['weiyu']}</span>
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">窗户</span> &nbsp<span id="a3">{$res['weiyu']}</span>
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">可住</span>&nbsp<span id="a4">{$res['kezhu']}</span>
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">床型</span> &nbsp<span id="a5">{$res['chuangxing']}</span>
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">早餐</span> &nbsp<span id="a6">{$res['zaocan']}</span>
+            </li>
+        </ul>
+    </section>
+            
+                
+    
+
+
+    <div class="cont_arr_a">
+        <ul>
+            <li class="arr-a-li" style="width: 96%;padding-top: 3px;line-height: 30px">
+                <p style="text-align: center;font-size: 14px;">可提供的服务</p>
+                <ul style="width: 100%;height: 30px;margin: 0;">
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/wuxian.png" width="16px" height="16px">
+                        <span>无线上网</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/tingche.png" width="16px" height="16px">
+                        <span>停车场</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/reshui.png" width="16px" height="16px">
+                        <span>热水洗浴</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/youxian.png" width="16px" height="16px">
+                        <span>有线上网</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/chuifeng.png" width="16px" height="16px">
+                        <span>电吹风</span>
+                    </li>
+                    <li class="arr-b-li">
+                        <img src="{ASSETS_PATH}img/xishu.png" width="16px" height="16px">
+                        <span>洗漱用具</span>
+                    </li>
+                </ul>
+            </li>
+          
+        </ul>
+    </div>
+
+    <div class="clear"></div>
+    <div class="weizhi">
+        <p style="text-align: center;font-size: 14px;">地图位置</p>
+        
+        
+        <div data-am-widget="map" class="am-map am-map-default" data-name="地图位置"
+        data-address="{$res['address']}" data-longitude="{$res['jingdu']}" data-latitude="{$res['weidu']}">
+          <div id="bd-map" style="width: 96%;height: 280px;margin:10px auto"></div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+    <div class="pinglun" style="width: 96%;margin: 5px auto;">
+    <div style="line-height:50px;height: 50px;width:100%;background-color:white;border-bottom: 1px solid #eee;"> 
+        <span style="font-size:14px;margin-left: 10px;">用户评价</span>
+        <span style="font-size:14px;margin-right: 10px;float: right;"><a href={php echo $this->createMobileUrl("Index",array("action"=>"pinglun","id"=>$res['id']))}>更多</a></span>
+    </div>
+    <div id="content" style="margin-bottom:50px;">
+{loop $pingjia $v}
+<div>
+    <div style="font-size:12px;float: right;margin-top:5px;color:#999;margin-right: 10px;">
+        <span>{$v['title']}</span>
+    </div>
+    <div style="margin:10px;">
+        <img src="{$v['avatar']}" style="width:60px;height: 60px;border-radius:60px;">
+    </div>
+    <div style="margin-left: 80px;font-size:16px;margin-top: -60px;">
+        <span>{$v['nickname']}</span>
+    </div>
+    <div class="xingxing" style="margin-left: 80px;font-size:12px;line-height: 35px;">
+        <span>评分</span>
+        {if $v['rate']==1}<img height="35" src="{ASSETS_PATH}img/xx1.png">
+        {else if $v['rate']==2}<img height="35" src="{ASSETS_PATH}img/xx2.png">
+        {else if $v['rate']==3}<img height="35" src="{ASSETS_PATH}img/xx3.png">
+        {else if $v['rate']==4}<img height="35" src="{ASSETS_PATH}img/xx4.png">
+        {else if $v['rate']==5}<img height="35" src="{ASSETS_PATH}img/xx5.png">{/if}
+    </div>
+    <!--评价内容区域-->
+    <div style="font-size:12px;margin-left: 80px;margin-right:10px;">
+        <span>{$v['info']}</span><br>
+        {loop $v['images'] $k}
+        <span class="ping_tu">
+            <img src="{php echo tomedia($k)}" style="width: 90px;height: 90px;">
+        </span>
+        {/loop}
+    </div>
+    <!--评价时间和点赞-->
+    <div style="color:#999;font-size:12px;margin-left:80px;line-height: 30px;border-bottom:1px solid #eee;padding:0 0 10px 0;margin-top:10px;">
+        <span>{$v['ruzhu']}入住，{php echo date('Y-m-d',$v['time'])}发表</span>
+        {if $set['he_openid']!=$_W['fans']['openid']}
+        <span style="float: right;font-size:14px;margin-right: 20px;border:1px solid #eee;padding: 0px 20px 0 20px;border-radius:20px;">
+            <img src="{ASSETS_PATH}img/zan.png" style="width: 18px;height: 18px;margin-top:-2px">&nbsp;赞
+        </span>
+        {else}
+        <button style="border:1px solid #eee;background-color: #50C5A8;color:white;border-radius:4px;" onclick="huifu({$v['id']})">回复</button>
+        <a onclick="if (confirm('确定删除？')) { location.href = '{php echo $this->createMobileUrl("Index",array("action"=>"delete_pinglun","id"=>$v['id']))}'; }">
+        <button style="border:1px solid #eee;background-color: red;color:white;border-radius:4px;">删除</button>
+        </a>
+        {/if}
+    </div>
+
+    <!--商家回应-->
+    {if $v['huifu'] != ""}
+    <div style="margin-left: 80px;">
+        <span><img src="{ASSETS_PATH}img/huiying.png" style="width: 18px;height: 18px;"></span>
+        <div style="margin-left:18px;margin-top:-23px;margin-right:10px;">
+            <span style="font-size:14px;color: #104E8B;margin-left:5px;">商家回应：</span>
+            <span style="font-size: 14px;">{$v['huifu']}</span>
+        </div>
+    </div>
+    {/if}
+    <div style="border-bottom: 1px solid #eee;padding:10px 0 0 0 "></div>
+
+</div>
+{/loop}
+</div>
+    </div>
+    <div class="arr_sj" style="display: none;">
+        <ul>
+            <li style="border-right: 1px solid #eee">
+                <p>入住</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']} &nbsp;&nbsp;{$time1}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['ruzhu']}&nbsp;&nbsp;{$time1}</span>
+                {/if}
+            </li>
+            <li>
+                <p>离店</p>
+                {if $_GPC['rooms']==1}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==2}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {else if $_GPC['rooms']==3}
+                <span style="color: #50C5A8">{$_SESSION['lidian']}&nbsp;&nbsp;{$time2}</span>
+                {/if}
+            </li>
+        </ul>
+    </div>
+    <div class="datebox-count">{if $_GPC['rooms']==1} 共{$c}天 {else if $_GPC['rooms']==2}共{$m}小时 {else if $_GPC['rooms']==3}共一夜{/if}</div>
+    
+   
+    
+</content>
+<div class="footer">
+    <ul>
+        {loop $footer $v}
+        <a href="{$v['url']}">
+            <li>
+                <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                <p>{$v['title']}</p>
+            </li>
+        </a>
+        {/loop}
+    </ul>
+</div>
+
+</body>
+</html>
+{php echo register_jssdk(false)}
+<script type="text/javascript">
+    $(function(){
+       /* var mp = new BMap.Map('bd-map');  
+        mp.centerAndZoom(new BMap.Point({$res['jingdu']}, {$res['weidu']}), 11);
+        mp.enableScrollWheelZoom(true); */
+    });
+    function xianshi(id){
+        $.ajax({
+            url : "{php echo $this->createMobileUrl('Index',array('action'=>'show'))}",
+            type:"post",
+            data:{
+                id : id
+            }, success: function (res) {
+                var data = $.parseJSON(res);
+                $("#aa").html(data.title);
+                $("#a1").html(data.shangwang);
+                $("#a2").html(data.weiyu);
+                $("#a3").html(data.chuanghu);
+                $("#a4").html(data.kezhu);
+                $("#a5").html(data.chuangxing);
+                $("#a6").html(data.zaocan);
+                $("#a7").html(data.shiyong);
+                $("#a8").html(data.price);
+                $("#a9").html(data.tuikuan);
+            }
+        });
+        $('.tc_a').show();
+    }
+
+    /*$(function(){
+        $('.order_buy').click(function(){
+            // {php echo $this->createMobileUrl("Index",array("action"=>"order_buy",'id'=>$res['id'],'day'=>$day,'rooms'=>$_GPC['rooms']))}
+            var id = {$res['id']};
+            var day = {$day};
+            var rooms = {$_GPC['rooms']};
+            var ruzhu = $('input[name]');
+            $.post('{php echo $this->createMobileUrl("Index",array("action"=>"order_buy"))}',{id:id,rooms:rooms,day,day},function(data){
+
+            })
+        });
+    });*/
+    
+</script>

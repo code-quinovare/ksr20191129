@@ -1,0 +1,58 @@
+{php include $this->template($style.'/common/head')}
+<title>{$webset['name']}-新闻资讯-{$newsdet['title']}</title>
+{php include $this->template($style.'/common/header')}
+<!--top end-->
+
+<!--banner-->
+<div class="otherBanner">
+    <img src="{php echo tomedia($newset['banner'])}">
+</div>
+<!--banner end-->
+
+<!--contain-->
+<div class="newsCont">
+
+    <div class="NDCont">
+
+        <div class="NDTitle">
+            <h1>{$newsdet['title']}</h1>
+            <h2> {$newsdet['createtime']}</h2>
+
+        </div>
+
+        <div class="edit">
+            {$newsdet['contents']}
+        </div>
+
+        <div class="NDNav flex-display">
+            {if !empty($newsdet_up)}
+            <a href="{php echo $this->createMobileUrl($do,array('op'=>'newsdet','id'=>$newsdet_up['id']))}">上一篇：{$newsdet_up['title']}</a>
+            {/if}
+            <div class="flex-flex1"></div>
+            {if !empty($newsdet_down)}
+            <a href="{php echo $this->createMobileUrl($do,array('op'=>'newsdet','id'=>$newsdet_down['id']))}">下一篇：{$newsdet_down['title']}</a>
+            {/if}
+        </div>
+
+    </div>
+
+</div>
+<!--contain end-->
+<script>
+    $(function () {
+        var uited = 2;
+        $('.topNav li').each(function () {
+            var uit = $(this).attr("data-uit");
+            if (uit == uited) {
+                $(this).addClass('curr');
+            } else {
+                $(this).removeClass('curr');
+            }
+        });
+
+
+    })
+
+</script>
+<!--bottom-->
+{php include $this->template($style.'/common/footer')}

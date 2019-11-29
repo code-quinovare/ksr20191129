@@ -1,0 +1,355 @@
+/*默认页面*/
+.usertop{
+	width: 100%;
+	background-image: url(../images/userbg.jpg);
+	position: relative;
+	height: 100px;
+	background-size: 100% 100px;
+}
+.mengc{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(70, 70, 77, 0.56);
+	z-index: 2;
+}
+.userimg{
+	position: absolute;
+	bottom: -25px;
+	left: 10%;
+	z-index: 2;
+}
+.userimg img{
+	width:70px;
+	height:70px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+}
+.userimg li{
+	display: inline-block;
+}
+.userimg li:nth-child(1){
+	width: 70px;
+	height: 70px;
+	display: inline-block;
+}
+.userimg li:nth-child(2){
+	font-size: 18px;
+	padding-left: 10px;
+	color: #fff;
+	position: absolute;
+    bottom: 50%;
+    left: 99%;
+    width: 200px;	
+}
+.userinfo{
+	width: 100%;
+	height: 50px;
+	background: #fff;
+	text-align:right;
+}
+.userinfo li{
+	width: 30%;
+	text-align:center;
+	line-height:25px;
+	border-right: 1px solid #ddd;
+    display: inline-block;	
+}
+.userinfo_nickname{
+    padding: 20px 0 0 12%;
+}
+.userother{
+    margin-top: 10px;
+    background: #fff;
+}
+.userother .weui_cell{
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    padding: 10px;
+}
+.userother .weui_cell_ft{
+    padding-right: 10px;
+}
+
+/*余额*/
+/*第二页*/
+.page_top_item span{
+    width: 30%;
+    line-height: 25px;
+    border-radius: 3px;
+    border: 1px solid #ff5f27;
+    margin-top: 7px;
+    text-align: center;
+    color: #ff5f27;
+    display: inline-block;
+}
+.panel-body{
+	margin:0;
+	padding:0;
+	background: #fff;
+	margin-top: 3px;	
+}
+.pan0{
+	border-bottom:1px solid #eeebeb;
+	width:100%;
+	height:20px;
+}
+.pan1{
+	padding-left:15px;
+	width:75%;
+	height:50px;
+	float:left;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.pan2{
+	width:25%;
+	height:50px;
+	float:right;
+	text-align:center;
+	padding-top:10px;
+	font-size:18px;
+	color:red;
+}
+
+/*第一页*/
+.money_draw {
+	margin-top:5px;
+}
+.lastmoney{
+	background: #ff5f27;
+	overflow: hidden;
+	height: 130px;
+	padding: 10px 20px;
+}
+.lastmoney p{
+	color:#fff;
+	padding-top:20px;
+}
+.lastmoney p a span{
+	float:right;
+	color:#fff;
+}
+.lastmoney p:nth-of-type(2){
+	font-size:36px;
+}
+
+/*按钮*/
+.getbtn{
+	text-align: center;
+	margin-top: 30px;
+}
+.getbtn input{
+	width:90%;
+	margin-left:5%;
+	border:none;
+}
+.getbtn input:nth-of-type(2){
+	background:#ddd;
+	color:#fff;
+}
+.getbtn a:nth-of-type(1){
+	width: 90%;
+	background: #ff5f27;
+	display: inline-block;
+	padding: 7px;
+	color: #fff;
+	border-radius: 5px;
+	font-size: 15px;
+	margin-top: 10px;	
+}
+/*提现框*/
+.sideup_draw_down {
+    height: 60%;
+    padding: 10px;	
+}
+
+.sideup_draw_down #actionsheet_cancel{
+    background-color: #ddd;	
+}
+
+
+.weui_actionsheet_menu {
+    background-color: #efeff4;
+    position: relative;
+    height: 100%;	
+}
+.sideup_draw_body li{
+	margin-top: 10px;
+    text-align: center;	
+}
+.draw_money_type input{
+	display: none;
+}
+.sideup_draw_body label{
+    padding: 7px 10px;
+    background: #fff;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+.draw_money_input input{
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+    height: 35px;
+    padding-left: 10px;
+    border: 1px solid #ddd;
+	display:none
+}
+.draw_money_confirm{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;	
+}
+
+
+/*问题列表*/
+.ask_main{
+	padding:5px 0;
+}
+.ask_item{
+    background: #fff;
+    padding: 5px;
+    margin-top: 5px;	
+}
+.ask_item_headpic{
+	width:20%;
+	min-width:50px;
+}
+.ask_item_bottom div{
+	float:left;
+}
+.ask_item_headpic img{
+	width:40px;
+	height:40px;
+	border-radius:50%;
+}
+.ask_item_name {
+	width:40%;
+    line-height: 40px;	
+}
+.ask_item_time {
+	width:40%;
+	text-align:right;
+    line-height: 40px;
+    color: #999;
+    font-size: 13px;
+}
+.ask_item_bottom{
+    margin-top: 5px;
+    border-top: 1px solid #ddd;
+    padding: 5px 0;	
+}
+.ques_question{
+    margin-top: 5px;
+    background: #fff;
+    padding: 10px;
+}
+
+/*认证*/
+.auth_hide_class{
+	margin-top:5px;
+}
+.weui_label {
+	text-align:right;
+    width: 80px;
+	padding-right:10px;
+    font-size: 14px;	
+}
+.auth_auth  .weui_cell{
+	padding: 12px 5px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;	
+}
+.auth_select .weui_cell ,.area_select .weui_cell{
+	padding: 4px 5px;	
+}
+.auth_auth textarea{
+	padding: 0 10px;
+}
+.contact_type label{
+	padding-left:15px!important;
+}
+.auth_auth .weui_cells{
+	margin-bottom:5px;
+}
+.mobile_verify{
+	background:#ddd;
+	padding:2px 10px;
+	border-radius:3px;
+	color:#fff;
+}
+.auth_images .weui_cell_bd{
+	width:100%;
+}
+.auth_up_images img{
+    height: 100px;
+}
+.auth_up_images2 img{
+    height: 100px;
+}
+.auth_explain {
+    padding: 10px;
+    background: #fff;
+	margin-top:20px;
+	line-height: 25px;
+}
+.drwdepositbtn{
+	text-align:center;
+}
+#sideup_scorerule .sideuper_body_item{
+	padding:10px;
+	background:#fff;
+}
+
+.filter_outbox{
+	z-index: 1;
+	padding: 10px;
+    height: 200px;
+    overflow-y: scroll;	
+}
+.page_top {
+    position: relative;
+    z-index: 2;
+}
+.filter_title{
+	font-size:14px;
+}
+#sideup_scorerule .weui_fade_toggle{
+    z-index: 2;
+}
+.filter_item{
+	padding: 5px 0;
+}
+
+.deposit_top .page_top_item span {
+    width: 23%;
+}
+.deposit_top .page_top_item .zhanwei{
+    opacity:0;
+}
+#filtercontent{
+    position: absolute;
+    width: 100%;
+}
+
+/*充值*/
+#sideup_addmoney .sideuper_body{
+	height:250px;
+}
+#sideup_addmoney .guy_task_item{
+	background: #fff;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/*aboutus*/
+.aboutus_list{
+    background: #fff;
+    margin: 10px 0;
+    padding: 10px;
+	word-wrap: break-word;	
+}

@@ -1,0 +1,51 @@
+
+<div class="weui_cells weui_cells_form">
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label weui-start">{$activity['member']}</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="member" name="member" type="text" value="{$member['realname']}" placeholder="请输入{$activity['member']}" required tips="请输入{$activity['member']}">
+        </div>
+		<div class="weui_cell_ft">
+			<i class="weui_icon_warn"></i>
+		</div>
+    </div>
+	{if $activity['smsid']!='0' && $par['smstype']=='1'}
+	<div class="weui_cell weui_vcode">
+		<div class="weui_cell_hd"><label class="weui_label weui-start">{$activity['phone']}</label></div>
+		<div class="weui_cell_bd weui_cell_primary">
+			<input class="weui_input" id="mobile" name="mobile" type="number" value="{$member['mobile']}" readonly>
+		</div>
+		<div class="weui_cell_ft">
+			<a href="{php echo murl('entry', array('do' => 'index', 'id' => $activity['smsid'], 'm' => 'dayu_sms', 'form' => $_W['current_module']['name'], 'returnurl' => $returnUrl), true, true)}" class="weui-vcode-btn f-blue"><small>修改手机</small></a>
+		</div>
+	</div>
+	{elseif $activity['smsid']!='0' && empty($par['smstype'])}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">{$activity['phone']}<span>*</span></label></div>
+			<div class="weui_cell_bd weui_cell_primary ">
+				<input class="weui_input" id="mobile" name="mobile" type="tel" pattern="[0-9]*" value="{$member['mobile']}" required pattern="[0-9]{11}" maxlength="11" placeholder="请输入{$activity['phone']}">
+			</div>
+		</div>
+		<div class="weui_cell">
+			<input type="hidden" id="htel">
+			<input type="hidden" id="hsms">
+			<div class="weui_cell_hd"><label class="weui_label">验证码<span>*</span></label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<input class="weui_input" id="sms" name="sms" type="tel" placeholder="请输入验证码">
+			</div>
+			<div class="weui_cell_ft" style="margin:0;">
+			<input type="button" id="sendsms" class="weui_btn weui_btn_mini weui_btn_primary" value="获取验证码">
+			</div>
+		</div>
+	{else}
+    <div class="weui_cell">
+		<div class="weui_cell_hd"><label class="weui_label weui-start">{$activity['phone']}</label></div>
+        <div class="weui_cell_bd weui_cell_primary ">
+            <input class="weui_input" id="mobile" name="mobile" type="tel" value="{$member['mobile']}" required pattern="[0-9]{11}" maxlength="11" placeholder="请输入{$activity['phone']}">
+        </div>
+		<div class="weui_cell_ft">
+			<i class="weui_icon_warn"></i>
+		</div>
+    </div>
+	{/if}
+</div>

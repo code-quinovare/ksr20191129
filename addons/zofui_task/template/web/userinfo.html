@@ -1,0 +1,140 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op == 'basic'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'basic','uid'=>$_GPC['uid']))}">用户基本信息</a></li>
+	<li {if $op == 'money'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'money','uid'=>$_GPC['uid']))}">收支记录</a></li>
+	<li {if $op == 'deposit'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'deposit','uid'=>$_GPC['uid']))}">保证金记录</a></li>	
+	<li {if $op == 'pubtask'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'pubtask','uid'=>$_GPC['uid']))}">发布的非私包任务</a></li>
+	<li {if $op == 'replytask'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'replytask','uid'=>$_GPC['uid']))}">回复的非私包任务</a></li>	
+	<li {if $op == 'pubprivatetask'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'pubprivatetask','uid'=>$_GPC['uid']))}">发起的私包任务</a></li>
+	<li {if $op == 'acceptprivatetask'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'acceptprivatetask','uid'=>$_GPC['uid']))}">接到的私包任务</a></li>	
+	<li {if $op == 'paylog'}class="active"{/if}><a href="{php echo $this->createWebUrl('userinfo', array('op' => 'paylog','uid'=>$_GPC['uid']))}">支付记录</a></li>		
+</ul>
+<style>
+.dropdown-menu{
+	height: 250px;
+	overflow-y: scroll;		
+}
+
+</style>
+{if $op == 'basic'}
+	<div class="panel panel-info col-xs-12 col-sm-10">
+			<div class="panel-heading">
+				基本资料
+			</div>	
+			<div class="panel-body">		
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+						  <th scope="row" class="col-md-3">昵称</th>
+						  <td class="col-md-8">{$userinfo['nickname']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">头像</th>
+						  <td><img style="height:50px" src="{php echo $userinfo['avatar']}"></td>
+						</tr>						
+						<tr>
+						  <th scope="row" class="col-md-3">余额</th>
+						  <td class="col-md-8">{$userinfo['credit2']}元</td>
+						</tr>
+						<tr>
+						  <th scope="row" class="col-md-3">任务保证金</th>
+						  <td class="col-md-8">{$userinfo['deposit']}元</td>
+						</tr>
+						<tr>
+						  <th scope="row" class="col-md-3">信誉积分</th>
+						  <td class="col-md-8">{$userinfo['creditscore']}</td>
+						</tr>						
+						<tr>
+						  <th scope="row" class="col-md-3">累计收益</th>
+						  <td class="col-md-8">{$userinfo['max_money']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">openid</th>
+						  <td>{$userinfo['openid']}</td>
+						</tr>						
+						<tr>
+						  <th scope="row">用户id</th>
+						  <td>{$userinfo['uid']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">发布任务量（采纳和拒绝之和）</th>
+						  <td>{$userinfo['pubnumber']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">采纳任务数量</th>
+						  <td>{$userinfo['acceptnumber']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">回复任务量</th>
+						  <td>{$userinfo['replynumber']}</td>
+						</tr>
+						<tr>
+						  <th scope="row">采纳任务数量</th>
+						  <td>{$userinfo['acceptednumber']}</td>
+						</tr>						
+						<tr>
+						  <th scope="row">所在城市</th>
+						  <td>{$userinfo['city']}</td>
+						</tr>						
+						<tr>
+						  <th scope="row">最近登录时间</th>
+						  <td>{php echo date('Y-m-d H:i',$userinfo['logintime'])}</td>
+						</tr>						
+						<tr>
+						  <th scope="row" class="col-md-3">手机号</th>
+						  <td class="col-md-8">{$userinfo['mobile']}</td>
+						</tr>
+						<tr>
+						  <th scope="row" class="col-md-3">微信二维码</th>
+						  <td><a href="{php echo tomedia($userinfo['qrcode'])}" target="_blank"><img style="height:50px" src="{php echo tomedia($userinfo['qrcode'])}"></a></td>
+						</tr>
+						<tr>
+						  <th scope="row" class="col-md-3">任务类型</th>
+						  <td class="col-md-8">{if $userinfo['guytype'] == 1}发任务的{elseif $userinfo['guytype'] == 2}接任务的{else}无{/if}</td>
+						</tr>
+						<tr>
+						  <th scope="row" class="col-md-3">个人简述</th>
+						  <td class="col-md-8">{$userinfo['guydesc']}</td>
+						</tr>						
+						<tr>
+						  <th scope="row">用户状态</th>
+							{if $userinfo['status'] == 0}
+								<td><span class='label label-info'>正常</span></td>						
+							{elseif $userinfo['status'] == 2}		
+								<td><span class='label label-danger'>黑名单</span></td>													
+							{/if}						  
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+	</div>	
+
+{elseif $op == 'money'}
+
+{template '../../../addons/zofui_task/template/web/temp/moneylog'}
+
+{elseif $op == 'deposit'}
+
+{template '../../../addons/zofui_task/template/web/temp/depositlog'}
+
+{elseif $op == 'pubtask'}
+
+{template '../../../addons/zofui_task/template/web/temp/tasklist'}
+
+{elseif $op == 'replytask'}
+
+{template '../../../addons/zofui_task/template/web/temp/replylist'}
+
+{elseif $op == 'pubprivatetask' || $op == 'acceptprivatetask'}
+
+{template '../../../addons/zofui_task/template/web/temp/privatetasklist'}
+
+{elseif $op == 'paylog'}
+
+{template '../../../addons/zofui_task/template/web/temp/paylog'}
+
+{/if}
+
+
+{template 'common/footer'}

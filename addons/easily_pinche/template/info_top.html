@@ -1,0 +1,25 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            置顶拼车信息
+        </h3>
+    </div>
+    <div class="panel-body">
+
+<form class="bs-example bs-example-form" role="form" action="{php echo $this->createWebUrl('top');}&pciid={$pciid}&act=save" method="post">
+         <div class="input-group">
+            <span class="input-group-addon">置顶天数</span>
+            &nbsp;<input type="radio" name="pci_top" checked="checked" value="1">&nbsp;&nbsp;1天
+            &nbsp;<input type="radio" name="pci_top" value="3">&nbsp;&nbsp;3天
+            &nbsp;<input type="radio" name="pci_top" value="5">&nbsp;&nbsp;5天
+			&nbsp;<input type="radio" name="pci_top" value="7">&nbsp;&nbsp;7天
+        </div>
+		<br />
+        <div class="input-group">
+		<input name="111" type="submit" id="111" value="提交" />
+		</div>
+    </form>
+    </div>
+</div>
+{template 'common/footer'}

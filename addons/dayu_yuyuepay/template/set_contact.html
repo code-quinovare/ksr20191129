@@ -1,0 +1,48 @@
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">公司名称：</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="company" name="company" value="{$settings['contact']['company']}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">所在地区：</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_district('district',array('province'=>$settings['contact']['province'],'city'=>$settings['contact']['city'],'district'=>$settings['contact']['district']))}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">详细地址：</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="address" name="address" value="{$settings['contact']['address']}" />
+			</div>
+			<div class="col-sm-4">
+				<div class="btn-group" data-toggle="buttons">	
+					<button class="btn btn-primary" type="button" id="positioning" onclick="codeAddress()">搜索</button>
+					<label class="btn btn-default">搜索后点击地图标记坐标</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">坐标：</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+					<span class="input-group-addon">经度</span>
+					<input type="text" class="form-control" name="lng" id="lng" value="{$settings['contact']['lng']}" readonly/>
+					<span class="input-group-addon">纬度</span>
+					<input type="text" class="form-control" name="lat" id="lat" value="{$settings['contact']['lat']}" readonly/>
+				</div> 
+			</div> 
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-9">
+				<div style="width:100%;height:400px" id="container"></div>
+			</div>
+		</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">客服电话</label>
+                    <div class="col-xs-12 col-sm-9">
+                         <input type="text" class="form-control" name="mobile" value="{$settings['contact']['mobile']}" />
+                    </div>
+                </div>

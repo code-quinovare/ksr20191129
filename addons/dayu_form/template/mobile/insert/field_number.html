@@ -1,0 +1,7 @@
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label {if $fields['essential']}weui-start{/if}">{$fields['title']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<input class="weui_input" type="number" name="field_{$fields['refid']}_{$fields['bind']}" value="{$fields['default']}" pattern="[0-9]*" placeholder="{$fields['tixing']}" {if $fields['essential']}required tips="{$fields['tixing']}"{/if}>
+			</div>
+		</div>

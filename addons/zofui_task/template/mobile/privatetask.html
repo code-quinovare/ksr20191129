@@ -1,0 +1,339 @@
+{template 'common/myheader'}
+	
+	<div class="private_top overflow_hidden">
+		<li class="top_title"><span class="font_13px_999">{if $iamtheboss}任务雇员{else}任务雇主{/if}</span></li>
+		<li class="fl authicon">
+			<img src="{$taskinfo['avatar']}">
+			{if $taskinfo['deposit'] >= $this->module['config']['deposit']}
+				<img src="http://hangjia.qiniudn.com/FkByoAtvOecYlsQp1xT9IXgA7l4H">
+			{/if}
+		</li>
+		<li class="private_top_name overflow_hidden">
+			<p>
+				<span class="font_bold_name">{$taskinfo['nickname']}</span>
+				<span class="fr ti-id-badge contact" data-src="{php echo tomedia($taskinfo['qrcode'])}"></span>
+				<a id="callhim" href="tel:{$taskinfo['mobile']}"><span class="fr ti-mobile contact"></span></a>
+			</p>
+			<p>
+				<span class="font_13px_999">
+					{if $taskinfo['type'] == 1}发布:{$taskinfo['pubnumber']}{else}回复:{$taskinfo['replynumber']}{/if}
+					{if $taskinfo['type'] == 1}采纳:{$taskinfo['acceptnumber']}{else}被采纳:{$taskinfo['acceptednumber']}{/if}
+					保证金:{$taskinfo['deposit']}元
+				</span>
+			</p>
+		</li>
+	</div>
+	<div class="private_privatetion padding_10">
+		<li class="private_title">
+			<p>
+				<span class="font_13px_999">任务内容</span>
+				<span class="font_13px_999 fr margin_left10">状态:
+				{if $taskinfo['status'] == 0}
+					{if $taskinfo['pubuid'] != $userinfo['uid'] } <!-- 不是我发起的，而且是待确认。那么肯定需要我确认  -->
+						等待您确认
+					{else}
+						等待对方确认
+					{/if}
+				{elseif $taskinfo['status'] == 1}
+					已取消
+				{elseif $taskinfo['status'] == 2}
+					{if $iamtheboss == 1} <!-- 我是雇主，那么需要等待对方执行  -->
+						对方执行任务中
+					{else}
+						您执行任务中
+					{/if}
+				{elseif $taskinfo['status'] == 3}					
+					{if $iamtheboss == 1} <!-- 我是雇主，那么是对方提交完成，需我确认  -->
+						对方已完成，待您确认
+					{else}
+						您已完成，待对方确认
+					{/if}					
+				{elseif $taskinfo['status'] == 4}
+					已取消
+				{elseif $taskinfo['status'] == 5}
+					已取消
+				{elseif $taskinfo['status'] == 6 || $taskinfo['status'] == 11 || $taskinfo['status'] == 13}
+					已完成
+				{elseif $taskinfo['status'] == 7}
+					{if $iamtheboss == 1}  <!-- 我是雇主，那么是我拒绝的  -->
+						执行结果被您拒绝
+					{else}
+						执行结果被对方拒绝
+					{/if}
+				{elseif $taskinfo['status'] == 8 || $taskinfo['status'] == 12 || $taskinfo['status'] == 14}
+					已取消	
+				{elseif $taskinfo['status'] == 9}
+					雇员申诉中					
+				{/if}				
+				</span>
+			</p>
+		</li>
+		<li class="private_content">
+			<p class="private_content_title">{$taskinfo['tasktitle']}</p>
+			<p class="private_content_img">
+				{loop $taskinfo['images'] $item}
+				<img src="{php echo tomedia($item)}">
+				{/loop}
+			</p>
+		</li>
+		<li class="overflow_hidden">
+			{if in_array($taskinfo['status'],array('0','2','3','7'))}
+			<span class="font_13px_999 fr lasttime" data-time="{$autotime}">距自动{if $taskinfo['status'] == 3}确认{elseif $taskinfo['status'] == 7}接受{else}取消{/if}:
+				<font class="day">0</font>天
+				<font class="hour">0</font>时
+				<font class="minite">0</font>分
+				<font class="second">0</font>秒
+			</span>
+			{/if}
+		</li>
+		<span class="private_reward">赏金:{$taskinfo['taskmoney']}元</span>
+		<input name="taskid" type="hidden" value="{$taskinfo['id']}">
+		<input name="taskmoney" type="hidden" value="{$taskinfo['taskmoney']}">
+	</div>
+	<div class="private_server">		
+		<div class="guy_task_item font_13px_999">{if $taskinfo['status'] == 0}任务限时:{$taskinfo['limittime']}小时。{/if}任务服务费：
+			<font class="server font_ff5f27">{$taskinfo['servermoney']}</font>元，任务完成后执行者能获得收益：
+			<font class="income font_ff5f27">{php echo $taskinfo['taskmoney'] - $taskinfo['servermoney']}</font>元。
+		</div>
+	</div>
+	<div class="private_deal">
+		{if $taskinfo['status'] == 0}
+			{if $taskinfo['pubuid'] != $userinfo['uid'] } <!-- 不是我发起的，而且是待确认。那么肯定需要我确认  -->
+				{if $iamtheboss == 0} <!-- 对方是雇主，而且是对方发起的，肯定已经支付了  -->
+					<a href="javascript:;" class="" id="workertaketask">接受任务</a>
+					<a href="javascript:;" class="" id="workerrefusetask">拒绝任务</a>
+					<li class="font_13px_999">提示：您接受任务后必须在限定时间内完成，然后到此页面来提交任务。建议衡量对方的保证金和任务佣金差值后再决定是否接受任务。</li>
+				{else}
+					<a href="javascript:;" id="paythetaskmoney" class="">支付任务赏金</a>
+					<a href="javascript:;" id="refusegeivetask" class="">拒绝给予任务</a>
+					<li class="font_13px_999">提示：支付任务赏金后，对方需在限定时间内完成任务，若没有及时完成，赏金自动退回到您的账户余额中。</li>
+				{/if}
+			{/if}
+		{elseif $taskinfo['status'] == 2}
+			{if $iamtheboss == 0} <!-- 我是雇员，那么需要我提交完成  -->
+				<a href="javascript:;" class="" id="completethetask">提交完成任务</a>
+				<a href="javascript:;" class="" id="cancelthetask">取消任务</a>
+				<li class="font_13px_999">提示：请确认任务已达到要求再提交完成，若提交虚假任务结果被对方拒绝，将受最严重封号惩罚。若您取消任务，您的信誉积分将被减掉1点。</li>
+			{/if}
+		{elseif $taskinfo['status'] == 3}					
+			{if $iamtheboss == 1} <!-- 我是雇主，那么是对方提交完成，需我确认  -->
+				<a href="javascript:;" class="" id="confirmtaskresult">确认任务结果</a>
+				<a href="javascript:;" class="" id="refusetaskresult">拒绝任务结果</a>
+				<li class="font_13px_999">提示：您拒绝后需对方确认才能将资金退回到您账户，若对方不接受您的拒绝，将转至平台客服，客服审查后作出判断。请保持手机和微信畅通,便于客服联系您。</li>
+			{/if}
+		{elseif $taskinfo['status'] == 7}
+			{if $iamtheboss == 0}
+				<a href="javascript:;" class="" id="acceptrefuse">接受拒绝</a>
+				<a href="javascript:;" class="" id="complainboss">投诉对方</a>
+				<li class="font_13px_999">提示：若您对任务的拒绝有意见，可在投诉中详述原因，客服处理后会做相应的回应。</li>
+			{/if}
+		{/if}
+	</div>
+	
+	<div class="private_progress">
+		<li class="border_bottom progress_title font_13px_999">任务日志</li>
+		 {if $taskinfo['createtime'] > 0}  <!-- 发起任务记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['createtime'])}</li>
+				<li class="item_cell_flex font_13px_999">
+					{if $taskinfo['type'] == 1}
+						{if $taskinfo['pubuid'] == $userinfo['uid']}
+							您向对方索要当前任务。
+						{else}
+							对方向您索要当前任务。
+						{/if}
+					{elseif $taskinfo['type'] == 2}
+						{if $taskinfo['pubuid'] == $userinfo['uid']}
+							您支付{$taskinfo['taskmoney']}元，发给对方当前任务。
+						{else}
+							对方支付{$taskinfo['taskmoney']}元，发给您当前任务。
+						{/if}
+					{/if}
+				</li>
+			</ul>
+		{/if}
+
+		 {if $taskinfo['accepttime'] > 0}  <!-- 接收者处理记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['accepttime'])}</li>
+				<li class="item_cell_flex font_13px_999">
+					{if $taskinfo['status'] == 1}  <!-- 处理结果又2种，1是拒绝，2是接受 -->
+						{if $taskinfo['pubuid'] == $userinfo['uid']}  <!-- 如果是拒绝，而且是我发布的，那么肯定是对方拒绝了 -->
+							任务被对方拒绝。
+						{else}
+							您拒绝了当前任务。
+						{/if}
+					{elseif $taskinfo['status'] >= 2}
+						{if $taskinfo['pubuid'] == $userinfo['uid']}  
+							{if $taskinfo['type'] == 1}  <!-- 如果是接受，而且是我发布的，是索要类型的任务，那么肯定是对方支付了资金 -->
+								对方支付{$taskinfo['taskmoney']}元，接受了您索要的任务,等待您执行任务。
+							{elseif $taskinfo['type'] == 2}  <!-- 如果是接受，而且是我发布的，是发给类型的任务，那么肯定是我已经支付好了的 -->
+								对方接受了任务。
+							{/if}
+						{else}
+							{if $taskinfo['type'] == 1}
+								您支付{$taskinfo['taskmoney']}元，接受了对方索要的任务,等待对方执行。
+							{elseif $taskinfo['type'] == 2}
+								您接受了任务。
+							{/if}
+						{/if}
+					{/if}
+				</li>
+			</ul>
+		{/if}
+		
+		<!-- 当任务被执行后的记录 -->
+		 {if $taskinfo['workerdealtime'] > 0}  <!-- 任务执行者处理记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['workerdealtime'])}</li>
+				<li class="item_cell_flex font_13px_999 complete_box">
+					{if $taskinfo['status'] == 3 || $taskinfo['status'] >= 6}  <!-- 分为三种处理记录，提交完成、主动取消、没有完成自动取消 -->
+						{if $iamtheboss == 0}
+							您提交完成任务,等待对方审核任务。
+						{else}
+							对方提交完成任务，等待您审核任务。
+						{/if}
+						<p>完成内容：{$taskinfo['completecontent']['title']}</p>
+						{loop $taskinfo['completecontent']['images'] $item}
+							<img class="fl" src="{php echo tomedia($item)}" >
+						{/loop}
+					{elseif $taskinfo['status'] == 4}
+						{if $iamtheboss == 0}
+							您主动取消了任务,您被扣除1点信誉积分。
+						{else}
+							对方主动取消了任务，对方被扣除1点信誉积分。
+						{/if}
+					{elseif $taskinfo['status'] == 5}
+						{if $iamtheboss == 0}
+							您未能及时提交完成任务，被系统自动取消任务。
+						{else}
+							对方未能及时提交完成任务，被系统自动取消任务。
+						{/if}						
+					{/if}
+				</li>
+			</ul>
+		{/if}
+		
+		 {if $taskinfo['bossdealtime'] > 0}  <!-- 雇员提交完成后，雇主处理记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['bossdealtime'])}</li>
+				<li class="item_cell_flex font_13px_999">
+					{if $taskinfo['status'] == 6}  <!-- 分为2种处理记录，确认完成、拒绝任务结果 -->
+						{if $iamtheboss == 0}
+							对方肯定了您的任务结果，确认完成任务。
+						{else}
+							您肯定了对方的任务结果，确认完成任务。
+						{/if}
+					{elseif $taskinfo['status'] == 11}
+						{if $iamtheboss == 0}
+							对方没有在限定时间内确认任务，系统自动确认完成任务。
+						{else}
+							您没有在限定时间内确认任务，系统自动确认完成任务。
+						{/if}															
+					{else}
+						{if $iamtheboss == 0}
+							对方否定了您的任务结果，等待您确认或申诉。拒绝任务结果理由：{$taskinfo['refusereason']}。
+						{else}
+							您否定了对方的任务结果，等待对方确认或申诉。拒绝任务结果理由：{$taskinfo['refusereason']}。
+						{/if}						
+					{/if}
+				</li>
+			</ul>
+		{/if}
+		 {if $taskinfo['complaintime'] > 0}  <!-- 投诉记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['complaintime'])}</li>
+				<li class="item_cell_flex font_13px_999">
+					{if $taskinfo['status'] == 8}  <!-- 处理结果又2种，1是同意拒绝，2是不同意而投诉 -->
+						{if $iamtheboss == 0}  <!-- 如果是同意了 -->
+							您同意了对方对任务结果的拒绝，任务结束。
+						{else}
+							对方同意了您对任务结果的拒绝，任务结束。
+						{/if}
+					{elseif $taskinfo['status'] == 12}
+						{if $iamtheboss == 0}  <!-- 如果不同意 -->
+							您没有在限定时间内处理对方的拒绝，系统自动处理接受对方的拒绝。
+						{else}
+							对方没有在限定时间内处理对方的拒绝，系统自动处理接受拒绝。
+						{/if}						
+					{else}
+						{if $iamtheboss == 0}  <!-- 如果不同意 -->
+							您没有同意对方对任务结果的拒绝，转至投诉阶段,等待客服处理。投诉理由：{$taskinfo['complainreason']}。
+						{else}
+							对方没有同意您对任务结果的拒绝，转至投诉阶段,等待客服处理。投诉理由：{$taskinfo['complainreason']}。
+						{/if}
+					{/if}
+				</li>
+			</ul>
+		{/if}
+		{if $taskinfo['admindealtime'] > 0}  <!-- 管理员处理记录 -->
+			<ul class="progress_item item_cell_box">
+				<li class="">{php echo date('m-d H:i',$taskinfo['admindealtime'])}</li>
+				<li class="item_cell_flex font_13px_999">
+					{if $taskinfo['status'] == 13}
+						{if $iamtheboss == 0}
+							客服将结果判给您，赏金发放到您的余额中，任务结束。
+						{else}
+							客服将结果判给对方，赏金发放到对方余额中，任务结束。
+						{/if}
+					{elseif $taskinfo['status'] == 14}
+						{if $iamtheboss == 0}
+							客服将结果判给对方，赏金退还到对方的余额中，任务结束。
+						{else}
+							客服将结果判给您，赏金退还到您的余额中，任务结束。
+						{/if}
+					{/if}				
+					客服处理理由：{$taskinfo['admindealresult']}
+				</li>
+			</ul>
+		{/if}			
+	</div>
+	
+<!-- 拒绝理由 -->
+<div id="sideup_privatetask" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_privatetask_body">
+				<div class="weui_cell sideuper_body_item">
+					<div class="weui_cell_bd weui_cell_primary">
+						<textarea class="weui_textarea border_bottom" name="refusereason" placeholder="请在此输入理由" rows="3"></textarea>
+					</div>
+				</div>
+				<p class="sideuper_body_item font_13px_999 confirmrefuse">提示:您拒绝后需对方确认才能将资金退回到您账户，若对方不接受您的拒绝，将转至平台客服，客服审查后作出判断。请保持手机和微信畅通,便于客服联系您。</p>
+				<p class="sideuper_body_item font_13px_999 confirmcomplain">提示:您投诉后，请等待客服处理，请保持手机和微信畅通,便于客服联系您。</p>
+            </div>
+			<div class="sideuper_bottom">
+				<input value="确定" type="button" class="fff_button confirm confirmrefuse" id="confirmrefuse" style="display:none">
+				<input value="确定" type="button" class="fff_button confirm confirmcomplain" id="confirmcomplain" style="display:none">
+				<input value="取消" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+        </div>
+    </div>
+</div>	
+<!-- 完成内容 -->
+<div id="sideup_complete" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_complete_body">
+				<div class="weui_cell sideuper_body_item">
+					<div class="weui_cell_bd weui_cell_primary">
+						<textarea class="weui_textarea border_bottom" name="completecontent" placeholder="请在此输入发给雇主的内容" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="sideuper_body_item">
+					<ul class="pub_images_box fl upload_images_views">
+					</ul>
+					<div class="ti-plus fl upload_btn" id="pub_upload_images"></div>
+				</div>				
+				<p class="sideuper_body_item font_13px_999">提示:请确保任务已达到雇主要求再提交，否则可能会被雇主拒绝。</p>
+            </div>
+			<div class="sideuper_bottom">
+				<input value="确定" type="button" class="fff_button confirm" id="confirmcomplete" >
+				<input value="取消" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+        </div>
+    </div>
+</div>
+{template 'common/myfooter'}

@@ -1,0 +1,107 @@
+<import src="/mzhk_sun/pages/wxParse/wxParse.wxml"></import>
+<view class="container">
+    <view>
+        <canvas canvasId="shareImg" class="canvas" style="width:545px;height:770px"></canvas>
+        <view class="header">
+            <swiper autoplay="true" circular="true" duration="{{duration}}" indicatorActiveColor="#ff4422" indicatorColor="rgba(255,255,255,.7)" indicatorDots="true" interval="{{interval}}">
+                <swiper-item wx:for="{{welfareList.logo}}" wx:for-index="f_index" wx:for-item="logoitem">
+                    <image class="slide-image" height="374" mode="scaleToFill" src="{{url}}{{logoitem}}"></image>
+                </swiper-item>
+            </swiper>
+            <view bindtap="shareCanvas" class="shareBtn" type="primary">
+                <text>生成海报</text>
+            </view>
+        </view>
+        <view class="block">
+            <view class="block-up">
+                <view>
+                    <text class="title">{{welfareList.bname}}</text>
+                    <text>营业时间：{{welfareList.starttime}}-{{welfareList.endtime}}</text>
+                </view>
+                <view class="offlinepay">
+                    <navigator url="../../user/pay/pay?bid={{welfareList.bid}}">
+                        <image src="../../../../style/images/icon022.png"></image>
+                        <text>线下付</text>
+                    </navigator>
+                </view>
+            </view>
+            <view class="block-down">
+                <view class="addr">
+                    <image class="addrIcon" src="../../../../style/images/address.png"></image>
+                    <text bindtap="max" data-address="{{welfareList.address}}" data-latitude="{{welfareList.latitude}}" data-longitude="{{welfareList.longitude}}">{{welfareList.address}}</text>
+                </view>
+                <view bindtap="dialogue">
+                    <image class="phone" src="../../../../style/images/phone.png"></image>
+                </view>
+            </view>
+            <view class="block-facility">
+                <view wx:if="{{welfareList.facility.length>0}}" wx:for="{{welfareList.facility}}">
+                    <image src="{{url}}{{item.selectedimg}}"></image>
+                    <text>{{item.facilityname}}</text>
+                </view>
+            </view>
+        </view>
+        <view bindtap="hidden" class="preview" hidden="{{hidden}}">
+            <image mode="widthFix" src="{{prurl}}"></image>
+            <button catchtap="save" size="mini" type="primary">保存分享图</button>
+        </view>
+        <view class="discount discount{{index}}" wx:for="{{welfareList.coupons}}" wx:for-index="f_index" wx:for-item="itm">
+            <view class="dcUp">
+                <view wx:if="{{itm.isvip!=1}}">
+                    <view class="reduce" wx:if="{{itm.type==1}}">折</view>
+                    <view class="reduce" wx:if="{{itm.type==2}}">减</view>
+                    <view class="reduce" wx:if="{{itm.type==3}}">送</view>
+                </view>
+                <view class="vip" wx:if="{{itm.isvip==1}}">
+                    <image src="/style/images/vip.png"></image>
+                </view>
+                <view>
+                    <view class="exclusive">{{itm.lid}}{{itm.title}}</view>
+                    <view hidden="{{itm.remarks==null}}">{{itm.remarks}}</view>
+                    <view class="dcTime">时间：{{itm.astime}} 至 {{itm.antime}}</view>
+                </view>
+            </view>
+            <view class="down" wx:if="{{itm.is_has==true}}">
+                <view class="receive-have">已领取</view>
+            </view>
+            <view class="down" wx:if="{{itm.is_has==false}}">
+                <view bindtap="lingqu" class="receive" data-f_index="{{f_index}}" data-id="{{itm.id}}" data-isvip="{{itm.isvip}}">领取</view>
+            </view>
+        </view>
+        <view bindtap="toGetGoods" class="discount discount{{index}}" data-id="{{itm.gid}}" data-is_vip="{{itm.is_vip}}" data-lid="{{itm.lid}}" wx:for="{{goods}}" wx:for-item="itm">
+            <view class="goodsThumb">
+                <image class="goodImg" src="{{url}}{{itm.pic}}"></image>
+            </view>
+            <view class="dcUp">
+                <view>
+                    <view class="exclusive goods">
+                        <view class="vipImg">
+                            <image src="/style/images/vip.png" wx:if="{{itm.is_vip==1}}"></image>
+                            <text>{{goodstype[itm.lid]}}</text>{{itm.gname}}
+            </view>
+                    </view>
+                    <view>{{goodssaletype[itm.lid]}} {{itm.buynum}} {{itm.lid==6?'人参与':'件'}}</view>
+                    <view class="dcTime">时间：{{itm.astime}} 至 {{itm.antime}}</view>
+                </view>
+            </view>
+            <view class="dcDown">
+                <view class="tobuybtn">{{goodstype_btn[itm.lid]}}</view>
+            </view>
+        </view>
+        <view class="session">
+            <view class="session-title">
+                <image class="phone" src="../../../../style/images/icon18.png"></image>
+                <text>店铺详情</text>
+            </view>
+            <view class="details">
+                <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+            </view>
+        </view>
+        <view bindtap="toIndex" class="index">
+            <view>
+                <image class="indexHome" src="/style/images/tab3.png"></image>
+            </view>
+        </view>
+        <login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>
+    </view>
+</view>

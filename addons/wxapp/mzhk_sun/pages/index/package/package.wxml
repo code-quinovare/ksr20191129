@@ -1,0 +1,260 @@
+<view class="container">
+    <view>
+        <slideupshoworder Goodsid="{{id}}" orderType="5"></slideupshoworder>
+        <canvas canvasId="shareImg" class="canvas" style="width:602px;height:770px"></canvas>
+        <view class="header">
+            <swiper autoplay="true" bindchange="swiperChange" circular="true" duration="800" interval="3000">
+                <swiper-item wx:for="{{activeList.lb_imgs}}">
+                    <image class="slide-image" height="374" mode="scaleToFill" src="{{url}}{{item}}"></image>
+                </swiper-item>
+            </swiper>
+            <view bindtap="shareCanvas" class="shareBtn" type="primary">
+                <text>生成海报</text>
+            </view>
+            <view class="page">{{swiperIndex}}/{{activeList.lb_imgs.length}}</view>
+            <view class="timeLimit">
+                <text>{{activeList.num}}份/{{activeList.allnum}}份</text>
+                <view class="watch">
+                    <view>
+                        <text>{{activeList.viewnum}}人查看</text>
+                    </view>
+                    <view>
+                        <text>{{activeList.sharenum}}人分享</text>
+                    </view>
+                    <view>
+                        <text>{{activeList.buynum}}人参与</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="block">
+            <view class="block-cont">
+                <view wx:if="{{activeList.is_vip==1||activeList.vipprice<=0}}">
+                    <text class="price">
+                        <text>￥</text>{{activeList.qgprice}}
+          </text>
+                    <text class="oldprice">
+                        <text>￥{{activeList.shopprice}}</text>
+                    </text>
+                </view>
+                <view class="block-cont-price" wx:if="{{activeList.is_vip!=1&&activeList.vipprice>0}}">
+                    <view>
+                        <view class="price">
+                            <text>￥</text>{{activeList.qgprice}}</view>
+                        <view class="oldprice">
+                            <text>原价￥{{activeList.shopprice}}</text>
+                        </view>
+                    </view>
+                    <view>
+                        <view>
+                            <text>会员专享</text>
+                        </view>
+                        <view class="price">
+                            <text>￥</text>{{activeList.vipprice}}</view>
+                    </view>
+                </view>
+                <view>
+                    <view class="countDown" wx:if="{{isclose}}">
+                        <view>活动已结束</view>
+                    </view>
+                    <view class="countDown" wx:if="{{!isclose}}">
+                        <view>距离抢购时间剩余：</view>
+                        <view>
+                            <text>{{clock[0]}}</text>天
+              <text>{{clock[1]}}</text>时
+              <text>{{clock[2]}}</text>分
+              <text>{{clock[3]}}</text>秒
+            </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view bindtap="hidden" class="preview" hidden="{{hidden}}">
+            <image mode="widthFix" src="{{prurl}}"></image>
+            <button catchtap="save" size="mini" type="primary">保存分享图</button>
+        </view>
+        <view class="wrap">
+            <view class="wrap_up">
+                <view class="title">{{activeList.gname}}</view>
+                <button class="share" openType="share">
+                    <image class="share" src="../../../../style/images/share.png"></image>
+                    <text>分享</text>
+                </button>
+            </view>
+            <navigator openType="navigateTo" url="/mzhk_sun/pages/member/member">
+                <view class="wrap_up" style="height:80rpx;border-bottom:1rpx solid #ececec;" wx:if="{{activeList.is_vip!=1&&activeList.vipprice>0}}">
+                    <view style="padding:5rpx 20rpx;border-radius:6rpx;background: rgba(0, 0, 0, 0.8);color:#fff;">
+                        <image src="../../../../style/images/vip.png" style="width:36rpx;height:36rpx;vertical-align: middle;filter:grayscale(1) invert(1) contrast(10);"></image>
+                        <text style="font-size:24rpx;">会员卡</text>
+                    </view>
+                    <view style="flex:1;padding:10rpx;">开通可
+            <text style="color:#f00">￥{{activeList.vipprice}}元</text> 
+            购买
+          </view>
+                    <view>立即开卡 ▶</view>
+                </view>
+            </navigator>
+            <view class="block-down">
+                <view>
+                    <view class="shopName">
+                        <navigator openType="navigateTo" url="/mzhk_sun/pages/index/shop/shop?id={{activeList.bid}}">
+                            <image class="addrIcon" src="../../../../style/images/shop.png"></image>
+                            <text>{{activeList.bname}}</text>
+                        </navigator>
+                    </view>
+                    <view class="addr">
+                        <image class="addrIcon" src="../../../../style/images/addr.png"></image>
+                        <text bindtap="max" data-address="{{activeList.address}}" data-latitude="{{activeList.latitude}}" data-longitude="{{activeList.longitude}}">{{activeList.address}}</text>
+                    </view>
+                </view>
+                <view bindtap="dialogue" data-phone="{{activeList.phone}}">
+                    <image class="phone" src="../../../../style/images/phone1.png"></image>
+                </view>
+            </view>
+            <view class="wrap_down">
+        活动时间：
+        <text class="wrap_time">{{activeList.astime}} 至 {{activeList.antime}}</text>
+            </view>
+        </view>
+        <view class="spec" wx:if="{{item.spec}}">
+            <view class="specList" wx:for="{{item.spec}}" wx:for-item="itm">
+                <image src="{{itm.img}}"></image>
+                <text>{{itm.spec}}</text>
+            </view>
+        </view>
+        <view class="spec shopspec" wx:if="{{item.shopspec}}">
+            <view class="specList" wx:for="{{item.shopspec}}" wx:for-item="itm">
+                <image src="{{itm.img}}"></image>
+                <text>{{itm.spec}}</text>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="process" data-flag="1" wx:if="{{showgw==1}}">
+            <view class="pro_wg">
+                <image class="pro_wg_logo" src="{{url}}{{wglist.wg_img}}"></image>
+                <view class="pro_wg_title">
+                    <view>{{wglist.wg_title}}</view>
+                    <view>{{wglist.wg_directions}}</view>
+                </view>
+                <image class="pro_wg_add" src="{{wglist.wg_addicon?url+wglist.wg_addicon:'../../../../style/images/icon29.png'}}"></image>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="codemask" data-flag="0" wx:if="{{showgw==1&&wg_flag==1}}"></view>
+        <view class="code" wx:if="{{showgw==1&&wg_flag==1}}">
+            <view class="codetitle">加入群聊</view>
+            <view class="codecontent">请在客服窗口输入‘{{wglist.wg_keyword}}’</view>
+            <view class="qrcode">
+                <button openType="contact">知道了</button>
+            </view>
+        </view>
+        <official-account></official-account>
+        <view class="process">
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/icon5.png"></image>
+                <text>参与抢购</text>
+            </view>
+            <view class="arrow">
+                <image class="arrow" src="../../../../style/images/arrow.png"></image>
+            </view>
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/icon66.png"></image>
+                <text>抢购成功</text>
+            </view>
+            <view class="arrow">
+                <image class="arrow" src="../../../../style/images/arrow.png"></image>
+            </view>
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/icon77.png"></image>
+                <text>到店验证消费</text>
+            </view>
+        </view>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <block wx:if="{{curIndex==0}}">
+            <import src="/mzhk_sun/pages/wxParse/wxParse.wxml"></import>
+            <view class="session">
+                <view class="goods-det">
+                    <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+                </view>
+                <view class="guess" wx:if="{{guess.length>0}}">
+                    <view class="session-title">
+                        <text>更多优惠商品</text>
+                    </view>
+                    <view class="guessList">
+                        <view class="gus-item" wx:for="{{guess}}" wx:for-item="items">
+                            <view>
+                                <image class="gus-img" src="{{items.src}}"></image>
+                            </view>
+                            <view>
+                                <view class="gus-title">{{items.title}}</view>
+                                <view class="gus-price">
+                                    <view>秒杀
+                  <text class="mIcon">￥</text>
+                                        <text class="gusPrice">{{items.price}}</text>
+                                    </view>
+                                    <view class="oldprice old">
+                                        <text>{{items.oldprice}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="session-comm" wx:if="{{curIndex==1}}">
+            <view class="comm-cont" wx:for="{{item.comment}}" wx:for-item="itm">
+                <view class="comm-left">
+                    <image class="uthumb" src="{{itm.thumb}}"></image>
+                </view>
+                <view class="comm-right">
+                    <view class="comm-up">
+                        <text>{{itm.uname}}</text>
+                        <text class="pubtime">{{itm.pubtime}}</text>
+                    </view>
+                    <view class="comment">{{itm.comment}}</view>
+                    <view class="good">
+                        <image class="good-img" src="../../../../style/images/icon2.png"></image>
+                        <text>0</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype>0&&activeList.is_vip==1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toCforder" class="tobuy" data-id="{{activeList.gid}}" data-price="{{activeList.qgprice}}" wx:if="{{status}}">
+                <text>立即购买</text>
+            </view>
+            <view class="tobuy over" wx:if="{{!status}}">
+                <text>活动已结束</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{activeList.is_vip!=1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toCforder" class="tobuy" data-id="{{activeList.gid}}" data-price="{{activeList.qgprice}}" wx:if="{{status}}">
+                <text>立即购买</text>
+            </view>
+            <view class="tobuy over" wx:if="{{!status}}">
+                <text>活动已结束</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype<=0&&activeList.is_vip==1}}">
+            <view bindtap="index" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toMember" class="tobuy" data-id="{{activeList.gid}}">
+                <text>开通会员即可购买</text>
+            </view>
+        </view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

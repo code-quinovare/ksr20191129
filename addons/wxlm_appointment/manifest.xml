@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://bbs.bcb5.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[番瓜门店预约]]></name>
+		<identifie><![CDATA[wxlm_appointment]]></identifie>
+		<version><![CDATA[3.0.4]]></version>
+		<type><![CDATA[customer]]></type>
+		<ability><![CDATA[wxlm_appointment]]></ability>
+		<description><![CDATA[wxlm_appointment]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[https://bbs.bcb5.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="系统入口" do="index" state="" direct="false" />
+			<entry title="项目入口" do="other" state="" direct="false" />
+			<entry title="会员卡入口" do="card" state="" direct="false" />
+			<entry title="员工入口" do="admin" state="" direct="false" />
+			<entry title="商家入驻" do="march" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="系统设置" do="system" state="" direct="false" />
+			<entry title="商圈管理" do="circle" state="" direct="false" />
+			<entry title="商家管理" do="business" state="" direct="false" />
+			<entry title="项目类型" do="ptype" state="" direct="false" />
+			<entry title="商家服务项目" do="project" state="" direct="false" />
+			<entry title="商家服务人员" do="staff" state="" direct="false" />
+			<entry title="门店类型" do="storetype" state="" direct="false" />
+			<entry title="门店管理" do="store" state="" direct="false" />
+			<entry title="预约设置" do="appointment" state="" direct="false" />
+			<entry title="预约记录" do="record" state="" direct="false" />
+			<entry title="广告管理" do="ad" state="" direct="false" />
+			<entry title="会员卡管理" do="card" state="" direct="false" />
+			<entry title="退款记录" do="refund" state="" direct="false" />
+			<entry title="作品管理" do="show" state="" direct="false" />
+			<entry title="档案管理" do="archive" state="" direct="false" />
+			<entry title="回访模板" do="visittype" state="" direct="false" />
+			<entry title="回访记录" do="visitlog" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_ad` (
+  `ad_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ad_uniacid` int(11) DEFAULT NULL,
+  `ad_pic` varchar(100) DEFAULT NULL,
+  `ad_url` varchar(200) DEFAULT NULL,
+  `ad_title` varchar(20) DEFAULT NULL,
+  `ad_order` int(11) DEFAULT NULL,
+  `ad_state` char(1) DEFAULT NULL,
+  `ad_time_add` datetime NOT NULL,
+  `ad_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`ad_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_admin` (
+  `admin_id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_uniacid` int(11) NOT NULL,
+  `admin_businessid` int(11) DEFAULT NULL,
+  `admin_name` varchar(20) DEFAULT NULL,
+  `admin_account` varchar(50) DEFAULT NULL,
+  `admin_password` varchar(32) DEFAULT NULL,
+  `admin_avatar` varchar(200) DEFAULT NULL,
+  `admin_level` varchar(1) DEFAULT NULL,
+  `admin_time_add` datetime NOT NULL,
+  `admin_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`admin_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_archive` (
+  `archive_id` int(11) NOT NULL AUTO_INCREMENT,
+  `archive_uniacid` int(11) NOT NULL,
+  `archive_openid` varchar(100) DEFAULT NULL,
+  `archive_name` varchar(20) NOT NULL,
+  `archive_avatar` varchar(200) NOT NULL,
+  `archive_tel` varchar(20) DEFAULT NULL,
+  `archive_birthday` date DEFAULT NULL,
+  `archive_gender` char(1) DEFAULT NULL,
+  `archive_hobby` text,
+  `archive_admin` text,
+  `archive_time_add` datetime NOT NULL,
+  `archive_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`archive_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_business` (
+  `business_id` int(11) NOT NULL AUTO_INCREMENT,
+  `business_uniacid` int(11) NOT NULL,
+  `business_marchid` int(11) DEFAULT NULL,
+  `business_order` int(11) DEFAULT NULL,
+  `business_name` varchar(100) DEFAULT NULL,
+  `business_logo` varchar(200) DEFAULT NULL,
+  `business_tel` varchar(50) DEFAULT NULL,
+  `business_admin` varchar(50) DEFAULT NULL,
+  `business_info` text,
+  `business_state` varchar(1) DEFAULT NULL,
+  `business_look` varchar(1) DEFAULT NULL,
+  `business_package` varchar(1) DEFAULT NULL,
+  `business_time_use` datetime NOT NULL,
+  `business_time_add` datetime NOT NULL,
+  `business_time_update` datetime DEFAULT NULL,
+  `business_admin_openid` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`business_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_card` (
+  `card_id` int(11) NOT NULL AUTO_INCREMENT,
+  `card_uniacid` int(11) DEFAULT NULL,
+  `card_pic` varchar(200) DEFAULT NULL,
+  `card_title` varchar(50) DEFAULT NULL,
+  `card_price` decimal(10,2) DEFAULT NULL,
+  `card_credit1` int(11) DEFAULT NULL,
+  `card_info` text,
+  `card_order` int(11) DEFAULT NULL,
+  `card_time_add` datetime NOT NULL,
+  `card_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`card_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_circle` (
+  `circle_id` int(11) NOT NULL AUTO_INCREMENT,
+  `circle_uniacid` int(11) NOT NULL,
+  `circle_name` varchar(100) DEFAULT NULL,
+  `circle_order` int(11) DEFAULT NULL,
+  `circle_province` varchar(20) DEFAULT NULL,
+  `circle_city` varchar(20) DEFAULT NULL,
+  `circle_county` varchar(20) DEFAULT NULL,
+  `circle_time_add` datetime NOT NULL,
+  `circle_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`circle_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_collection` (
+  `collection_id` int(11) NOT NULL AUTO_INCREMENT,
+  `collection_uniacid` int(11) NOT NULL,
+  `collection_openid` varchar(100) DEFAULT NULL,
+  `collection_storeid` int(11) NOT NULL,
+  `collection_projectid` int(11) DEFAULT NULL,
+  `collection_staffid` int(11) DEFAULT NULL,
+  `collection_time_add` datetime NOT NULL,
+  `collection_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`collection_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_uniacid` int(11) DEFAULT NULL,
+  `comment_storeid` int(11) DEFAULT NULL,
+  `comment_openid` varchar(200) DEFAULT NULL,
+  `comment_nickname` varchar(100) DEFAULT NULL,
+  `comment_text` text,
+  `comment_state` varchar(50) DEFAULT NULL,
+  `comment_time_add` datetime NOT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_config` (
+  `config_id` int(11) NOT NULL AUTO_INCREMENT,
+  `config_uniacid` int(11) NOT NULL,
+  `config_type` varchar(50) NOT NULL,
+  `config_key` varchar(50) NOT NULL,
+  `config_value` text NOT NULL,
+  PRIMARY KEY (`config_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_consume` (
+  `consume_id` int(11) NOT NULL AUTO_INCREMENT,
+  `consume_uniacid` int(11) NOT NULL,
+  `consume_archiveid` int(11) NOT NULL,
+  `consume_storeid` int(11) NOT NULL,
+  `consume_staffid` int(11) NOT NULL,
+  `consume_projectid` text NOT NULL,
+  `consume_date` date NOT NULL,
+  `consume_price` decimal(10,2) NOT NULL,
+  `consume_remark` text NOT NULL,
+  `consume_time_add` datetime NOT NULL,
+  `consume_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`consume_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_dating` (
+  `dating_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dating_uniacid` int(11) NOT NULL,
+  `dating_businessid` int(11) DEFAULT NULL,
+  `dating_storeid` int(11) DEFAULT NULL,
+  `dating_staffid` int(11) DEFAULT NULL,
+  `dating_projectid` int(11) DEFAULT NULL,
+  `dating_week` varchar(100) DEFAULT NULL,
+  `dating_pay_state` varchar(1) DEFAULT NULL,
+  `dating_add_pay` varchar(1) DEFAULT NULL,
+  `dating_pay_money` decimal(10,2) DEFAULT NULL,
+  `dating_time` text,
+  `dating_notice_time` varchar(1) DEFAULT NULL,
+  `dating_delay` varchar(50) DEFAULT NULL,
+  `dating_time_add` datetime NOT NULL,
+  `dating_time_update` datetime DEFAULT NULL,
+  `dating_default_store` char(1) DEFAULT '1',
+  PRIMARY KEY (`dating_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_fabulous` (
+  `fabulous_id` int(11) NOT NULL AUTO_INCREMENT,
+  `fabulous_uniacid` int(11) DEFAULT NULL,
+  `fabulous_orderid` int(11) DEFAULT NULL,
+  `fabulous_storeid` int(11) DEFAULT NULL,
+  `fabulous_staffid` int(11) DEFAULT NULL,
+  `fabulous_openid` varchar(200) DEFAULT NULL,
+  `fabulous_time_add` datetime NOT NULL,
+  PRIMARY KEY (`fabulous_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_march` (
+  `march_id` int(11) NOT NULL AUTO_INCREMENT,
+  `march_uniacid` int(11) DEFAULT NULL,
+  `march_pic` text,
+  `march_business_name` varchar(100) DEFAULT NULL,
+  `march_business_logo` varchar(200) DEFAULT NULL,
+  `march_admin_name` varchar(50) DEFAULT NULL,
+  `march_admin_tel` varchar(50) DEFAULT NULL,
+  `march_openid` varchar(100) DEFAULT NULL,
+  `march_money` varchar(100) DEFAULT NULL,
+  `march_package` varchar(1) DEFAULT NULL,
+  `march_state` varchar(1) DEFAULT NULL,
+  `march_time_add` datetime NOT NULL,
+  `march_time_update` datetime DEFAULT NULL,
+  `march_number` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`march_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_order` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_uniacid` int(11) DEFAULT NULL,
+  `order_number` varchar(50) DEFAULT NULL,
+  `order_paynumber` varchar(200) DEFAULT NULL,
+  `order_username` varchar(20) DEFAULT NULL,
+  `order_userphone` varchar(50) DEFAULT NULL,
+  `order_useropenid` varchar(100) DEFAULT NULL,
+  `order_businessid` int(11) DEFAULT NULL,
+  `order_storeid` int(11) DEFAULT NULL,
+  `order_projectid` int(11) DEFAULT NULL,
+  `order_staffid` int(11) DEFAULT NULL,
+  `order_pay_type` varchar(1) DEFAULT NULL,
+  `order_notice` varchar(1) DEFAULT NULL,
+  `order_pay_state` char(1) DEFAULT NULL,
+  `order_pay_money` decimal(10,2) DEFAULT NULL,
+  `order_state` char(1) DEFAULT NULL,
+  `order_settlement` char(1) DEFAULT NULL,
+  `order_look` char(1) DEFAULT NULL,
+  `order_dating_day` date DEFAULT NULL,
+  `order_remark` text,
+  `order_dating_start` varchar(20) DEFAULT NULL,
+  `order_dating_end` varchar(20) DEFAULT NULL,
+  `order_commentstate` char(1) DEFAULT NULL,
+  `order_time_add` datetime NOT NULL,
+  `order_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_orderrefund` (
+  `orderrefund_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `orderrefund_uniacid` int(11) NOT NULL COMMENT '公众号id',
+  `orderrefund_useropenid` varchar(100) DEFAULT NULL COMMENT '用户openid',
+  `orderrefund_number` varchar(50) NOT NULL COMMENT '订单编号',
+  `orderrefund_money` varchar(50) NOT NULL COMMENT '退款金额',
+  `orderrefund_state` char(1) NOT NULL COMMENT '退款状态',
+  `orderrefund_addtime` datetime NOT NULL COMMENT '创建时间',
+  `orderrefund_updatetime` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`orderrefund_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_project` (
+  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_uniacid` int(11) NOT NULL,
+  `project_order` int(11) DEFAULT NULL,
+  `project_type` int(11) DEFAULT NULL,
+  `project_businessid` int(11) DEFAULT NULL,
+  `project_name` varchar(100) DEFAULT NULL,
+  `project_pic` varchar(200) DEFAULT NULL,
+  `project_state` varchar(1) DEFAULT NULL,
+  `project_index` varchar(1) DEFAULT NULL,
+  `project_index_reason` varchar(20) DEFAULT NULL,
+  `project_info_state` varchar(1) DEFAULT NULL,
+  `project_info` text,
+  `project_time_add` datetime NOT NULL,
+  `project_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`project_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_ptype` (
+  `ptype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ptype_uniacid` int(11) DEFAULT NULL,
+  `ptype_businessid` int(11) DEFAULT NULL,
+  `ptype_title` varchar(100) DEFAULT NULL,
+  `ptype_order` int(11) DEFAULT NULL,
+  `ptype_time_add` datetime NOT NULL,
+  `ptype_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`ptype_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_scomment` (
+  `scomment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `scomment_uniacid` int(11) NOT NULL,
+  `scomment_openid` varchar(100) NOT NULL,
+  `scomment_nickname` varchar(20) DEFAULT NULL,
+  `scomment_avatar` varchar(200) DEFAULT NULL,
+  `scomment_staffid` int(11) NOT NULL,
+  `scomment_tag` text NOT NULL,
+  `scomment_level` varchar(1) NOT NULL,
+  `scomment_content` text NOT NULL,
+  `scomment_time_add` datetime NOT NULL,
+  `scomment_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`scomment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_scommenttag` (
+  `scommenttag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `scommenttag_uniacid` int(11) NOT NULL,
+  `scommenttag_order` int(11) NOT NULL,
+  `scommenttag_title` varchar(20) DEFAULT NULL,
+  `scommenttag_time_add` datetime NOT NULL,
+  `scommenttag_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`scommenttag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_settle` (
+  `settle_id` int(11) NOT NULL AUTO_INCREMENT,
+  `settle_uniacid` int(11) NOT NULL,
+  `settle_businessid` int(11) NOT NULL,
+  `settle_total` varchar(100) DEFAULT NULL,
+  `settle_state` char(1) DEFAULT NULL,
+  `settle_time_add` datetime NOT NULL,
+  `settle_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`settle_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_show` (
+  `show_id` int(11) NOT NULL AUTO_INCREMENT,
+  `show_uniacid` int(11) NOT NULL,
+  `show_order` int(11) NOT NULL,
+  `show_typeid` int(11) NOT NULL,
+  `show_pic` varchar(200) DEFAULT NULL,
+  `show_url` varchar(200) DEFAULT NULL,
+  `show_time_add` datetime NOT NULL,
+  `show_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`show_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_showtype` (
+  `showtype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `showtype_uniacid` int(11) NOT NULL,
+  `showtype_order` int(11) NOT NULL,
+  `showtype_title` varchar(10) NOT NULL,
+  `showtype_time_add` datetime NOT NULL,
+  `showtype_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`showtype_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_staff` (
+  `staff_id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_uniacid` int(11) NOT NULL,
+  `staff_businessid` int(11) DEFAULT NULL,
+  `staff_name` varchar(100) DEFAULT NULL,
+  `staff_jobname` varchar(100) DEFAULT NULL,
+  `staff_nickname` varchar(100) DEFAULT NULL,
+  `staff_openid` varchar(100) DEFAULT NULL,
+  `staff_tel` varchar(50) DEFAULT NULL,
+  `staff_gender` varchar(1) DEFAULT NULL,
+  `staff_avatar` varchar(200) DEFAULT NULL,
+  `staff_pic` varchar(200) DEFAULT NULL,
+  `staff_info` text,
+  `staff_pointnumber` varchar(10) DEFAULT NULL,
+  `staff_time_add` datetime NOT NULL,
+  `staff_time_update` datetime DEFAULT NULL,
+  `staff_codeurl` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`staff_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_store` (
+  `store_id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_uniacid` int(11) NOT NULL,
+  `store_businessid` int(11) DEFAULT NULL,
+  `store_circleid` int(11) DEFAULT NULL,
+  `store_name` varchar(100) DEFAULT NULL,
+  `store_pic` varchar(200) DEFAULT NULL,
+  `store_tel` varchar(50) DEFAULT NULL,
+  `store_admin_openid` varchar(100) DEFAULT NULL,
+  `store_admin_name` varchar(100) DEFAULT NULL,
+  `store_address` varchar(200) DEFAULT NULL,
+  `store_card_count` int(11) DEFAULT NULL,
+  `store_log` varchar(20) DEFAULT NULL,
+  `store_lat` varchar(20) DEFAULT NULL,
+  `store_index` varchar(1) DEFAULT NULL,
+  `store_index_reason` varchar(20) DEFAULT NULL,
+  `store_info` text,
+  `store_typeid` int(11) DEFAULT NULL,
+  `store_comment_state` char(1) DEFAULT NULL,
+  `store_time_add` datetime NOT NULL,
+  `store_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`store_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_storetype` (
+  `storetype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `storetype_uniacid` int(11) DEFAULT NULL,
+  `storetype_title` varchar(100) DEFAULT NULL,
+  `storetype_img` varchar(200) DEFAULT NULL,
+  `storetype_type` char(1) DEFAULT NULL,
+  `storetype_url` varchar(200) DEFAULT NULL,
+  `storetype_state` varchar(50) DEFAULT NULL,
+  `storetype_order` int(11) DEFAULT NULL,
+  `storetype_time_add` datetime NOT NULL,
+  `storetype_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`storetype_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_switch` (
+  `switch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `switch_uniacid` int(11) DEFAULT NULL,
+  `switch_staffid` int(11) DEFAULT NULL,
+  `switch_datingid` text,
+  `switch_day` date DEFAULT NULL,
+  `switch_day_start` varchar(20) DEFAULT NULL,
+  `switch_day_end` varchar(20) DEFAULT NULL,
+  `switch_state` varchar(1) DEFAULT NULL,
+  `switch_together` varchar(1) DEFAULT NULL,
+  `switch_time_add` datetime NOT NULL,
+  `switch_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`switch_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_vip` (
+  `vip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vip_uniacid` int(11) DEFAULT NULL,
+  `vip_cardid` int(11) DEFAULT NULL,
+  `vip_openid` varchar(50) DEFAULT NULL,
+  `vip_number` varchar(100) DEFAULT NULL,
+  `vip_money` decimal(10,2) DEFAULT NULL,
+  `vip_credit1` int(11) DEFAULT NULL,
+  `vip_credit_state` varchar(1) DEFAULT NULL,
+  `vip_pay` varchar(1) DEFAULT NULL,
+  `vip_type` varchar(1) DEFAULT NULL,
+  `vip_time_add` datetime NOT NULL,
+  `vip_time_update` datetime DEFAULT NULL,
+  `vip_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`vip_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_visitlog` (
+  `visitlog_id` int(11) NOT NULL AUTO_INCREMENT,
+  `visitlog_uniacid` int(11) NOT NULL,
+  `visitlog_archiveid` int(11) NOT NULL,
+  `visitlog_staffid` int(11) NOT NULL,
+  `visitlog_content` text NOT NULL,
+  `visitlog_time_add` datetime NOT NULL,
+  `visitlog_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`visitlog_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_visittpl` (
+  `visittpl_id` int(11) NOT NULL AUTO_INCREMENT,
+  `visittpl_uniacid` int(11) NOT NULL,
+  `visittpl_typeid` int(11) NOT NULL,
+  `visittpl_order` int(11) NOT NULL,
+  `visittpl_content` text NOT NULL,
+  `visittpl_time_add` datetime NOT NULL,
+  `visittpl_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`visittpl_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_visittype` (
+  `visittype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `visittype_uniacid` int(11) NOT NULL,
+  `visittype_typeid` int(11) NOT NULL,
+  `visittype_order` int(11) NOT NULL,
+  `visittype_title` varchar(20) NOT NULL,
+  `visittype_time_add` datetime NOT NULL,
+  `visittype_time_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`visittype_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wxlm_appointment_work` (
+  `work_id` int(11) NOT NULL AUTO_INCREMENT,
+  `work_uniacid` int(11) DEFAULT NULL,
+  `work_businessid` int(11) DEFAULT NULL,
+  `work_adminid` varchar(50) DEFAULT NULL,
+  `work_module` varchar(100) DEFAULT NULL,
+  `work_action` varchar(1) DEFAULT NULL,
+  `work_time_add` datetime NOT NULL,
+  PRIMARY KEY (`work_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_wxlm_appointment_ad`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_admin`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_archive`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_business`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_card`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_circle`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_collection`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_comment`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_config`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_consume`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_dating`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_fabulous`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_march`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_order`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_orderrefund`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_project`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_ptype`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_scomment`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_scommenttag`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_settle`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_show`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_showtype`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_staff`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_store`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_storetype`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_switch`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_vip`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_visitlog`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_visittpl`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_visittype`;
+DROP TABLE IF EXISTS `ims_wxlm_appointment_work`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

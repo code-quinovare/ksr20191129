@@ -1,0 +1,65 @@
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约标题</label>
+                    <div class="col-xs-12 col-sm-9">
+                    	<p class="form-control-static">{$activity['title']}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约说明</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static">{$activity['description']}</p>
+                    </div>
+                </div>
+                     <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">成功提示</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static">{$activity['information']}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">图片介绍</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static"><img src="{php echo tomedia($activity['thumb']);}" style="height:150px;" /></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">创建时间</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static">{php echo date('Y-m-d H:i:s', $activity['createtime']);}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">开始时间~结束时间</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static">{php echo date('Y-m-d H:i:s', $activity['starttime']);} ~ {php echo date('Y-m-d H:i:s', $activity['endtime']);}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+                    <div class="col-xs-12 col-sm-9">
+                    	<label>
+							<p class="form-control-static">
+							{if $activity['status'] == '1'}
+								<i class="fa fa-check"> &nbsp; 当前预约生效中</i>
+							{else}
+								<i class="fa fa-check-empty"> &nbsp; 当前预约已失效</i>
+							{/if}
+							</p>
+						</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微站首页展示</label>
+                    <div class="col-xs-12 col-sm-9">
+                  		<label>
+							<p class="form-control-static">
+							{if $activity['inhome'] == '1'}
+								<i class="fa fa-check"> &nbsp; 当前预约将展示在微站首页上</i>
+							{else}
+								<i class="fa fa-check-empty"> &nbsp; 当前预约不显示在微站首页</i>
+							{/if}
+							</p>
+						</label>
+                    </div>
+				</div>

@@ -1,0 +1,165 @@
+
+	<div class="" style="position:relative;margin-top:-10px;height:17em;">
+		<div class="weui_panel" style="background-color:#f0f0f0;">
+			<div class="weui-img-box" style="height:9rem;overflow:hidden;">
+				<div class="m-img">
+					<img src="{if !empty($activity['thumb'])}{php echo tomedia($activity['thumb'])}{else}{php echo tomedia($setting['memberbg'])}{/if}" class="img-max" style="width:100%;">
+				</div>
+			</div>
+			<span class="weui_btn f14 weui_btn_mini {$status['css']}" style="position:absolute;top:20px;left:20px;">{$status['name']}</span>
+			{if $activity['isdel']==1 && ($row['status'] == 0 || $row['status'] == 2) && $row['paystatus']!=2}
+				<a href="javascript:void(0);" id="changeAjax" class="weui_btn weui_btn_mini right weui_btn_warn" style="position:absolute;top:5px;right:20px;">删除</a>
+			{/if}
+			{if $row['status']=='8'}
+				<span class="weui_btn weui_btn_mini bg-blue" onclick="location.href='{php echo $this->createMobileUrl('edit', array('reid' => $reid, 'rerid' => $id))}'" style="position:absolute;top:5px;right:20px;">
+					<svg class="icon f-white" aria-hidden="true"><use xlink:href="#icon-edit"></use></svg>修改
+				</span>
+			{/if}
+		</div>
+		<div class="weui_panel radius-md" style="position:absolute;top:3rem;left:4%;width:92%;height:215px;">
+			<div class="weui_panel_bd" id="comment">
+				<div class="weui_media_box weui_media_appmsg">
+					<div class="weui_media_bd">
+						<h4 class="weui_media_title"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-member1"></use></svg> {$row['member']} {$row['mobile']}</h4>
+						{if $row['address'] && $activity['is_addr']==1}
+							<p class="weui_media_desc -wrap f-black">地址：{$row['address']}</p>
+						{/if}
+					</div>
+				</div>
+            </div>
+			<div class="weui-form-preview">
+				<div class="weui-form-preview-bd">
+				{if $activity['is_time']!='1'}
+					<p>
+						<label class="weui-form-preview-label"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jihuajindu"></use></svg> {$par['yuyuename']}</label>
+						<span class="weui-form-preview-value">{$yuyuetime}</span>
+					</p>
+				{/if}
+					<p>
+						<label class="weui-form-preview-label"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xinzeng"></use></svg> {$par['xmname']}</label>
+						<span class="weui-form-preview-value">{$xiangmu['title']}{if $xiangmu['type']==1} <svg class="icon" aria-hidden="true"><use xlink:href="#icon-renminbi"></use></svg>{$xiangmu['prices']}{/if}{if $row['num'] > 1} × {$row['num']}{/if}</span>
+					</p>
+				{if $row['transid']}
+					<p>
+						<label class="weui-form-preview-label"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-wancheng"></use></svg> 支付单号</label>
+						<span class="weui-form-preview-value">{$row['transid']}</span>
+					</p>
+				{/if}
+					<p>
+						<label class="weui-form-preview-label"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jihua"></use></svg> 订单编号</label>
+						<span class="weui-form-preview-value">{$row['ordersn']}</span>
+					</p>
+					<p>
+						<label class="weui-form-preview-label"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chulizhong"></use></svg> 下单时间</label>
+						<span class="weui-form-preview-value">{php echo date('Y-m-d H:i:s', $row['createtime'])}</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+		{if !empty($par['comment']) && pdo_tableexists('dayu_comment') && empty($row['commentid']) && $row['status'] == 3}
+			<div class="weui_opr_area" id="postscore">
+				<p class="weui_btn_area">
+					<span onclick="postscore(this,0)" class="weui_btn weui_btn_primary">评价打分</span>
+				</p>
+			</div>
+		{/if}
+	{if !empty($activity['store']) && !empty($row['sid'])}
+		<div class="weui_panel weui_panel_access">
+			<a class="weui_panel_bd" href="{php echo murl('entry', array('do' => 'detail', 'id' => $row['sid'], 'm' => 'dayu_yuyuepay_plugin_store'), true, true)}">
+				<div class="weui_media_box weui_media_appmsg">
+					<div class="weui_media_hd">
+						<img class="weui_media_appmsg_thumb" src="{php echo tomedia($store['thumb'])}" alt="">
+					</div>
+					<div class="weui_media_bd">
+						<h4 class="weui_media_title">{$store['name']}</h4>
+						<p class="weui_media_desc -wrap"><span class="ico_scored"><strong class="score_{$store['score_num']}"></strong></span></p>
+						<p class="weui_media_desc -wrap">
+						{$store['mobile']}
+						</p>
+					</div>
+				</div>
+			</a>
+			<div class="weui_cell" onclick="Location({$row['sid']})">
+				<div class="weui_cell_bd weui_cell_primary -wrap ell f14">
+					<svg class="icon center" aria-hidden="true">
+						<use xlink:href="#icon-Geo-fence"></use>
+					</svg>
+					{$store['loc_p']}{$store['loc_c']}{$store['loc_a']}{$store['address']}
+				</div>
+			</div>
+		</div>
+	{/if}
+	<div class="weui_opr_area" style="margin:20px 0;">
+		{if $row['paystatus'] == 1 && $row['status'] != 9 && $offline != 9}
+			{if $row['outtime'] <= TIMESTAMP}
+				<p class="weui_btn_area">
+					<span class="weui_btn weui_btn_disabled weui_btn_default"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close"></use></svg> 超时未付款，此订单已失效</span>
+				</p>
+			{else}
+				<p class="weui_btn_area">
+					<a href="{php echo $this->createMobileUrl('pay', array('orderid' => $row['rerid'],'weid'=>$weid,'id'=>$id))}" class="weui_btn weui_btn_primary">现在去付款</a>
+				</p>
+			{/if}
+		{elseif $row['paystatus'] == 2 && $activity['code'] == 1 && ($row['status'] == '0' || $row['status'] == '1')}
+			<p class="weui_btn_area">
+				<a href="javascript:;" class="weui_btn bg-blue" id="sa">出示二维码</a>
+			</p>
+		{else if $row['paystatus'] == 2 && $row['status'] == 0}
+			<p class="weui_btn_area">
+				<span class="weui_btn bg-blue">已支付，请等待客服受理</span>
+			</p>
+		{else if $row['status'] == 0 && $row['paystatus'] == 1}
+			<p class="weui_btn_area">
+				<a href="javascript:;" class="weui_btn weui_btn_warn" id="cancel">取 消 订 单</a>
+			</p>
+		{/if}
+	</div>
+	<ul class="weui-payrec" style="margin-top:10px;">
+		<div class="weui-pay-m">
+			<div class="weui-pay-area">
+				<div class="weui-pay-c f18 f-orange">
+					{if $xiangmu['type']==1}
+						<svg class="icon" aria-hidden="true"><use xlink:href="#icon-ding"></use></svg>
+					{else}
+						<svg class="icon" aria-hidden="true"><use xlink:href="#icon-renminbi"></use></svg>
+					{/if}
+					{$row['price']}
+				</div>
+				{if !empty($row['paytypes'])}
+				<div class="weui-pay-c">
+					<span class="f-{$row['css']}">{$row['paytypes']}</span>
+				</div>
+				{/if}
+				<div class="weui-pay-v f18">{if $row['price']=='0.00'}免费预约{else}{if $row['paystatus'] == 1}未付款{elseif $row['paystatus'] == 2}已付款{/if}{/if}</div>
+			</div>
+			<li class="weui-pay-order" style="padding-top:0px;">
+			{loop $ds $fid $ftitle}
+				<dl class="weui-pay-line">
+					<dt class="weui-pay-label">{$ftitle['fid']}</dt>
+					<dd class="weui-pay-e">
+						{if in_array($ftitle['type'], array('image', 'photograph'))}
+							{if $row['fields'][$fid]}
+								<image class="weui_uploader_file weui_uploader_status" id="p{$fid}" src="{php echo tomedia($row['fields'][$fid]);}" height="50">
+								<script>
+								document.querySelector('#p{$fid}').onclick = function () {
+									wx.previewImage({
+										current: '{php echo tomedia($row['fields'][$fid]);}',
+										urls: [
+										'{php echo tomedia($row['fields'][$fid]);}'
+										]
+									});
+								};
+								</script>
+							{else}
+								未上传
+							{/if}
+						{else}
+							{if !empty($row['fields'][$fid])}{$row['fields'][$fid]}{else}未填{/if}
+						{/if}
+					</dd>
+				</dl>
+			{/loop}
+			</li>
+		</div>
+	</ul>

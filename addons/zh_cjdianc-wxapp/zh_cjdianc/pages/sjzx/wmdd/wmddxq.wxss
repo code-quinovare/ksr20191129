@@ -1,0 +1,6 @@
+@import "../../wddd/ddxq.wxss";
+
+.ddxh {
+    font-size: 38rpx;
+    margin-right: 20rpx;
+}

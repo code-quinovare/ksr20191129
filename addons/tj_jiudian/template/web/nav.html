@@ -1,0 +1,160 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $_GPC['action'] == ''}class="active"{/if}
+    ><a href="{php echo $this->createWebUrl('Nav', array('action' => ''));}">底部菜单列表</a>
+    </li>
+    <li {if $_GPC['action'] == 'add'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('Nav', array('action' => 'add'));}">添加底部菜单</a>
+    </li>
+</ul>
+{if $_GPC['action'] == ''}
+<div class="main panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+            <tr>
+                <th style="width:70px;">排序</th>
+                <th style="width:120px;">菜单名称</th>
+                <th style="width:120px;">菜单图标</th>
+                <th style="">菜单链接</th>
+                <th style="width:100px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $set $v}
+            <tr>
+                <td>{$v['rank']}</td>
+                <td>{$v['title']}</td>
+                <td><img src="{php echo tomedia($v['logo'])}" width="30px" height="30px"></td>
+                <td>{$v['url']}</td>
+                <td style="text-align:left;">
+                    <a href="{php echo $this->createWebUrl('Nav',array('action'=>'up_caidan', 'id' => $v['id']));}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="修改"><i class="fa fa-edit"></i></a>
+                    <a href="{php echo $this->createWebUrl('Nav',array('action'=>'del_caidan', 'id' => $v['id']));}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/if}
+{if $_GPC['action'] == 'add'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        底部菜单设置
+    </div>
+    <form action="{php echo $this->createWebUrl('Nav',array('action'=>'add'))}" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top:6px;">菜单名称</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id='' name="title" class="form-control" value="{$cai['title']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id='' name="rank" class="form-control" value="{$cai['rank']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">图标</label>
+                <div class="col-sm-9 col-xs-12">
+                    {php echo tpl_form_field_image('logo',$cai['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">菜单链接</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" name="url" class="form-control" value="{$cai['url']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top:50px;">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-9 col-xs-12">
+                    <input name="submit" type="submit" value="提交" class="btn btn-primary span3"> <input type="hidden" name="token" value="acc13145"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        链接地址
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top:6px;">首页</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id='oldlist' name="title" class="form-control"
+                       value="{php echo $_W['siteroot']}app/index.php?i={php echo $_W['account']['acid']}&c=entry&do=Index&m=tj_jiudian"/>
+                <span class="help-block"></span>
+            </div>
+           
+
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top:6px;">订单</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id='listcar' name="title" class="form-control"
+                       value="{php echo $_W['siteroot']}app/index.php?i={php echo $_W['account']['acid']}&c=entry&action=order_list&do=Index&m=tj_jiudian"/>
+                <span class="help-block"></span>
+            </div>
+
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top:6px;">评价</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id='listcar' name="title" class="form-control"
+                       value="{php echo $_W['siteroot']}app/index.php?i={php echo $_W['account']['acid']}&c=entry&action=pinglun&do=Index&m=tj_jiudian"/>
+                <span class="help-block"></span>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{if $_GPC['action'] == 'up_caidan'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        编辑菜单
+    </div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit='return formcheck()'>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top:6px;">菜单名称</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id='' name="title" class="form-control" value="{$cai['title']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id='' name="rank" class="form-control" value="{$cai['rank']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">图标</label>
+                <div class="col-sm-9 col-xs-12">
+                    {php echo tpl_form_field_image('logo',$cai['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">菜单链接</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" name="url" class="form-control" value="{$cai['url']}"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top:50px;">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-9 col-xs-12">
+                    <input name="submit" type="submit" value="提交" class="btn btn-primary span3"> <input type="hidden" name="token" value="acc13145"/>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+{/if}
+{template 'common/footer'}

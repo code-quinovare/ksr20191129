@@ -1,0 +1,22 @@
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="date" class="weui_label {if $fields['essential']}weui-start{/if}">{$fields['title']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<input type="text" class="weui_input" id="{$fields['refid']}" name="field_{$fields['refid']}_{$fields['bind']}" placeholder="{$fields['tixing']}" value="" {if $fields['essential']}required tips="{$fields['tixing']}"{/if}>
+			</div>
+		</div>
+	<script>
+		$("#{$fields['refid']}").picker({
+			title: "请选择{$fields['title']}",
+			cols: [
+			{
+				textAlign: 'center',
+				values: [
+					{loop $fields['options'] $like $v}
+					'{$v}',
+					{/loop}
+				]
+			}
+        ]
+	});
+    </script>

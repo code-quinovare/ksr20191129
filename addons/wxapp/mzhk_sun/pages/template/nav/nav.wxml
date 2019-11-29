@@ -1,0 +1,27 @@
+<template name="tabBartwo">
+    <view class="tab">
+        <view class="tabnav">
+            <view bindtap="gotoadinfo" class="tablist" data-id="{{item.pop_urltxt}}" data-tid="{{item.pop_urltype}}" style="{{item.pop_urltype==whichonetwo?'color: '+(item.selectedColor?item.selectedColor:tabBar.selectedColor):''}}" wx:for="{{tabBar.list}}">
+                <image class="tabimg" src="{{item.url}}{{item.pop_img}}" wx:if="{{item.pop_urltype!=23&&item.pop_urltype==whichonetwo}}"></image>
+                <image class="tabimg" src="{{item.url}}{{item.unselectimg}}" wx:if="{{item.pop_urltype!=23&&item.pop_urltype!=whichonetwo}}"></image>
+                <button openType="contact" wx:if="{{item.pop_urltype==23}}">
+                    <image class="tabimg" src="{{item.url}}{{item.pop_img}}" wx:if="{{item.pop_urltype==whichonetwo}}"></image>
+                    <image class="tabimg" src="{{item.url}}{{item.unselectimg}}" wx:if="{{item.pop_urltype!=whichonetwo}}"></image>
+                    <view>{{item.pop_title}}</view>
+                </button>
+                <text wx:if="{{item.pop_urltype!=23}}">{{item.pop_title}}</text>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="tabBar">
+    <view class="tab">
+        <view class="tabnav">
+            <navigator class="tablist" openType="redirect" style="{{index==whichone?'color: '+(item.selectedColor?item.selectedColor:tabBar.selectedColor):''}}" url="{{item.pagePath}}" wx:for="{{tabBar.list}}">
+                <image class="tabimg" src="{{item.selectedIconPath}}" wx:if="{{index==whichone}}"></image>
+                <image class="tabimg" src="{{item.iconPath}}" wx:if="{{index!=whichone}}"></image>
+                <text>{{item.text}}</text>
+            </navigator>
+        </view>
+    </view>
+</template>

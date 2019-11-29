@@ -1,0 +1,12 @@
+		</div>
+		<!-- 底部导航 -->
+		<div class="foot_box">
+			<ul class="fixed_bottom">
+				<a href="{php echo $this->createMobileUrl('index')}"><li {if $_GPC['do']=='index'}class="font_ff5f27"{/if}><span class="ti-align-justify"></span>接任务</li></a>
+				<a href="{php echo $this->createMobileUrl('pub')}"><li {if $_GPC['do']=='pub' || $_GPC['do']=='pub'}class="font_ff5f27"{/if}><span class="ti-hand-stop"></span>发任务</li></a>
+				<a href="{php echo $this->createMobileUrl('find')}"><li {if $_GPC['do']=='find'}class="font_ff5f27"{/if}><span class="ti-zoom-in"></span>找人</li></a>
+				<a href="{php echo $this->createMobileUrl('user')}"><li {if $_GPC['do']=='user'}class="font_ff5f27"{/if}><span class="ti-user"></span>我的</li></a>
+			</ul>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,182 @@
+{template 'weheader'}
+<script type="text/javascript" src="{TEMPLATE_WEUI}js/dropload.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	var rhtml = '<span class="weui-badge" style="position: absolute;top: 2px;right: 2px;">{$total}</span>';
+	$('.weui_bar_item_on').append(rhtml);
+});
+</script>
+<style>
+a{color:#333;}
+.weui_tabbar_item {position: relative;}
+.weui_tabbar_item svg{vertical-align: middle;}
+.weui_media_appmsg_thumb{color:#e3f2fd;}
+.weui_media_bd .weui_media_desc{line-height:20px;}
+.dayu-badge{padding:5px 8px;}
+</style>
+{if $reid}
+	<div class="weui-header bg-blue"> 
+		<div class="weui-header-left">
+			<svg class="icon" aria-hidden="true"><use xlink:href="#icon-menu"></use></svg> <span id="showLeftPush">菜单</span>
+		</div>
+		<div class="weui-header-title">
+			{$sub_title}
+		</div>
+		<div class="weui-header-right">
+			
+		</div>
+	</div>
+	<div class="weui_tab_bd">
+		<div class="order">
+		</div>
+	</div>
+	<script id="tpl" type="text/html">
+	<% for(var i in list) { %>
+		<div class="weui_panel weui_panel_access" onclick="location.href='<%=list[i].murl%>'">
+			<div class="weui_panel_bd">
+				<div class="weui_media_box weui_media_appmsg">
+					<div class="weui_media_hd">
+						<span class="weui_media_appmsg_thumb"><img class="weui_media_appmsg_thumb circle" src="<%=list[i].thumb%>" alt=""></span>
+					</div>
+					<div class="weui_media_bd">
+						<h4 class="weui_media_title">
+							<%=list[i].realname%> <small><%=list[i].mobile%></small>
+						</h4>
+						<p class="weui_media_desc dayu-gray">
+							<svg class="icon" aria-hidden="true"><use xlink:href="#icon-flow_chart"></use></svg> <%=list[i].xmname%>: <%=list[i].item.title%><%=list[i].num%>
+						</p>
+						<p class="weui_media_desc dayu-gray">
+							<svg class="icon" aria-hidden="true"><use xlink:href="#icon-clock1"></use></svg> <%=list[i].yuyuename%>: <%=list[i].time%>
+						</p>
+					</div>
+				</div>
+				<div class="weui_cell">
+					<div class="weui_cell_hd f-orange">
+						<%=list[i].price%>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary tright">
+						<%=list[i].paytype%>
+						<%=list[i].paystatus%>
+						<span class="dayu-badge <%=list[i].status.css%>"><%=list[i].status.name%></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% } %>
+	</script>
+<div class="tab-bottom">
+	<div class="weui_tabbar">
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay',array('id' => $reid, 'period' => $period, 'sid' => $sid))}" class="weui_tabbar_item {if $_GPC['status'] == ''}weui_bar_item_on{/if}">
+			<div class="weui_tabbar_icon">
+				<svg class="icon" aria-hidden="true"><use xlink:href="#icon-all"></use></svg>
+			</div>
+			<p class="weui_tabbar_label">全部</p>
+		</a>
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay',array('id' => $reid, 'status'=>0, 'period' => $period, 'sid' => $sid))}" class="weui_tabbar_item {if $_GPC['status'] == '0'}weui_bar_item_on{/if}">
+			<div class="weui_tabbar_icon">
+				<svg class="icon" aria-hidden="true"><use xlink:href="#icon-time"></use></svg>
+			</div>
+			<p class="weui_tabbar_label">{php echo($this->get_status_name($reid,'0'))}</p>
+		</a>
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay',array('id' => $reid, 'status'=>1, 'period' => $period, 'sid' => $sid))}" class="weui_tabbar_item {if $_GPC['status'] == '1'}weui_bar_item_on{/if}">
+			<div class="weui_tabbar_icon">
+				<svg class="icon" aria-hidden="true"><use xlink:href="#icon-service"></use></svg>
+			</div>
+			<p class="weui_tabbar_label">{php echo($this->get_status_name($reid,'1'))}</p>
+		</a>
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay',array('id' => $reid, 'status'=>2, 'period' => $period, 'sid' => $sid))}" class="weui_tabbar_item {if $_GPC['status'] == '2'}weui_bar_item_on{/if}">
+			<div class="weui_tabbar_icon">
+				<svg class="icon" aria-hidden="true"><use xlink:href="#icon-close"></use></svg>
+			</div>
+			<p class="weui_tabbar_label">{php echo($this->get_status_name($reid,'9'))}</p>
+		</a>
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay',array('id' => $reid, 'status'=>3, 'period' => $period, 'sid' => $sid))}" class="weui_tabbar_item {if $_GPC['status'] == '3'}weui_bar_item_on{/if}">
+			<div class="weui_tabbar_icon">
+				<svg class="icon" aria-hidden="true"><use xlink:href="#icon-check"></use></svg>
+			</div>
+			<p class="weui_tabbar_label">{php echo($this->get_status_name($reid,'3'))}</p>
+		</a>
+	</div>
+</div>
+
+<script>
+$(function(){
+	var page = 0;
+	var size =10;
+	var status ='{$_GPC['status']}';
+	$('.weui_tab_bd').dropload({
+		scrollArea : window,
+		autoLoad : true,//自动加载
+		domDown : {//上拉
+			domClass   : 'dropload-down',
+			domRefresh : '<div class="dropload-refresh f15 "><i class="icon icon-20"></i>上拉加载更多</div>',
+			domLoad    : '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>',
+			domNoData  : '<div class="dropload-noData">没有更多订单了</div>'
+		},
+		loadDownFn : function(me){//加载更多
+			page++;
+	//		window.history.pushState(null, document.title, window.location.href);	//加载记录页面
+			var result = '';
+			$.ajax({
+				type: 'GET',
+//				url: '{php echo $this->createMobileUrl('getdata', array('op' => 'order', 'type' => 'my'))}',
+				url: "{php echo $this->createMobileUrl('getorder', array('op' => 'member', 'type' => 'my', 'reid' => $reid))}",
+				dataType: 'json',
+				data:{page:page,size:size,status:status},
+				success: function(data){
+					var arrLen = data.list.length;
+	//				console.log(data);
+					if(arrLen > 0){
+						var tplx = document.getElementById('tpl').innerHTML;
+						var result=tpl(tplx,data);
+					}else{
+						me.lock();
+						me.noData();
+					}
+                    setTimeout(function(){
+                        $('.order').append(result);
+						me.resetload();
+					},500);
+				},
+				error: function(xhr, type){
+					$.alert('Ajax error!');
+					me.resetload();
+				}
+			});
+		}
+	});
+});
+{if pdo_tableexists('dayu_signin_activity')}
+	$.getJSON("{php echo murl('entry', array('do' => 'CheckSign', 'm' => 'dayu_signin'), true, true)}", {'reid':'{$reid}'}, function(s){
+		if (s.message.status=='1') {
+			var html = '<a href="'+s.message.link2+'">'+
+					'<svg class="icon f-white" aria-hidden="true">'+
+					'<use xlink:href="#icon-qrcode"></use>'+
+					'</svg>'+
+					'</a>';
+			$('.weui-header-right').append(html);
+		}
+	});
+{/if}
+</script>
+{php $footer_off = 1;}
+{else}
+<style>
+.dayu-header {padding: 25px 0;}
+.dayu-title {text-align: center;font-size: 25px;color: #3cc51f;font-weight: 400;margin: 0;}
+.dayu-sub-title {color: #888;padding:0 10px;font-size: 14px;text-indent:2em;}
+.dayu-content-padded {padding: 15px;}
+.dayu-second-title {text-align: center;font-size: 24px;color: #3cc51f;font-weight: 400;margin: 0 15%;}
+</style>
+    <header class='dayu-header'>
+      <h1 class="dayu-title">选择主题</h1>
+    </header>
+	
+	<div class="weui_tab_bd" style="margin:0 5%">
+	{loop $list $item}
+		<a href="{php echo $this->createMobileUrl('Mydayu_yuyuepay', array('weid' => $item[weid], 'id' => $item['reid'], 'sid' => $sid))}" class="weui_btn weui_btn_primary" style="color:#fff;">{$item['title']}</a>
+	{/loop}
+	</div>
+{/if}
+{php $share = 1;}
+{template 'footers'}

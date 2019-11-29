@@ -1,0 +1,47 @@
+{template 'common/header'}
+<style type="text/css">
+    table li{padding:5px 0;}
+    small a{color:#999;}
+	.template .item{position:relative;display:block;float:left;border:1px #ddd solid;border-radius:5px;background-color:#fff;padding:5px;width:190px;margin:0 20px 20px 0; overflow:hidden;}
+	.template .title{margin:5px auto;line-height:2em;}
+	.template .title a{text-decoration:none;}
+	.template .item img{width:178px;height:80px; cursor:pointer;}
+	.template .active.item-style img, .template .item-style:hover img{width:178px;height:80px;border:3px #009cd6 solid;padding:1px; }
+	.template .title .fa{display:none}
+	.template .active .fa.fa-check{display:inline-block;position:absolute;bottom:33px;right:6px;color:#FFF;background:#009CD6;padding:5px;font-size:14px;border-radius:0 0 6px 0;}
+	.template .fa.fa-times{cursor:pointer;display:inline-block;position:absolute;top:10px;right:6px;color:#D9534F;background:#ffffff;padding:5px;font-size:14px;text-decoration:none;}
+	.template .fa.fa-times:hover{color:red;}
+	.template .item-bg{width:100%; height:342px; background:#000; position:absolute; z-index:1; opacity:0.5; margin:-5px 0 0 -5px;}
+	.template .item-build-div1{position:absolute; z-index:2; margin:-5px 10px 0 5px; width:168px;}
+	.template .item-build-div2{text-align:center; line-height:30px; padding-top:150px;}
+	/*@media screen and (min-width:992px){#ListStyle{width:890px; margin:100px auto;}}*/
+</style>
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('display', array('op' => $_GPC['op']))}">预约列表</a></li>
+	<li><a href="{php echo $this->createWebUrl('post')}">新建预约</a></li>
+	<li><a href="{php echo $this->createWebUrl('manage', array('id' => $info['reid'], 'op' => $_GPC['op']))}">预约详情</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('detail', array('id' => $info['reid']))}">预约记录详情</a></li>
+</ul>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<ul class="nav nav-pills">
+				<li role="presentation" class="active"><a href="#tab_basic" aria-controls="tab_basic" role="tab" data-toggle="pill">预约详情</a></li>
+				<li role="presentation"><a href="#tab_post" aria-controls="tab_post" role="tab" data-toggle="pill">更新预约</a></li>
+				<li role="presentation"><a href="#tab_activity" aria-controls="tab_activity" role="tab" data-toggle="pill">预约介绍</a></li>
+			</ul>
+		</div>
+    </div>
+        <div class="we7-form">
+            <div class="panel-body">
+				<div id="tpl">
+					<div class="tab-content">
+				<div class="tab-pane active" id="tab_basic">{template 'detail_basic'}</div>
+				<div class="tab-pane" id="tab_post">{template 'detail_post'}</div>
+				<div class="tab-pane" id="tab_activity">{template 'detail_activity'}</div>
+					</div>
+				</div>        
+			</div>
+		</div>
+<!--<input type="submit" class="btn btn-primary span3" name="submit" onclick="history.go(-1)" value="返回" />-->
+
+{template 'common/footer'}

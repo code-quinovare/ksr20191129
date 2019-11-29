@@ -1,0 +1,101 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op == 'waitpay'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'waitpay'))}">提取申请列表</a></li>
+	<li {if $op == 'payed'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'payed'))}">已提取列表</a></li>	
+	<li {if $op == 'back'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'back'))}">已退回提取列表</a></li>
+	<li {if $op == 'refuse'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'refuse'))}">已拒绝提取列表</a></li>
+	<li {if $op == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'add'))}">充值增加保证金记录</a></li>
+	<li {if $op == 'admin'}class="active"{/if}><a href="{php echo $this->createWebUrl('deposit', array('op' => 'admin'))}">管理员变化记录</a></li>	
+</ul>
+{if $op == 'add' || $op == 'admin'}
+	{template '../../../addons/zofui_task/template/web/temp/depositlog'}
+{else}
+	<div class="panel panel-info">
+	    <div class="panel-heading">
+				<div class="input-group">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{if $_GPC['order']=='money'}提现金额排序
+						{elseif $_GPC['order']=='credit2'}账户余额排序
+						{elseif $_GPC['order']=='deposit'}保证金排序
+						{elseif $_GPC['order']=='dealtime'}处理时间排序
+						{else}申请时间排序{/if}
+						<span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="{php echo $this->createWebUrl('deposit',array('op'=>$_GPC['op'],'order'=>'money'))}">提现金额排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl('deposit',array('op'=>$_GPC['op'],'order'=>'credit2'))}">账户余额排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl('deposit',array('op'=>$_GPC['op'],'order'=>'deposit'))}">保证金排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl('deposit',array('op'=>$_GPC['op'],'order'=>'dealtime'))}">处理时间排序</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="{php echo $this->createWebUrl('deposit',array('op'=>$_GPC['op']))}">申请时间排序</a></li>
+					  </ul>
+					</div>
+				</div>
+		</div>
+	    <div class="panel-body table-responsive">
+	    	<form action="" method="post" class="form-horizontal">
+			<table class="table">
+				<thead class="navbar-inner">
+					<div class="col-sm-3 col-lg-1" style="text-align:left;">
+					<tr>
+						<th style="width:90px;">提取编号</th>
+						<th style="width:100px;">昵称/头像</th>
+						<th style="width:80px;">保证金余额</th>
+						<th style="width:80px;">发布数量</th>
+						<th style="width:90px;">采纳数量</th>
+						<th style="width:80px;">提取金额</th>
+						<th style="width:130px;">申请时间</th>
+						{if in_array($op,array('payed','back','refuse'))}<th style="width:130px;">处理时间</th>{/if}
+						{if $op == 'back' || $op == 'refuse'}<th style="width:120px;">理由</th>{/if}
+						<th style="width:130px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+						{loop $depositinfo $item}
+						<tr>
+							<td><input type="checkbox" name="checkbox[]"  value="{$item['id']}" />{$item['id']}</td>
+							<td><div>{$item['nickname']}</div><img width="30px" height="30px" src="{$item['avatar']}"></td>
+							<td>{$item['deposit']}</td>
+							<td>{$item['pubnumber']}</td>
+							<td>{$item['acceptnumber']}</td>
+							<td>{$item['money']}</td>
+							<td>{php echo date("Y-m-d H:i",$item['createtime'])}</td>
+							{if in_array($op,array('payed','back','refuse'))}<td>{php echo date("Y-m-d H:i",$item['dealtime'])}</td>{/if}
+							{if $op == 'back' || $op == 'refuse'}<td style="white-space: inherit;">{php echo empty($item['backreason'])?'':$item['backreason']}</td>{/if}
+							<td><a target="_blank" href="{php echo $this->createWebUrl('userinfo', array('uid' => $item['uid'],'op'=>'deposit'))}" class="btn btn-success btn-sm">查看保证金记录</a></td>
+						</tr>
+						{/loop}
+				</tbody>
+			</table>
+			<label><input type="checkbox" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});" />全选/取消</label>
+			{if $op == 'waitpay'}
+				<input class="btn btn-success" value= "批量支付" name="payall"type="submit" onclick="return confirm('此操作不可恢复，确认支付？');"/>
+				<input class="btn btn-success" value= "退回申请" name="toback"type="submit" onclick="return confirm('退回后金额将退回到用户账户中，确认退回？');"/>
+				<input class="btn btn-success" value= "拒绝支付" name="refusepay"type="submit" onclick="return confirm('确认拒绝？');"/>
+				<input value= "" style="width:200px;height:30px;" name="reason"type="text" placeholder="这里可输入退回/拒绝理由">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			{/if}
+			{if $op == 'refuse'}
+				<input class="btn btn-success" value= "恢复到申请列表" name="recover" type="submit" onclick="return confirm('恢复申请列表后可进行支付操作，确定恢复？');"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			{/if}
+			</form>
+		</div>
+		</div>
+	</div>
+{$pager}
+{/if}
+
+<script>	
+	$(function(){
+		$('tbody tr:even').css({'background':'rgb(233, 255, 238)'});
+		$('tbody tr:odd').css({'background':'rgb(255, 220, 165)'});
+	})
+</script>
+
+{template 'common/footer'}

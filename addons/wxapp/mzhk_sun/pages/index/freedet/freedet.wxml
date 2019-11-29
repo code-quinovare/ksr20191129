@@ -1,0 +1,167 @@
+<import src="/mzhk_sun/pages/wxParse/wxParse.wxml"></import>
+<view class="container">
+    <slideupshoworder Goodsid="{{id}}" orderType="6"></slideupshoworder>
+    <canvas canvasId="shareImg" class="canvas" style="width:602px;height:770px"></canvas>
+    <view>
+        <swiper autoplay="true" circular="true" duration="{{duration}}" indicatorActiveColor="#ff4422" indicatorColor="rgba(255,255,255,.7)" indicatorDots="true" interval="{{interval}}">
+            <swiper-item wx:for="{{activeList.lb_imgs}}">
+                <image class="slide-image" height="374" mode="scaleToFill" src="{{url}}{{item}}"></image>
+            </swiper-item>
+        </swiper>
+        <view bindtap="shareCanvas" class="shareBtn" type="primary">
+            <text>生成海报</text>
+        </view>
+        <view bindtap="hidden" class="preview" hidden="{{hidden}}">
+            <image mode="widthFix" src="{{prurl}}"></image>
+            <button catchtap="save" size="mini" type="primary">保存分享图</button>
+        </view>
+        <view class="opentime">
+            <view wx:if="{{activeList.lotterytype!=1}}">免单开奖时间：{{activeList.lotterytime}}</view>
+            <view wx:if="{{activeList.lotterytype==1}}">申请满{{activeList.lotterynum}}人开奖</view>
+        </view>
+        <view class="wrap">
+            <view class="wrap_up">
+                <view class="title">
+                    <text>免单</text>{{activeList.gname}}</view>
+                <button class="share" openType="share">
+                    <image class="share" src="../../../../style/images/share.png"></image>
+                    <text>分享</text>
+                </button>
+            </view>
+            <view class="wrap_down">
+                <view>
+          奖品数量：<text>{{activeList.num}}</text>份
+        </view>
+                <view>
+                    <text>{{activeList.buynum}}</text>人申请
+        </view>
+                <view class="price">
+                    <text>￥{{activeList.shopprice}}</text>
+                </view>
+            </view>
+        </view>
+        <view bindtap="toShop" class="shop" data-bid="{{activeList.bid}}">
+            <view class="shopDet">
+                <image class="shopimg" src="{{url}}{{activeList.img}}"></image>
+                <text class="shopName">{{activeList.bname}}</text>
+            </view>
+            <view class="shopDet">
+                <text class="shopHome">商家主页</text>
+                <image class="right" src="../../../../style/images/right1.png"></image>
+            </view>
+        </view>
+        <view class="activetime">
+            <view>
+        活动时间：<text class="wrap_time">{{activeList.astime}} 至 {{activeList.antime}}</text>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="process_wg" data-flag="1" wx:if="{{showgw==1}}">
+            <view class="pro_wg">
+                <image class="pro_wg_logo" src="{{url}}{{wglist.wg_img}}"></image>
+                <view class="pro_wg_title">
+                    <view>{{wglist.wg_title}}</view>
+                    <view>{{wglist.wg_directions}}</view>
+                </view>
+                <image class="pro_wg_add" src="{{wglist.wg_addicon?url+wglist.wg_addicon:'../../../../style/images/icon29.png'}}"></image>
+            </view>
+        </view>
+        <view bindtap="showwgtable" class="codemask" data-flag="0" wx:if="{{showgw==1&&wg_flag==1}}"></view>
+        <view class="code" wx:if="{{showgw==1&&wg_flag==1}}">
+            <view class="codetitle">加入群聊</view>
+            <view class="codecontent">请在客服窗口输入‘{{wglist.wg_keyword}}’</view>
+            <view class="qrcode">
+                <button openType="contact">知道了</button>
+            </view>
+        </view>
+        <view class="process">
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/process1.png"></image>
+                <text>符合条件</text>
+            </view>
+            <view class="arrow">
+                <image class="arrow" src="../../../../style/images/arrow.png"></image>
+            </view>
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/process3.png"></image>
+                <text>免费申请</text>
+            </view>
+            <view class="arrow">
+                <image class="arrow" src="../../../../style/images/arrow.png"></image>
+            </view>
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/process2.png"></image>
+                <text>申请成功</text>
+            </view>
+            <view class="arrow">
+                <image class="arrow" src="../../../../style/images/arrow.png"></image>
+            </view>
+            <view class="pro">
+                <image class="proimg" src="../../../../style/images/process4.png"></image>
+                <text>到店免单</text>
+            </view>
+        </view>
+        <view class="order-nav" wx:if="{{activeList.isOver==1&&activeList.winorder}}">
+            <view>
+                <text class="nav">免单名单</text>
+            </view>
+        </view>
+        <view class="session" wx:if="{{activeList.isOver==1&&activeList.winorder}}">
+            <view class="winning">
+                <view wx:for="{{activeList.winorder}}">
+                    <image class="uthumb" src="{{item.img}}"></image>
+                    <text>{{item.name}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="order-nav">
+            <view>
+                <text class="nav">商品详情</text>
+            </view>
+        </view>
+        <view class="session">
+            <view class="goods-det">
+                <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype>1&&activeList.is_vip==1}}">
+            <view bindtap="toIndex" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toApply" class="tobuy" data-gid="{{activeList.gid}}" wx:if="{{activeList.isOver!=1&&activeList.isJoin!=1}}">
+                <text>申请免单</text>
+            </view>
+            <view bindtap="toShop" class="tobuy" data-bid="{{activeList.bid}}" wx:if="{{activeList.isOver!=1&&activeList.isJoin==1}}">
+                <text>已申请，进店逛逛</text>
+            </view>
+            <view class="tobuy over" wx:if="{{activeList.isOver==1}}">
+                <text>活动已结束</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{activeList.is_vip!=1}}">
+            <view bindtap="toIndex" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toApply" class="tobuy" data-gid="{{activeList.gid}}" wx:if="{{activeList.isOver!=1&&activeList.isJoin!=1}}">
+                <text>申请免单</text>
+            </view>
+            <view bindtap="toShop" class="tobuy" data-bid="{{activeList.bid}}" wx:if="{{activeList.isOver!=1&&activeList.isJoin==1}}">
+                <text>已申请，进店逛逛</text>
+            </view>
+            <view class="tobuy over" wx:if="{{activeList.isOver==1}}">
+                <text>活动已结束</text>
+            </view>
+        </view>
+        <view class="navFix" wx:if="{{viptype==0&&activeList.is_vip==1}}">
+            <view bindtap="toIndex" class="toIndex">
+                <image src="../../../../style/images/index.png"></image>
+                <text>首页</text>
+            </view>
+            <view bindtap="toMember" class="tobuy" data-id="{{activeList.gid}}">
+                <text>开通会员即可购买</text>
+            </view>
+        </view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

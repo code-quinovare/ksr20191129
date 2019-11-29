@@ -1,0 +1,168 @@
+{template 'weheader'}
+<style>
+.dayu-header {padding: 25px 0;}
+.dayu-title {text-align: center;font-size: 25px;color: #3cc51f;font-weight: 400;margin: 0;}
+.dayu-sub-title {color: #888;padding:0 10px;font-size: 14px;text-indent:2em;}
+.dayu-content-padded {padding: 15px;}
+.dayu-second-title {text-align: center;font-size: 24px;color: #3cc51f;font-weight: 400;margin: 0 15%;}
+
+.weui_cell_ft i{padding:3px;width:15px;height:15px;}
+.weui_cell_primary{width:80%;}
+</style>
+	<div class="weui_tab_bd">
+		<div class="weui_panel weui_panel_access" style="margin:0;">
+			<div class="weui-img-box" style="height:10rem;">
+				<div class="m-img" style="position:relative;">
+					<img src="{if !empty($setting['memberbg'])}{php echo tomedia($setting['memberbg'])}{else}resource/images/head-bg.png{/if}" class="img-max" style="width:100%;">
+				</div>
+			</div>
+			<div class="weui_panel_bd" style="position:absolute;bottom:0;width:100%;">
+				<div class="weui_media_box weui_media_small_appmsg">
+					<div class="weui_cells weui_cells_access" style="background:rgba(255,255,255,.5);height:32px;line-height:12px;">
+						<div class="weui_cell">
+							<div class="weui_cell_hd" style="width:75px;">
+							</div>
+							<div class="weui_cell_bd weui_cell_primary -wrap ell">
+								<small class="">{$profile['resideprovince']}{$profile['residecity']}{$profile['residedist']}{$profile['address']}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="weui_panel_bd" style="position:absolute;bottom:0;overflow: hidden;">
+                <a class="weui_media_box weui_media_appmsg" href="{php echo $this->createMobileUrl('profile', array('from' => $returnUrl))}">
+                    <div class="weui_media_hd">
+                        <img class="weui_media_appmsg_thumb img-border bs" src="{$avatar}" alt="">
+                    </div>
+                    <div class="weui_media_bd weui_cell_primary">
+                        <h4 class="weui_media_title">
+							<span class="ts f25">{$_W['member']['realname']}</span>
+							<span class="f18 ts" style="margin-left:10px;">{$_W['member']['mobile']}</span>
+						</h4>
+                    </div>
+                </a>
+            </div>
+		</div>
+		<div class="weui_panel" style="margin:0;">
+			<div class="weui_grids pay">
+				<a class="weui_grid" href="{php echo url('mc/bond/credits', array('credittype' => $behavior['currency'], 'type' => 'record', 'period' => '1'))}">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-money"></use>
+						</svg>
+					</div>
+					<p class="weui_grid_label">
+						{$credits[$behavior['currency']]}
+					</p>
+				</a>
+				<a href="{php echo url('mc/bond/credits', array('credittype' => $behavior['activity'], 'type' => 'record', 'period' => '1'))}" class="weui_grid">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-credit"></use>
+						</svg>
+					</div>
+					<p class="weui_grid_label">
+						{$credits[$behavior['activity']]}
+					</p>
+				</a>
+				<a href="{$pay_url}" class="weui_grid" data-id="toast">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-recharge"></use>
+						</svg>
+					</div>
+					<p class="weui_grid_label">
+						余额充值
+					</p>
+				</a>
+				<a href="{php echo $this->createMobileUrl('myrecord')}" class="weui_grid">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-myrecord"></use>
+						</svg>
+						<span class="weui-badge" style="position: absolute;top: .6em;right: .6em;">{$countyy}</span>
+					</div>
+					<p class="weui_grid_label">
+						我的预约
+					</p>
+				</a>
+	<!--		<a href="{php echo murl('entry', array('do' => 'activity', 'op' => 'mine', 'type' => 'coupon', 'm' => 'we7_coupon'), true, true)}" class="weui_grid">	-->
+				<a href="{php echo $this->createMobileUrl('coupon', array('op' => 'mine', 'activity_type' => 'coupon'))}" class="weui_grid">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-mycoupon"></use>
+						</svg>
+						<span class="weui-badge" style="position: absolute;top: .6em;right: .6em;">{$coupon}</span>
+					</div>
+					<p class="weui_grid_label">
+						我的卡券
+					</p>
+				</a>
+	<!--		<a href="{php echo murl('entry', array('do' => 'activity', 'activity_type' => 'coupon', 'm' => 'we7_coupon'), true, true)}" class="weui_grid">	-->
+				<a href="{php echo $this->createMobileUrl('coupon', array('activity_type' => 'coupon'))}" class="weui_grid">
+					<div class="weui_grid_icon">
+						<svg class="icon f25" aria-hidden="true">
+							<use xlink:href="#icon-coupon"></use>
+						</svg>
+					</div>
+					<p class="weui_grid_label">
+						兑换卡券
+					</p>
+				</a>
+			</div>
+		</div>
+		{if !empty($setting['contact']['mobile']) || !empty($setting['contact']['address'])}
+		<div class="weui_cells_title">联系我们</div>
+        <div class="weui_cells weui_cells_access">
+			{if !empty($setting['contact']['address'])}
+				<div class="weui_cell">
+					<div class="weui_cell_hd"><svg class="icon f-orange" aria-hidden="true"><use xlink:href="#icon-Geo-fence"></use></svg></div>
+					<div class="weui_cell_bd weui_cell_primary">
+						<small>{$setting['contact']['province']}{$setting['contact']['city']}{$setting['contact']['district']}{$setting['contact']['address']}</small>
+					</div>
+					{if !empty($setting['contact']['lat'])}
+					<small class="weui_cell_ft f-black" onclick="Location(this)">导航</small>
+					{/if}
+				</div>
+			{/if}
+			{if !empty($setting['contact']['mobile'])}
+				<div class="weui_cell">
+					<div class="weui_cell_hd"><svg class="icon f-orange" aria-hidden="true"><use xlink:href="#icon-staff"></use></svg></div>
+					<div class="weui_cell_bd weui_cell_primary">
+						<small>联系客服</small>
+					</div>
+					<div class="weui_cell_ft"><a href="tel:{$setting['contact']['mobile']}" class="f-black">{$setting['contact']['mobile']}</a></div>
+				</div>
+			{/if}
+		</div>
+		{/if}
+	</div>
+	
+<script type="text/javascript">
+function Location(obj){
+	$.showLoading('正在打开微信地图');
+	wx.getLocation({
+		success: function (res) {
+			var latitude = res.latitude; 
+			var longitude = res.longitude; 
+			var url = "{php echo $this->createMobileUrl('Locate', array('op' => 'contact'))}";
+			$.post(url,'',function(dat){
+				var dat = eval("("+dat+")");
+				lat = parseFloat(dat.lat);
+				lng = parseFloat(dat.lng);
+				address= dat.address+' 电话:'+dat.mobile
+				wx.openLocation({
+					latitude: lat,
+					longitude: lng,
+					name: dat.name,
+					address: address,
+					scale: 15,
+					infoUrl: 'http://weixin.qq.com'
+				});
+			});
+			$.hideLoading();
+		}
+	});
+}
+</script>
+{template 'footers'}

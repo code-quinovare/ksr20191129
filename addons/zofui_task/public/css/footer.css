@@ -1,0 +1,20 @@
+.foot_box{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+}
+.foot_box li{
+    width: 25%;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    background: #fff;
+    font-size: 13px;
+    color: #999;
+    padding: 5px;	
+}
+.foot_box span{
+    display:block;
+    font-size: 16px;	
+}

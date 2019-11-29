@@ -1,0 +1,81 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('voucher');}">代金券列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('addvoucher');}">添加/编辑代金券</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">优惠券列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+                <th style="width:200px;">代金券名称</th>
+                 <th style="width:100px;">优惠金额</th>
+                 <th style="width:200px;">开始时间</th>
+                 <th style="width:200px;">结束时间</th>
+                 <th style="width:200px;">使用范围</th>
+                 <th style="width:80px;">查看</th>
+                 <th style="width:80px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+               
+                <td>
+                {$item['name']}
+                </td>
+                <td>
+                {$item['preferential']}
+                </td>
+                <td>
+                 {$item['start_time']}
+                </td>
+                <td>
+                {$item['end_time']}
+                </td>
+                  {if $item['voucher_type']==1}
+                  <td>
+                  <span class="label label-warning"> 仅限外卖使用</span>
+                 
+                  </td>
+                   {elseif $item['voucher_type']==2}
+                    <td>
+                    <span class="label label-info"> 仅限店内使用</span>              
+                  </td>
+                  {elseif $item['voucher_type']==3}
+                    <td>
+                    <span class="label label-default">两者都可使用</span> 
+                  </td>
+                   {/if}
+                    <td>
+                <a href="{php echo $this->createWebUrl('addvoucher',array('id'=>$item['id']));}">编辑</a>
+                </td>
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('delvoucher', array('id'=>$item['id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+               
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              {/loop}
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加代金券
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+
+
+{template 'common/footer'}

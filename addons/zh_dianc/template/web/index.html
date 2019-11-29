@@ -1,0 +1,628 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .yg9_content{padding:0px;font-size: 12px;}
+    .yg9_content>li{padding-left: 0px;margin-top: 15px;}
+    .yg9_content>li:nth-child(2)>.col-md-12{
+        border:1px solid #eee;
+    }
+    .gkfour,.gkthree{
+        padding: 8px 0px;
+        border:1px solid #eee;
+    }
+    .gkfour{margin-top: 10px;}
+    .gkbackimg,.backimg{text-align: center;}
+    .backimg>img{
+        width: 40px;
+        height: 40px;
+        margin-top: 17px;
+    }
+    .gkbackimg>img{
+        width: 40px;
+        height: 40px;
+        margin-top: 17px;
+    }
+    .datanum{line-height: 23px;}
+    .datanum2{line-height: 35px;font-size: 16px;text-align: center;}
+    .datanum3{padding: 15px 15px 0px;border:1px solid #eee;}
+    .tmoney{font-size: 26px;text-align: center;}
+    .today{font-size: 14px;text-align: center;cursor: pointer;}    
+    .todaybox2,.todaybox3,.todaybox4,.todaybox1{position: absolute;left: -10%;top: -22px;z-index: 10;width: 200px;height: 65px;padding: 10px;
+        background-color: rgba(0,0,0,0.7);border-radius: 6px;color: white;font-size: 12px;text-indent: 1em;display: none;}
+    .arrow-down{width: 0;height: 0;border-bottom: 10px solid rgba(0,0,0,0.7);  border-left: 10px solid transparent;transform: rotate(45deg);
+        position: absolute;left: 50%;top: 60px;
+    }
+    .gkborder{margin-top: 15px;}
+    .gkborder2{margin-top: 16px;}
+    .gkborder2,.gkborder{border-top: 1px solid #eee;padding: 20px 0px;border-bottom-right-radius: 6px;border-bottom-left-radius: 6px;}
+    .gkborder>li{padding: 10px 5px 10px 5px;text-align: center;}
+    .gkborder2>li{padding: 9px 5px;text-align: center;}
+    .gkborder2>li:nth-child(3),.gkborder2>li:nth-child(1),.gkborder>li:nth-child(1){border-right: 1px solid #eee;}
+    .gkborder2>li:nth-child(2),.gkborder>li:nth-child(2){border-right: 1px solid #eee;}
+    .gkfont1{line-height: 30px;font-weight: bold;}
+    .gkfont2{line-height: 30px;font-size: 12px;}
+    .gktitle{padding-left: 30px;font-size: 12px;}
+    .ygxian{width: 3px;height: 17px;float:left;background-color: #44ABF7;margin-top: 6px;border:none;}
+       
+
+    .list_one{padding-right: 30px;}
+    .list_one>li{
+      width: 100%;
+      height: 54px;
+      border-bottom: 1px solid #E5E5E5;
+      color: #666666;
+      padding-top: 25px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .list_one>li>div:nth-child(1){float: left;}
+    .list_one>li>div:nth-child(2){float: right;}
+    .list_one_num{color: #ff6161;}
+    .yg9_quie{
+      padding: 0px 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-align-items: center;
+      -webkit-justify-content: space-between;
+    }
+    .yg9_quie>li{
+      font-size: 14px;
+      color: #666666;
+      font-weight: bold;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-flex-direction: column;
+      -webkit-align-items: center;
+      -webkit-align-items: center;
+    }
+    .yg9_quie>a>li>p{margin-top: 9px;text-align: center;}
+    .yg9_quie>a>li>img{height: 72px;width: 72px;}
+    .content_seller{
+          margin-top: 20px;
+          height: 230px;
+        }
+      .content_seller_left{
+          height: 200px;          
+      }
+      .seller_red{color: #ff6161;font-size: 20px;}
+      .seller_text{margin-top: 15px;}
+      .content_seller_ul{
+          padding: 40px 30px 0px;
+      }
+      .content_seller_ul>li{
+          float: left;
+          text-align: center;
+      }
+      .content_thing_title{
+          height: 45px;
+          background-color: #F3F3F3;
+          font-weight: bold;
+          color: #333;
+          line-height: 45px;
+          text-indent: 2em;
+          border-bottom: 1px solid #E5E5E5;
+      }
+      .yg9_left{
+        height: 200px;
+        border: 1px solid #E5E5E5;
+        background-color: white;
+      }
+</style>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-1 gkfont2">销售盘点</div>
+                    <form method="post">
+                    <div class="col-md-4">
+                        <div class="input-group" style="width: 100px">
+                            {php echo tpl_form_field_daterange('time',array(),true);}
+                            <span class="input-group-btn">
+                                <input type="submit" class="btn btn-default" name="submit" value="查找"/>
+                            </span>
+                        </div>
+                    </div>
+                     <input type="hidden" name="token" value="{$_W['token']}"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="col-md-12 yg9_content" style="margin-bottom: 10px;">
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <!-- <div class="col"></div> -->
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money1.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日完成订单</div>
+                            <div>{$ordernum}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder2">
+                            <li class="col-md-3">
+                                <div>外卖订单数</div>
+                                <div class="gkbold">{php echo count($wmres)}</div>
+                            </li>
+                            <li class="col-md-3">
+                                <div>店内订单数</div>
+                                <div class="gkbold">{php echo count($dnres)}</div>
+                            </li>
+                            <li class="col-md-3">
+                                <div>预定订单数</div>
+                                <div class="gkbold">{php echo count($ydres)}</div>
+                            </li>
+                            <li class="col-md-3">
+                                <div>当面订单数</div>
+                                <div class="gkbold">{php echo count($dmres)}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money5.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日销售总额</div>
+                            <div>¥&nbsp;{if $total}{$total}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxtotal}{$wxtotal}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuetotal}{$yuetotal}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jftotal}{$jftotal}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money3.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>昨日销售总额</div>
+                            <div>¥&nbsp;{if $total2}{$total2}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxtotal2}{$wxtotal2}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuetotal2}{$yuetotal2}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jftotal2}{$jftotal2}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money4.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>七天销售总额</div>
+                            <div>¥&nbsp;{if $total3}{$total3}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxtotal3}{$wxtotal3}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuetotal3}{$yuetotal3}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jftotal3}{$jftotal3}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>        
+        <!-- <ul class="col-md-12 yg9_content" style="margin-bottom: 10px;">
+            <li class="col-md-3" >
+              <div class="col-md-12 yg9_li">
+                  <div class="content_img">
+                      <img class="img-responsive" src="../addons/zh_dianc/template/images/money1.png" alt=""/>
+                  </div>
+                  <div class="content_text">
+                      <div>今日订单统计</div>
+                      <div>{$ordernum}</div>
+                  </div>
+              </div>
+            </li>
+            <li class="col-md-3">
+              <div class="col-md-12 yg9_li">
+                  <div class="content_img">
+                      <img src="../addons/zh_dianc/template/images/money5.png" alt=""/>
+                  </div>
+                  <div class="content_text">
+                      <div>今日销售总额</div>
+                      <div>¥{if $total}{$total}{else}0.00{/if}</div>
+                  </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="col-md-12 yg9_li">
+                    <div class="content_img">
+                        <img src="../addons/zh_dianc/template/images/money3.png" alt=""/>
+                    </div>
+                    <div class="content_text">
+                        <div>昨日销售总额</div>
+                        <div>¥{if $total2}{$total2}{else}0.00{/if}</div>
+                    </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="col-md-12 yg9_li">
+                    <div class="content_img">
+                        <img src="../addons/zh_dianc/template/images/money4.png" alt=""/>
+                    </div>
+                    <div class="content_text">
+                        <div>近7天销售总额</div>
+                        <div>¥{if $total3}{$total3}{else}0.00{/if}</div>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+         <ul class="col-md-12 yg9_content">
+            <li class="col-md-3">
+              <div class="col-md-12 yg9_li">
+                  <div class="content_img">
+                      <img class="img-responsive" src="../addons/zh_dianc/template/images/money9.png" alt=""/>
+                  </div>
+                  <div class="content_text">
+                      <div>今日外卖销售总额</div>
+                      <div>¥{if $wm['total']}{$wm['total']}{else}0.00{/if}</div>
+                  </div>
+              </div>
+            </li>
+            <li class="col-md-3">
+              <div class="col-md-12 yg9_li">
+                  <div class="content_img">
+                      <img src="../addons/zh_dianc/template/images/money7.png" alt=""/>
+                  </div>
+                  <div class="content_text">
+                      <div>今日店内销售总额</div>
+                      <div>¥{if $dn['total']}{$dn['total']}{else}0.00{/if}</div>
+                  </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="col-md-12 yg9_li">
+                    <div class="content_img">
+                        <img src="../addons/zh_dianc/template/images/money8.png" alt=""/>
+                    </div>
+                    <div class="content_text">
+                        <div>今日预约销售总额</div>
+                        <div>¥{if $yd['total']}{$yd['total']}{else}0.00{/if}</div>
+                    </div>
+                </div>
+            </li>
+            <li class="col-md-3">
+                <div class="col-md-12 yg9_li">
+                    <div class="content_img">
+                        <img src="../addons/zh_dianc/template/images/money6.png" alt=""/>
+                    </div>
+                    <div class="content_text">
+                        <div>今日当面付销售总额</div>
+                        <div>¥{if $dmf['total']}{$dmf['total']}{else}0.00{/if}</div>
+                    </div>
+                </div>
+            </li>
+            
+        </ul> -->
+        </div>        
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-1 gkfont2">销售盘点</div>
+                 <!--    <div class="col-md-4">
+                        <div class="input-group" style="width: 100px">
+                            {php echo tpl_form_field_daterange('time',array(),true);}
+                            <span class="input-group-btn">
+                                <input type="submit" class="btn btn-default" name="submit2" value="查找"/>
+                            </span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="col-md-12 yg9_content" style="margin-bottom: 10px;">
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money9.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日外卖销售总额</div>
+                            <div>¥&nbsp;{if $wm['total']}{$wm['total']}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxwm['total']}{$wxwm['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuewm['total']}{$yuewm['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jfwm['total']}{$jfwm['total']}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money7.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日店内销售总额</div>
+                            <div>¥&nbsp;{if $dn['total']}{$dn['total']}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxdn['total']}{$wxdn['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuedn['total']}{$yuedn['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jfdn['total']}{$jfdn['total']}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money8.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日预约销售总额</div>
+                            <div>¥&nbsp;{if $yd['total']}{$yd['total']}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxyd['total']}{$wxyd['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yueyd['total']}{$yueyd['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jfyd['total']}{$jfyd['total']}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-md-4">
+                    <div class="col-md-12 datanum3">
+                        <div class="col-md-6 backimg">
+                            <img src="../addons/zh_dianc/template/images/money6.png">
+                        </div>
+                        <div class="col-md-6 datanum2" style="padding: 0px;">
+                            <div>今日当面付销售总额</div>
+                            <div>¥&nbsp;{if $dmf['total']}{$dmf['total']}{else}0.00{/if}</div>
+                        </div>
+                    
+                        <ul class="col-md-12 gkborder">
+                            <li class="col-md-4">
+                                <div>微信支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $wxdmf['total']}{$wxdmf['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>余额支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $yuedmf['total']}{$yuedmf['total']}{else}0.00{/if}</div>
+                            </li>
+                            <li class="col-md-4">
+                                <div>积分支付收入</div>
+                                <div class="gkbold">¥&nbsp;{if $jfdmf['total']}{$jfdmf['total']}{else}0.00{/if}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">待处理的事物</div>
+            <div class="panel-body">  
+                <div class="col-md-12 yg9_thing">
+                    <ul class="col-md-4 list_one">
+                        <li>
+                            <div>待接单的外卖订单</div>
+                            <div>(<a href="{php echo $this->createWebUrl('inorder',array('type'=>now));}"><span class="list_one_num">{$sql6}</span></a>)</div>
+                        </li>
+                        <li>
+                            <div>待付款的店内订单</div>
+                            <div>(<a href="{php echo $this->createWebUrl('indnorder',array('type'=>wait));}"><span class="list_one_num">{$sql8}<span class="list_one_num"></a>)</div>
+                        </li>
+                        <li>
+                            <div>待审核的预定订单</div>
+                            <div>(<a href="{php echo $this->createWebUrl('inydorder',array('type'=>wait));}"><span class="list_one_num">{$sql9}</span></a>)</div>
+                        </li>
+                    </ul>
+                    <ul class="col-md-4 list_one">
+                        <li>
+                            <div>待送达的外卖订单</div>
+                            <div>(<a href="{php echo $this->createWebUrl('inorder',array('type'=>delivery));}"><span class="list_one_num">{$sql7}</span></a>)</div>
+                        </li>
+                        <li>
+                            <div>已开台的桌子</div>
+                            <div>(<a href="{php echo $this->createWebUrl('table2');}"><span class="list_one_num">{$sql11}</span></a>)</div>
+                        </li>
+                       <!--  <li>
+                            <div>待付款的订单</div>
+                            <div>(<span class="list_one_num">10</span>)</div>
+                        </li> -->
+                    </ul>
+                    <ul class="col-md-4 list_one">
+                        <li>
+                            <div>完成的外卖订单</div>
+                            <div>(<a href="{php echo $this->createWebUrl('inorder',array('type'=>complete));}"><span class="list_one_num">{$sql10}</span></a>)</div>
+                        </li>
+                        <li>
+                            <div>未开台的桌子</div>
+                            <div>(<a href="{php echo $this->createWebUrl('table2');}"><span class="list_one_num">{$sql12}</span></a>)</div>
+                        </li>
+                        <!-- <li>
+                            <div>待付款的订单</div>
+                            <div>(<span class="list_one_num">10</span>)</div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 待处理的事物 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">运营快捷入口</div>
+        <div class="panel-body">
+          <ul class="col-md-12 yg9_quie">
+          <a href="{php echo $this->createWebUrl('adddishes');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/zu.png">
+              <p>添加商品</p>
+            </li>
+            </a>
+<!--             <li class="col-md-1">
+              <img src="../addons/zh_dianc/template/images/xiaoshou.png">
+              <div>菜品管理</div>
+            </li> -->
+             <a href="{php echo $this->createWebUrl('inorder');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/dingdan.png">
+              <p>订单列表</p>
+            </li>
+             </a>
+              <a href="{php echo $this->createWebUrl('table2');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/duanxin.png">
+              <p>餐桌管理</p>
+            </li>
+            </a>
+            <a href="{php echo $this->createWebUrl('ygquan');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/yuanxing.png">
+              <p>营销管理</p>
+            </li>
+            </a>
+             <a href="{php echo $this->createWebUrl('print');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/miaosha.png">
+              <p>打印管理</p>
+            </li>
+            </a>
+             <a href="{php echo $this->createWebUrl('storeinfo');}">
+            <li class="">
+              <img src="../addons/zh_dianc/template/images/tuijian.png">
+              <p>门店信息</p>
+            </li>
+            </a>
+          </ul>
+        </div>
+    </div>
+    <!-- 运营快捷入口结束 -->
+    <!-- 商品总览 -->
+    <!-- 待处理的事物 -->
+    <div class="content_seller col-md-12" style="padding: 0px;">
+            <div class="content_seller_left col-md-6" style="padding-right: 20px;padding-left: 0px;">
+                <div class="yg9_left">
+                    <div class="content_thing_title">外卖菜品总览</div>
+                    <ul class="content_seller_ul">
+                        <li class="col-md-3">
+                            <div class="seller_red">{$sql13}</div>
+                            <div class="seller_text">已上架</div>
+                        </li>
+                        <li class="col-md-3">
+                            <div class="seller_red">{$sql14}</div>
+                            <div class="seller_text">已下架</div>
+                        </li>
+                       <!--  <li class="col-md-3">
+                            <div class="seller_red">100</div>
+                            <div class="seller_text">已下架</div>
+                        </li>
+                        <li class="col-md-3">
+                            <div class="seller_red">100</div>
+                            <div class="seller_text">已下架</div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="content_seller_left col-md-6" style="padding: 0px;">
+                <div class="yg9_left">
+                    <div class="content_thing_title">店内菜品总览</div>
+                    <ul class="content_seller_ul col-md-12">
+                        <li class="col-md-3">
+                            <div class="seller_red">{$sql15}</div>
+                            <div class="seller_text">已上架</div>
+                        </li>
+                        <li class="col-md-3">
+                            <div class="seller_red">{$sql16}</div>
+                            <div class="seller_text">已下架</div>
+                        </li>
+                       <!--  <li class="col-md-3">
+                            <div class="seller_red">100</div>
+                            <div class="seller_text">已下架</div>
+                        </li>
+                        <li class="col-md-3">
+                            <div class="seller_red">100</div>
+                            <div class="seller_text">已下架</div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+ </div>
+
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-0").addClass("in");
+        $("#frame-0").show();
+        $("#yframe-0").addClass("wyactive");
+    })
+</script>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<title>我的发布_{$setup['es_title']}</title>
+<link href="{$cssurl}iconfont.css" rel="stylesheet" />
+<link href="{$cssurl}style.css" rel="stylesheet" />
+</head>
+<body>
+<header class="header-list">
+	<dl>
+		<a href="{php echo $this->createMobileUrl('index');}" style="color:#FFF;"><dd class="back"><i class="iconfont icon-jiantou"></i></dd></a>
+		<dt>我的发布</dt>
+	</dl>
+</header>
+<SCRIPT LANGUAGE=javascript> 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</SCRIPT> 
+<section class="me_send">
+	<div>
+		<ul id="content">
+        	{loop $info $index $item}
+			<li data-type="15" data-delete="pc_save">
+                <p class="disflex p1">
+                	<a href="{php echo $this->createMobileUrl('details');}&code={$item['pci_code']}" class="flexn">
+                		<span class="s_tit">{$item['pci_chuaddress']}--&gt;{$item['pci_muaddress']}</span>
+                		<span class="s_mark">
+                        <em>
+                          {if $item['pci_type']==1}
+                          人找车
+                          {elseif $item['pci_type']==2}
+                          车找人
+                          {elseif $item['pci_type']==3}
+                          货找车
+                          {else}
+                          车找货 
+                          {/if}                   
+                       </em><em>{php echo date('Y-m-d', strtotime($item['pci_chuaddtime']))}</em><em>浏览：{$item['pci_read']}</em></span>
+                	</a>
+                </p>
+                <p class="disflex p2">
+                <span class="flexn"><i class="iconfont icon-zhiding-"></i><em><a href="{php echo $this->createMobileUrl('fabutop');}&code={$item['pci_code']}">置顶</a></em></span>
+                <span class="flexn"><i class="iconfont icon-zhiding-"></i><em><a href="{php echo $this->createMobileUrl('editcode');}&code={$item['pci_code']}" >编辑</a></em></span>
+                <span class="flexn"><i class="iconfont icon-zhiding-"></i><em><a href="{php echo $this->createMobileUrl('delcode');}&code={$item['pci_code']}" onclick="javascript:return p_del()">删除</a></em></span>
+                </p>
+			</li>
+            {/loop}
+		</ul>
+        <div class="n_load">
+            <div class="ball-clip-rotate" style="display: none;"></div>
+            <span>没有更多信息了</span>
+        </div>
+    </div>
+</section>
+<div style="height:55px;"></div>
+<section class="ey-btm-tab" style="z-index: 999">
+    <ul class="disflex ">
+      <li>
+        <a href="{php echo $this->createMobileUrl('index');}">
+          <i class="iconfont icon-shouye1 "></i>
+          <span class="es-sig ">首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="{php echo $this->createMobileUrl('fabu');}">
+          <em class="zp-fb-btn">
+            <span></span>
+            <span>发布</span>
+          </em>
+        </a>
+      </li>
+      <li>
+        <a href="{php echo $this->createMobileUrl('user');}">
+          <i class="iconfont icon-wode- "></i>
+          <span class="es-sig ">我的</span>
+        </a>
+      </li>
+    </ul>
+</section>
+</body>
+</html>

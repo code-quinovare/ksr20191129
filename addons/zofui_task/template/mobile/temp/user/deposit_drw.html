@@ -1,0 +1,44 @@
+{template 'temp/user/deposit_top'}
+	<div class="auth_auth auth_hide_class">
+		
+		<div class="weui_cells">
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">保证金余额</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text"  placeholder="" value="{$userinfo['deposit']} 元" disabled>
+					<input type="hidden"   value="{$userinfo['deposit']}" name="nowdeposit">
+				</div>
+			</div>
+		</div>
+		<div class="weui_cells">
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">可取保证金</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text"  placeholder="" value="{php echo ($userinfo['deposit'] - $this->module['config']['leastkeepdeposit'] <= 0)?0:$userinfo['deposit'] - $this->module['config']['leastkeepdeposit']} 元" disabled>
+					<input type="hidden"   value="{php echo ($userinfo['deposit'] - $this->module['config']['leastkeepdeposit'] <= 0)?0:$userinfo['deposit'] - $this->module['config']['leastkeepdeposit']}" name="allowdeposit">
+				</div>
+			</div>
+		</div>		
+		<div class="weui_cells">
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">提取保证金</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="tel"  placeholder="在此输入您要提取的金额" value="" name="drwdeposit">
+				</div>
+			</div>
+		</div>
+		
+		<input value="确定" type="button" name="drwdepositsubmit" class="ff5f27_input_button drwdepositbtn" >
+		
+	</div>
+
+	<div class="auth_explain auth_hide_class">
+		<div class="font_13px_999">
+		<p>提示：提取后请等待财务审核,保证金直接退还到您的微信钱包里。{if $this->module['config']['leastkeepdeposit'] > 0}账户最少留存保证金:{php echo $this->module['config']['leastkeepdeposit']}元{/if}</p>	
+		</div>
+	</div>
+	
+	
+	
+	
+	

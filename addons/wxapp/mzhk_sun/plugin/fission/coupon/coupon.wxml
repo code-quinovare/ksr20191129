@@ -1,0 +1,50 @@
+<view class="container">
+    <view>
+        <view class="block">
+            <view>
+                <view>本人可使用<text>（1张）</text>
+                </view>
+            </view>
+            <view class="block-right">
+                <image class="bg" src="../../resource/images/yxj.png"></image>
+                <image class="img" src="http://wx4.sinaimg.cn/small/005ysW6agy1ftkrhn7x33j306o0500ue.jpg"></image>
+            </view>
+        </view>
+        <view class="block block_1">
+            <view>
+                <view>待激活的劵<text>（1张）</text>
+                </view>
+            </view>
+            <view class="block-right">
+                <image class="bg" src="../../resource/images/yxj.png"></image>
+                <image class="img" src="http://wx4.sinaimg.cn/small/005ysW6agy1ftkrhn7x33j306o0500ue.jpg"></image>
+            </view>
+        </view>
+        <view class="block block_2">
+            <view>
+                <view>可赠送的劵<text>（1张）</text>
+                </view>
+                <view class="remark">（赠送朋友就可以激活神秘优惠哦）</view>
+            </view>
+            <view class="block-right">
+                <image class="bg" src="../../resource/images/yxj.png"></image>
+                <image class="img" src="http://wx4.sinaimg.cn/small/005ysW6agy1ftkrhn7x33j306o0500ue.jpg"></image>
+            </view>
+        </view>
+        <view class="session">
+            <view bindtap="toShop" class="list">
+                <view>店铺：商店名称<text>（进店逛逛）</text>
+                </view>
+                <image class="icon" src="../../resource/images/icon1.png"></image>
+            </view>
+            <view bindtap="callPhone" class="list">
+                <view>商家电话：130000000</view>
+                <image class="icon" src="../../resource/images/icon2.png"></image>
+            </view>
+            <view bindtap="getAddress" class="list">
+                <view>商家地址：地址啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</view>
+                <image class="icon" src="../../resource/images/icon3.png"></image>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,108 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('guysort', array('op' => 'add'))}">添加人物分类</a></li>
+	<li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('guysort', array('op' => 'display'))}">管理人物分类</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{if $op == 'add' || $op == 'edit'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				添加人物分类
+			</div>
+			<div class="panel-body">				
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>人物分类名称：</label>
+					<div class="col-sm-6 col-xs-12">
+						<input class="form-control" placeholder="分类名称" name="guysorttitle" value="{$guysortinfo['title']}"  />
+						<span class="help-block">用户可设置自己为此分类，便于别人搜索。</span>						
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>分类简述：</label>
+					<div class="col-sm-6 col-xs-12">
+						<input class="form-control" placeholder="分类简述：" name="guysortdesc" value="{$guysortinfo['desc']}"  />
+						<span class="help-block">便于用户理解此分类。</span>						
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>排序：</label>
+					<div class="col-sm-6 col-xs-12">
+						<input type="text" name="guysortorder" class="form-control" placeholder="请输入数字，越大越后" value="{$guysortinfo['order']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{elseif $op == 'display'}
+<div class="main">
+	<div class="category">
+		<form action="" method="post" >
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="col-sm-1">id</th>
+								<th class="col-sm-1">排序</th>
+								<th class="col-sm-1">名称</th>
+								<th class="col-sm-2">简述</th>								
+								<th class="col-sm-1">最近修改</th>
+								<th class="col-sm-1">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $guysortinfo $v}
+							<tr>
+								<td><label><input type="checkbox" name="checkbox[]"  value="{$v['id']}" />{$v['id']}</label></td>
+								<td colspan="1"><input type="text" class="form-control" name="order[{$v['id']}]" value="{$v['order']}" /></td>
+								<td colspan="1"><input type="text" class="form-control" name="title[{$v['id']}]" value="{$v['title']}" /></td>
+								<td colspan="1"><input type="text" class="form-control" name="desc[{$v['id']}]" value="{$v['desc']}" /></td>
+								<td colspan="1">{php echo date("Y-m-d H:i",$v['time'])}</td>
+								<td>
+									<a href="{php echo $this->createWebUrl('guysort', array('op' => 'edit', 'id' => $v['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+								</td>								
+							</tr>
+						{/loop}
+						</tbody>
+					</table>
+					<label><input type="checkbox" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});" />全选/取消</label>
+					<input class="btn btn-success" value= "删除" name="delete" type="submit" onclick="return confirm('确定要删除吗？');"/>
+					<input type="hidden" name="token" value="{$_W['token']}" />						
+			{$pager}					
+				</div>
+			</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="ordersub" value="提交修改" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+		</form>
+	</div>
+</div>
+{/if}
+
+<script>	
+	$(function(){
+		$('tbody tr:even').css({'background':'rgb(233, 255, 238)'});
+		$('tbody tr:odd').css({'background':'rgb(255, 220, 165)'});
+	})
+</script>
+
+{template 'common/footer'}

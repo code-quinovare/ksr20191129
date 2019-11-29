@@ -1,0 +1,167 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('prize', array('op' => 'display','rid'=>$rid))}">奖品管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('prize', array('op' => 'post','rid'=>$rid))}">{if !empty($_GPC['id'])}编辑{else}添加{/if}奖品</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('log', array('op' => 'display','rid'=>$rid))}">中奖记录</a></li>
+    <li><a href="{php echo $this->createWebUrl('manage', array('op' => 'list'))}">活动列表</a></li>
+</ul>
+<script>
+	function allcheck(){  
+	    if ($("#SelectAll").is(':checked')) {  
+	    	$("input:checkbox").prop("checked","checked");
+	    } else {  
+	    	$("input:checkbox").removeAttr("checked");  
+	    }  
+	}  
+	function submitspil(){
+		var length = $("input:checked").length;
+		var submitstring = '';
+		var i =0 ;
+		for(i =0 ; i<length ; i++){
+			if(i==length-1){
+				submitstring += $("input:checked").eq(i).val();
+				break;
+			}
+			submitstring += $("input:checked").eq(i).val()+",";
+		}
+		$.post("{php echo $this->createWebUrl('Membergroup')}",{submitstring:submitstring},function(data){
+			if(data==1){
+				location.reload();
+			}
+			if(data==0){
+				alert("删除失败！");
+			}
+			
+		})
+	}
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{if $operation == 'display'}
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="./index.php" method="get" class="form-horizontal" role="form">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+	        	<input type="hidden" name="m" value="ven_catch"/>
+	        	<input type="hidden" name="do" value="log" />
+	        	<input type="hidden" name="rid" value="{$rid}" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-lg-2">
+						<select class="form-control" name="search" onchange="cc(this.value)">
+							<option value="prizename">奖品名</option>
+							<option value="notake" {if $used}selected="selected"{/if}>未领取</option>
+						</select>
+					</label>
+					<div id="keywords_input" class="col-xs-10 col-sm-6 col-lg-6" {if $used}style="display:none"{/if}>
+						<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+					</div>
+	                <div class=" col-xs-12 col-sm-2 col-lg-2">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+					</div>
+
+				</div>
+	 			<div class="form-group"></div>
+			</form>
+	                <div class=" col-xs-12 col-sm-12 col-lg-12">
+						<button class="btn btn-primary" onclick="window.location.href='{php echo $this->createWebUrl('log',array('keywords'=>$keywords ,'search'=> $search,'op'=>'display','excel'=>'excel','rid'=>$rid))}'"><i class="fa fa-search"></i> 导出报表</button>
+					</div>
+		</div> 
+	</div>
+    <div class="category">
+        <form action="" method="post" onsubmit="return formcheck(this)">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:80px;"><input type="checkbox" id="SelectAll" onclick="allcheck()"/>全选</th>
+								<th style="width:80px;">粉丝昵称</th>
+								<th style="width:80px;">粉丝头像</th>
+								<th style="width:80px;">奖品</th>
+								<th style="width:60px;">领取与否</th>						
+								<th style="width:150px;">中奖时间</th>
+								<th style="width:80px;">真实姓名</th>
+								<th style="width:100px;">手机号码</th>
+								<th style="width:100px;">联系地址</th>
+								<th style="width:80px;">变更领取状态</th>
+								<th style="width:80px;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $logs $row}
+						<tr class="">
+							<td><input type="checkbox" value="{$row['id']}"/></td>
+							<td>{$row['nickname']}</td>
+							<td><img src="{$row['avatar']}" width="50" height="50"/></td>
+							<td>{$row['titles']}</td>
+							<td>
+								{if $row['istake']==1}
+								<span class='label label-success'>已领取</span>
+								{else}
+								<span class='label label-danger'>未领取</span>
+								{/if}
+							</td>
+							<td>{php echo date('Y-m-d H:i:s', $row['bingotime'])}</td>
+							<td>{$row['realname']}</td>
+							<td>{$row['phone']}</td>
+							<td>{$row['address']}</td>
+							<td>
+								{if $row['istake']==0}
+									<button class="btn btn-default" data-id="{$row['id']}" id="change" type="button" onclick="change()">变更</button>
+								{else}
+									<span class='label label-success'>已变更</span>
+								{/if}
+							</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('log', array('op' => 'delete', 'id' => $row['id'], 'rid' => $rid))}" onclick="return confirm('确认删除此中奖记录吗？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						{/loop}
+						</tbody>
+					</table>
+				</div>
+				<div>{$pager}</div>
+           </div>
+        </form>
+    </div>
+</div>
+{/if}
+	<button id="checkboxdelete" class="btn btn-primary" onclick="submitspil()">删除</button>
+
+<script>
+	function cc(v){
+		if (v=="notake"){
+			$('#keywords_input').hide();
+		}else{
+			$('#keywords_input').show();
+		}
+	}
+
+	$('#change').click(function(){
+		var r = confirm("确定变更该领取状态吗？");
+		if (r==true){
+			var did=$('#change').attr('data-id');
+			$.ajax({
+				url:"{php echo $this->createWebUrl('log',array('op'=>'change'))}",
+				type:'post',
+				data:{id:did},
+				success:function(){
+					alert("变更成功！");
+					location.reload();
+				},
+				error:function (){
+					alert("系统繁忙，请稍候再试！");
+				}
+			});
+		}
+	});
+</script>
+{template 'common/footer'}

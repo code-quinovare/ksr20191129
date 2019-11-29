@@ -1,0 +1,157 @@
+<import src="../template/nav/nav.wxml"></import>
+<template is="tabBar" data="{{tabBar:tabBar,whichone:whichone}}" wx:if="{{tabBar_default==1}}"></template>
+<template is="tabBartwo" data="{{tabBar:tabBar,whichonetwo:whichonetwo}}" wx:if="{{tabBar_default==2}}"></template>
+<import src="../template/template.wxml"></import>
+<view class="container">
+    <view>
+        <template is="backcard" data="{{url:url,hk_bgimg:hk_bgimg,logo:logo,hk_namecolor:hk_namecolor,pt_name:pt_name,viptype:viptype}}"></template>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <view class="session" wx:if="{{curIndex==0}}">
+            <view class="list" wx:if="{{activeList.length>0}}" wx:for="{{activeList}}">
+                <view style="position: relative;">
+                    <view wx:if="{{item.num<=0}}">
+                        <view class="pass">
+                            <image src="../../../style/images/nothing.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                    <view wx:if="{{item.lid==2}}">
+                        <view bindtap="kjbon" class="list-up" data-id="{{item.gid}}">
+                            <view>
+                                <image src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                            </view>
+                            <view class="activeType">{{item.type}}</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{item.lid==3}}">
+                        <view bindtap="ptbon" class="list-up" data-id="{{item.gid}}">
+                            <view>
+                                <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                            </view>
+                            <view class="activeType">{{item.type}}</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{item.lid==4}}">
+                        <view bindtap="jkbon" class="list-up" data-id="{{item.gid}}">
+                            <view>
+                                <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                            </view>
+                            <view class="activeType">{{item.type}}</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{item.lid==5}}">
+                        <view bindtap="qgbon" class="list-up" data-id="{{item.gid}}">
+                            <view>
+                                <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                            </view>
+                            <view class="activeType">{{item.type}}</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{item.lid==6}}">
+                        <view bindtap="mdbon" class="list-up" data-id="{{item.gid}}">
+                            <view>
+                                <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                            </view>
+                            <view class="activeType">{{item.type}}</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{item.num<=0}}">
+                        <view class="pass">
+                            <image src="../../../../style/images/nothing.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view class="list-down">
+                    <view class="brand">
+                        <text>品牌：{{item.bname}}</text>
+                    </view>
+                    <view class="lst">
+                        <view class="list-title">
+                            <text class="vip" wx:if="{{item.is_vip==1}}">会员专享</text>{{item.gname}}</view>
+                        <view class="list-time">
+                            <text>时间：{{item.selftime}}</text>
+                            <text>剩余：<text class="num">{{item.num}}</text>份</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="session" wx:if="{{curIndex==1}}">
+            <view class="list" wx:if="{{oldActiveList.length}}" wx:for="{{oldActiveList}}">
+                <view wx:if="{{item.lid==2}}">
+                    <view bindtap="kjbon" class="list-up" data-id="{{item.gid}}">
+                        <view>
+                            <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                        </view>
+                        <view class="pass">
+                            <image src="../../../style/images/pass.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view wx:if="{{item.lid==3}}">
+                    <view bindtap="ptbon" class="list-up" data-id="{{item.gid}}">
+                        <view>
+                            <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                        </view>
+                        <view class="pass">
+                            <image src="../../../style/images/pass.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view wx:if="{{item.lid==4}}">
+                    <view bindtap="jkbon" class="list-up" data-id="{{item.gid}}">
+                        <view>
+                            <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                        </view>
+                        <view class="pass">
+                            <image src="../../../style/images/pass.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view wx:if="{{item.lid==5}}">
+                    <view bindtap="qgbon" class="list-up" data-id="{{item.gid}}">
+                        <view>
+                            <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                        </view>
+                        <view class="pass">
+                            <image src="../../../style/images/pass.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view wx:if="{{item.lid==6}}">
+                    <view bindtap="mdbon" class="list-up" data-id="{{item.gid}}">
+                        <view>
+                            <image mode="aspectFill" src="{{url}}{{item.index_img?item.index_img:item.pic}}"></image>
+                        </view>
+                        <view class="pass">
+                            <image src="../../../style/images/pass.png"></image>
+                        </view>
+                        <view class="mask"></view>
+                    </view>
+                </view>
+                <view class="list-down">
+                    <view class="brand">
+                        <text>品牌：{{item.bname}}</text>
+                    </view>
+                    <view class="lst">
+                        <view class="list-title">{{item.gname}}</view>
+                        <view class="list-time">
+                            <text>时间：{{item.selftime}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="foot"></view>
+    </view>
+</view>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

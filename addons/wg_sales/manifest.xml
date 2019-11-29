@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="https://www.beitog.cn" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[人人新闻营销]]></name>
+		<identifie><![CDATA[wg_sales]]></identifie>
+		<version><![CDATA[5.0.8]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[wg_sales]]></ability>
+		<description><![CDATA[wg_sales]]></description>
+		<author><![CDATA[北通信息科技]]></author>
+		<url><![CDATA[https://www.beitog.cn]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="enter" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		<supports>
+		</supports>
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="新闻入口" do="index" state="" direct="false" />
+			<entry title="用户中心" do="center" state="" direct="false" />
+			<entry title="发布入口" do="pub" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="关键词回复设置" do="kwsetting" state="" direct="false" />
+			<entry title="分享设置" do="sharesetting" state="" direct="false" />
+			<entry title="分类" do="category" state="" direct="false" />
+			<entry title="文章" do="article" state="" direct="false" />
+			<entry title="搜索" do="search" state="" direct="false" />
+			<entry title="微站设置" do="setting" state="" direct="false" />
+			<entry title="置顶新闻" do="top" state="" direct="false" />
+			<entry title="轮播图配置" do="slider" state="" direct="false" />
+			<entry title="评论管理" do="comment" state="" direct="false" />
+			<entry title="打赏列表" do="reward" state="" direct="false" />
+			<entry title="专题管理" do="topic" state="" direct="false" />
+			<entry title="广告列表" do="ad" state="" direct="false" />
+			<entry title="用户投稿" do="pub" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_wg_sales_ad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `type` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_ad` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `cate` int(11) NOT NULL DEFAULT '1' COMMENT '1:文章,2:广告',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0:未审核,1:审核过,2:拒绝',
+  `money` int(11) NOT NULL DEFAULT '0',
+  `article_id` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `category_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(20) DEFAULT '',
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_1` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_2` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_3` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_4` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_5` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_6` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_7` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `goods_info` varchar(500) NOT NULL DEFAULT '' COMMENT '推荐商品信息',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_8` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_article_news_9` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '文章类型1:普通,2:图集,3:视频...',
+  `site` varchar(100) NOT NULL,
+  `author` varchar(256) NOT NULL DEFAULT '',
+  `majory_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(500) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `kw` varchar(250) DEFAULT NULL,
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `text` varchar(300) NOT NULL DEFAULT '',
+  `content` longtext NOT NULL,
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `read_times` int(10) unsigned NOT NULL DEFAULT '0',
+  `time_step` int(11) NOT NULL DEFAULT '0',
+  `data_type` int(11) DEFAULT '0' COMMENT '0:text,1:json',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `comment_times` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '评论,打赏二进制',
+  `state` varchar(200) NOT NULL DEFAULT '' COMMENT '声明',
+  `md5` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5` (`md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT NULL,
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `display_order` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `source` varchar(300) NOT NULL,
+  `del` int(11) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `url` varchar(1024) NOT NULL DEFAULT '',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_1` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_2` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_4` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_5` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_6` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_7` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_8` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_comment_9` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:匿名,1:实名',
+  `article_id` bigint(20) NOT NULL,
+  `uid` bigint(20) NOT NULL DEFAULT '0',
+  `content` varchar(300) NOT NULL DEFAULT '',
+  `praise` int(11) NOT NULL DEFAULT '0',
+  `comment_id` int(11) NOT NULL DEFAULT '0' COMMENT '回复id',
+  `comment_times` int(11) NOT NULL DEFAULT '0' COMMENT '回复次数',
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_reward` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `article_id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `pay_money` int(11) NOT NULL DEFAULT '0' COMMENT '实际支付金额',
+  `order_no` varchar(50) NOT NULL COMMENT '订单id',
+  `pay_type` int(11) NOT NULL DEFAULT '1' COMMENT '支付类型',
+  `fail_reason` varchar(100) NOT NULL DEFAULT '' COMMENT '失败',
+  `trade_no` varchar(50) NOT NULL DEFAULT '' COMMENT '微信流水号',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1待处理,2成功，3失败',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `message` varchar(100) NOT NULL DEFAULT '',
+  `mch_id` varchar(20) NOT NULL DEFAULT '',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_no` (`order_no`),
+  KEY `category_id` (`category_id`,`article_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `value` text NOT NULL,
+  `expire_time` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_slider` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:轮播图,置顶(1:普通,2:图集,3:视频)',
+  `uniacid` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `source` int(11) NOT NULL DEFAULT '0',
+  `article_id` int(11) NOT NULL DEFAULT '0',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `url` varchar(200) NOT NULL,
+  `image` varchar(2000) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `kw` varchar(10) NOT NULL DEFAULT '',
+  `display_order` int(11) NOT NULL DEFAULT '0',
+  `start` int(11) NOT NULL,
+  `end` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`,`source`,`display_order`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0',
+  `uniacid` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `text` varchar(150) NOT NULL DEFAULT '',
+  `kw` varchar(10) NOT NULL DEFAULT '',
+  `image` varchar(2000) NOT NULL,
+  `display_order` int(11) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`,`display_order`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_topic_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '0',
+  `category_id` int(11) NOT NULL,
+  `article_id` int(11) NOT NULL DEFAULT '0',
+  `jump` int(11) NOT NULL DEFAULT '0',
+  `url` varchar(200) NOT NULL,
+  `image` varchar(2000) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `kw` varchar(10) NOT NULL DEFAULT '',
+  `display_order` int(11) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`topic_id`,`display_order`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wg_sales_user` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `nickname` varchar(20) NOT NULL DEFAULT '',
+  `tel` varchar(30) NOT NULL DEFAULT '',
+  `headimgurl` varchar(255) NOT NULL DEFAULT '',
+  `openid` varchar(255) NOT NULL DEFAULT '',
+  `unionid` varchar(255) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
+  `province` varchar(50) NOT NULL DEFAULT '',
+  `country` varchar(50) NOT NULL DEFAULT '',
+  `subscribe` int(10) DEFAULT '0',
+  `sex` int(11) DEFAULT '0',
+  `add_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  `subscribe_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `openid` (`openid`,`uniacid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_wg_sales_ad`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_ad`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_1`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_2`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_3`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_4`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_5`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_6`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_7`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_8`;
+DROP TABLE IF EXISTS `ims_wg_sales_article_news_9`;
+DROP TABLE IF EXISTS `ims_wg_sales_category`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_1`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_2`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_3`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_4`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_5`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_6`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_7`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_8`;
+DROP TABLE IF EXISTS `ims_wg_sales_comment_9`;
+DROP TABLE IF EXISTS `ims_wg_sales_reward`;
+DROP TABLE IF EXISTS `ims_wg_sales_setting`;
+DROP TABLE IF EXISTS `ims_wg_sales_slider`;
+DROP TABLE IF EXISTS `ims_wg_sales_topic`;
+DROP TABLE IF EXISTS `ims_wg_sales_topic_list`;
+DROP TABLE IF EXISTS `ims_wg_sales_user`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

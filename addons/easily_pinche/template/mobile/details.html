@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<title>{$info['pci_chuaddress']} - {$info['pci_muaddress']} - {$setup['es_title']}</title>
+</head>
+<script type="text/javascript" src="{$cssurl}jquery.js"></script>
+<link href="{$cssurl}iconfont.css" rel="stylesheet" />
+<link href="{$cssurl}style.css" rel="stylesheet" />
+<link href="{$cssurl}main.css" rel="stylesheet" />
+<link href="{$cssurl}zhaopin_common.css" rel="stylesheet">
+<script type="text/javascript" src="{$cssurl}dialog_set.js"></script>
+<script type="text/javascript" src="{$cssurl}select-wap.js"></script>
+<script type="text/javascript" src="{$cssurl}paytype.v1.1.js"></script>
+<body>
+<header class="header-list">
+	<dl>
+    	<a href="{php echo $this->createMobileUrl('index');}" style="color:#FFF;"><dd class="back"><i class="iconfont icon-jiantou"></i></dd></a>
+		<dt>查看拼车信息</dt>
+	</dl>
+</header>
+<link href="{$cssurl}details.css" rel="stylesheet" />
+<section class="me-details-box">
+	<div class="me-details">
+		<h1 class="disflex">
+        	{if $info['pci_top']!=0}
+			<span class="d-find-person" style="background:#F00; color:#FFF; ">顶</span>
+            {/if}
+			<span class="d-find-person {if $info['pci_type']==1}find-car{/if}">
+                      {if $info['pci_type']==1}
+                      人找车
+                      {elseif $info['pci_type']==2}
+                      车找人
+                      {elseif $info['pci_type']==3}
+                      货找车
+                      {else}
+                      车找货
+                      {/if}
+            </span> 
+            <p class="flexn"><em>{$info['pci_chuaddress']}</em><i class="d-find-arrow"></i>{$info['pci_muaddress']}</p>
+        </h1>
+        <p class="p-time">
+            <span class="time">发布时间：{php echo date('Y-m-d H:i', strtotime($info['pci_addtime']))}</span><em class="sendTimeLine">|</em>
+            <span class="gz">浏览：{$info['pci_read']}</span>
+        </p>
+    </div>
+    <div class="me-desc-cen">
+        <ul class="">
+            <li class="disflex">
+                <span class="s-name">出发时间：</span>
+                    <p class="flexn ellipsis"><em>{php echo $this->IsTodayOrTomorrow($info['pci_chuaddtime'])}</em><i> （周{php  $weekday = array('日','一','二','三','四','五','六'); echo $weekday[date('w', strtotime($info['pci_chuaddtime']))]; }） {php echo date('H:i', strtotime($info['pci_chuaddtime']))} 出发</i></p>
+            </li>
+            <li class="disflex">
+                <span class="s-name">途<i class="pos-width3"></i>径<i class="pos-width3"></i>地：</span>
+                <p class="flexn">{$info['pci_tuaddress']}</p>
+            </li>
+            <li class="disflex">
+                    <span class="s-name">空<i class="pos-width2"></i>位：</span>
+                    <p class="flexn ellipsis">{$info['pci_count']}空位</p>
+            </li>
+        </ul>
+        <div class="disflex me-boda-phone">
+			<p class="flexn"><span class="s-name">手<i class="pos-width3"></i>机<i class="pos-width3"></i>号：</span>{$info['pci_phone']}</p>
+        </div>
+    </div>
+    <div class="me-details-des">
+        <p class="t-tit">更多描述</p>
+        <p class="t-des">
+            {$info['pci_content']}
+            <br /><br />
+            联系我时请说明是在{$setup['es_title']}看到的…
+        </p>
+    </div>
+</section>
+{if $info['pcu_id'] == $userdb['pcu_id']}
+    <!--查看自己发布的信息时,显示置顶/编辑菜单-->
+    {if $info['pci_top']==0}
+    <div id="contact_info">
+        <ul class="alsoget">
+            <li class="gdkd">
+                <a href="{php echo $this->createMobileUrl('editcode');}&code={$info['pci_code']}">
+                    <i class="iconfont icon-fabuhuodong"></i>
+                    <span>编辑</span>
+                </a>
+            </li>
+            <li class="sqzw tuijian">
+                <a href="{php echo $this->createMobileUrl('fabutop');}&code={$info['pci_code']}">
+                    <i class="iconfont icon-dianzan"></i>
+                    <span>置顶推荐</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="w_zp_zd_mask" style="display: none"></div>
+    <div class="w_zp_zd">
+        <i class="iconfont icon-guanbi" onclick="ZhidingClose()"></i>
+        <ul>
+            <li>信息置顶显示</li>
+            <li>效果提升<span>6-8</span>倍!</li>
+        </ul>
+        <div class="w-pho">
+            <span></span>
+        </div>
+        <p class="w_zp_now"><span ><a href="{php echo $this->createMobileUrl('fabutop');}&code={$info['pci_code']}">立即置顶</a></span></p>
+    </div>
+    {/if}
+{else}
+    <div id="contact_info2" class="type2" style="bottom: 0px;">
+        <ul class="disflex">
+            <li class="jl-home disflex jl-left">
+                <a href="{php echo $this->createMobileUrl('index');}">
+                    <p><i></i></p>
+                    <p>首页</p>
+                </a>
+            </li>
+            <li class="jl-ems disflex jl-left">
+                <a href="sms:{$info['pci_phone']}">
+                    <p><i></i></p>
+                    <p>短信</p>
+                </a>
+            </li>
+            <li class="jl-right jl-bd disflex flexn">
+                <a href="tel:{$info['pci_phone']}" class="disflex flexn">
+                    <i></i>
+                    <p>拨打电话</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+{/if}
+<script>
+    (function () {
+        var h = $('.hdcontent').height();
+        $('html,body').animate({ scrollTop: h }, 200);
+        $(document).on("click", "div.edit_info p", function () {
+            $(this).find("span").addClass("on").end().siblings().find("span").removeClass("on");
+        });
+        $("input").click(function () {
+            $(".w_zp_zd_mask").fadeIn(300);
+            $(".w_zp_zd").fadeIn(500);
+        });
+        $(".tuijian").click(function () {
+            dialogShow();
+        });
+        if ($('.tuijian').length == 1) {
+            dialogShow();
+        }
+    })();
+    function dialogShow() {
+        $(".w_zp_zd_mask").fadeIn(300);
+        $(".w_zp_zd").fadeIn(500);
+    }
+    function ZhidingClose() {
+        $(".w_zp_zd").hide();
+        $(".w_zp_zd_mask").hide();
+    }
+    var payPrice = '';
+</script>
+</body>
+</html>

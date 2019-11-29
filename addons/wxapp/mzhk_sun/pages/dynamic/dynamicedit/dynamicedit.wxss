@@ -1,0 +1,71 @@
+.container {
+    background: #fff;
+}
+
+.comment {
+    padding: 18rpx 20rpx;
+    width: 710rpx;
+    height: 234rpx;
+    font-size: 26rpx;
+    color: #999;
+    line-height: 40rpx;
+    background: #f8f8f8;
+}
+
+textarea {
+    width: 710rpx;
+    height: 234rpx;
+    color: #222;
+    font-size: 32rpx;
+}
+
+.picture {
+    padding: 20rpx 20rpx 0rpx 20rpx;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.upload {
+    border: 1px solid #ececec;
+    width: 160rpx;
+    height: 160rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20rpx;
+    color: #999;
+    margin-right: 19rpx;
+    margin-bottom: 20rpx;
+}
+
+.upload:nth-child(4n) {
+    margin-right: 0rpx;
+}
+
+.icon {
+    width: 74rpx;
+    height: 62rpx;
+    margin-bottom: 14rpx;
+}
+
+.uploadPic {
+    width: 160rpx;
+    height: 160rpx;
+}
+
+.sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60rpx;
+}
+
+.btn {
+    width: 657rpx;
+    height: 92rpx;
+    font-size: 34rpx;
+    border-radius: 10rpx;
+    color: #fff;
+    background-color: #ed8200;
+}

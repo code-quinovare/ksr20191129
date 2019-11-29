@@ -1,0 +1,164 @@
+{template 'weheader'}
+<script type="text/javascript" src="{TEMPLATE_WEUI}util.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/mui.min.js?v=20170802"></script>
+<link href="{TEMPLATE_WEUI}style/post.css" rel="stylesheet">
+<link href="{TEMPLATE_WEUI}style/datepicker.css" rel="stylesheet">
+<style>
+.weui_cell_hd {text-align:left;}
+.weui-home{position: absolute;top:10px;left:10px;z-index:5;background-color:rgba(255,255,255,0.8);}
+</style>
+	
+<div class="weui_tab_bd">
+	<div class="weui-home radius">
+		<a style="padding:3px;" href="javascript:history.back(-1);">
+			<svg class="icon" aria-hidden="true"><use xlink:href="#icon-left"></use></svg>
+		</a>
+	</div>
+	<div class="weui_msg">
+		<div class="weui_media_hd" style="margin:0 auto;">
+			{php echo tpl_app_form_avatar_thumb('avatar', $avatar, $uid, 'member');}		
+		</div>
+		<form action="{php echo $this->createMobileUrl('profile')}" id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+			<div class="weui_cells weui_cells_form">
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['realname']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('realname', $profile['realname'], $mcFields['realname']['title']);}
+					</div>
+				</div>
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['mobile']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('mobile', $profile['mobile'], $mcFields['mobile']['title'], $setting['smsid']);}
+					</div>
+				</div>
+			</div>
+			<div class="weui_cells weui_cells_access">
+				{if !empty($mcFields['gender'])}
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['gender']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('gender', $profile['gender'], $mcFields['gender']['title']);}	
+					</div>
+					<div class="weui_cell_ft"></div>
+				</div>
+				{/if}
+				{if !empty($mcFields['birthyear'])}
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['birthyear']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('birth', array('year' => $profile['birthyear'], 'month' => $profile['birthmonth'], 'day' => $profile['birthday']), $mcFields['birthyear']['title']);}
+					</div>
+					<div class="weui_cell_ft"></div>
+				</div>
+				{/if}
+				{if !empty($mcFields['resideprovince'])}
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['resideprovince']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('reside', array('province' => $profile['resideprovince'], 'city' => $profile['residecity'], 'district' => $profile['residedist']), $mcFields['resideprovince']['title']);}
+					</div>
+					<div class="weui_cell_ft"></div>
+				</div>
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<small class="weui_label">{$mcFields['address']['title']}</small>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						{php echo profile_fans_form('address', $profile['address'], $mcFields['address']['title'], $setting['qqkey']);}
+					</div>
+				</div>
+				{/if}
+			</div>
+			<div class="weui_btn_area">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<button class="weui_btn bg-blue" type="submit" name="submit" id="showTool">保存</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function getLocation(_this){
+	wx.openAddress({
+		success : function(result) {
+			$('#realname').val(result.userName);
+			$('#mobile').val(result.telNumber);
+			$('#reside').val(result.provinceName+' '+result.cityName+' '+result.countryName);
+			$('#province').val(result.provinceName);
+			$('#city').val(result.cityName);
+			$('#district').val(result.countryName);
+			$('#address').val(result.detailInfo);
+		}
+	});
+};
+{if !empty($setting['smsid'])}
+	var countdown=60;
+	function settime() {
+		var code = $('#code');
+		if (countdown == 0) {
+			code.removeAttr('disable');
+			code.text("获取验证码");
+			countdown = 60;
+			return;
+		} else {
+			code.text("重新发送(" + countdown + ")");
+			code.attr('disable',true);
+			countdown--;
+		}
+		setTimeout('settime()', 1000);
+	}
+	$("#sendsms").bind("click",function(){
+		var mobile = $("#mobile").val();
+		var checktel = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if(mobile=='' || !checktel.test(mobile)){
+				$('#mobile').attr("readonly",false);
+				util.toast("请输入正确的手机号码");
+				return false;
+			}else{
+				$('#mobile').attr('readonly',true);
+				var submitData = {
+					'mobile': mobile,
+				};
+				$.post("{php echo murl('entry', array('do' => 'SendSms', 'id' => $setting['smsid'], 'm' => 'dayu_sms', 'form' => $_W['current_module']['name'], 'openid' => $openid), true, true)}", submitData,function(data){
+					if(data.message.state == 1) {
+						$("#htel").val(data.message.mobile);
+						$("#hsms").val(data.message.yzm);
+						util.toast(data.message.msg);
+					}else{
+						util.toast(data.message.msg);
+					}
+				},"json");
+				time(this);
+			}
+	});
+{/if}
+$("#showTool").on("click", function(){
+	{if !empty($setting['smsid'])}
+		var htel=$("#htel").val();
+		var hsms=$("#hsms").val();
+		var tel=$("#mobile").val();
+		var sms=$("#sms").val();
+		if(htel==tel){
+			if(hsms!=sms){
+				util.toast("请输入正确验证码");
+				return false;
+			}
+		}else{
+			util.toast("请获取验证码");
+			return false;
+		}
+	{/if}
+});
+</script>
+{template 'footers'}

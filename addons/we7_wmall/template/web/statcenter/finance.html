@@ -1,0 +1,33 @@
+{itemplate 'public/header'}
+<div class="clearfix">
+	<div class="panel panel-stat">
+		<div class="panel-heading">
+			<h3>总览</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-3">
+				<div class="title">
+					商户未提现金额
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="所有商户的余额之和"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-fee">￥{$stat['store_total_amount']}</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					配送员未提现金额
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="所有配送员的余额之和"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-final-fee">￥{$stat['deliveryer_total_credit2']}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

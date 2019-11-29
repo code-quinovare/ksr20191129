@@ -1,0 +1,92 @@
+{template 'common/myheader'}
+<div class="task_top overflow_hidden">
+	<li class="fl authicon">
+		<img src="{if $taskinfo['uid'] >0}{$taskinfo['avatar']}{else}{php echo tomedia($this->module['config']['siteimg'])}{/if}">
+		<img src="http://hangjia.qiniudn.com/FkByoAtvOecYlsQp1xT9IXgA7l4H">
+	</li>
+	<li class="task_top_name overflow_hidden">
+		<span class="font_bold_name">
+			{if $taskinfo['uid'] >0}
+				{$taskinfo['nickname']}
+			{else}
+				{php echo $this->module['config']['sitename']}
+			{/if}
+			{if $taskinfo['uid'] >0}
+				</span> <span class="fr font_13px_999">保证金:{$taskinfo['deposit']}元</span>
+			{/if}
+		{if $taskinfo['uid'] >0}
+			<p>
+				<span class="font_13px_999">发布:{$taskinfo['pubnumber']}</span>
+				<span class="font_13px_999">采纳:{$taskinfo['acceptnumber']}</span>
+			</p>
+		{else}
+			<p>
+				<span class="font_13px_999">系统发布</span>
+			</p>			
+		{/if}
+	</li>
+</div>
+<div class="task_tasktion padding_10">
+	<li class="task_title">
+		<p>
+			<span class="font_13px_999">{php echo date('Y-m-d H:i',$taskinfo['createtime'])}</span>
+			<span class="font_13px_999 fr margin_left10">任务量:{$taskinfo['number']}</span>
+			<span class="font_13px_999 fr">执行:{php echo $taskinfo['number'] - $taskinfo['lastnumber']}</span>
+		</p>
+	</li>
+	<li class="task_content">
+		<div class="task_content_title">{php echo htmlspecialchars_decode(htmlspecialchars_decode($taskinfo['title']))} &nbsp;&nbsp;<span class="font_13px_999">【每人限{$taskinfo['maxreply']}回复】</span></div>
+		<p class="task_content_img">
+			{loop $taskinfo['pic'] $item}
+			<img src="{php echo tomedia($item)}">
+			{/loop}
+		</p>
+	</li>
+	{if $taskinfo['status'] == 3}
+		<li class="overflow_hidden">	
+			<span class="font_13px_999 fr">审核中</span>
+		</li>
+	{elseif $taskinfo['status'] == 4}
+		<li class="overflow_hidden">	
+			<span class="font_13px_999 fr">已关闭</span>
+		</li>		
+	{else}
+		<li class="overflow_hidden">
+			<span class="font_13px_999 fr lasttime" data-time="{$taskinfo['overtime']}">距自动结束:
+				<font class="day">0</font>天
+				<font class="hour">0</font>时
+				<font class="minite">0</font>分
+				<font class="second">0</font>秒
+			</span>
+		</li>
+	{/if}
+	
+	<span class="task_reward">剩余:{$taskinfo['lastnumber']},单价:{$taskinfo['money']}{if $taskinfo['urgmoney'] > 0}+{$taskinfo['urgmoney']}{/if}元</span>
+</div>
+{if $taskinfo['urgmoney'] > 0}
+	<div class="task_log">
+		<li class="font_13px_999">作者在 {php echo date('Y-m-d H:i:s',$taskinfo['addurgtime'])} 将任务设为“加急任务”，每项奖励增加{$taskinfo['urgmoney']}元。(只对此时间之后回复的有效)</li>
+	</div>
+{/if}
+<div class="task_answer item_block">
+	<div class="task_answer_top border_bottom padding_10">
+		<span class="font_bold_other">{if empty($taskpagefilter) || $taskpagefilter == 'undefined'}全部回复{elseif $taskpagefilter=='myself'}我回复的{elseif  $taskpagefilter=='1'}等待采纳{elseif  $taskpagefilter=='2'}已采纳{elseif  $taskpagefilter=='3'}已拒绝{/if}</span>
+		<div class="ti-download fr font_13px_999 task_answer_order">
+			<span>筛选</span>
+			<div class="task_filter_answer">
+				<img src="../addons/zofui_task/public/images/321.jpg">
+				<p data-type="0">全部内容 {if empty($taskpagefilter)}<span class="ti-check fr"></span>{/if}</p>
+				<p data-type="myself">我回复的 {if $taskpagefilter == 'myself'}<span class="ti-check fr"></span>{/if}</p>
+				<p data-type="1">等待采纳 {if $taskpagefilter == '1'}<span class="ti-check fr"></span>{/if}</p>
+				<p data-type="2">已采纳 {if $taskpagefilter == '2'}<span class="ti-check fr"></span>{/if}</p>
+				<p data-type="3">已拒绝 {if $taskpagefilter == '3'}<span class="ti-check fr"></span>{/if}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{if $userinfo['openid'] == $this->module['config']['adminopenid'] && $taskinfo['status'] == 3}
+<div class="admin_verify">
+	<span>审</span>
+</div>
+{/if}
+{template 'common/task_footer'}

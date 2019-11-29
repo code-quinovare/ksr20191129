@@ -1,0 +1,36 @@
+	<div class="page_top score_top">
+		<div class="page_top_item">
+			<a href="javascript:;"><span class="font_activity" >积分记录</span></a>
+			<a href="javascript:;" id="score_rule"><span>积分规则</span></a>
+			<i class="ti-search" id="showFilter"></i>			
+		</div>
+	</div>
+	
+	{template 'temp/user/filter'}
+	
+	<div class="score_list">
+		
+	</div>
+	
+<div id="sideup_scorerule" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_scorerule_body">
+				<div class="sideuper_body_item">
+					<p>信誉积分规则：</p>
+					<p>1.初始化积分值10分。</p>
+					<p>2.雇主(作者)每采纳一个回答，双方都+0.2信誉积分。</p>
+					<p>3.雇主(作者)每拒绝一个回答，雇主-0.6信誉积分，回复者-1信誉积分。</p>
+					<p>4.当信誉积分小于等于0，不能发布任务，也不能接受任务。</p>
+				</div>
+				<div class="sideuper_body_item font_13px_999">
+					<p>提示：请不要发布虚假任务，也不要回复虚假任务结果，否则除受到积分规则限制外，后果严重的将受到封号惩罚。</p>
+				</div>
+            </div>
+			<div class="sideuper_bottom">
+				<input value="关闭" type="button" class="fff_button cancel" id="actionsheet_cancel">
+			</div>
+        </div>
+    </div>
+</div>	

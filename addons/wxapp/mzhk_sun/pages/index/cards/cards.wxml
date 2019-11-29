@@ -1,0 +1,66 @@
+<view class="container">
+    <view>
+        <swiper autoplay="true" circular="true" duration="800" indicatorActiveColor="#f5ac32" indicatorColor="rgba(255,255,255,.7)" indicatorDots="true" interval="3000" wx:if="{{adflashimg!=2}}">
+            <view bindtap="gotoadinfo" data-id="{{item.pop_urltxt}}" data-tid="{{item.pop_urltype}}" wx:for="{{adflashimg}}">
+                <swiper-item>
+                    <image class="slide-image" height="230" mode="scaleToFill" src="{{url}}{{item.pop_img}}"></image>
+                </swiper-item>
+            </view>
+        </swiper>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <view class="session" wx:if="{{curIndex==0}}">
+            <view bindtap="toCardsdet" class="list" data-gid="{{item.gid}}" wx:if="{{curList}}" wx:for="{{curList}}">
+                <view class="left">
+                    <image mode="scaleToFill" src="{{url}}{{item.pic}}"></image>
+                </view>
+                <view class="rightList">
+                    <view class="title">{{item.gname}}</view>
+                    <view class="mintitle">
+                        <text>地址：{{item.address}}</text>
+                    </view>
+                    <view class="lis">
+                        <view class="price">
+                            <view>店铺：<text class="curPrice">{{item.bname}}</text>
+                            </view>
+                        </view>
+                        <view class="join" wx:if="{{item.num>0}}">
+              我要参与
+            </view>
+                        <view class="join oldJoin" wx:if="{{item.num<=0}}">
+              已领完
+            </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="session" wx:if="{{curIndex==1}}">
+            <view bindtap="toCardsdet" class="list" data-gid="{{item.gid}}" wx:if="{{oldList}}" wx:for="{{oldList}}">
+                <view class="left">
+                    <image mode="scaleToFill" src="{{url}}{{item.pic}}"></image>
+                </view>
+                <view class="rightList">
+                    <view class="title">{{item.gname}}</view>
+                    <view class="mintitle oldtitle"></view>
+                    <view class="lis">
+                        <view class="price">
+                            <view>店铺：<text class="curPrice">{{item.bname}}</text>
+                            </view>
+                        </view>
+                        <view class="join oldJoin">
+              活动结束
+            </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view bindtap="toIndex" class="index">
+            <view>
+                <image class="indexHome" src="/style/images/tab3.png"></image>
+            </view>
+        </view>
+    </view>
+</view>

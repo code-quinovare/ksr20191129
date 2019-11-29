@@ -1,0 +1,15 @@
+<div class='menu-header'>产品注册</div>
+<ul>
+	{ifp 'product'}
+		<li {if $_W[ 'action']=='product' }class="active" {/if}><a href="{php echo webUrl('product')}">注册列表</a></li>
+	{/if}
+
+</ul>
+
+{ifp 'product.set'}
+	<div class='menu-header'>设置</div>
+	<ul>
+		<li {if $_W[ 'action']=='set' }class="active" {/if}><a href="{php echo webUrl('product/set')}">基础设置</a></li>
+	</ul>
+{/if}
+<!--6Z2S5bKb5piT6IGU5LqS5Yqo572R57uc56eR5oqA5pyJ6ZmQ5YWs5Y+4-->

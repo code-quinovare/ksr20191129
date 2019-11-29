@@ -1,0 +1,16 @@
+
+	{if $activity['isinfo']}
+		<div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <h4 class="weui_media_title">{$par['business']}</h4>
+                    <p class="weui_media_desc">
+						<a class="f-black" href="tel:{$par['tel']}">咨询电话：{$par['tel']}</a>
+					</p>
+                    <p class="weui_media_desc" style="margin-top:5px;">
+						<a class="f-black" href="//api.map.baidu.com/marker?location={$par['lat']},{$par['lng']}&title={php echo urlencode($par[business]);}&content={php echo urlencode($par[address].' 电话'.$par['tel']);}&output=html">联系地址：{$par['address']}</a>
+					</p>
+                </div>
+            </div>
+		</div>
+	{/if}

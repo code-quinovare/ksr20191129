@@ -1,0 +1,10 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/**banner轮播**/
+.img-focus{ width:100%; overflow:hidden; margin-bottom:10px;}
+.focus-pic li{ width:100%; overflow:hidden; float:left}
+.focus-pic img{ width:100%;}
+#wrapper8{position:relative;}
+.circle{ position:absolute; left:0; bottom:30px; height:10px; width:100%;text-align:center}
+.circle span{ display:inline-block; margin:0 7px;text-indent:-9999px; width:45px; height:12px; border-radius:20px; background-color:#f3a221;}
+.circle .active{ background-color:#243748;}

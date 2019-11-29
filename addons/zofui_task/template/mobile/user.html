@@ -1,0 +1,72 @@
+{template 'common/myheader'}
+
+<div class="index_main">
+	{if $_GPC['op'] == 'default'}
+	
+		{template 'temp/user/default'}
+		
+	{elseif $_GPC['op'] == 'money'}
+	
+		{template 'temp/user/money'}
+		
+	{elseif $_GPC['op'] == 'moneylog'}
+	
+		{template 'temp/user/moneylog'}		
+		
+	{elseif $_GPC['op'] == 'userfocus'}
+	
+		{template 'temp/user/focus'}
+		
+	{elseif $_GPC['op'] == 'follow'}
+	
+		{template 'temp/user/focus'}
+		
+	{elseif $_GPC['op'] == 'userexe'}
+	
+		{template 'temp/user/userexe'}
+		
+	{elseif $_GPC['op'] == 'userpubed'}
+	
+		{template 'temp/user/userexe'}	
+
+	{elseif $_GPC['op'] == 'adddeposit'}
+	
+		{template 'temp/user/deposit_add'}
+		
+	{elseif $_GPC['op'] == 'drwdeposit'}
+	
+		{template 'temp/user/deposit_drw'}
+		
+	{elseif $_GPC['op'] == 'depositlog'}
+	
+		{template 'temp/user/deposit_log'}
+		
+	{elseif $_GPC['op'] == 'setting'}
+	
+		{template 'temp/user/setting'}
+
+	{elseif $_GPC['op'] == 'love'}
+	
+		{template 'temp/user/love'}	
+		
+	{elseif $_GPC['op'] == 'pvtpub'}
+	
+		{template 'temp/user/pvtpub'}
+
+	{elseif $_GPC['op'] == 'pvtaccept'}
+	
+		{template 'temp/user/pvtaccept'}	
+
+	{elseif $_GPC['op'] == 'scorelog'}
+	
+		{template 'temp/user/scorelog'}	
+
+	{elseif $_GPC['op'] == 'aboutus'}
+	
+		{template 'temp/user/aboutus'}			
+	{/if}
+</div>
+
+
+</div>
+{template 'common/myfooter'}

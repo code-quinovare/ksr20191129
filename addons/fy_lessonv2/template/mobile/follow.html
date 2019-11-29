@@ -1,0 +1,17 @@
+{template '_headerv2'}
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div class="pwpage">
+	<div class="pwd">
+		<h1>长按二维码识别并关注</h1>
+		<p class="title">{$setting['follow_word']}</p>
+		<img class="erweima" src="{$_W['attachurl']}{$setting['qrcode']}">
+		<p class="title" style="color:#112FCC;">识别二维码仅在微信客户端生效</p>
+	</div>
+</div>
+
+{template '_footerv2'}

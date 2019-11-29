@@ -1,0 +1,116 @@
+{template 'common/header'}
+{template 'common'}
+<div class="panel panel-info">
+	<div class="panel-heading">卡密生成</div>
+	<div class="panel-body">
+    <form class="form-horizontal form" action="" method="post" >
+            <div class="panel-body">
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">卡密类型</label>
+					<div class="col-sm-8 col-xs-12">
+                    <select name="codetype" class="form-control">
+							<option value="1" checked="checked">纯数字组合</option>
+							<option value="2">数字字母混合组合</option>
+					</select>
+					</div>
+                </div>   
+            </div>
+			<div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">卡密位数</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="number" class="form-control" name="length" placeholder="建议卡密位数为8位以上数字">
+						<div class="help-block"><font color="red">不填默认为8位</font></div>
+                    </div>
+                </div>   
+            </div>
+			<div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">生成数量</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="num" placeholder="卡密数量：注：一批最多生产10000个">
+                    </div>
+                </div>   
+            </div>
+        <div class="form-group margin-bottom">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </div>
+        </div> 
+    </form>
+	</div>
+</div>
+<div class="alert alert-info">
+<a href="{php echo $this->createWebUrl('UDownload2')}"  class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="导出"><i class="fa fa-thumbs-up"></i> 导出所有批次卡密</a>
+<a href="{php echo $this->createWebUrl('miss')}" onclick="return confirm('确认删除吗，删除后，不可恢复？');return false;" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-thumbs-down"></i> 删除已使用的卡密</a>
+
+</div>
+<div class="main">
+	<div class="category">
+	<div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th width="120">批次</th>
+                            <th width="130">总数量</th>
+                            <th width="120">查看卡密</th>
+							
+                            <th width="270">二维码管理(三选一)</th>
+							<th width="150">二维码导出</th>
+							<th width="110">奖品设置</th>
+                            <th width="100">卡密操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {loop $list $row}
+                        <tr>
+                            <td><p><span class="label label-success">第{$row['pici']}批次</span></p>
+							<p><a href="{php echo $this->createWebUrl('codeinfo', array('pici' => $row['pici']))}" title="{$row['codeinfo']}" class="btn btn-info btn-sm"><i class="fa fa-comments"></i> 批次备注</a></p>
+							<a href="{php echo $this->createWebUrl('codetime', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"> <i class="fa fa-calendar"></i> 时间设定</a>
+							</td>
+                            <td>{$row['codenum']}</td>
+                            <td>
+                                <p><a href="{php echo $this->createWebUrl('codeshow', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"> <i class="fa fa-search-plus"></i> 查看卡密</a></p>
+								<p><a href="{php echo $this->createWebUrl('import', array('pici' => $row['pici']))}" class="btn btn-success btn-sm"> <i class="fa fa-sign-in"></i> 卡密导入</a></p>
+								<a href="{php echo $this->createWebUrl('UDownload', array('pici' => $row['pici']))}" class="btn btn-info btn-sm"> <i class="fa fa-download"></i> 下载卡密</a>
+								
+                            </td>
+                            <td>
+								<p><a href="{php echo $this->createWebUrl('Qrcode', array('pici' => $row['pici']))}" class="btn btn-primary btn-sm"> <i class="fa fa-qrcode"></i> 生成临时码</a>
+								<a href="{php echo $this->createWebUrl('Qrshow', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"> <i class="fa fa-search-plus"></i> 查看临时码</a>
+								</p>
+								<p><a href="{php echo $this->createWebUrl('Qrcode2', array('pici' => $row['pici']))}" class="btn btn-primary btn-sm"> <i class="fa fa-qrcode"></i> 生成永久二维码</a>
+								<a href="{php echo $this->createWebUrl('Qrlong', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"> <i class="fa fa-search-plus"></i> 查看永久二维码</a></p>
+								<a href="{php echo $this->createWebUrl('Salt', array('pici' => $row['pici']))}" class="btn btn-primary btn-sm"> <i class="fa fa-qrcode"></i> 生成智能二维码</a>
+								<a href="{php echo $this->createWebUrl('Saltshow', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"> <i class="fa fa-search-plus"></i> 查看智能二维码</a>
+								
+							</td>
+							<td>
+                                <p><a href="{php echo $this->createWebUrl('Urldownload', array('pici' => $row['pici']))}" class="btn btn-primary btn-sm"> <i class="fa fa-download"></i> 导出临时二维码</a></p>
+								<p><a href="{php echo $this->createWebUrl('Urldownload2', array('pici' => $row['pici']))}" class="btn btn-info btn-sm"> <i class="fa fa-download"></i> 导出永久二维码</a></p>
+								<a href="{php echo $this->createWebUrl('Saltdownload', array('pici' => $row['pici']))}" class="btn btn-success btn-sm"> <i class="fa fa-download"></i> 导出智能二维码</a>
+                            </td>
+							<td>
+                                <p><a href="{php echo $this->createWebUrl('prize', array('pici' => $row['pici']))}" class="btn btn-warning btn-sm"><i class="fa fa-trophy"></i> 奖品设置</a></p>
+								<p><a href="{php echo $this->createWebUrl('usershow', array('pici' => $row['pici']))}" class="btn btn-info btn-sm"><i class="fa fa-trophy"></i> 领取流水</a></p>
+                            </td>
+							
+                            <td>
+                                <p><a href="{php echo $this->createWebUrl('codedie', array('pici' => $row['pici']))}" onclick="return confirm('确认删除吗，删除后，不可恢复？');return false;" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i> 卡密删除</a></p>
+								
+								
+                            </td>
+                        </tr>
+                        {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+	</div>
+
+</div>
+{$pager}
+		
+{template 'common/footer'}

@@ -1,0 +1,20 @@
+<div class="panel panel-danger">
+  <div class="panel-heading">智能二维码关注页面</div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择图片</label>
+        <div class="col-sm-9">
+          {php echo tpl_form_field_image('salt_img', $settings['salt_img'])}
+          <div class="help-block">
+            <br/>
+            <code>此处的作用主要为认证服务号使用智能二维码时，未关注公公众号的粉丝会出现的一个页面，可让粉丝识别图片关注公众号的，未设置图片则使用模块自带的页面</code><br/><br/>
+            <kbd>请上传带有公众号二维码的640*1080px图片</kbd><br/>
+            
+          </div>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+</div>

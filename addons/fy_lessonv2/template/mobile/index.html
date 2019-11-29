@@ -1,0 +1,425 @@
+<!-- 
+ * 微课堂首页
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<style>
+.weui_tab_bd{height: auto; padding-bottom: 0;}
+</style>
+<script src="{MODULE_URL}template/mobile/style/jsv2/BreakingNews.js?v={$versions}"></script>
+<script type="text/javascript">
+$(function() {
+	$('#breakingnews').BreakingNews({
+		title: '<img src="{MODULE_URL}template/mobile/images/ico-inform.png" style="width:32px;margin-top:4px;">',
+		titlebgcolor: '#ffffff',
+		linkhovercolor: '#099',
+		border: '1px solid #f3f3f3',
+		timer: 5000,
+		effect: 'slide'
+	});
+});
+</script>
+
+{if $setting['isfollow']>0 && $fans['follow']==0 && $userAgent}
+<div class="follow_topbar">
+	<div class="headimg">
+		<img src="{$_W['attachurl']}{$setting['qrcode']}">
+	</div>
+	<div class="info">
+		<div class="i">{$_W['account']['name']}</div>
+		<div class="i">{$setting['follow_word']}</div>
+	</div>
+	<div class="sub" onclick="location.href='{php echo $this->createMobileUrl('follow');}'">立即关注</div>
+</div>
+<div style='height:44px;'>&nbsp;</div>
+{/if}
+
+<div class="weui_tab_bd" id="weui_tab_div">
+	<!-- 搜索框 -->
+	<div class="index-header-search {php echo $search_box['isshow'] ? '' : 'hide';}" style="top:{$search_box['top']}px;left:{$search_box['left']}px;">
+		<div class="u-search">
+			<i class="fa fa-search"></i>
+			<input type="text" id="searchInput" class="search_input z-abled" value="" autocorrect="off" placeholder="输入课程名称进行查找">
+		</div>
+	</div>
+	<!-- /搜索框 -->
+
+	<!-- 广告轮播图 -->
+	{if !empty($setting['banner'])}
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<!--图片一-->
+			{loop $banner $item} {if !empty($item['img'])}
+			<div class="swiper-slide">
+				<a href="{$item['link']}">
+					<img class="swiper-lazy" data-src="{$_W['attachurl']}{$item['img']}">
+				</a>
+			</div>
+			{/if} {/loop}
+			<!--图片一end-->
+		</div>
+		<div class="swiper-pagination"></div>
+	</div>
+	{/if}
+	<!-- /广告轮播图 -->
+
+	<!-- 分类 -->
+	{if !empty($category_list)}
+	<div class="grid_wrap bor_no">
+		{loop $category_list $item}
+		<a class="grid_item uc-flex1" href="{php echo $item['link'] ? $item['link'] : $this->createMobileUrl('search', array('cat_id'=>$item['id']));}">
+			<div class="grid_hd">
+				<img src="{$_W['attachurl']}{$item['ico']}" alt="{$item['name']}" />
+			</div>
+			<div class="grid_bd">
+				<p>{$item['name']}</p>
+			</div>
+		</a>
+		{/loop}
+		{if !empty($allCategoryIco)}
+		<a class="grid_item uc-flex1" href="{php echo $this->createMobileUrl('search',array('op'=>'allcategory'));}">
+			<div class="grid_hd">
+				<img src="{$allCategoryIco}" alt="全部分类">
+			</div>
+			<div class="grid_bd">
+				<p>全部分类</p>
+			</div>
+		</a>
+		{/if}
+	</div>
+	{/if}
+	<!-- /分类 -->
+	
+	<!-- 公告 -->
+	{if !empty($articlelist) && is_array($articlelist)}
+	<div class="BreakingNewsController easing" id="breakingnews">
+		<div class="bn-title" onclick="location.href='{php echo $this->createMobileUrl('article', array('op'=>'list'));}'"></div>
+		<ul>
+			{loop $articlelist $article}
+			<li><a href="{php echo $this->createMobileUrl('article', array('op'=>'display','aid'=>$article['id']));}">[{php echo date('m-d',$article['addtime']);}]{$article['title']}</a></li>
+			{/loop}
+		</ul>
+		<div class="bn-arrows" onclick="location.href='{php echo $this->createMobileUrl('article', array('op'=>'list'));}'">更多</div>	
+	</div>
+	{/if}
+	<!-- /公告 -->
+	
+	<!-- 最新课程 -->
+	{if $setting['show_newlesson'] && $newlesson}
+	<div class="course_wrap mt10">
+		<h2 class="course_hd"><span class="bor-l"></span>最新更新</h2>
+		<ul class="newlesson-list" style="min-height:1px;">
+			{loop $newlesson $item}
+			<li class="lesson_list">
+				<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}" class="package">
+					<div class="package__cover-wrap">
+						<div class="package__cover" style="background-image: url({$_W['attachurl']}{$item['images']});">
+							<span class="package__cover-tips package__cover-tips--status">{if $item['price']>0}{php echo $item['buynum']+$item['virtual_buynum'];}{else}{php echo $item['buynum']+$item['virtual_buynum']+$item['visit_number'];}{/if}人已学习</span>
+						</div>
+					</div>
+					<div class="package__content">
+						<h3 class="package__name">{$item['bookname']}</h3>
+						<div class="package__info">
+							<span class="pink-color subhead">{$item['section']['title']}</span>
+						</div>
+						<div class="package__info">
+							<span class="grey-color">{$item['tran_time']}更新</span>
+							<div class="package__course-num"><i class="red-color">{php echo $item['price']>0?'¥'.$item['price']:'免费';}</i></div>
+						</div>
+					</div>
+				</a>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	{/if}
+	<!-- /最新课程 -->
+
+	<!-- 课程板块遍历 -->
+	{if !empty($list)} {loop $list $rec}
+	<div class="course_wrap mt10">
+		<h2 class="course_hd"><span class="bor-l"></span>{$rec['rec_name']}</h2>
+		{if $rec['show_style']==1}
+		<ul class="course_main course_other">
+			{loop $rec['lesson'] $item}
+			<li class="course_item">
+				<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}">
+					<div class="course_pic">
+						{if !empty($item['ico_name'])}
+						<span class="course_ico courseNew" style="background:url('../addons/fy_lessonv2/template/mobile/images/{$item['ico_name']}.png') no-repeat;background-size: 40px 40px;"></span>
+						{/if}
+						<img class="lazy" src="{$_W['attachurl']}{$item['images']}" alt="{$item['bookname']}" />
+						<p class="course_living">{$item['bookname']}</p>
+					</div>
+					<p>
+						<span class="fl red-color">{php echo $item['price']>0?'¥'.$item['price']:'免费';}</span>
+						<span class="fr">已更新<i class="blue-color">{$item['count']}</i>节课</span>
+					</p>
+					<p>
+						{if $setting['stock_config']==1}
+						<span class="fl">仅剩:{$item['stock']}</span> {/if}
+						<span class="fr"><i class="blue-color">{if $item['price']>0}{php echo $item['buynum']+$item['virtual_buynum'];}{else}{php echo $item['buynum']+$item['virtual_buynum']+$item['visit_number'];}{/if}</i>人已学习</span>
+					</p>
+				</a>
+			</li>
+			{/loop}
+		</ul>
+		{elseif $rec['show_style']==2}
+		<ul class="course_main course_live">
+			<li class="course_item" style="width:100%;">
+				<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$rec['lesson'][0]['id']));}">
+					<div class="course_pic">
+						{if !empty($rec['lesson'][0]['ico_name'])}
+						<span class="course_ico courseNew" style="background:url('../addons/fy_lessonv2/template/mobile/images/{$rec['lesson'][0]['ico_name']}.png') no-repeat;background-size: 40px 40px;"></span>
+						{/if}
+						<img class="lazy" src="{$_W['attachurl']}{$rec['lesson'][0]['images']}" alt="{$rec['lesson'][0]['bookname']}" style="height:184px" />
+					</div>
+					<h3>{$rec['lesson'][0]['bookname']}</h3>
+					<p>
+						<span class="fl red-color" style="font-size:13px;">{php echo $rec['lesson'][0]['price']>0?'¥'.$rec['lesson'][0]['price']:'免费';}</span>
+						<span class="fr">已有<i class="blue-color">{if $rec['lesson'][0]['price']>0}{php echo $rec['lesson'][0]['buynum']+$rec['lesson'][0]['virtual_buynum'];}{else}{php echo $rec['lesson'][0]['buynum']+$rec['lesson'][0]['virtual_buynum']+$rec['lesson'][0]['visit_number'];}{/if}</i>人学习</span>
+					</p>
+				</a>
+			</li>
+			{loop $rec['lesson'] $key $item} {if $key>0}
+			<li class="course_item">
+				<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}">
+					<div class="course_pic">
+						{if !empty($item['ico_name'])}
+						<span class="course_ico courseNew" style="background:url('../addons/fy_lessonv2/template/mobile/images/{$item['ico_name']}.png') no-repeat;background-size: 40px 40px;"></span>
+						{/if}
+						<img class="lazy" src="{$_W['attachurl']}{$item['images']}" alt="{$item['bookname']}" />
+						<p class="course_living">{$item['bookname']}</p>
+					</div>
+					<p>
+						<span class="fl red-color">{php echo $item['price']>0?'¥'.$item['price']:'免费';}</span>
+						<span class="fr">已更新<i class="blue-color">{$item['count']}</i>节课</span>
+					</p>
+					<p>
+						{if $setting['stock_config']==1}
+						<span class="fl">仅剩:{$item['stock']}</span> {/if}
+						<span class="fr"><i class="blue-color">{if $item['price']>0}{php echo $item['buynum']+$item['virtual_buynum'];}{else}{php echo $item['buynum']+$item['virtual_buynum']+$item['visit_number'];}{/if}</i>人已学习</span>
+					</p>
+				</a>
+			</li>
+			{/if} {/loop}
+		</ul>
+		{elseif $rec['show_style']==3}
+		<ul class="course_main course_live">
+			{loop $rec['lesson'] $item}
+			<li class="course_item" style="width:100%;">
+				<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}">
+					<div class="course_pic">
+						{if !empty($item['ico_name'])}
+						<span class="course_ico courseNew" style="background:url('../addons/fy_lessonv2/template/mobile/images/{$item['ico_name']}.png') no-repeat;background-size: 40px 40px;"></span>
+						{/if}
+						<img class="lazy" src="{$_W['attachurl']}{$item['images']}" alt="{$item['bookname']}" style="height:184px" />
+						<p class="course_living">{$item['bookname']}</p>
+					</div>
+				</a>
+			</li>
+			{/loop}
+		</ul>
+		{/if}
+	</div>
+	{/loop} {/if}
+	<!-- /课程板块遍历 -->
+	
+	{if !empty($config['index_slogan'])}
+	<div class="slogan_wrap">
+		<div class="slogan_bd" style="background-image:url({$_W['attachurl']}{$config['index_slogan']});"></div>
+	</div>
+	{/if}
+</div>
+
+<!-- 绑定手机号码 -->
+{if $setting['modify_mobile']==2 && $uid>0 && empty($member['mobile'])}
+<div id="modify_mobile_shade" style="background-color:rgba(0,0,0,0.7); position:fixed; width:100%; height:100%; top:0; z-index:100000000;"></div>
+<div class="login_wrap" id="modify_mobile_div" style="position:absolute; width:90%; height:100%; margin:0 5%; top:80px; z-index:100000001;">
+	<form method="post" onsubmit="return checknum();">
+		<div class="weui_cells weui_cells_form" style="border-radius:10px; padding-bottom:20px;">
+			<h3 style="padding:15px 0; text-align:center; font-size:18px;">请绑定手机号码</h3>
+			<a href="javascript:;" onclick="closeBox();" style="width:20px;height:20px;position:absolute;right:15px;top:17px;"><i class="fa fa-close fa-lg"></i></a>
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">手机号码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="mobile" placeholder="请输入手机号码">
+				</div>
+			</div>
+			<div class="weui_cell check_code">
+				<div class="weui_cell_hd">
+					<label class="weui_label">验证码</label>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="verify_code" placeholder="请输入验证码">
+				</div>
+				<div class="weui_cell_ft">
+					<a href="javascript:;" id="weui_btn_send" onclick="sendcode()">获取验证码</a>
+				</div>
+			</div>
+			{if in_array('password', $index_verify)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">登录密码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="password" class="weui_input" name="pwd1" placeholder="设置登录密码">
+				</div>
+			</div>
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">重复密码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="password" class="weui_input" name="pwd2" placeholder="重复登录密码">
+				</div>
+			</div>
+			{/if}
+			<div class="weui_btn_area">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<input type="submit" name="modify_mobile" class="weui_btn weui_btn_primary" value="提交">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+document.getElementById("modify_mobile_div").style.height = document.getElementById("weui_tab_div").offsetHeight + "px";
+
+function checknum(){
+	var mobile   = $("input[name=mobile]").val();
+	var myreg = /^((1)+\d{10})$/;
+	if(mobile==''){
+		alert("请输入手机号码");
+		return false;
+	}else if(!myreg.test(mobile)) {
+		alert('您输入的手机号码有误');
+		return false;
+	}
+
+	<?php if(in_array('password', $index_verify)){ ?>
+	if($("input[name=verify_code]").val()==''){
+		alert("请输入短信验证码");
+		return false;
+	}
+	if($("input[name=pwd1]").val()==''){
+		alert("请输入登录密码");
+		return false;
+	}
+	if($("input[name=pwd1]").val() != $("input[name=pwd2]").val()){
+		alert("两次密码不一致");
+		return false;
+	}
+	<?php } ?>
+
+	document.getElementById("spinners").style.display = 'block';
+}
+
+var countdown = 60;
+function sendcode() {
+	var result = checkMobile();
+	if(!result){
+		return;
+	}
+	if ($('#weui_btn_send').hasClass('has_send')) {
+		return false;
+	}
+
+	var mobile = $('input[name="mobile"]').val();
+	$.ajax({
+		type:"post",
+		dataType:"json",
+		url: "{php echo $this->createMobileUrl('sendcode');}",
+		data: {mobile:mobile},
+		success: function (data) {
+			if(data.code==0){
+				settime($("#weui_btn_send"));
+			}else{
+				alert(data.msg);
+			}
+		},
+		error: function(e){
+		}
+	});
+	
+}
+function settime(obj) { //发送验证码倒计时
+	if(countdown == 0) {
+		$('#weui_btn_send').removeClass('has_send').text('重新发送');
+		countdown = 60;
+		return;
+	} else {
+		$('#weui_btn_send').addClass('has_send').text('重新获取(' + countdown + ')');
+		countdown--;
+	}
+	setTimeout(function() {
+		settime(obj)
+	}, 1000)
+}
+//校验手机号是否合法
+function checkMobile() {
+	var mobile = $('input[name="mobile"]').val();
+	var myreg = /^((1)+\d{10})$/;
+	if(!myreg.test(mobile)) {
+		alert('请输入有效的手机号码');
+		return false;
+	} else {
+		return true;
+	}
+}
+function closeBox(){
+	$("#modify_mobile_shade").hide();
+	$("#modify_mobile_div").hide();
+}
+</script>
+{/if}
+<!-- /绑定手机号码 -->
+
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+
+<div id="spinners" style="display:none;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+wx.ready(function(){
+	var shareData = {
+		title: "{$sharelink['title']}",
+		desc: "{$sharelink['desc']}",
+		link: "{php echo $shareurl;}",
+		imgUrl: "{php echo $_W['attachurl'];}{$sharelink['images']}",
+		trigger: function (res) {},
+		complete: function (res) {},
+		success: function (res) {},
+		cancel: function (res) {},
+		fail: function (res) {}
+	};
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	wx.onMenuShareQZone(shareData);
+});
+
+var search = function() {
+    var keywords = $.trim($("#searchInput").val());
+    if (keywords == '') {
+        searchUrl = '{php echo $this->createMobileUrl("search");}';
+    } else {
+        searchUrl = '{php echo $this->createMobileUrl("search");}&keyword=' + encodeURIComponent(keywords);
+    }
+    document.location.href = searchUrl;
+    return false;
+};
+$("#searchInput").keydown(function(event) {
+	if (event.keyCode == 13) {
+		search();
+	}
+});
+$("#search_btn").on("click", function(){
+	search();
+});
+</script>
+
+{template '_footerv2'}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>请向工作人员出示二维码</title>
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+</head>
+<body>
+<!--<div style="font-size: 14px;">
+    &lt;!&ndash;订单头部商家信息&ndash;&gt;
+    <div style="height: 30px; line-height: 30px;margin-left: 10px;">
+        <div style="float: left;margin-top:2px;"><img src="{php echo tomedia($order['logo'])}" alt="" style="width: 20px;height: 20px;"></div>
+        <div style="float: left;margin-left:10px;margin-top:5px;">{$order['shop_name']}</div>
+        <div style="float: left;margin-top:3px;"><img src="{ASSETS_PATH}img/goods_you.png" alt="" style="width: 16px;height: 16px;"></div>
+        {if $v['use_status']==1}
+        <span style="color: #2bb8aa;float: right;margin-right: 10px;margin-top:3px;">已使用</span>
+        {else if $v['use_status']==0}
+        <span style="color: #2bb8aa;float: right;margin-right: 10px;margin-top:3px;">未使用</span>
+        {/if}
+    </div>
+    <div style="border-bottom: 1px solid #eee;margin-top:5px;"></div>
+
+    &lt;!&ndash;订单图片价格区域&ndash;&gt;
+    <div>
+        <div style="margin:10px;">
+            <img src="{php echo tomedia($order['logos'][0])}" alt="" style="width:80px;height: 80px;border-radius:5px;">
+        </div>
+        <div style="margin-left: 100px;margin-top:-88px;font-size: 16px;width: 50%">
+            <span>{$order['gname']}</span>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    &lt;!&ndash;订单时间，总额区域&ndash;&gt;
+    <div style="height: 30px; line-height: 30px">
+        <div style="margin-left:100px;">
+            <span style="color: orangered;">合计：<span style="font-size: 16px;">¥{$order['money']}</span>元</span>
+        </div>
+    </div>
+    &lt;!&ndash;订单核销 删除 区域&ndash;&gt;
+    <div style="width: 100%;">
+        <div style="margin-left:100px;float: left;color:#999;">
+            <span>{php echo date('Y-m-d H:i:s',$order['createtime'])}</span>
+        </div>
+    </div>
+    <div style="border-bottom:10px solid #eee;margin-top:33px;"></div>
+</div>-->
+
+<div align="center" style="margin-top:30px;">
+   <!-- <div>
+        <span>
+            订单号：{$order['numberid']}
+        </span>
+    </div>-->
+    <img src="{$b}" width="55%">
+</div>
+</body>

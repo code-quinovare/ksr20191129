@@ -1,0 +1,248 @@
+.task_top{
+	padding:10px;
+	background:#fff;
+}
+.task_top img{
+    width: 40px;
+    height: 40px;
+	
+}
+
+.task_top_name{
+    padding-left: 10px;
+}
+.task_tasktion{
+	background:#fff;
+	margin-top:5px;
+    position: relative;	
+}
+.task_title{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+    overflow: hidden;	
+}
+.task_content{
+    padding: 5px 0;
+    font-size: 15px;
+    min-height: 60px;	
+}
+.task_content_img img{
+    width: 31%;
+    margin-right: 1%;
+    margin-top: 10px;
+    border: 1px solid #ddd;	
+}
+.task_content_title{
+	font-weight:700;
+    text-align: justify;
+    padding: 10px 0 20px 0;	
+	word-break: break-all;
+}
+.task_content_title a{
+    font-size: 16px;
+    color: #428bca;
+}
+.task_answer_order{
+	line-height:20px;
+}
+
+.task_answer_main_item{
+    position: relative;
+    margin: 5px 0;
+}
+.task_answer_main_item .left{
+	width:20%;
+}
+.task_answer_main_item .right{
+	width:80%;
+	padding-bottom:5px;
+}
+
+.task_answer_main_item .bottom{
+    text-align: right;
+    padding: 5px 0;	
+	min-height: 20px;	
+}
+.task_answer_main_item .bottom span{
+    border: 1px solid #999;
+    padding: 3px 8px;
+    line-height: 12px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #999;
+    margin-left: 5px;
+    display: inline-block;
+}
+#tasker_accept span{
+	color:#ff5f27;
+	border:1px solid #ff5f27;
+}
+.task_reward{
+	position: absolute;
+    bottom: 7px;
+    color: #ff5f27;
+    transform: rotate(11deg);
+    border: 1px solid;
+    padding: 3px;
+    border-radius: 2px;
+	font-size: 12px;	
+}
+.task_answer_images img{
+    width: 31%;
+    margin-right: 1%;
+    margin-top: 5px;
+    border: 1px solid #ddd;	
+}
+.task_answer_isshow{
+    width: 135px;
+    border: dashed 1px #A9A9A9;
+    color: #A9A9A9;
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin: 3px 0;
+    font-size: 13px;	
+}
+.task_content_body{
+	min-height: 60px;
+}
+
+/*筛选*/
+.task_answer_order{
+	position: relative;
+}
+.task_filter_answer{
+    position: absolute;
+    background: #fff;
+    z-index: 1;
+    width: 100px;
+    right: 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    top: 34px;
+	display:none;
+}
+.task_filter_answer img{
+	position: absolute;
+    width: 20px;
+    right: 0;
+    top: -17px;
+}
+.task_filter_answer p{
+	padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/*脚部*/
+.task_footer{
+    height: 40px;
+    background: #fff;
+	z-index: 5;
+	display:relative;
+}
+.task_footer li{
+    width: 25%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+}
+.task_footer .backtosite{
+    position: absolute;
+    width: 80px;
+    right: 10px;
+    bottom: 50px;
+    border-radius: 3px;
+    background: #ff5f27;
+    color: #fff;
+	display:none;
+}
+.task_footer .backtosite p{
+    border-bottom: 1px solid #fff;
+    line-height: 40px;
+    text-align: center;	
+}
+.task_footer .arrow_in {
+	display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 14px;
+    border-style: dashed;
+    border-color: transparent;
+    border-bottom-width: 0;
+    border-top-color: #ff5f27;
+    border-top-style: solid;
+    bottom: -12px;
+    position: absolute;
+    right: 15px;
+}
+
+
+/*回复框*/
+.weui_actionsheet{
+    height: 400px;
+	z-index:5;
+}
+.sideup_answertask_body{
+	padding:10px;
+}
+
+.sideup_answertask_body textarea{
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 5px;
+}
+.answertask_pub{
+	text-align: right;
+	margin-bottom:10px;
+}
+.answertask_pub span{
+	border: 1px solid;
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+#sideup_answertask input{
+	background: #fff;
+    border: none;
+    color: #999;
+}
+
+.sideuper_bottom {
+    bottom: 10px;
+}
+#sideup_tasksetting .weui_cell_primary{
+	font-size:14px;
+}
+#sideup_tasksetting .weui_check_label  {
+    padding-bottom: 10px;
+}
+#sideup_tasksetting .sideuper_body {
+	height: 370px;
+}
+.task_log{
+    background: #fff;
+    padding: 10px;
+    margin-top: 5px;
+}
+.task_log li{
+	text-align:justify;
+}
+.sideuper_urgmoney{
+	padding-top:20px!important;
+}
+.admin_verify{
+	position: fixed;
+    right: 10px;
+    top: 60%;
+    background: #ff5f27;
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 8px;
+    line-height: 12px;
+}
+#sideup_verify .sideuper_body {
+	height: 200px;
+}
+
+

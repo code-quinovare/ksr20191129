@@ -1,0 +1,11 @@
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label {if $field['essential']}weui-start{/if}">{$field['title']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary car_input">
+				<input class="weui_input " id="{$field['refid']}" name="field_{$field['refid']}_{$field['bind']}" type="text" value="{$field['default']}" placeholder="{$field['tixing']}" {if $field['only']}id="n_{$field['refid']}" onblur="check(this,'{$field['refid']}')" data="{$field['title']}"{/if} {if $field['essential']}required tips="{$field['tixing']}"{/if} readonly>
+			</div>
+			<div class="weui_cell_ft"></div>
+		</div>
+<script type="text/javascript" src="{TEMPLATE_WEUI}plugin/jquery.min.js"></script>
+<script type="text/javascript" src="{TEMPLATE_WEUI}plugin/plate.layer.js"></script>
+<script type="text/javascript" src="{TEMPLATE_WEUI}plugin/plate.js"></script>

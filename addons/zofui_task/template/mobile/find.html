@@ -1,0 +1,17 @@
+{template 'common/myheader'}
+{template 'common/topbar'}
+
+<div class="find_main">
+		<div class="guylist_list">
+			<div class="guylist_top">
+				{if empty($focusguysort)}
+					<p>全部人物</p>
+					<p class="font_13px_999">提示：左上角及右上角按钮可对人物筛选</p>
+				{else}
+					<p>{$focusguysort['title']}</p>
+					<p class="font_13px_999">{$focusguysort['desc']}</p>
+				{/if}
+			</div>	
+		</div>				
+</div>
+{template 'common/myfooter'}

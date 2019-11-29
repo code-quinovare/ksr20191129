@@ -1,0 +1,250 @@
+<style>
+.label{
+	display:block;
+}
+.dropdown-menu{
+	height: 250px;
+	overflow-y: scroll;		
+}
+
+</style>
+<div class="panel panel-default">
+  <div class="panel-body">
+	{if $_GPC['do'] == 'task'}
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="zofui_task" />
+			<input type="hidden" name="do" value="task" />
+			<input type="hidden" name="op" value="search" />
+		<div class="col-xs-3">
+			<div class="input-group">
+			  <input type="text" class="form-control" name="for" placeholder="请输入任务标题" style="z-index: 0;">
+			  <span class="input-group-btn">
+				<button class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+			  </span>
+			</div>
+		</div>
+		</form>
+	{/if}
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['status']=='1'}进行中的任务
+				  {elseif $_GPC['status']=='2'}已结束的任务
+				  {elseif $_GPC['status']=='3'}审核中的任务
+				  {elseif $_GPC['status']=='4'}审核不通过的任务				  
+				  {else}全部状态任务{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>1,'puber'=>$_GPC['puber']))}">进行中的任务</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>2,'puber'=>$_GPC['puber']))}">已结束的任务</a></li>				
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>3,'puber'=>$_GPC['puber']))}">审核中的任务</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>4,'puber'=>$_GPC['puber']))}">审核不通过的任务</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'puber'=>$_GPC['puber']))}">全部状态任务</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['isurg']=='1'}未加急任务
+				  {elseif $_GPC['isurg']=='2'}加急任务
+				  {else}全部（加急/未加急）{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>1,'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber']))}">未加急任务</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>2,'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber']))}">加急任务</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber']))}">全部（加急/未加急）</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{loop $tasksort $item}
+				  {if $_GPC['sort'] == $item['id']} {$item['name']} {/if}
+				{/loop}
+				{if empty($_GPC['sort'])}全部分类任务{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'istop'=>$_GPC['istop'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'status'=>$_GPC['status']))}">全部分类任务</a></li>
+				{loop $tasksort $item}
+					<li role="separator" class="divider"></li>
+					<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$item['id'],'status'=>$_GPC['status'],'istop'=>$_GPC['istop'],'puber'=>$_GPC['puber']))}">{$item['name']}</a></li>		
+				{/loop}
+			  </ul>
+			</div>
+		</div>
+	</div>	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['puber']=='admin'}管理员发布
+				  {elseif $_GPC['puber']=='user'}用户发布
+				  {else}全部发布者{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'istop'=>$_GPC['istop'],'puber'=>'admin'))}">管理员发布</a></li>
+				<li role="separator" class="divider"></li>	
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'istop'=>$_GPC['istop'],'puber'=>'user'))}">用户发布</a></li>
+				<li role="separator" class="divider"></li>					
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'istop'=>$_GPC['istop']))}">全部发布者</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>	
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['orderby']=='number'}票数排序
+				  {elseif $_GPC['orderby']=='money'}奖励排序
+				  {elseif $_GPC['orderby']=='lastnumber'}剩余任务量排序
+				  {elseif $_GPC['orderby']=='lasttime'}剩余时间排序
+				  {else}最新排序{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>'number','item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>$_GPC['istop']))}">票数排序</a></li>
+				<li role="separator" class="divider"></li>		
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>'money','item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>$_GPC['istop']))}">奖励排序</a></li>
+				<li role="separator" class="divider"></li>					
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>'lastnumber','item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>$_GPC['istop']))}">剩余票数排序</a></li>	
+				<li role="separator" class="divider"></li>					
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>'overtime','item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>$_GPC['istop']))}">剩余时间排序</a></li>		
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>$_GPC['istop']))}">最新排序</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['istop']=='1'}置顶的任务
+				  {elseif $_GPC['orderby']=='0'}非置顶的任务
+				  {else}全部任务{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>1))}">置顶的任务</a></li>
+				<li role="separator" class="divider"></li>		
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber'],'istop'=>0))}">非置顶的任务</a></li>					
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'orderby'=>$_GPC['orderby'],'item'=>$_GPC['item'],'isurg'=>$_GPC['isurg'],'sort'=>$_GPC['sort'],'status'=>$_GPC['status'],'puber'=>$_GPC['puber']))}">全部任务</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>	
+  </div>
+</div>
+<div class="main">
+	<div class="category">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+				<form action="" method="post">
+					<table class="table">
+						<thead class="navbar-inner">
+							<tr>
+								<th style="width:70px">任务id</th>
+								<th class="col-sm-1">发布者</th>
+								<th class="col-sm-1">任务标题</th>
+								<th class="col-sm-1">奖励</th>
+								<th class="col-sm-1">任务量</th>
+								<th class="col-sm-2">时间</th>									
+								<th class="col-sm-1">类型</th>
+								<th class="col-sm-1">状态</th>
+								<th class="col-sm-1">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $taskinfo $item}
+						<tr>
+							<td><label><input type="checkbox" name="taskid[]" value="{$item['id']}" class=""> {$item['id']}</label></td>
+							<td>
+							{if $item['uid']>0}
+								<div><a target="_blank" href="{php echo $this->createWebUrl('userinfo',array('uid'=>$item['uid']))}" >{$item['nickname']}</a></div><img width="30px" height="30px" src="{$item['avatar']}">
+							{else}
+								平台管理员
+							{/if}
+							</td>	
+							<td><a href="">{php echo strip_tags(htmlspecialchars_decode(htmlspecialchars_decode($item['title'])))}</a></td>
+							<td><div>单价:{$item['money']}</div><div>加急:{$item['urgmoney']}</div></td>	
+							<td><div>总数:{$item['number']}</div><div>剩余:{$item['lastnumber']}</div><div>加急剩余:{$item['urgnumber']}</div></td>
+							<td>
+								<div>创建:{php echo date('Y-m-d H:i',$item['createtime'])}</div>
+								{if $item['status'] == 3}
+									未开始
+								{elseif $item['status'] == 4}
+									无
+								{else}
+									<div>剩余:{php echo Util::lastTime($item['overtime'])}</div>
+								{/if}
+							</td>
+							<td><div>分类:{$item['typename']}</div><div>城市:{$item['city']}</div></td>
+							<td>
+								{if $item['status']==1}
+								<p class='label label-success'>进行中</p>
+								{elseif $item['status']==2}
+								<p class='label label-info'>已完成</p>
+								{elseif $item['status']==3}
+								<p class='label label-danger'>审核中</p>
+								{elseif $item['status']==4}
+								<p class='label label-warning'>审核不通过</p>								
+								{/if}
+								{if $item['isshow']==1}
+									隐藏
+								{elseif $item['isshow']==2}
+									可见								
+								{/if}								
+							</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('task',array('op'=>'edit','id'=>$item['id']))}" class="btn btn-default btn-sm" title="编辑" onclick="return confirm('一旦发布不要随意编辑任务票数，否则导致回复数量和任务票数不一致的情况。');"><span class="fa fa-edit"></span></a>	
+								{if $item['istop'] == 0}
+								<a href="{php echo $this->createWebUrl('task',array('op'=>'up','id'=>$item['id']))}" class="btn btn-default btn-sm" title="置顶" onclick="return confirm('确定要将此任务置顶吗？');"><span class="fa fa-arrow-up"></span></a>
+								{/if}
+								{if $item['istop'] == 1}
+								<a href="{php echo $this->createWebUrl('task',array('op'=>'down','id'=>$item['id']))}" class="btn btn-default btn-sm" title="取消置顶" onclick="return confirm('确定要将此任务取消置顶吗？');"><span class="fa fa-arrow-down"></span></a>
+								{/if}
+								<a target="_blank" href="{php echo $this->createWebUrl('taskinfo', array('id' => $item['id']))}" 
+									class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="详情"><span class="fa  fa-search"></span>
+								</a>
+							</td>
+						</tr>
+						{/loop}
+						<tr>
+							<td><label><input type="checkbox" name="" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});">全选/取消</label></td>
+							<input name="token" type="hidden" value="{$_W['token']}" />
+							<td colspan="8">
+								<input type="submit" name="deletetask" class="btn btn-danger" value="删除" onclick="return confirm('删除后不可恢复，确定要删除吗？');">
+								<input type="submit" name="accounttask" class="btn btn-primary" value="结算" onclick="return confirm('结算后没有采纳的会被自动采纳，任务会立即结束。确定要结算吗？');">
+								<input type="submit" name="righttask" class="btn btn-primary" value="通过审核" onclick="return confirm('确定要将此任务通过审核吗？此操作不可逆，确定操作吗？');">	
+								<input type="submit" name="errortask" class="btn btn-primary" value="审核不通过" onclick="return confirm('审核不通过会将此任务的赏金及服务费退还给任务发布者。此操作不可逆，确定操作吗？');">
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</form>	
+				</div>
+			</div>	
+		{$pager}
+	</div>
+</div>

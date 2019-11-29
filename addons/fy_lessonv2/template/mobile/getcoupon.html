@@ -1,0 +1,165 @@
+<!-- 
+ * 优惠券管理
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/style/cssv2/getcoupon.css?v={$versions}"> 
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if !empty($list)}
+<ul class="coupon-list" id="couponList">
+</ul>
+{if !empty($coupon_desc)}
+<div class="info">
+	<div class="title">
+		<div class="ico"><i class="fa fa-cubes"></i></div>
+		<div class="text">{$coupon_desc[0]}</div>
+	</div>
+	<div class="con">
+		{loop $coupon_desc $key $item}
+		{if $key>0}
+		<div class="line">
+			<div class="t2">
+				<div class="t3">{$item}</div>
+			</div>
+		</div>
+		{/if}
+		{/loop}
+	</div>
+</div>
+{/if}
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+</div>
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+{else}
+<div class="my_empty" style="height:40%;">
+	<div class="empty_bd  my_course_empty">
+		<h3>没有任何优惠券可领取~</h3>
+	</div>
+</div>
+{/if}
+
+<div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:100000000;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script type="text/javascript">
+	var ajaxurl = "{php echo $this->createMobileUrl('getcoupon');}";
+	var geturl = "{php echo $this->createMobileUrl('getcoupon', array('op'=>'getcoupon'));}";
+	var attachurl = "{php echo $_W['attachurl'];}";
+	var loading = document.getElementById("loading");
+	$(function() {
+		var nowPage = 1; //设置当前页数，全局变量
+		function getData(page) {
+			nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+			$.get(ajaxurl, {
+				page: page,
+				status: status
+			}, function(data) {
+				if(data.length > 0) {
+					loading.style.display = 'none';
+					var jsonObj = JSON.parse(data);
+					insertDiv(jsonObj);
+				}
+			});
+
+		}
+		//初始化加载第一页数据  
+		getData(1);
+
+		//生成数据html,append到div中  
+		function insertDiv(result) {
+			var mainDiv = $("#couponList");
+			var chtml = '';
+			for(var j = 0; j < result.length; j++) {
+				chtml += '<li class="coupon-red">';
+				if(result[j].is_end==1){
+					chtml += '	<a class="coupon-a" href="javascript:;">';
+				}else{
+					chtml += '	<a class="coupon-a" onclick="return exchange();return false;" href="'+geturl+'&id='+result[j].id+'">';
+				}
+				chtml += '		<div class="coupon-left">';
+				chtml += '			<div class="img-div-backg">';
+				chtml += '				<div class="img-div">';
+				chtml += '					<img src="' +attachurl+result[j].images+ '">';
+				chtml += '				</div>';
+				chtml += '			</div>';
+				chtml += '			<div class="pro-content">';
+				chtml += '				<span class="pro-info">' +result[j].name+ '</span>';
+				chtml += '				<span class="pro-category">' +result[j].category_name+ '</span>';
+				chtml += '				<div class="pro-price">';
+				chtml += '					<span class="big-price">' +parseInt(result[j].amount)+ '</span>';
+				chtml += '					<span class="price-info">'+result[j].conditions+'</span>';
+				chtml += '				</div>';
+				chtml += '			</div>';
+				chtml += '		</div>';
+				chtml += '		<div class="coupon-right">';
+				chtml += '			<div class="triangle-border-right"><em class="circular0"></em><em class="circular1"></em><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+				chtml += '			<div class="change-block">';
+				chtml += '				<div class="progress-bar-block">';
+				chtml += '					<div class="progress-bar"><span style="width:'+result[j].already_per+'%"></span></div>';
+				chtml += '				</div>';
+				chtml += '				<span class="progress-text">已抢&nbsp;'+result[j].already_per+'%</span>';
+				chtml += '				<span class="progress-text">'+result[j].integral+'</span>';
+				if(result[j].is_end==1){
+					chtml += '				<span class="coupon-btn">已抢完</span>';
+				}else{
+					chtml += '				<span class="coupon-btn">立即兑换</span>';
+				}
+				chtml += '			</div>';
+				chtml += '		</div>';
+				chtml += '	</a>';
+				chtml += '</li>';
+			}
+			mainDiv.append(chtml);
+			if(result.length == 0) {
+				document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底啦</div>';
+			}
+		}
+
+		//==============核心代码=============  
+		var winH = $(window).height(); //页面可视区域高度   
+
+		var scrollHandler = function() {
+			var pageH = $(document.body).height();
+			var scrollT = $(window).scrollTop(); //滚动条top   
+			var aa = (pageH - winH - scrollT) / winH;
+			if(aa < 0.02) {
+				if(nowPage % 1 === 0) {
+					getData(nowPage);
+					$(window).unbind('scroll');
+					$("#btn_Page").show();
+				} else {
+					getData(nowPage);
+					$("#btn_Page").hide();
+				}
+			}
+		}
+		//定义鼠标滚动事件
+		$(window).scroll(scrollHandler);
+		//继续加载按钮事件
+		$("#btn_Page").click(function() {
+			loading.style.display = 'block';
+			getData(nowPage);
+			$(window).scroll(scrollHandler);
+		});
+	});
+	function exchange(){
+		if(!confirm('确定使用积分兑换该优惠券?')){
+			return false;
+		}
+	}
+</script>
+
+{template '_footerv2'}

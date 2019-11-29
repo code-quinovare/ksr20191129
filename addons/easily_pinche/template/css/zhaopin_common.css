@@ -1,0 +1,33 @@
+/*底部提示*/
+#contact_info2{height:50px;position:fixed;bottom:0;left:0;width:100%;}
+#contact_info2 ul{height:50px;background-color:#f5f5f5;}
+#contact_info2 .jl-left a{display:block;font-size:12px;color:#999;}
+#contact_info2 .jl-right a{color:#fff;font-size:16px;justify-content:center;align-items:center;}
+#contact_info2 .jl-right i{margin-right:6px;}
+#contact_info2 .jl-right p{line-height:16px;}
+#contact_info2 .jl-left{flex-direction:column;text-align:center;justify-content:center;}
+#contact_info2 .jl-home{width:37%;}
+#contact_info2 .jl-left i{display:inline-block;}
+#contact_info2 .jl-home i{width:20px;height:18px;background:url(../images/w-jl-sy.png) no-repeat;background-size:100% 100%;}
+#contact_info2 .jl-right{background-color:#df2f30;color:#fff;}
+#contact_info2 .jl-phone i{width:17px;height:17px;display:inline-block;background:url(../images/w-jl-ss.png) no-repeat;background-size:100% 100%;}
+#contact_info2 .jl-yq i{width:16px;height:16px;background:url(../images/w-jl-yq.png) no-repeat;background-size:100% 100%}
+#contact_info2 .jl-sq i{width:14px;height:16px;background:url(../images/w-jl-sq.png) no-repeat;background-size:100% 100%}
+#contact_info2 .jl-qf i{width:18px;height:18px;background:url(../images/w-jl-qf.png) no-repeat;background-size:100% 100%}
+#contact_info2 .jl-bd i{width:18px;height:18px;background:url(../images/w-jl-bd.png) no-repeat;background-size:100% 100%}
+#contact_info2 .jl-ems i{width:20px;height:20px;background:url(../images/w-jl-esm.png) no-repeat;background-size:100% 100%;}
+#contact_info2.type2 .jl-left{width:25%;}
+#contact_info2.type2 .jl-home{position:relative;}
+#contact_info2.type2 .jl-home:after{content:"";position:absolute;right:0;top:10%;width:1px;height:80%;background-color:#e5e5e5;-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:scaleX(0.5);transform:scaleX(0.5);}
+#contact_info2.type3 .jl-left{width:17%;}
+#contact_info2.type3 .jl-home{position:relative;}
+#contact_info2.type3 .jl-home:after{content:"";position:absolute;right:0;top:10%;width:1px;height:80%;background-color:#e5e5e5;-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:scaleX(0.5);transform:scaleX(0.5);}
+#contact_info2.type3 .jl-ems{position:relative;}
+#contact_info2.type3 .jl-ems:after{content:"";position:absolute;right:0;top:10%;width:1px;height:80%;background-color:#e5e5e5;-webkit-transform-origin:left bottom;transform-origin:left bottom;-webkit-transform:scaleX(0.5);transform:scaleX(0.5);}
+#contact_info2.type3 .jl-tel i{width:18px;height:18px;background:url(../images/w-jl-dh.png) no-repeat;background-size:100% 100%;}
+/*底部tab*/
+.zp-fb-btn{width:60px;height:50px;background:url(../images/zp-icon3.png) no-repeat;display:inline-block;background-size:100% 100%;position:relative;top:-4px;}
+.zp-fb-btn span:first-child{display:inline-block;width:16px;height:16px;position:relative;margin-bottom:8px;}
+.zp-fb-btn span:first-child:after{content:"";width:2px;height:15px;background-color:#fff;position:absolute;top:11px;left:50%;}
+.zp-fb-btn span:first-child:before{content:"";width:15px;height:2px;background-color:#fff;position:absolute;top:18px;left:50%;margin-left:-7px;}
+.zp-fb-btn span:first-child+span{display:block;color:#fff;font-size:12px;text-align:center;padding-left:2px;}

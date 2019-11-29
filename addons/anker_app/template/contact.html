@@ -1,0 +1,88 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">联系我们设置</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" method="post" action="" name="submit">
+        	<input type="hidden" name="token" value="{$_W['token']}">
+        	<div class="form-group">
+				<label class="col-sm-2 control-label">Logo</label>
+				<div class="col-sm-10">
+					 {php echo tpl_form_field_image('logo_img', $result['logo_img']);}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">图片墙</label>
+				<div class="col-sm-8">
+					 {php echo tpl_form_field_image('thumb', $result['thumb']);}
+				</div>
+				<div class="col-sm-2">图片：400*205像素(如果觉得不够清晰，可以变成800*410)</div>
+			</div>
+       		<div class="form-group">
+				<label class="col-sm-2 control-label">公司名称</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="company_name" value="{$result['company_name']}">					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">邮箱</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="email" value="{$result['email']}">
+				</div>
+				<div class="col-sm-4">
+					用户留言提醒和发送都为该邮箱<br/>微信提醒设置方法：微信设置->通用->功能->开启QQ邮箱提醒
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">联系电话</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="phone" value="{$result['phone']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">公司地址</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="address" value="{$result['address']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">公司地址坐标</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="position" value="{$result['latitude']},{$result['longitude']}" placeholder="39.906576,116.393967">
+				</div>
+				<div class="col-sm-5"><a href="http://lbs.qq.com/tool/getpoint/" target="blank" style="color: red">点击进入地图选取坐标</a></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">发送邮箱授权码</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="smtp_key" value="{$result['smtp_key']}">
+				</div>
+				<div class="col-sm-4">
+					<a href="{url 'site/entry/Smtp',array('m'=>'yuntu_yy')}" style="color: red;target="_blank">邮箱配置说明 </a>
+				</div>
+			</div>			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">邮件标题设置</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="message_title" value="{$result['message_title']}">
+				</div>
+				<div class="col-sm-4">
+					客户提交表单后，管理员邮箱收到邮件标题。比如:您有新的业务咨询。
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">底部版权信息</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="copyright" value="{$result['copyright']}">
+				</div>
+			</div>	
+			<div class="form-group">			
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" name="submit" class="btn btn-default">					
+				</div>
+			</div>	
+		</form>
+    </div>
+</div>
+{template 'common/footer'}

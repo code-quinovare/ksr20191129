@@ -1,0 +1,585 @@
+{itemplate 'public/header'}
+<link href="../addons/we7_wmall/plugin/errander/static/css/web/diy.web.css?t={php echo time();}" rel="stylesheet" type="text/css"/>
+{if $op == 'index'}
+<div class="clearfix">
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title" id="page">编辑跑腿场景</div>
+			<div class="main" id="app-preview">
+				<div class="page-errander-guide">
+					<div class='shop-wrapper'>
+						<div class="shop">
+							<div class='shop-banner'>
+								<div class='rider-nearby-content'>
+									<div class='rider-nearby-icon'></div>
+									<div>
+										附近有
+										<span class='num'>44</span>
+										位骑手
+									</div>
+								</div>
+								<div class='swiper-container'>
+									<div class='swiper--wrapper'>
+										<div class="swiper-slide">
+											<img src='https://p0.meituan.net/paotui/j8pawbmx2uik9.png'></img>
+										</div>
+										<div class="swiper-slide">
+											<img src='https://p0.meituan.net/paotui/j8pawkcocr3sor.png'></img>
+										</div>
+										<div class="swiper-slide">
+											<img src='https://p0.meituan.net/paotui/j8pawbmx2uik9.png'></img>
+										</div>
+										<div class="swiper-slide">
+											<img src='https://p0.meituan.net/paotui/j8pawkcocr3sor.png'></img>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class='good-edit'>
+								<div class='good-input'>
+									<div class='good-input-placeholder'>
+										<div class='good-input-icon'>
+											<img src='https://xs01.meituan.net/banma_paotui/dist/public/edit-icon.png'></img>
+										</div>
+										输入想买的商品，如：麦当劳嘻哈小食盒
+									</div>
+									<div class='good-input-content'>
+										<textarea maxlength="100" placeholder="输入想买的商品，如：麦当劳嘻哈小食盒" class="good-input-textarea"></textarea>
+										<div class='good-input-submit'></div>
+									</div>
+								</div>
+								<div class='good-tags'>
+									<div class='good-tag-list'>
+										<div class='good-tag'>
+											小吃
+											<div class='good-tag-hot'>
+												<img src='http://p0.meituan.net/xianfu/863820dcf9344412c0eeb4b112904e693136.png'></img>
+											</div>
+										</div>
+										<div class='good-tag'>
+											咖啡
+										</div>
+										<div class='good-tag'>
+											酒水
+										</div>
+										<div class='good-tag'>
+											药品
+										</div>
+									</div>
+									<div class='good-tag-list'>
+										<div class='good-tag'>
+											小吃
+										</div>
+										<div class='good-tag'>
+											咖啡
+										</div>
+										<div class='good-tag'>
+											酒水
+										</div>
+										<div class='good-tag'>
+											药品
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="paotui-feature-panel">
+								<div class='paotui-feature-title'>跑腿特色</div>
+								<div class='paotui-feature-list'>
+									<div class='paotui-feature-item'>
+										<div class='paotui-feature-item-icon'>
+											<img src='https://xs01.meituan.net/banma_paotui/dist/public/paotui-feature-1.png'></img>
+										</div>
+										<div class="paotui-feature-item-text">同城配送</div>
+									</div>
+									<div class='paotui-feature-item'>
+										<div class='paotui-feature-item-icon'>
+											<img src="https://xs01.meituan.net/banma_paotui/dist/public/paotui-feature-2.png"></img>
+										</div>
+										<div class="paotui-feature-item-text">全天服务</div>
+									</div>
+									<div class='paotui-feature-item'>
+										<div class='paotui-feature-item-icon'>
+											<img src='https://xs01.meituan.net/banma_paotui/dist/public/paotui-feature-3.png'></img>
+										</div>
+										<div class="paotui-feature-item-text">万能代购</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='order-icon'>
+						<img src='https://xs01.meituan.net/banma_paotui/dist/public/order_icon.png'></img>
+					</div>
+				</div>
+				<!--取送件-->
+				<div class="page-errander-delivery hide">
+					<div class="delivery">
+						<div class='delivery-body'>
+							<div class='delivery-banner'>
+								<div class='delivery-rider-info'>
+									<div class='icon'></div>
+									<div>
+										附近有
+										<text class='count'>20</text>
+										为骑手
+									</div>
+								</div>
+							</div>
+
+							<div class='delivery-address'>
+								<div class="address delivery-address-item border-1px-b" url='receiveAddress'>
+									<div class='address-bullet address-send'></div>
+									<div class='address-content'>
+										<div class="address-location">北张住宅小区B2-401  </div>
+										<div class='address-contact'>杨 13453222285</div>
+									</div>
+									<div class="icon icon-right" style="color:#ccc;font-size: 10px;position: absolute;right:-4px;"></div>
+								</div>
+
+								<div class='address delivery-address-item' url='receiveAddress'>
+									<div class='address-bullet address-get' style='background-color: rgb(255, 129, 122);'></div>
+									<div class='address-content'>
+										<div class='address-placeholder'>物品送到哪里去</div>
+									</div>
+									<div class="icon icon-right" style="color:#ccc;font-size: 10px;position: absolute;right:-4px;"></div>
+								</div>
+							</div>
+
+							<!-- 立即取件 -->
+							<div class="delivery-extra-info">
+								<div class='text-content'>
+									<div class="inner-text" style='color: rgb(51, 51, 51);'>立即取件</div>
+									<div class="span-arrow" style='transform: rotate(45deg);'></div>
+								</div>
+								<div class='vertical-divider'></div>
+								<div class='text-content'>
+									<div class='inner-div' style="color: rgb(153, 153, 153);">选择物品类型、重量</div>
+									<div class='span-arrow' style="transform: rotate(45deg);"></div>
+								</div>
+							</div>
+
+							<!-- 红包 -->
+							<div class='extra-fee'>
+								<div class='extra-fee-item border-1px-b'>
+									<div class="extra-fee-item-title">红包</div>
+									<a url='redPacket' class='extra-fee-item-after' style='color: rgb(251, 78, 68);'>
+										有一个红包可用
+										<div class="span-arrow" style="transform: rotate(45deg);"></div>
+									</a>
+								</div>
+								<div class='extra-fee-item'>
+									<div class="extra-fee-item-title">更多服务</div>
+									<div class='extra-fee-item-after'>
+										<text class='{{showText?"hide":"show"}}'>货损险、小费、备注</text>
+										<div class="span-arrow " style="transform: rotate(135deg);"></div>
+									</div>
+
+								</div>
+
+							</div>
+
+							<!-- 接受协议 -->
+							<div class="delivery-protocol">
+								<div class="checkbox active"></div>
+								<div class="text" id="gray">
+									同意并接受
+									<a href="javascript: void (0);" class="argeement">《外卖跑腿用户协议》</a>
+								</div>
+							</div>
+
+						</div>
+
+						<!-- 提交 -->
+						<div class='order-submit'>
+							<div class='order-info'>
+								<div class='order-info-estimate'>
+									<span class='distance'>3公里内</span>
+									<span class='duration'>预计60分钟内送达</span>
+								</div>
+								<div class='order-info-fee'>
+									<span class="num"> 7</span>
+									<span class='unit'>元</span>
+									<div class="icon icon-right order-info-arrow-wrap" style="transform: rotate(-90deg); color: #ccc;font-size: 6px;"></div>
+									<!--<div class='order-info-arrow-wrap span-arrow' style="transform: rotate(-45deg);"></div>-->
+								</div>
+							</div>
+							<div class='submit-btn'>提交订单</div>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="parts" id="parts"></div>
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存并设置</nav>
+	</div>
+</div>
+
+
+<script type="text/html" id="tpl-show-fees">
+	<div class="drag" data-itemid="<(itemid)>">
+		<p>7985464</p>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-show-guide">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="page-errander-guide" style="background-color: <(style.background)>;">
+			<div class='shop-wrapper'>
+				<div class="shop">
+					<div class='shop-banner'>
+						<div class='rider-nearby-content'>
+							<div class='rider-nearby-icon'></div>
+							<div style="color: <(rider.color)>;">
+								<(rider.text.left)>
+								<span class='num' style="color: <(rider.num_color)>;"><(rider.text.num)></span>
+								<(rider.text.right)>
+							</div>
+						</div>
+						<div class='swiper-container'>
+							<div class='swiper--wrapper'>
+								<(each picture as item)>
+									<a href="<(item.linkurl)>">
+										<div class="swiper-slide">
+											<img src='<(tomedia item.imgurl)>'>
+										</div>
+									</a>
+								<(/each)>
+							</div>
+						</div>
+					</div>
+					<div class='good-edit'>
+						<div class='good-input'>
+							<div class='good-input-placeholder'>
+								<div class='good-input-icon'>
+									<img src='https://xs01.meituan.net/banma_paotui/dist/public/edit-icon.png'>
+								</div>
+								<(params.placeholder)>
+							</div>
+							<div class='good-input-content active'>
+								<textarea maxlength="100" placeholder="<(params.placeholder)>" class="good-input-textarea"></textarea>
+								<div class='good-input-submit'></div>
+							</div>
+						</div>
+						<div class='good-tags'>
+							<div class='good-tag-list'>
+								<(each lanmu as item)>
+									<div class='good-tag' style="color: <(item.color)>;background-color: <(item.background_color)>;">
+										<(item.text)>
+										<(if item.is_hot == '1')>
+											<div class='good-tag-hot'>
+												<img src='http://p0.meituan.net/xianfu/863820dcf9344412c0eeb4b112904e693136.png'>
+											</div>
+										<(/if)>
+									</div>
+								<(/each)>
+							</div>
+						</div>
+					</div>
+
+					<div class="paotui-feature-panel">
+						<div class='paotui-feature-title'>跑腿特色</div>
+						<div class='paotui-feature-list'>
+							<(each feature as item)>
+								<div class='paotui-feature-item'>
+									<div class='paotui-feature-item-icon' style="border-color: <(item.icon_color)>;">
+										<div class="icon <(item.icon)>" style="color: <(item.icon_color)>;"></div>
+									</div>
+									<div class="paotui-feature-item-text" style="color: <(item.color)>;"><(item.text)></div>
+								</div>
+							<(/each)>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='order-icon' style="border:1px solid <(order.border_color)>">
+				<div class="icon <(order.icon)>" style="color: <(order.color)>"></div>
+				<div class="order-text" style="color: <(order.color)>"><(order.text)></div>
+			</div>
+		</div>
+	</div>
+
+</script>
+<script type="text/html" id="tpl-editor-guide">
+	<div class="form-group">
+		<div class="col-sm-2 control-label">页面背景颜色</div>
+		<div class="col-sm-10">
+			<div class="input-group">
+				<input class="form-control input-sm diy-bind color" data-bind-child="style" data-bind="background" value="<(style.background)>" type="color" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ffffff').trigger('propertychange')">重置</span>
+			</div>
+		</div>
+	</div>
+	<div class="input-group form-group" style="width: 100%;">
+		<div class="col-sm-2 control-label">搜索框提示</div>
+		<div class="col-sm-10 input-group" style="padding: 0 15px;">
+			<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="placeholder" value="<(params.placeholder||'请输入提示信息')>" />
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="form-items" data-min="1" data-max="4">
+		<div class="inner">
+			<(each picture as child itemid )>
+			<div class="item" data-id="<(itemid)>">
+				<span class="btn-del" title="删除" data-goal="picture"></span>
+				<div class="item-image">
+					<img src="<(tomedia child.imgurl)>" onerror="this.src='../addons/we7_wmall/static/img/nopic.jpg';" id="pimg-<(itemid)>" />
+				</div>
+				<div class="item-form">
+					<div class="input-group" style="margin-bottom:0px; ">
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="picture" data-bind-child="<(itemid)>" data-bind="imgurl"  id="cimg-<(itemid)>" placeholder="请选择图片或输入图片地址" value="<(child.imgurl)>" />
+						<span class="input-group-addon btn btn-default js-selectImg" data-input="#cimg-<(itemid)>" data-img="#pimg-<(itemid)>" data-element="#pimg-<(itemid)>">选择图片</span>
+					</div>
+					<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="picture" data-bind-child="<(itemid)>" data-bind="linkurl" id="curl-<(itemid)>" placeholder="请选择链接或输入链接地址" value="<(child.linkurl)>" />
+						<span class="input-group-addon btn btn-default js-selectWxappLink" data-input="#curl-<(itemid)>">选择链接</span>
+					</div>
+				</div>
+			</div>
+			<(/each)>
+		</div>
+		<div class="btn btn-w-m btn-block btn-default btn-outline addChild" data-goal="picture"><i class="fa fa-plus"></i> 添加轮播图片</div>
+	</div>
+	<div class="line"></div>
+	<div class="form-items" data-min="1">
+		<div class="inner">
+			<div class="item">
+				<div class="item-form">
+					<div class="input-group" style="margin-bottom:0px; ">
+						<span class="input-group-addon">文字左</span>
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="rider" data-bind-child="text" data-bind="left" placeholder="请输入左侧文字" value="<(rider.text.left)>" />
+						<span class="input-group-addon">数字</span>
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="rider" data-bind-child="text" data-bind="num" placeholder="请输入数字" value="<(rider.text.num)>"  />
+						<span class="input-group-addon">文字右</span>
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="rider" data-bind-child="text" data-bind="right" placeholder="请输入右侧文字" value="<(rider.text.right)>"/>
+					</div>
+					<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+						<span class="input-group-addon">文字颜色</span>
+						<input class="form-control input-sm diy-bind color" data-bind-child="rider" data-bind="color" value="<(rider.color)>" type="color"/>
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ffffff').trigger('propertychange')">重置颜色</span>
+						<span class="input-group-addon">数字颜色</span>
+						<input class="form-control input-sm diy-bind colorx" data-bind-child="rider" data-bind="num_color" value="<(rider.num_color)>" type="color" />
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#f6ce00').trigger('propertychange')">重置颜色</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="form-items" data-min="1">
+		<div class="inner">
+			<div class="item">
+				<div class="item-image">
+					<div class="icon-main">
+						<(if order.icon)>
+						<span class="icon <(order.icon)>" id="cicon-order"></span>
+						<(else)>
+						<p>无图标</p>
+						<(/if)>
+					</div>
+					<input type="hidden" class="diy-bind" value="<(order.icon)>"  id="picon-order" data-bind="icon" data-bind-child="order" data-bind-init="true"/>
+					<div class="select-icon js-selectIcon" data-input="#picon-order" data-element="cicon-order">选择图标</div>
+				</div>
+				<div class="item-form">
+					<div class="input-group" style="margin-bottom:0px; ">
+						<span class="input-group-addon">文字</span>
+						<input type="text" class="form-control input-sm diy-bind"  data-bind-child="order" data-bind="text" placeholder="请选择图片或输入图片地址" value="<(order.text)>" style="width: 60%" />
+						<input class="form-control input-sm diy-bind color " data-bind-child="order" data-bind="color" value="<(order.color)>" type="color" style="width: 40%" />
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FFD56F').trigger('propertychange')">重置颜色</span>
+					</div>
+					<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+						<span class="input-group-addon">边框颜色</span>
+						<input class="form-control input-sm diy-bind color " data-bind-child="order" data-bind="border_color" value="<(order.border_color)>" type="color" />
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FFD56F').trigger('propertychange')">重置颜色</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="line"></div>
+
+	<div class="form-items" data-min="4" data-max="8">
+		<div class="inner">
+			<(each lanmu as child itemid )>
+				<div class="item" data-id="<(itemid)>">
+					<span class="btn-del" title="删除" data-goal="lanmu"></span>
+					<div class="item-form">
+						<div class="input-group" style="margin-bottom:0px; ">
+							<span class="input-group-addon">栏目名称</span>
+							<input type="text" class="form-control input-sm diy-bind" data-bind-parent="lanmu" data-bind-child="<(itemid)>" data-bind="text" placeholder="请输入栏目名称" value="<(child.text)>" style="width: 60%" />
+							<input class="form-control input-sm diy-bind color " data-bind-parent="lanmu" data-bind-child="<(itemid)>" data-bind="color" value="<(child.color)>" type="color" style="width: 40%" />
+							<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#666666').trigger('propertychange')">重置颜色</span>
+						</div>
+						<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+							<span class="input-group-addon">栏目背景色</span>
+							<input class="form-control input-sm diy-bind color " data-bind-parent="lanmu" data-bind-child="<(itemid)>" data-bind="background_color" value="<(child.background_color)>" type="color"/>
+							<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#fef7df').trigger('propertychange')">重置颜色</span>
+							<input type="text" class="form-control input-sm diy-bind" data-bind-parent="lanmu" data-bind-child="<(itemid)>" data-bind="linkurl" id="curl-<(itemid)>" placeholder="请选择链接或输入链接地址" value="<(child.linkurl)>" />
+							<span class="input-group-addon btn btn-default js-selectWxappLink" data-input="#curl-<(itemid)>">选择链接</span>
+						</div>
+					</div>
+				</div>
+			<(/each)>
+		</div>
+		<div class="btn btn-w-m btn-block btn-default btn-outline addChild" data-goal="lanmu"><i class="fa fa-plus"></i> 添加一个栏目</div>
+	</div>
+	<div class="line"></div>
+	<div class="form-items" data-min="1" data-max="3">
+		<div class="inner">
+			<(each feature as child itemid )>
+			<div class="item" data-id="<(itemid)>">
+				<span class="btn-del" title="删除" data-goal="feature"></span>
+				<div class="item-image">
+					<div class="icon-main">
+						<(if child.icon)>
+						<span class="icon <(child.icon)>" id="cicon-feature"></span>
+						<(else)>
+						<p>无图标</p>
+						<(/if)>
+					</div>
+					<input type="hidden" class="diy-bind" value="<(child.icon)>"  id="picon-feature" data-bind="icon" data-bind-child="<(itemid)>" data-bind-parent="feature" data-bind-init="true"/>
+					<div class="select-icon js-selectIcon" data-input="#picon-feature" data-element="cicon-feature">选择图标</div>
+				</div>
+				<div class="item-form">
+					<div class="input-group" style="margin-bottom:0px; ">
+						<span class="input-group-addon">文字</span>
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="feature" data-bind-child="<(itemid)>" data-bind="text" value="<(child.text)>" style="width: 60%" />
+						<input class="form-control input-sm diy-bind color " data-bind-parent="feature" data-bind-child="<(itemid)>" data-bind="color" value="<(child.color)>" type="color" style="width: 40%" />
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#666666').trigger('propertychange')">重置颜色</span>
+					</div>
+					<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+						<span class="input-group-addon">图标颜色</span>
+						<input class="form-control input-sm diy-bind color " data-bind-parent="feature" data-bind-child="<(itemid)>" data-bind="icon_color" value="<(child.icon_color)>" type="color" style="width: 70px"/>
+						<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FFD56F').trigger('propertychange')">重置颜色</span>
+						<input type="text" class="form-control input-sm diy-bind" data-bind-parent="feature" data-bind-child="<(itemid)>" data-bind="linkurl" id="curl-<(itemid)>" placeholder="请选择链接或输入链接地址" value="<(child.linkurl)>" />
+						<span class="input-group-addon btn btn-default js-selectWxappLink" data-input="#curl-<(itemid)>">选择链接</span>
+					</div>
+				</div>
+			</div>
+			<(/each)>
+		</div>
+		<div class="btn btn-w-m btn-block btn-default btn-outline addChild" data-goal="feature"><i class="fa fa-plus"></i> 添加跑腿特色</div>
+	</div>
+</script>
+<script type="text/html" id="tpl-parts">
+	<nav class="btn btn-link" data-id="page"><i class="fa fa-cog"></i> 页面设置</nav>
+	<(each initPart as part)>
+	<nav class="btn btn-link" data-id="<(part.id)>"><i class="fa fa-plus"></i> <(part.name)></nav>
+	<(/each)>
+</script>
+
+<script type="text/html" id="tpl-editor-del">
+	<div class="btn-edit-del">
+		<div class="btn-edit">编辑</div>
+		<div class="btn-del">删除</div>
+	</div>
+</script>
+<script type="text/html" id="tpl-editor-page">
+	<div class="form-group">
+		<div class="col-sm-2 control-label">页面名称</div>
+		<div class="col-sm-10">
+			<input class="form-control input-sm diy-bind" data-bind="name" data-placeholder="请输入名称" placeholder="请输入名称" value="<(page.name)>" />
+			<div class="help-block">注意：页面名称是便于后台查找，页面标题是手机端标题。</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">页面标题</div>
+		<div class="col-sm-10">
+			<input class="form-control input-sm diy-bind" data-bind="title" data-placeholder="请输入标题" placeholder="请输入标题" value="<(page.title)>" />
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">页面介绍</div>
+		<div class="col-sm-10">
+			<textarea class="form-control richtext diy-bind" cols="70" rows="3" placeholder="请输入页面介绍" data-bind="desc" data-placeholder=""><(page.desc)></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">背景颜色</div>
+		<div class="col-sm-4">
+			<div class="input-group input-group-sm">
+				<input class="form-control input-sm diy-bind color" data-bind="background" value="<(page.background)>" type="color" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#efeff4').trigger('propertychange')">重置</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">导航栏背景色</div>
+		<div class="col-sm-4">
+			<div class="input-group input-group-sm">
+				<input class="form-control input-sm diy-bind color" data-bind="navigationbackground" value="<(page.navigationbackground)>" type="color" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#000').trigger('propertychange')">重置</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">导航栏字体颜色</div>
+		<div class="col-sm-4">
+			<div class="input-group input-group-sm">
+				<label class="radio-inline"><input type="radio" name="navigationtextcolor" value="#000000" class="diy-bind" data-bind="navigationtextcolor" <(if page.navigationtextcolor=='#000000' || !page.navigationtextcolor)>checked="checked"<(/if)> > 黑</label>
+				<label class="radio-inline"><input type="radio" name="navigationtextcolor" value="#ffffff" class="diy-bind" data-bind="navigationtextcolor" <(if page.navigationtextcolor=='#ffffff')>checked="checked"<(/if)>> 白</label>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/html" id="tpl-editor-fees">
+</script>
+
+<script type="text/javascript" src="./resource/components/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="./resource/components/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="./resource/components/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script language="javascript">
+	var path = '../../plugin/errander/static/js/diy';
+	irequire([path, 'tmodtpl'],function(diy, tmodtpl){
+		diy.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			id: '{php echo intval($_GPC["id"])}',
+			type: 0,
+			data: {if !empty($page['data'])}{php echo json_encode($page['data'])}{else}null{/if},
+		});
+	});
+
+	var swiperSlide=document.querySelectorAll(".page-errander-guide .swiper-slide");
+	var num=0;
+	var len=swiperSlide.length;
+	setInterval(function(){
+		for(var i=0;i<len;i++){
+			swiperSlide[i].style.display="none";
+		}
+		num=++num==len?0:num;
+		swiperSlide[num].style.display="block";
+	},2000);
+
+	var goodInputPlaceholder=document.querySelector(".page-errander-guide .good-input .good-input-placeholder");
+	var goodInputContent=document.querySelector(".page-errander-guide .good-input .good-input-content");
+	goodInputPlaceholder.classList.add("active");
+	goodInputPlaceholder.onclick=function(){
+		goodInputContent.classList.add("active");
+		goodInputPlaceholder.classList.remove("active");
+	}
+	var shopBanner=document.querySelector(".page-errander-guide .shop-banner");
+	shopBanner.onclick=function(){
+		goodInputPlaceholder.classList.add("active");
+		goodInputContent.classList.remove("active");
+	}
+
+</script>
+{/if}
+{itemplate 'public/footer'}

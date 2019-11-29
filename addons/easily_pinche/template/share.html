@@ -1,0 +1,40 @@
+{template 'common/header'}
+<ul class="nav nav-pills">
+  <li {if $type==''}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}">系统设置</a></li>
+  <li {if $type==2}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}&type=2">分享设置</a></li>
+  <li {if $type==1}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}&type=1">热门地点</a></li>
+</ul>
+<div style="height:10px;"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            系统设置
+        </h3>
+    </div>
+    <div class="panel-body">
+<form class="bs-example bs-example-form" role="form" action="{php echo $this->createWebUrl('setup');}&type=2&act=save" method="post">
+        <div class="input-group">
+            <span class="input-group-addon">首页分享标题</span>
+            <input type="text" class="form-control" value="{$setup['es_share_title']}" name="es_share_title">
+        </div>
+        <br />
+         <div class="input-group">
+            <span class="input-group-addon">首页分享描述</span>
+            <input type="text" class="form-control" value="{$setup['es_share_content']}" name="es_share_content">
+        </div>     
+        <br />
+        <div class="input-group">
+<div class="mui-input-cell">
+         
+            	<span class="input-group-addon">分享图标</span>
+                {php echo tpl_form_field_image('es_share_logo',$setup['es_share_logo']);}
+            </div>
+        </div>
+        <br>
+        <div class="input-group">
+		<input name="111" type="submit" id="111" value="提交" />
+		</div>
+    </form>
+    </div>
+</div>
+{template 'common/footer'}

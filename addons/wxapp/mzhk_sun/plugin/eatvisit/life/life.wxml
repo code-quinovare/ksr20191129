@@ -1,0 +1,36 @@
+<view class="container">
+    <view>
+        <view>
+            <image class="slide-image" mode="aspectFill" src="{{eatvisit_set.url}}{{eatvisit_set.pic}}"></image>
+        </view>
+        <view class="order-nav">
+            <view bindtap="navTap" class="{{curIndex===index?'on':''}}" data-index="{{index}}" wx:for="{{nav}}">
+                <text class="nav">{{item}}</text>
+            </view>
+        </view>
+        <view class="session">
+            <view bindtap="toLifeDet" class="list" data-id="{{item.id}}" wx:if="{{goodslist.length>0}}" wx:for="{{goodslist}}">
+                <view class="left">
+                    <image mode="aspectFill" src="{{goodsurl}}{{item.thumbnail}}"></image>
+                    <text wx:if="{{goodsstatus==1}}">火热进行</text>
+                    <view class="over" wx:if="{{goodsstatus==0}}">
+                        <image src="../../../../style/images/over.png"></image>
+                    </view>
+                </view>
+                <view class="list-right">
+                    <view>
+                        <view class="title">{{item.storename}}</view>
+                        <view class="desc">{{item.gname}}</view>
+                    </view>
+                    <view>
+                        <text class="price">￥{{item.currentprice}}</text>
+                        <text class="old-price">￥{{item.shopprice}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<import src="/mzhk_sun/plugin/eatvisit/tpl/template.wxml"></import>
+<template is="eattab" data="{{eattabname:eattabname,whichone:whichone}}"></template>
+<login bindtogetuserinfo="updateUserInfo" modalHidden="{{is_modal_Hidden}}"></login>

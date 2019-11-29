@@ -1,0 +1,36 @@
+{template 'common/header'}
+<SCRIPT LANGUAGE=javascript> 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</SCRIPT> 
+<ul class="nav nav-pills">
+  <li {if $type==''}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}">系统设置</a></li>
+  <li {if $type==1}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}&type=1">热门地点</a></li>
+</ul>
+<div style="height:10px;"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            添加热门路线
+        </h3>
+    </div>
+    <div class="panel-body">
+<form class="bs-example bs-example-form" role="form" action="{php echo $this->createWebUrl('remenadd');}&act=save" method="post">
+        <div class="input-group">
+            <span class="input-group-addon">线路名称</span>
+            <input type="text" class="form-control"  name="prm_title">
+        </div>
+        <br>
+        <div class="input-group">
+		<input name="111" type="submit" id="111" value="提交" />
+		</div>
+    </form>
+    </div>
+</div>
+{template 'common/footer'}

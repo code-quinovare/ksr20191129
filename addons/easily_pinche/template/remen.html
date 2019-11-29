@@ -1,0 +1,53 @@
+{template 'common/header'}
+<SCRIPT LANGUAGE=javascript> 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</SCRIPT> 
+<ul class="nav nav-pills">
+  <li {if $type==''}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}">系统设置</a></li>
+  <li {if $type==2}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}&type=2">分享设置</a></li>
+  <li {if $type==1}class="active"{/if}><a href="{php echo $this->createWebUrl('setup');}&type=1">热门地点</a></li>
+</ul>
+<div style="height:10px;"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            热门路线
+        </h3>
+    </div>
+    <div class="panel-body">
+    <button type="button" class="btn btn-primary" data-toggle="button" onclick="window.location='{php echo $this->createWebUrl('remenadd');}'" >添加热门路线</button>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>线路名称</th>
+      <th>管理</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{loop $info $index $item}
+    <tr>
+      <td>{php echo $index+1}</td>
+      <td>{$item['prm_title']}</td>
+      <td>
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('remenedit');}&prmid={$item['prm_id']}">编辑</a></span>
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('remendel');}&prmid={$item['prm_id']}" onclick="javascript:return p_del()">删除</a></span>
+            </div>
+        </div>
+      </td>
+    </tr>
+	{/loop}
+  </tbody>
+</table>
+    </div>
+</div>
+{template 'common/footer'}

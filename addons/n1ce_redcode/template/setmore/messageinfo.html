@@ -1,0 +1,87 @@
+<div class="panel panel-danger">
+  <div class="panel-heading">模板消息设置</div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">模板消息ID</label>
+        <div class="col-sm-9">
+          <input type="text" name="tempid" value="{$settings['tempid']}" class="form-control"/>
+          <div class="help-block">
+            <br/>
+            <code>此处的作用主要为认证服务号使用智能二维码时，遇到已经关注公众号的粉丝，并且长时间没互动的，进行模板消息提示</code><br/><br/>
+            <kbd>模板消息分类:IT科技 互联网|电子商务，搜索：扫码成功通知；添加编号为OPENTM410917194的那个，添加后找到模板ID填到这里</kbd><br/>
+            
+          </div>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-info">
+	<div class="panel-heading">提示语设置</div>
+	<div class="panel-body">
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendred" value="{$settings['sendred']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包发放失败提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendbad" value="{$settings['sendbad']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称，余额不足或者服务器波动会造成粉丝领取失败的提示语</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">卡券发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendcard" value="{$settings['sendcard']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">积分发放成功提示语</label>
+        <div class="col-sm-9">
+          <input type="text" name="sendcredit" value="{$settings['sendcredit']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称,|#积分#|代表所获得的积分,可加入a标签超链接</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">验证码错误提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="wrong" value="{$settings['wrong']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">卡密被使用提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="islater" value="{$settings['islater']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+		
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">限制重复领取提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="isget" value="{$settings['isget']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">超每天领取次数提示</label>
+        <div class="col-sm-9">
+          <input type="text" name="todayget" value="{$settings['todayget']}" class="form-control"/>
+		  <div class="help-block">|#昵称#| 代表用户昵称</div>
+        </div>
+    </div>
+	</div>
+  </div>

@@ -1,0 +1,256 @@
+<!-- 
+ * 腾讯云视频管理
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+{if $op=='upqcloud'}
+<script src="{MODULE_URL}template/style/QCloud/crypto.js"></script>
+<script type="text/javascript" src="{MODULE_URL}template/style/QCloud/cos-js-sdk-v4.js"></script>
+{/if}
+
+{template 'common/header'}
+<link href="{MODULE_URL}template/style/fycommon.css" rel="stylesheet">
+<style type="text/css">
+@-webkit-keyframes rotation{
+	from {-webkit-transform: rotate(0deg);}
+	to {-webkit-transform: rotate(360deg);}
+}
+.Rotation{
+	-webkit-transform: rotate(360deg);
+	animation: rotation 3s linear infinite;
+	-moz-animation: rotation 3s linear infinite;
+	-webkit-animation: rotation 3s linear infinite;
+	-o-animation: rotation 3s linear infinite;
+}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('video');}">七牛云存储</a></li>
+	<li {if $op=='upqiniu'}class="active"{/if}><a href="{php echo $this->createWebUrl('video',array('op'=>'upqiniu'));}">上传视频到七牛云</a></li>
+	<li {if $op=='qcloud'}class="active"{/if}><a href="{php echo $this->createWebUrl('video', array('op'=>'qcloud'));}">腾讯云存储</a></li>
+	<li {if $op=='upqcloud'}class="active"{/if}><a href="{php echo $this->createWebUrl('video',array('op'=>'upqcloud'));}">上传视频到腾讯云</a></li>
+</ul>
+{if $operation == 'qcloud'}
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="video" />
+                <input type="hidden" name="op" value="qcloud" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">视频名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">上传时间</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        {php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <form action="" method="post" class="form-horizontal form" >
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:15%;">视频预览</th>
+                    <th style="width:15%;">视频名称</th>
+                    <th style="width:10%;">视频大小</th>
+					<th style="width:14%;">上传时间</th>
+                    <th style="width:35%;">文件链接</th>
+					<th style="text-align:right;width:8%;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $list $key $item}
+                <tr>
+                    <td><video src="{$item['play_url']}" controls="controls" id="video{$key}" onclick="videoContro(this, {php echo $item['suffix']=='mp4'?0:1;})" {if $item['suffix']!='mp4'}class="other" poster="{MODULE_URL}template/mobile/images/preview.png"{else}poster="{MODULE_URL}template/mobile/images/videoCover.png"{/if} width="150"></video></td>
+                    <td style="word-break:break-all;">{$item['name']}</td>
+					<td>{$item['size']} MB</td>
+					<td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+                    <td>
+                        <textarea style="width:300px;height:85px; border-radius:5px;" id="content{$key}" style="overflow-y:auto;" onclick="selectTxt(this)">{$item['sys_link']}</textarea>
+                    </td>
+					<td style="text-align:right;">
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('video', array('op'=>'delQcloud', 'id'=>$item['id']));}" title="删除" onclick="return confirm('确认删除？');return false;"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+function videoContro(obj, type){
+	var myvideo = document.getElementById(obj.id);
+	if(document.getElementById(obj.id).paused){
+		document.getElementById(obj.id).play();
+	}else{
+		document.getElementById(obj.id).pause();
+	}
+}
+function selectTxt(obj){
+	$(obj).select();
+}
+</script>
+
+{elseif $op=='upqcloud'}
+
+<style type="text/css">
+#overlay{background: #000; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 100; display: none;}
+.mloading-bar{width: 300px; min-height: 22px; text-align: center; background: #fff; box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.3); border-radius: 7px; padding: 20px 15px; font-size: 14px; color: #000; position: absolute; top: 42%; left: 50%; margin-left: -140px; margin-top: -30px; word-break: break-all; z-index: 999; display: none;}
+</style>
+<div class="main">
+	<div class="alert alert-info">
+	    <span style="color:red;">建议：音频请上传mp3格式文件，视频请上传mp4格式文件</span>
+	</div>
+
+	<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}template/mobile/images/download.gif"><span id="mloading-text">文件上传中，请勿刷新或关闭浏览器...</span></div>
+	<div id="overlay" style="height: 100%; width: 100%; opacity: 0.2;"></div>
+	<div class="panel admin-panel">
+		<div class="body-content">
+			<input type="file" id="file" accept="audio/mp3,video/*" style="display:none;">
+			<input type="hidden" id="file_size" value="0" style="display:none;">
+			<div class="form-group">
+				<div class="field">
+					<input type="button" class="btn btn-default" id="sliceUploadFile" value="上传音视频">
+				</div>
+			</div>
+			<div class="row" style="padding:20px;">
+				<textarea id="result" class="form-control" rows="15"></textarea>
+			</div>
+			<object id="qs" width="0" height="0" type="application/x-shockwave-flash" data="../addons/fy_lessonv2/template/style/QCloud/Somethingtest.swf" style="visibility: visible;"></object>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#overlay").height("100%");
+	$("#overlay").width("100%");
+
+	var bucket = "{php echo $qcloud['bucket'];}";
+	var appid = "{php echo $qcloud['appid'];}";
+	var region = "{php echo $qcloud['qcloud_area'];}";
+	var myFolder = "/admin/";
+
+	var cos = new CosCloud({
+		appid: appid,
+		bucket: bucket,
+		region: region,
+		getAppSign: function (callback) {
+			callback("{php echo $signature;}")
+		},
+		getAppSignOnce: function (callback) {
+			callback("")
+		}
+	});
+
+	var successCallBack = function (result) {
+		$(".mloading-bar").hide();
+		$("#overlay").hide();
+
+		var res = eval(result);
+
+		var cdnUrl = "{$qcloud['url']}";
+		var tmpUrl = res.data.source_url.split("myqcloud.com");
+		var resTxt = "============恭喜您，上传成功============";
+		resTxt += "\n\n============文件原地址=================\n\n" + res.data.source_url;
+
+		if(cdnUrl!=''){
+			resTxt += "\n\n============文件CDN加速地址：==========\n\n" + cdnUrl + tmpUrl[1];
+		}
+
+		$.ajax({
+			url:"<?php echo $this->createWebUrl('video', array('op'=>'saveQcloudUrl')); ?>",
+			data:{com_name:tmpUrl[1], sys_link:res.data.source_url, size:$("#file_size").val()},
+			type:'post',
+			dataType:'json',
+			success:function(msg){
+			}
+		});
+
+		$("#result").val(resTxt);
+	};
+
+	var errorCallBack = function (result) {
+		$(".mloading-bar").hide();
+		$("#overlay").hide();
+
+		console.log(result);
+
+		var res = eval(result);
+		var errorHtml = "";
+		if(result.responseJSON.code=='-70'){
+			errorHtml = "【请求的appid和签名中的appid不匹配】";
+		}else if(result.responseJSON.code=='-71'){
+			errorHtml = "【操作太频繁】";
+		}else if(result.responseJSON.code=='-96'){
+			errorHtml = "【上传失败，原因：签名已过期，请刷新后重试】";
+		}else if(result.responseJSON.code=='-97'){
+			errorHtml = "【上传失败，原因：签名校验失败】";
+		}else if(result.responseJSON.code=='-177'){
+			errorHtml = "【上传失败，原因：同名文件已存在】";
+		}else if(result.responseJSON.code=='-178'){
+			errorHtml = "【路径冲突，要上传的文件或者目录已经存在】";
+		}else if(result.responseJSON.code=='-285'){
+			errorHtml = "【上传文件大小大于限制】";
+		}else if(result.responseJSON.code=='-5957'){
+			errorHtml = "【操作不存在的bucket】";
+		}else{
+			errorHtml = "【上传失败，请稍后重试】";
+		}
+		$("#result").val(errorHtml + "\n腾讯云存储返回信息：\n" + result.responseText + "\n 详细错误信息请查看：https://www.qcloud.com/document/product/436/8432");
+	};
+
+	var progressCallBack = function (curr) {
+		console.log('请稍等，文件正在上传中.... ' + parseInt(curr*100) + '%');
+		$("#result").val('文件上传中...' + parseInt(curr*100) + '%');
+		document.getElementById("mloading-text").innerHTML = '请稍等，文件正在上传中....' + parseInt(curr*100) + '%';
+	};
+
+	//分片上传文件,当选择大于20M大小的文件的时候用分片上传
+	$('#sliceUploadFile').on('click', function () {
+		$('#file').off('change').on('change', function (e) {
+			var file = e.target.files[0];
+			var file_size = parseFloat((file.size/1024)/1024).toFixed(2);
+			var max_img_size = 1024;
+			if (file_size > max_img_size) {
+				alert("当前系统上传文件不能超过" + max_img_size + "MB");
+				return false;
+			}
+			$("#file_size").val(file_size);
+			$(".mloading-bar").show();
+			$("#overlay").fadeTo(200, 0.2);
+			cos.uploadFile(successCallBack, errorCallBack, progressCallBack, bucket, myFolder + file.name, file, 0);
+			return false;
+		});
+
+		setTimeout(function () {
+			$('#file').click();
+		}, 0);
+
+		return false;
+	});
+});
+</script>
+{/if}
+
+{template 'common/footer'}

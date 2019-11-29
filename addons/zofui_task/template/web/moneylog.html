@@ -1,0 +1,31 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op == 'credit2log'}class="active"{/if}><a href="{php echo $this->createWebUrl('moneylog', array('op' => 'credit2log'))}">余额变化记录</a></li>
+	<li {if $op == 'depositlog'}class="active"{/if}><a href="{php echo $this->createWebUrl('moneylog', array('op' => 'depositlog'))}">保证金变化记录</a></li>
+	<li {if $op == 'paylog'}class="active"{/if}><a href="{php echo $this->createWebUrl('moneylog', array('op' => 'paylog'))}">下单支付记录</a></li>	
+</ul>
+<style>
+.dropdown-menu{
+	height: 250px;
+	overflow-y: scroll;		
+}
+
+</style>
+
+{if $op == 'credit2log'}
+
+{template '../../../addons/zofui_task/template/web/temp/moneylog'}
+
+{elseif $op == 'depositlog'}
+
+{template '../../../addons/zofui_task/template/web/temp/depositlog'}
+
+{elseif $op == 'paylog'}
+
+{template '../../../addons/zofui_task/template/web/temp/paylog'}
+
+{/if}
+
+
+{template 'common/footer'}

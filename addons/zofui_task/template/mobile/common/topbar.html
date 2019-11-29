@@ -1,0 +1,129 @@
+<div class="page_top" {if $_GPC['op']=='guylist'}style="display:none"{/if}>
+	<div class="page_top_item">
+		{if $_GPC['do'] == 'find'}
+			<i class="page_top_city" id="showCity">{if Util::getCookie('zofui_guy_city')}{php echo Util::getCookie('zofui_guy_city')}{else}全国{/if}</i>
+			<a href="{php echo $this->createMobileUrl('find',array('op'=>'pubguy',))}"><span {if $_GPC['op']=='pubguy'}class="font_activity"{/if}>发任务的</span></a>
+			<a href="{php echo $this->createMobileUrl('find',array('op'=>'takeguy'))}"><span {if $_GPC['op']=='takeguy'}class="font_activity"{/if}>接任务的</span></a>
+			<i class="ti-search" id="showSearch"></i>
+		{elseif $_GPC['do'] == 'index'}
+			<i class="page_top_city" id="showCity">{if Util::getCookie('zofui_task_city')}{php echo Util::getCookie('zofui_task_city')}{else}全国{/if}</i>
+			<a href="{$newurl}"><span {if $_GPC['op']=='new'}class="font_activity"{/if}>最新</span></a>
+			<a href="{$urgurl}"><span {if $_GPC['op']=='urg'}class="font_activity"{/if}>加急</span></a>
+			<a href="{$highurl}"><span {if $_GPC['op']=='high'}class="font_activity"{/if}>高赏金</span></a>
+			<i class="ti-search" id="showSearch"></i>
+		{elseif $_GPC['do'] == 'pub'}
+			<a href="{$puburl}"><span {if $_GPC['op'] == 'pub'}class="font_activity"{/if}>发任务</span></a>
+			<a href="{$pubedurl}"><span {if $_GPC['op'] == 'pubed'}class="font_activity"{/if}>已发任务</span></a>			
+		{/if}
+	</div>
+    <div class="weui_search_bar" id="search_bar" style="display:none">
+		<div class="weui_mask"></div>
+		<form class="weui_search_outer" action="./index.php" method="get">
+			<input type="hidden" name='i' value="{$_W['uniacid']}"/>	
+            <input type="hidden" name="c" value="entry" />
+            <input type="hidden" name="m" value="zofui_task" />
+            <input type="hidden" name="do" value="{$_GPC['do']}" />
+            <input type="hidden" name="status" value="{$_GPC['status']}" />
+            <input type="hidden" name="type" value="{$_GPC['type']}" />	
+			{if $_GPC['do'] == 'index'}
+            <input type="hidden" name="op" value="indexsch"/>
+			{elseif $_GPC['do'] == 'find'}
+			<input type="hidden" name="op" value="findsch"/>
+			{/if}
+			<div class="weui_search_inner">
+				<i class="weui_icon_search"></i>
+				<input type="search" name="for" class="weui_search_input" id="search_input" placeholder="输入搜索的标题" required/>
+				<a href="javascript:" class="weui_icon_clear" id="search_clear"></a>
+			</div>
+		</form>
+		<a href="javascript:" class="weui_search_cancel" id="search_cancel">取消</a>
+		<div class="weui_cells weui_cells_access search_show" id="search_show">
+			<p class="font_13px_999">筛选内容</p>
+			{if $_GPC['do'] == 'index'}
+			<a href="{php echo $this->createMobileUrl('index',array('op'=>$_GPC['op'],'flag'=>1,'type'=>$_GPC['type']))}">
+				<li class="border_bottom search_ago_item">				
+					<span>全部状态的任务</span>
+					{if $_GPC['flag'] == 1}<span class="fr ti-check font_ff5f27"></span>{/if}
+				</li>
+			</a>			
+			<a href="{php echo $this->createMobileUrl('index',array('op'=>$_GPC['op'],'status'=>1,'type'=>$_GPC['type']))}">
+				<li class="border_bottom search_ago_item">
+					<span>进行中的任务</span>
+					{if $_GPC['status'] == 1 || ($_GPC['status'] == '' && $_GPC['flag'] == '')}<span class="fr ti-check font_ff5f27"></span>{/if}
+				</li>
+			</a>
+			<a href="{php echo $this->createMobileUrl('index',array('op'=>$_GPC['op'],'status'=>2,'type'=>$_GPC['type']))}">
+				<li class="border_bottom search_ago_item">				
+					<span>已完成的任务</span>
+					{if $_GPC['status'] == 2}<span class="fr ti-check font_ff5f27"></span>{/if}
+				</li>
+			</a>
+			<a href="{php echo $this->createMobileUrl('index',array('op'=>$_GPC['op'],'status'=>$_GPC['status']))}">
+				<li class="border_bottom search_ago_item">
+					<span>全部分类的任务</span>
+					{if $_GPC['type'] == 0}<span class="fr ti-check font_ff5f27"></span>{/if}
+				</li>
+			</a>			
+			{loop $tasksort $item}
+				<a href="{php echo $this->createMobileUrl('index',array('op'=>$_GPC['op'],'status'=>$_GPC['status'],'type'=>$item['id']))}">
+					<li class="border_bottom search_ago_item">
+						<span>{$item['name']}</span>
+						{if $_GPC['type'] == $item['id']}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				</a>
+			{/loop}
+			{elseif $_GPC['do'] == 'find'}
+					<li class="border_bottom search_ago_item" data-sortid="0">
+						<span>全部人物类型</span>
+						{if empty($cookieguysortid)}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>				
+				{loop $guysortinfo $item}
+					<li class="border_bottom search_ago_item" data-sortid="{$item['id']}">
+						<span>{$item['title']}</span>
+						{if $cookieguysortid == $item['id']}<span class="fr ti-check font_ff5f27"></span>{/if}
+					</li>
+				{/loop}			
+			{/if}
+		</div>
+    </div>
+	
+<!-- 城市选择 -->
+<div id="sideup_city">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideup_city_down" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_city_body">
+                <div class="sideup_location border_bottom">
+					<p class="font_13px_999">定位城市</p>
+					<span id="reset_location">定位中...</span>
+				</div>
+                <div class="sideup_hot border_bottom" id="select_hot_city">
+					<p class="font_13px_999">热门城市</p>
+					<li><span class="fl">全国</span><span>北京</span><span class="fr">上海</span></li>
+					<li><span class="fl">广州</span><span>深圳</span><span class="fr">杭州</span></li>
+					<li><span class="fl">重庆</span><span>武汉</span><span class="fr">天津</span></li>
+				</div>
+				<div class="sideup_select_city">
+					<p class="font_13px_999">其他城市</p>
+					<div class="weui_cells">
+						<div class="weui_cell weui_cell_select">
+							<div class="weui_cell_bd weui_cell_primary">
+								<select class="weui_select" name="province"></select>
+							</div>
+						</div>
+						<div class="weui_cell weui_cell_select">
+							<div class="weui_cell_bd weui_cell_primary">
+								<select class="weui_select" name="city"></select>
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<a href="javascript:;" value="" class="fff_button" id="city_confirm">确定</a>
+				<a href="javascript:;" value="" class="fff_button" id="actionsheet_cancel">取消</a>
+            </div>
+        </div>
+    </div>
+</div>	
+	
+</div>

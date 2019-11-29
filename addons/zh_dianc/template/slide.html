@@ -1,0 +1,86 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active" ><a href="{php echo $this->createWebUrl('slide');}">幻灯片列表</a></li>
+  <li  ><a href="{php echo $this->createWebUrl('addslide');}">添加/编辑分类</a></li>
+</ul>
+<div class="main">
+ 
+    <div class="panel panel-info">
+      <div class="panel-heading">分类列表</div>
+      <div class="panel-body">
+        <div class="table-responsive panel-body">
+          <table class="table" >
+            <thead class="navbar-inner">
+              <tr>
+               <th style="width:100px;">排序</th>
+                <th style="width:200px;">标题名称</th>
+                 <th style="width:200px;">幻灯片</th>
+                  <th style="width:80px;">链接地址</th>
+                <th style="width:80px;">发布时间</th>
+                <th style="width:80px;">状态</th>
+                     <th style="width:80px;">操作</th>
+                 <th style="width:80px;">查看</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop $list $key $item}
+              <tr>
+              <td>
+                {$item['orderby']}
+                </td>
+                 <td>
+                {$item['title']}
+                </td>
+                <td>
+                <img style="height:80px;width:80px" src="{php echo tomedia($item['logo'])}"/>
+                </td>
+                  <td>
+                {$item['src']}
+                </td>
+                  <td>
+                {$item['created_time']}
+                </td>
+                {if $item['status']==1}
+                 <td>
+                启用
+                </td>
+                {else}
+                <td>
+                禁用
+                </td>
+                 {/if}
+
+             
+                <td>
+                  <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('delslide', array('id'=>$item['id']));}" class="btn btn-default btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i> </a>
+                </td>
+                <td>
+                <a href="{php echo $this->createWebUrl('addslide',array('id'=>$item['id']));}">编辑</a>
+                </td>
+               
+              </tr>
+              
+              {/loop}
+           
+           
+              {if empty($list)}
+             <tr>
+                <td colspan="4">
+                  尚未添加幻灯片
+                </td>
+              </tr>
+             
+              {/if}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+  <div class="text-right we7-margin-top">
+             {$pager}
+             </div>
+
+
+{template 'common/footer'}

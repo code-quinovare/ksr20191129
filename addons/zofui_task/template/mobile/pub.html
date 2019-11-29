@@ -1,0 +1,217 @@
+{template 'common/myheader'}
+{template 'common/topbar'}
+<div class="pub_main">
+
+	<div class="pub_list">
+		<div class="pub_main">
+			<div class="pub_textarea">
+				<form>	
+					<div class="weui_cells weui_cells_form pub_content">
+						<div class="weui_cell">
+							<div class="weui_cell_bd weui_cell_primary">
+								<!-- <textarea name="title" class="weui_textarea content_box" placeholder="请输入任务要求" rows="3"></textarea> -->
+								<div class="weui_textarea pub_task_divedit" contentEditable="true"><span class="indexnotice font_13px_999">请在此输入任务内容</span></div>
+								<div class="weui_textarea_counter">
+									<span class="ti-link"></span>
+									<span class="ti-microphone"></span>
+									<span class="ti-trash"></span> 
+									<span id="textareanum">0</span>/800
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="overflow_hidden">
+						<ul class="pub_images_box fl upload_images_views">
+						</ul>
+						<div class="ti-plus fl upload_btn" id="pub_upload_images"></div>
+					</div>
+					<div class="pub_money">
+						<li class="select_money_title"><span class="font_13px_999">任务赏金</span></li>			
+						<li class="pub_money_money">		
+							
+							<label>
+								<span><em>20</em><font> 元</font></span>
+								<input type="radio" class="hidden_radio" value="20" name="money">
+							</label>
+							<label>
+								<span><em>10</em><font> 元</font></span>
+								<input type="radio" class="hidden_radio" value="10" name="money">
+							</label>
+							<label>
+								<span><em>5</em><font> 元</font></span>
+								<input type="radio" class="hidden_radio" value="5" name="money">
+							</label>
+							<label>
+								<span><em>1</em><font> 元</font></span>
+								<input type="radio" class="hidden_radio" value="1" name="money">
+							</label>
+							<label>
+								<span><em>0.5</em><font> 元</font></span>
+								<input type="radio" class="hidden_radio" value="0.5" name="money">
+							</label>
+							<label>
+								<span id="pub_money_other">其他</span>
+								<input type="radio" class="hidden_radio" name="money">
+							</label>
+						</li>
+						
+					</div>
+					<div class="pub_edit_money weui_cells_form">
+						<div class="weui_cell">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" name="othermoney" type="number" placeholder="在此输入赏金">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								任务赏金
+							</div>
+						</div>
+					</div>
+					
+					<div class="pub_number weui_cells_form">
+						<div class="weui_cell">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" type="tel" name="tasknumber" placeholder="在此输入任务总数量">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								任务总数量
+							</div>							
+						</div>						
+					</div>
+					<div class="pub_number weui_cells_form">
+						<div class="weui_cell">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" type="tel" value="" name="maxreply" placeholder="在此输入限制每人回复数">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								限每人回复
+							</div>							
+						</div>						
+					</div>		
+                    <div class="pub_number weui_cells_form">
+						<div class="weui_cell">
+							<div class="weui_cell_bd weui_cell_primary">
+								<input class="weui_input" type="tel" name="times" placeholder="输入任务结束的天数">
+							</div>
+							<div class="placeholder-fr font_13px_999">
+								任务结束的时间
+							</div>							
+						</div>						
+					</div>			
+					<div class="pub_city">
+						<p class="font_13px_999">选择任务所在城市</p>
+						<div class="weui_cells">
+							<div class="weui_cell weui_cell_select">
+								<div class="weui_cell_bd weui_cell_primary">
+									<select class="weui_select" name="pubprovince"></select>
+								</div>							
+							</div>
+							<div class="weui_cell weui_cell_select is_show_pubcity" style="display:none">
+								<div class="weui_cell_bd weui_cell_primary">
+									<select class="weui_select" name="pubcity"></select>
+								</div>
+							</div>						
+						</div>
+					</div>
+					<div class="pub_city">
+						<div class="weui_cells">
+							<div class="weui_cell weui_cell_select">
+								<div class="weui_cell_bd weui_cell_primary">
+									<select class="weui_select" name="pubtasktype">
+										<option value="">选择任务类型</option>
+										{loop $tasksort $item}
+											<option value="{$item[id]}">{$item['name']}</option>									
+										{/loop}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pub_isshow pub_number">
+						<div class="weui_cells weui_cells_checkbox">
+							<label class="weui_cell weui_check_label" for="pub_isshow">
+								<div class="weui_cell_hd">
+									<input type="checkbox" class="weui_check" name="ishide" value="1" id="pub_isshow">
+									<i class="weui_icon_checked"></i>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary">
+									<p>是否隐藏回复？<span class="font_13px_999">(勾选后隐藏)</span></p>
+								</div>
+							</label>
+						</div>
+					</div>
+				</form>
+				<input value="{$userinfo['creditscore']}"  type="hidden" name="creditscore">
+				<input value="{$userinfo['deposit']}"  type="hidden" name="deposit">
+				<input value="发布" id="publish" type="button" class="ff5f27_input_button">
+					<li class="select_money_title">
+						<span class="font_13px_999">总计(元): 
+							<font class="count_total_money font_ff5f27">0</font>
+							（任务费<font class="count_task_money font_ff5f27"> 0</font>，
+							平台使用费<font class="count_server_money font_ff5f27"> 0</font>）
+						</span>
+					</li>				
+			</div>
+		</div>
+		
+<!-- 录音 -->
+<div id="sideup_pub_record">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet pub_record_down" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu pub_record_body">
+                <p class="font_13px_999">提示：请在一分钟内说出你的任务要求。</p>
+				
+				<li class="pub_recording"><span><img src="../addons/zofui_task/public/images/voice.png">录音中...</span></li>
+				
+				<li class="pub_record_bottom">
+					<a href="javascript:;" value="" class="fff_button" id="pub_record_confirm">完成</a>
+					<a href="javascript:;" value="" class="fff_button" id="actionsheet_cancel">取消</a>
+				</li>
+            </div>
+        </div>
+    </div>
+</div>	
+
+<!-- 超链接 -->
+<div id="sideup_link" class="sideuper">
+    <div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet sideuper_body" id="weui_actionsheet">	
+            <div class="weui_actionsheet_menu sideup_link_body">
+				<div class="sideuper_body_item">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="linkname" placeholder="在此输入名称">
+						</div>
+						<div class="placeholder-fr font_13px_999">
+							显示的文字
+						</div>							
+					</div>	
+				</div>
+				<div class="sideuper_body_item">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="linkurl" placeholder="在此输入网址">
+						</div>
+						<div class="placeholder-fr font_13px_999">
+							跳转的网址
+						</div>							
+					</div>	
+				</div>
+				<div class="sideuper_body_item font_13px_999">
+					提示：点击编辑框里的链接文字可对链接编辑操作。请核对链接正确性，一旦发布不能修改。
+				</div>				
+				<div class="sideuper_body_item" style="display:none">
+					<span class="ff5f27_input_button deleteurl">删除此超链接</span>
+				</div>
+            </div>
+			<div class="sideuper_bottom">
+					<a href="javascript:;" value="" class="fff_button confirm" id="pub_link_confirm">确定</a>
+					<a href="javascript:;" value="" class="fff_button cancel" id="actionsheet_cancel">取消</a>
+			</div>
+        </div>
+    </div>
+</div>	
+
+</div>
+{template 'common/myfooter'}

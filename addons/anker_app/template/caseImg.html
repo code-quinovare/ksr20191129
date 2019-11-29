@@ -1,0 +1,64 @@
+{template 'common/header'}
+<style type="text/css">
+	.cat-flag ul li {float:left;font-size:16px;font-weight:bold;}
+</style>
+<form class="form-horizontal" role="form" method="post" action="" name="submit">
+	<input type="hidden" name="token" value="{$_W['token']}">
+	<input type="hidden" name="case_id" value="{$_GPC['case_id']}">
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+	    	<input type="hidden" class="g_lenth" value="{php echo count($img_list)}"/>
+	        <h3 class="panel-title">案例轮播图片<a href="javascript:;" id="add_avg" style="color:#428bca;float:right;">添加</a></h3>
+	    </div>
+	    <div class="panel-body">
+	    	<div class="cat-flag">
+	    		<ul>
+	    			<li style="width:30%;">排序(数值越小越靠前)</li>
+	    			<li style="width:70%;">图片</li>
+	    		</ul>
+	    	</div>
+	    	<div style="clear:both;height:20px;"></div>   	
+			<!-- 菜单栏目 -->
+			<div class="add_homes">
+				<?php if($img_list): ?>
+				{loop $img_list $k $list}	
+				<div class="form-group">
+					<div class="col-sm-3">
+						<input type="text" class="form-control" name="items[{$k}][sort]" value="{$list[sort]}" placeholder="排序">
+					</div>
+					<div class="col-sm-6">
+						 {php echo tpl_form_field_image("items[$k][img]", $list['img']);}
+					</div>
+					<div class="col-sm-1"><a class="btn btn-default btn-sm" onclick="delete_group(this);">删除</a></div>
+				</div>
+				{/loop}
+				<?php else: ?>
+				<div class="form-group"><label class="col-sm-2 control-label"><b>没有数据，请添加。</b></label></div>
+				<?php endif; ?>
+			</div>				
+			<div class="form-group">				
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" name="submit" class="btn btn-default">					
+				</div>
+			</div>
+	    </div>
+	</div>
+</form>
+{template 'common/footer'}
+<script type="text/javascript">
+$(function(){
+	var len = parseInt($('.g_lenth').val());
+	var c = 0;//点击次数
+	$('#add_avg').bind('click', function(){		
+		var n = len+c;
+		var url = "{url 'site/entry/GetCaseImgHtml',array('m'=>'anker_app')}";
+		$.post(url, {n:n}, function(html){
+			$('.add_homes').append(html);
+		});
+		c++;
+	});
+});
+function delete_group(obj){
+	$(obj).parent().parent().remove();
+}
+</script>

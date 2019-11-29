@@ -1,0 +1,408 @@
+{itemplate 'public/header'}
+<div class="page home" id="page-app-index">
+	<span id="js-lat" class="hide">{if !empty($_GPC['lat'])}{$_GPC['lat']}{else}{$_GPC['__lat']}{/if}</span>
+	<span id="js-lng" class="hide">{if !empty($_GPC['lng'])}{$_GPC['lng']}{else}{$_GPC['__lng']}{/if}</span>
+	<div class="fiexd-searchbar">
+		<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
+			<i class="icon icon-search"></i>输入商家、商品名称
+		</a>
+		<div class="buttons-tab select-tab fixed-select-tab" style="display: none;">
+			<a href="javascript:;" class="button">商家分类 <span class="icon"></span></a>
+			<div class="drop-menu-list">
+				<div class="list-block">
+					<ul>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('cid' => 0));}">全部</a></li>
+						{loop $categorys $row}
+						<li><a class="list-button item-link border-1px-b" href="{$row['link']}">{$row['title']}</a></li>
+						{/loop}
+					</ul>
+				</div>
+			</div>
+			<a href="javascript:;" class="button">智能排序 <span class="icon"></span></a>
+			<div class="drop-menu-list">
+				<div class="list-block">
+					<ul>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>全部</a></li>
+						{loop $orderbys $row}
+						<li><a class="list-button item-link border-1px-b"  href="{php echo imurl('wmall/home/search', array('order' => $row['key']));}"><span class="{$row['css']}"></span>{$row['title']}</a></li>
+						{/loop}
+					</ul>
+				</div>
+			</div>
+			<a href="javascript:;" class="button">优惠活动 <span class="icon"></span></a>
+			<div class="drop-menu-list">
+				<div class="list-block">
+					<ul>
+						<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>全部</a></li>
+						{loop $discounts $row}
+						<li><a class="list-button item-link border-1px-b" href="{php echo imurl('wmall/home/search', array('dis' => $row['key']));}"><span class="{$row['css']}"></span>{$row['title']}</a></li>
+						{/loop}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content lazyload-container">
+		<div class="search">
+			<span class="search-inner">
+				<i class="icon icon-lbs-fill"></i>
+				<a id="position" class="external" href="{$location_url}">{if !empty($_GPC['address'])}{$_GPC['address']}{else}{$_GPC['__address']}{/if}</a>
+				<i class="icon icon-arrow-down-fill"></i>
+			</span>
+			<div id="tp-weather-widget" style="position:absolute;right:.5rem;top:.2rem;pointer-events: none;"></div>
+			<a class="search-block" href="{php echo imurl('wmall/home/hunt');}">
+				<i class="icon icon-search"></i>输入商家、商品名称
+			</a>
+		</div>
+		<div id="home-container">
+			<div class="store-list store-empty lazyload-container" id="store-list">
+				<div class="common-no-con">
+					<img src= "{WE7_WMALL_TPL_URL}static/img/store_no_con.png" alt="" />
+					<p>努力加载中...</p>
+				</div>
+			</div>
+		</div>
+		{itemplate 'public/copyright'}
+	</div>
+	<div class="footmark-warpper">
+		<a href="javascript:;" id="go-top" class="icon icon-up"></a>
+		<a href="{php echo imurl('wmall/home/footmark')}" class="footmark"><i class="icon icon-footprint"></i></a>
+	</div>
+	{php get_mall_menu();}
+	{php get_mall_danmu();}
+</div>
+{itemplate 'home/tpl-store'}
+{php get_mall_superRedpacket();}
+
+<script id="tpl-home" type="text/html">
+	<{# var _slides = d.slides;}>
+	<{# if(_slides.length > 0) { }>
+	<div class="swiper-container slide" data-space-between='0' data-pagination='.swiper-slide-pagination' data-autoplay="1000">
+		<div class="swiper-wrapper">
+			<{# for(var i = 0, len = _slides.length; i < len; i++) { }>
+				<div class="swiper-slide" data-link="<{_slides[i].link}>">
+					<img src="<{tiny.tomedia(_slides[i].thumb)}>" alt="">
+				</div>
+			<{# } }>
+		</div>
+		<div class="swiper-pagination swiper-slide-pagination"></div>
+	</div>	
+	<{# } }>
+
+	<{# var _categorys_chunk = d.categorys_chunk}>
+	<{# if(_categorys_chunk.length > 0) { }>
+	<div class="swiper-container category" data-space-between='0' data-pagination='.swiper-category-pagination' data-autoplay="0">
+		<div class="swiper-wrapper">
+			<{# for(var i = 0, len = _categorys_chunk.length; i < len; i++) { }>
+				<div class="swiper-slide">
+					<div class="row no-gutter nav">
+						<{# for(var j = 0, length = _categorys_chunk[i].length; j < length; j++) { }>
+							<div class="col-25">
+								<a href="<{_categorys_chunk[i][j].link}>">
+									<img src="<{_categorys_chunk[i][j].thumb}>" alt="<{_categorys_chunk[i][j].title}>" />
+									<div class="text-center"><{_categorys_chunk[i][j].title}></div>
+								</a>
+							</div>
+						<{# } }>
+					</div>
+				</div>
+			<{# } }>
+		</div>
+		<{# if(_categorys_chunk.length > 1) { }>
+			<div class="swiper-pagination swiper-category-pagination"></div>
+		<{# } }>
+	</div>	
+	<{# } }>
+
+	<{# var _notices = d.notices}>
+	<{# if(_notices.length > 0) { }>
+	<div class="headlines swiper-container border-1px-t" data-direction="vertical" data-pagination="" data-space-between="8" data-autoplay="2000">
+		<div class="headline-logo pull-left"><img src="{WE7_WMALL_TPL_URL}static/img/head_line.png" alt=""></div>
+		<div class="headline-news pull-left swiper-wrapper">
+			<{# for(var i = 0, len = _notices.length; i < len; i++) { }>
+			<div class="swiper-slide">
+				<{# if (_notices[i].link) { }>
+					<a href="<{d[i].link}>"><{_notices[i].title}></a>
+				<{# } else { }>
+					<a href="{php echo imurl('wmall/home/notice');}&id=<{_notices[i].id}>"><{_notices[i].title}></a>
+				<{# } }>
+			</div>
+			<{# } }>
+		</div>
+		<i class="icon icon-arrow-right pull-left"></i>
+	</div>
+	<{# } }>
+
+	<{# var _cubes = d.cubes}>
+	<{# if(_cubes.length > 0) { }>
+		<div class="row no-gutter sborder activity" style="z-index: 1000">
+			<{# for(i = 0, len = _cubes.length; i < len; i++) { }>
+				<div class="col-50 sborder">
+					<a href="<{_cubes[i].link}>">
+						<div class="row no-gutter">
+							<{# if(i % 2 == 0) { }>
+								<div class="col-60">
+									<div class="heading"><{_cubes[i].title}></div>
+									<div class="sub-heading"><{_cubes[i].tips}></div>
+								</div>
+								<div class="col-40 text-center">
+									<img src="<{_cubes[i].thumb}>" alt="" />
+								</div>
+							<{# } else { }>
+								<div class="col-40 text-center">
+									<img src="<{_cubes[i].thumb}>" alt="" />
+								</div>
+								<div class="col-60">
+									<div class="heading"><{_cubes[i].title}></div>
+									<div class="sub-heading"><{_cubes[i].tips}></div>
+								</div>
+							<{# } }>
+						</div>
+					</a>
+				</div>
+			<{# }}>
+		</div>
+	<{# } }>
+
+	<{# var _bargains = d.bargains}>
+	<{# if(_bargains.length > 0) { }>
+		<div class="bargain-activity">
+			<div class="activity-header text-center">
+				天天特价
+				<a class="more" href="{php echo imurl('bargain/index')}">更多 <i class="icon icon-arrow-right"></i></a>
+			</div>
+			<div class="goods-list row">
+				<{# for(i = 0, len = _bargains.length; i < len; i++) {}>
+					<div class="goods-item col-25">
+						<a href="{php echo imurl('wmall/store/goods');}&sid=<{_bargains[i].sid}>&goods_id=<{_bargains[i].goods_id}>">
+							<div class="goods-image">
+								<div class="label"><{_bargains[i].discount}>折</div>
+								<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" alt="" class="lazyload" data-original="<{_bargains[i].thumb}>">
+							</div>
+							<div class="goods-title"><{_bargains[i].title}></div>
+							<div class="price">
+								<i>￥</i><span class="now-price"><{_bargains[i].discount_price}></span>&nbsp;<span class="original-price">￥<{_bargains[i].price}></span>
+							</div>
+						</a>
+					</div>
+				<{# } }>
+			</div>
+		</div>
+	<{# } }>
+
+	<{# var _recommends = d.recommends}>
+	<{# if(_recommends.length > 0) { }>
+		<div class="selective">
+			<div class="selective-tab">
+				为您优选
+				<a class="more" href="{php echo imurl('wmall/channel/brand')}">更多<i class="icon icon-arrow-right"></i></a>
+			</div>
+			<div class="selective-info row">
+				<{# for(i = 0, len = _recommends.length; i < len; i++) { }>
+					<a href="{php echo imurl('wmall/store/goods');}&sid=<{_recommends[i].id}>" class="col-33 selective-item">
+						<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" data-original="<{_recommends[i].logo}>" class="lazyload lazyload-store" alt="">
+						<p class="selective-title"><{_recommends[i].title}></p>
+					</a>
+				<{# } }>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	<{# } }>
+
+
+	<div class="buttons-tab select-tab">
+		<a href="javascript:;" class="button">商家分类 <span class="icon"></span></a>
+		<div class="drop-menu-list">
+			<div class="list-block">
+				<ul>
+					<li><a class="list-button item-link border-1px-tb" href="">全部</a></li>
+					<{# var _categorys = d.categorys}>
+					<{# for(i = 0, len = _categorys.length; i < len; i++) { }>
+						<li><a class="list-button item-link border-1px-b" href="<{_categorys[i].link}>"><{_categorys[i].title}></a></li>
+					<{# } }>
+				</ul>
+			</div>
+		</div>
+		<a href="javascript:;" class="button">智能排序 <span class="icon"></span></a>
+		<div class="drop-menu-list">
+			<div class="list-block">
+				<ul>
+					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('order' => ''));}"><span class="icon"></span>全部</a></li>
+					<{# var _orderbys = d.orderbys}>
+					<{# for(var i in _orderbys) { }>
+						<li><a class="list-button item-link border-1px-b"  href="{php echo imurl('wmall/store/goods');}&order=<{_orderbys[i].id}>"><span class="<{_orderbys[i].css}>"></span><{_orderbys[i].title}></a></li>
+					<{# } }>
+				</ul>
+			</div>
+		</div>
+		<a href="javascript:;" class="button">优惠活动 <span class="icon"></span></a>
+		<div class="drop-menu-list">
+			<div class="list-block">
+				<ul>
+					<li><a class="list-button item-link border-1px-tb" href="{php echo imurl('wmall/home/search', array('dis' => ''));}"><span class="icon"></span>全部</a></li>
+					<{# var _discounts = d.discounts}>
+					<{# for(var i in _discounts) { }>
+						<li><a class="list-button item-link border-1px-b" href="{php echo imurl('wmall/home/search');}&dis=<{_discounts[i].key}>"><span class="<{_discounts[i].css}>"></span><{_discounts[i].title}></a></li>
+					<{# } }>
+				</ul>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
+<script>
+require(['tiny'], function(tiny){
+	$('.content').on("scroll", function(){
+		$('.content').scrollTop() >= 100 ? $('.fiexd-searchbar').show() : $('.fiexd-searchbar').hide();
+		$('.content').scrollTop() >= 800 ? $('.fixed-select-tab').css('display', '-webkit-box') : $('.fixed-select-tab').css('display',' none');
+	});
+
+	$(document).on('click', '.slide .swiper-slide', function(){
+		var url = $(this).data('link');
+		location.href = url;
+		return;
+	});
+
+	function getLocation() {
+		var map, geolocation;
+		map = new AMap.Map('allmap');
+		map.plugin('AMap.Geolocation', function() {
+			geolocation = new AMap.Geolocation({
+				enableHighAccuracy: true //是否使用高精度定位，默认:true
+			});
+			geolocation.getCurrentPosition();
+			AMap.event.addListener(geolocation, 'complete', getPositionInfo);//返回定位信息
+			AMap.event.addListener(geolocation, 'error', function(){
+				if(!tiny.cookie.get('__getPosition')) {
+					location.reload();
+					tiny.cookie.set('__getPosition', 1, 300);
+				} else {
+					getPositionInfo();
+				}
+			});
+		});
+	}
+
+	function getPositionInfo(data) {
+		if(typeof data != 'undefined') {
+			tiny.cookie.set('__getPosition', 0, -1000);
+			var point = data.position;
+			$('#js-lat').html(point.lat);
+			$('#js-lng').html(point.lng);
+
+			tiny.cookie.set('__lat', point.lat, 3600);
+			tiny.cookie.set('__lng', point.lng, 3600);
+
+			var lnglatXY = [point.lng, point.lat]; // 已知点坐标
+			var map = new AMap.Map('allmap');
+			map.plugin('AMap.Geocoder', function() {
+				var geocoder = new AMap.Geocoder();
+				geocoder.getAddress(lnglatXY, function(status, result) {
+					if (status === 'complete' && result.info === 'OK') {
+						var obj = result.regeocode.addressComponent;
+						var position = result.regeocode.formattedAddress;
+						position = position.replace(obj.province, '');
+						position = position.replace(obj.district, '');
+						position = position.replace(obj.city, '');
+						$('#position').html(position);
+						tiny.cookie.set('__address', encodeURI(position), 3600);
+					}
+				});
+			});
+		}
+		getStoreList();
+		return ;
+	}
+
+	function getStoreList() {
+		var params = {
+			lat: $('#js-lat').html(),
+			lng: $('#js-lng').html(),
+			position: $('#position').html()
+		}
+		$.post("{php echo imurl('wmall/home/index1/index1')}", params, function(data){
+			var result = $.parseJSON(data);
+			if(result.message.errno != 0) {
+				$.toast(result.message.message);
+				return false;
+			}
+			var gettpl = $('#tpl-home').html();
+			require(['laytpl', 'jquery.lazyload'], function(laytpl){
+				laytpl(gettpl).render(result.message.message, function(html){
+				  	$('#home-container').append(html);
+				  	$(".swiper-container.slide").swiper({
+				  		autoplay: 1000
+				  	});
+				  	$('.swiper-container.category').swiper();
+				  	$('#home-container').find("img.lazyload").lazyload({
+						container: $('.lazyload-container'),
+						effect : 'fadeIn',
+						threshold : 200
+					});
+				});
+			});
+		});
+		$.post("{php echo imurl('wmall/home/index/list')}", params, function(data){
+			var result = $.parseJSON(data);
+			if(result.message.error != 0) {
+				$.toast(result.message.message);
+				return false;
+			}
+			if(result.message.message.length == 0) {
+				$('#store-list').addClass('store-empty');
+				$('#store-list .common-no-con').find('p').html('附近没有符合条件的商户');
+				$('#store-list .common-no-con').removeClass('hide');
+			} else {
+				var gettpl = $('#tpl-store-list').html();
+				require(['laytpl', 'jquery.lazyload'], function(laytpl){
+					laytpl(gettpl).render(result.message.message, function(html){
+						$('#store-list').removeClass('store-empty');
+						$('#store-list .common-no-con').addClass('hide');
+						$('#store-list').append(html);
+						var memoryHeight = sessionStorage.getItem(pageId);
+						$pageId.find('.content').scrollTop(parseInt(memoryHeight));
+						$('#store-list').find("img.lazyload").lazyload({
+							container: $('.lazyload-container'),
+							effect : 'fadeIn',
+							threshold : 200
+						});
+						return;
+					});
+				});
+			}
+		});
+	}
+	{if !$_GPC['d'] && !$_GPC['__lng']}
+		getLocation();
+	{else}
+		getStoreList();
+	{/if}
+});
+</script>
+{if !empty($config['seniverse'])}
+	{$config['seniverse']}
+{else}
+	<script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
+	<script>
+		tpwidget("init", {
+			"flavor": "slim",
+			"location": "WX4FBXXFKE4F",
+			"geolocation": "enabled",
+			"language": "zh-chs",
+			"unit": "c",
+			"theme": "chameleon",
+			"container": "tp-weather-widget",
+			"bubble": "disabled",
+			"alarmType": "badge",
+			"color": "#FFFFFF",
+			"uid": "UE7850A8B2",
+			"hash": "165ced0b9eb27b0b5cf87185cc28a3ec"
+		});
+		tpwidget("show");
+	</script>
+{/if}
+{itemplate 'public/footer'}
+
+
+

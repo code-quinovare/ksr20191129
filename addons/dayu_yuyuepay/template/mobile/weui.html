@@ -1,0 +1,246 @@
+{template 'weheader'}
+<script type="text/javascript" src="{TEMPLATE_WEUI}picker.js"></script>
+<script type="text/javascript" src="{TEMPLATE_WEUI}select.js"></script>
+<script type="text/javascript" src="{TEMPLATE_WEUI}check.js"></script>
+{if $isloc}<script type="text/javascript" src="{TEMPLATE_WEUI}QQgetLocation.js"></script>{/if}
+{if $reside}
+<script src="{TEMPLATE_WEUI}city-picker.min.js"></script>
+{/if}
+<script src="{TEMPLATE_WEUI}iscroll.js"></script>
+
+<style>
+body{background-color:#fbf9ff;}
+.open-popup{cursor:pointer}
+.dayu-header {padding: 25px 0 0;}
+.placeholder {background-color:transparent;text-align: left;color:#333; height: 30px; line-height: 40px;}
+.weui_cell_bd .dayu-badge{margin-left:10px;}
+.weui-flex-item {position:relative;}
+
+.weui_textarea_counter span {font-size:12px;}
+.weui_label{font-size:13px;}
+.weui_label span, .weui_cell_hd span{color: #E64340;}
+.weui_input, .weui_select{font-weight:300;padding-left: 15px;}
+
+.weui-popup-container{z-index:9;}
+.weui_cell_select .weui_cell_td {padding-left: 1em;}
+.weui_cell_select .weui_cell_hd .weui_select {line-height:45px;padding:0 25px 0 5px;color: #555;}
+
+.weui_msg .weui_extra_area {margin-bottom: 5px;}
+.weui_extra_area {z-index:0;}
+.record .weui_cells:first-child {margin-top:30px;}
+.record .weui_cells {margin:0;}
+.record img{width:1.2rem;height:1.2rem;}
+.weui_cells_form .weui_cell_ft {font-size: 12px;}
+.m-img {background-position: top center;}
+.m-img img{width:100%;height:auto;}
+.m-masker {background-color: rgba(0, 0, 0, 0);}
+
+.weui_tab_bd {padding-bottom: 15px;}
+.weui_select{z-index:0;}
+.weui_grid{width:50%;padding: 10px 10px;}
+.weui_grid:after{height: 0px;border-bottom:0;}
+.weui-weixin .weui-weixin-content p {line-height:150%;}
+
+.clearfix:after { content: "."; display: block; font-size: 0; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: block; }
+.che_tit{ text-align:center; padding:20px;}
+.ul_pro{ background-color:#CED3D9; text-align:center; padding:4px 2px; font-size:14px;}
+.ul_pro li{ float:left; width:11.11%; padding:2px;box-sizing: border-box;}
+.ul_pro .li_close{  float:right; width:22.22%;}
+.ul_pro .li_close span{ background-color:#ACB3BB;}
+.ul_pro .li_clean{  float:right; width:22.22%;}
+.ul_pro li span{ display:block; background-color:#fff; border-radius:4px; box-shadow: 2px 2px 2px #888888; /* max-width:48px; margin:0 auto; */ line-height:32px; padding-top:2px;  }
+.ul_pro li span:active{ background-color:#4DA9F2; color:#fff;}
+
+.ul_input{ padding:20px;width:100%; margin:0 auto;text-align:center;}
+.ul_input li{ float:left; width:12%; padding:2px;text-align:center; }
+.ul_input li span{ display:block; background-color:#fff; border:1px solid #ccc; border-radius:4px; width:35px; margin:0 auto; height:35px; line-height:35px; }
+
+.ul_keybord{ background-color:#CED3D9; text-align:center; padding:4px 2px; font-size:14px;}
+.ul_keybord li{ float:left; width:10%; padding:2px;box-sizing: border-box;}
+.ul_keybord .ikey20{ margin-left:5%;}
+.ul_keybord .li_w{ width:11.11%; }
+
+.ul_keybord .li_close{  float:right; width:22.22%;}
+.ul_keybord .li_close span{ background-color:#ACB3BB;}
+.ul_keybord .li_clean{  float:right; width:22.22%;}
+.ul_keybord li span{ display:block; background-color:#fff; border-radius:4px; box-shadow: 2px 2px 2px #888888; /* max-width:48px; margin:0 auto; */ line-height:32px; padding-top:2px;  }
+.ul_keybord li span:active{ background-color:#4DA9F2; color:#fff;}
+
+.weui-navigator{background:#fff;position:relative;padding:0;margin:0}
+.weui-navigator-list{width:100%;list-style:none;display:-webkit-box;margin:0 auto}
+.weui-navigator-list li{padding:0;list-style:none;line-height:34px;font-size:16px;font-weight:normal;text-align:center;-webkit-box-flex:1;display:-webkit-box;white-space:nowrap;-webkit-box-align:center;-webkit-box-pack:center}
+.weui-navigator.weui-navigator-wrapper{z-index:1;width:100%;overflow:hidden;position:relative;-webkit-backface-visibility:hidden}
+.weui-navigator-list li a{text-decoration:none;color:#666;display:block;width:100%;-webkit-box-sizing:border-box;padding:0 15px}
+.weui-navigator-list li.weui-state-hover,.weui-navigator-list li.weui-state-active a{color:#04be02;}
+.weui-navigator-list li.weui-state-hover,.weui-navigator-list li.weui-state-active a:after{content:'';display:block;height:2px;background-color:#04be02}
+.weui-navigator .weui-navigator-list{display:table;table-layout:fixed;white-space:nowrap;width:auto}
+.weui-navigator .weui-navigator-list:after{content:'';clear:both;display:inline-block;width:0;height:0;overflow:hidden}
+.weui-navigator .weui-navigator-list li{display:inline-block}
+.weui-navigator:after{border-bottom:0px solid #d9d9d9;}
+.weui-navigator .weui-navigator-list li span {background-color: #ffa726;color: #fff;display:block;padding:0 28px;}
+.weui_navbar_item{border-bottom:1px solid #d9d9d9;background-color:#fefefe;}
+.weui_navbar_item.weui_bar_item_on, .weui-state-active{background-color:#fff8e1;border-bottom:1px solid #e1f5fe;}
+.weui_grids{text-align:center;}
+.weui_grids:before{border:0px solid #d9d9d9;}
+.weui_grid{position:relative;float:left;padding:10px 5px;width:32%;box-sizing:border-box;border:1px solid #d9d9d9;margin:0 0 1% 1%;}
+.weui_grid:before{border-bottom:0px solid #d9d9d9;border-right:0px solid #d9d9d9;}
+
+.pop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; height: 100%; width: 100%; animation: poupFadIn 0.5s ease 0s 1; outline: none }
+.pop .box { border-radius: 20px; background-color: #fff; position: fixed; z-index: 1001; left: 20px; right: 20px; top: 100px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.32), 0 -3px 0px 0px rgba(0, 0, 0, 0.15) inset; -webkit-animation: f1 0.5s 0s ease 1; }
+@-webkit-keyframes f1 {  0% {-webkit-transform: translateY(50px);opacity:0;}100% {-webkit-transform: translateY(0);opacity:1;}}
+.pop .box .closeb { cursor: pointer; position: absolute; display: block; border-radius: 50%; width: 30px; height: 30px; text-indent: -9999px; top: 5px; right: 5px; }
+.pop .box .closeb:after { position: absolute; content: '.'; display: block; width: 20px; height: 1px; background: #B9B9B9; -webkit-transform: rotate(45deg); top: 14px; left: 5px; }
+.pop .box .closeb:before { position: absolute; content: '.'; display: block; width: 20px; height: 1px; background: #B9B9B9; -webkit-transform: rotate(-45deg); top: 14px; left: 5px; }
+.pop .box h1 { color: #333; text-align: center; padding: 10px 0; font-size: 16px; }
+.pop .box h2 { color: #ee635f; font-size: 12px; text-align: center; padding: 0 5px 5px 5px; word-wrap: break-word; }
+.pop .box .inputqy { margin: 5px 15px; overflow: hidden; }
+.pop .box .inputqy input { box-sizing: border-box; padding: 10px; background-color: #FCFCFC; color: #666; border-radius: 40px; width: 100%; margin: 5px auto; font-size: 14px; border: 1px #E9E9E9 solid; }
+.pop .box .inputqy select { box-sizing: border-box; padding: 10px; background-color: #FCFCFC; color: #666; border-radius: 40px; width: 100%; margin: 5px auto; font-size: 14px; border: 1px #E9E9E9 solid; }
+.pop .box .but_con { margin: 10px 15px 20px 15px; overflow: hidden; }
+.pop .box .w49 { width: 49%; }
+.pop .button_yes { width: 100%; text-align: center; display: inline-block; box-sizing: border-box; font-size: 16px; font-weight: bold; color: #fff; border-radius: 40px; padding: 10px 0; border: 1px solid #04be02; background-color: #04be02; cursor: pointer; }
+.pop .button_yes:active { border: 1px solid #DA443F; background-color: #04be02; }
+.pop .button_no { width: 100%; text-align: center; display: inline-block; box-sizing: border-box; font-size: 16px; color: #999; border-radius: 40px; padding: 10px 0; border: 1px solid #ccc; background-color: transparent; cursor: pointer; }
+.pop .button_no:active { background-image: linear-gradient(to top, #dedede, #f2f2f2); }
+</style>
+{$role_table}
+<div class="weui_tab_bd" style="padding-bottom:75px;">
+	{template 'insert/header'}
+	<form action="{php echo $this->createMobileUrl('dayu_yuyuepay', array('weid' => $_W['uniacid'], 'id' => $reid, 'timenum' => $timenum, 'havsnum' => $havsnum))}" class="" enctype="multipart/form-data" method="POST" id="form">
+	<input type="hidden" name="repeat" value="<?php echo md5(sha1(time())); ?>">
+	{if !empty($activity['store']) && !empty($sid)}
+		{template 'insert/storeinfo'}
+	{/if}
+	{if $par['member']==1 && empty($sid)}
+		{template 'insert/join'}
+	{elseif empty($sid)}
+		{template 'insert/address'}
+	{/if}
+	<div class="weui_panel weui_cells_access">
+	{template 'insert/time'}
+	{template 'insert/item'}
+	<input class="weui_input" name="paytype" type="hidden" value="1">
+	{if !empty($activity['is_num'])}
+		{template 'insert/num'}
+	{/if}
+		
+	</div>
+		{template 'insert/store_join'}
+	<div class="weui_panel weui_cells_form">
+	{loop $ds $field}
+				
+		{if in_array($field['type'], array('text', 'phone', 'tel', 'idcard'))}
+			{template 'insert/field_text'}
+		{/if}
+		
+		{if $field['type'] == 'plate'}
+			{template 'insert/field_plate'}
+		{/if}
+				
+		{if $field['type'] == 'tingli'}
+			{template 'insert/field_tingli'}
+		{/if}
+		
+		{if $field['type'] == 'email'}
+			{template 'insert/field_email'}
+		{/if}
+				
+		{if $field['type'] == 'number'}
+			{template 'insert/field_number'}
+		{/if}
+				
+		{if $field['type'] == 'textarea'}
+			{template 'insert/field_textarea'}
+		{/if}
+				
+		{if $field['type'] == 'radio'}
+			{template 'insert/field_radio'}
+		{/if}
+				
+		{if $field['type'] == 'checkbox'}
+			{template 'insert/field_checkbox'}
+		{/if}
+						
+		{if $field['type'] == 'select'}
+			{template 'insert/field_select'}
+		{/if}
+
+		{if $field['type'] == 'image'}
+			{template 'insert/field_image'}
+		{/if}
+	
+		{if $field['type'] == 'photograph'}
+			{template 'insert/field_photograph'}
+		{/if}
+		
+		{if $field['type'] == 'calendar'}
+			{template 'insert/field_calendar'}
+		{/if}
+		
+		{if $field['type'] == 'range'}
+			{template 'insert/field_range'}
+		{/if}
+		
+		{if $field['type'] == 'reside'}
+			{template 'insert/field_reside'}
+		{/if}
+		
+	{/loop}
+</div>
+	
+	<div class="weui-footer weui-footer-fixed-bottom weui-border-t" style="padding:10px;bottom:0px;background-color:#fff;">
+		<div class="weui-flex">
+            <div class="weui-flex-item">
+				<div class="placeholder f25 f-orange">
+					<svg class="icon f20" aria-hidden="true"><use xlink:href="#icon-RMB"></use></svg>
+					<font id="money"></font>
+				</div>
+			</div>
+            <div class="weui-flex-item">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<input class="weui_btn bg-blue f-white" type="button" value="{$submit}" id="showTool">
+			</div>
+        </div>
+	</div>
+</form>
+</div>
+	<div id="popup" class="weui-popup-container">
+		<div class="weui-popup-modal">
+			<div id="dayu">
+			<div class="bg-blue weui-header picker" style="margin-bottom:10px;"> 
+				<div class="weui-header-left close-popup"><svg class="icon f-white center" aria-hidden="true"><use xlink:href="#icon-down"></use></svg></div>
+				<h1 class="weui-header-title"></h1>
+				<div class="weui-header-right"></div> 
+			</div>		
+			<div class="content">
+			</div>
+			<div class="footer"></div>
+			</div>
+			<div id="content">
+				<div class="weui-weixin">
+					<div class="weui-weixin-ui">
+						<div class="weui-weixin-page">
+							<h2 class="weui-weixin-title">{$activity['title']}</h2>
+							{if !empty($activity['thumb'])}
+							<div class="weui-weixin-img">
+								<img src="{$activity['thumb']}">
+							</div>
+							{/if}
+							<div class="weui-weixin-content">
+								{php echo htmlspecialchars_decode($activity['content'])}
+							</div>
+							<p class="p"><a href="javascript:;" class="weui_btn bg-blue close-popup">关闭</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{if $par['smsid']!=0 && $par['member']==1}
+{template 'insert/script_sms'}
+{/if}
+{template 'insert/script_img'}
+{template 'insert/script'}
+{php $footer_off = 1;}
+{template 'footers'}

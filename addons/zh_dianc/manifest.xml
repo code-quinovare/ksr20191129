@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://bbs.bcb5.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[志汇-餐饮外卖小程序]]></name>
+		<identifie><![CDATA[zh_dianc]]></identifie>
+		<version><![CDATA[8.7]]></version>
+		<type><![CDATA[biz]]></type>
+		<ability><![CDATA[志汇-外卖点餐多店营销版]]></ability>
+		<description><![CDATA[扫码点餐,预约定餐、外卖、排号]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[https://bbs.bcb5.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="merchant_order" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports><item type="wxapp" /></supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="打印机设置" do="dyj" state="" direct="false" />
+			<entry title="菜品管理" do="dishes" state="" direct="false" />
+			<entry title="用户管理" do="user" state="" direct="false" />
+			<entry title="优惠券管理" do="coupons" state="" direct="false" />
+			<entry title="系统设置" do="system" state="" direct="false" />
+			<entry title="商家信息" do="store" state="" direct="false" />
+			<entry title="菜品类型管理" do="type" state="" direct="false" />
+			<entry title="订单提醒设置" do="sms" state="" direct="false" />
+			<entry title="评论管理" do="assess" state="" direct="false" />
+			<entry title="餐桌管理" do="table" state="" direct="false" />
+			<entry title="餐桌类型" do="tabletype" state="" direct="false" />
+			<entry title="代金券管理" do="voucher" state="" direct="false" />
+			<entry title="预定订单管理" do="ydorder" state="" direct="false" />
+			<entry title="店内订单管理" do="dnorder" state="" direct="false" />
+			<entry title="外卖订单管理" do="order" state="" direct="false" />
+			<entry title="商家账号管理" do="seller" state="" direct="false" />
+			<entry title="开屏广告" do="ad" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `wpdc_account`;
+DROP TABLE IF EXISTS `wpdc_ad`;
+DROP TABLE IF EXISTS `wpdc_area`;
+DROP TABLE IF EXISTS `wpdc_assess`;
+DROP TABLE IF EXISTS `wpdc_commission_withdrawal`;
+DROP TABLE IF EXISTS `wpdc_continuous`;
+DROP TABLE IF EXISTS `wpdc_coupons`;
+DROP TABLE IF EXISTS `wpdc_czhd`;
+DROP TABLE IF EXISTS `wpdc_czorder`;
+DROP TABLE IF EXISTS `wpdc_dishes`;
+DROP TABLE IF EXISTS `wpdc_distribution`;
+DROP TABLE IF EXISTS `wpdc_dmorder`;
+DROP TABLE IF EXISTS `wpdc_dyj`;
+DROP TABLE IF EXISTS `wpdc_earnings`;
+DROP TABLE IF EXISTS `wpdc_fxset`;
+DROP TABLE IF EXISTS `wpdc_fxuser`;
+DROP TABLE IF EXISTS `wpdc_goods`;
+DROP TABLE IF EXISTS `wpdc_help`;
+DROP TABLE IF EXISTS `wpdc_integral`;
+DROP TABLE IF EXISTS `wpdc_jfgoods`;
+DROP TABLE IF EXISTS `wpdc_jfrecord`;
+DROP TABLE IF EXISTS `wpdc_jftype`;
+DROP TABLE IF EXISTS `wpdc_order`;
+DROP TABLE IF EXISTS `wpdc_qbmx`;
+DROP TABLE IF EXISTS `wpdc_reduction`;
+DROP TABLE IF EXISTS `wpdc_rrset`;
+DROP TABLE IF EXISTS `wpdc_ruzhu`;
+DROP TABLE IF EXISTS `wpdc_seller`;
+DROP TABLE IF EXISTS `wpdc_signlist`;
+DROP TABLE IF EXISTS `wpdc_signset`;
+DROP TABLE IF EXISTS `wpdc_sms`;
+DROP TABLE IF EXISTS `wpdc_spec`;
+DROP TABLE IF EXISTS `wpdc_special`;
+DROP TABLE IF EXISTS `wpdc_store`;
+DROP TABLE IF EXISTS `wpdc_storetype`;
+DROP TABLE IF EXISTS `wpdc_system`;
+DROP TABLE IF EXISTS `wpdc_table`;
+DROP TABLE IF EXISTS `wpdc_table_type`;
+DROP TABLE IF EXISTS `wpdc_traffic`;
+DROP TABLE IF EXISTS `wpdc_type`;
+DROP TABLE IF EXISTS `wpdc_user`;
+DROP TABLE IF EXISTS `wpdc_usercoupons`;
+DROP TABLE IF EXISTS `wpdc_uservoucher`;
+DROP TABLE IF EXISTS `wpdc_uuset`;
+DROP TABLE IF EXISTS `wpdc_voucher`;
+DROP TABLE IF EXISTS `wpdc_withdrawal`;
+DROP TABLE IF EXISTS `wpdc_ydorder`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

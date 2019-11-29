@@ -1,0 +1,1251 @@
+<!--
+ * 课程管理
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+{template 'common/header'}
+<link href="{MODULE_URL}template/style/fycommon.css" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson');}">课程列表</a></li>
+	<li {if $op=='postlesson'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson','id'=>$_GPC['pid']));}">{if $_GPC['id']>0}编辑{else}添加{/if}课程</a></li>
+	{if $op=='postsection'}
+	<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postsection','pid'=>$_GPC['pid'],'id'=>$_GPC['id']));}">{if $_GPC['id']>0}编辑{else}添加{/if}章节</a></li>
+	{/if}
+	{if $op=='viewsection'}
+	<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'viewsection', 'pid'=>$_GPC['pid']));}">章节列表</a></li>
+	{/if}
+	<li {if $op=='record'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'record'));}">学习记录</a></li>
+	<li {if $op=='inform'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'inform'));}">开课提醒</a></li>
+	<li {if $op=='updomain'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'updomain'));}">更新音视频域名</a></li>
+</ul>
+{if $operation == 'display'}
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="lesson" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" id="" type="text" value="{$_GPC['bookname']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">讲师名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="teacher" id="" type="text" value="{$_GPC['teacher']}">
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程性质</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_free" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if in_array($_GPC['is_free'], array('0'))}selected{/if}>免费课程</option>
+							<option value="1" {if in_array($_GPC['is_free'], array('1'))}selected{/if}>付费课程</option>
+                        </select>
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							<option value="1" {if in_array($_GPC['status'], array('1'))}selected{/if}>上架</option>
+							<option value="0" {if in_array($_GPC['status'], array('0'))}selected{/if}>下架</option>
+							<option value="-1" {if in_array($_GPC['status'], array('-1'))}selected{/if}>暂停销售</option>
+							<option value="2" {if in_array($_GPC['status'], array('2'))}selected{/if}>审核中</option>
+							<option value="999" {if in_array($_GPC['status'], array('999'))}selected{/if}>库存紧张</option>
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程分类</label>
+                    <div class="col-sm-3">
+                        <select name="pid" class="form-control" id="category_parent" onchange="renderCategory(this.value)">
+                            <option value="">请选择一级分类</option>
+							{loop $category $cat}
+							   <option value="{$cat['id']}">{$cat['name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<div class="col-sm-3">
+                        <select name="cid" class="form-control" id="category_child">
+                            <option value="">请选择二级分类</option>
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程板块 </label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="recid" class="form-control">
+                            <option value="">不限</option>
+							{loop $rec_list $rec}
+							   <option value="{$rec['id']}" {if $_GPC['recid']==$rec['id']}selected{/if}>{$rec['rec_name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<div class="col-sm-3 col-lg-3" style="width: 18%;">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:8%;text-align:center;">排序</th>
+							<th style="width:25%;">课程名称</th>
+							<th style="width:8%;text-align:center;">课程分类</th>
+							<th style="width:8%;text-align:center;">价格</th>
+							<th style="width:9%;text-align:center;">销量/库存</th>
+							<th style="width:8%;text-align:center;">访问量</th>
+							<th style="width:8%;text-align:center;">状态</th>
+							<th style="width:17%;text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $parent}
+						<tr>
+							<td style="text-align:center;"><input type="text" class="form-control" name="lessonorder[{$parent['id']}]" value="{$parent['displayorder']}" style="width: 70px;display:inline-block;"></td>
+							<td style="word-break:break-all;">[ID:{$parent['id']}] {$parent['bookname']}</td>
+							<td style="text-align:center;">{$parent['category']['name']}</td>
+							<td style="text-align:center;">{$parent['price']}</td>
+							<td style="text-align:center;">{$parent['buynum']}/{$parent['stock']}</td>
+							<td style="text-align:center;">{$parent['visit_number']}</td>
+							<td style="text-align:center;">
+								{if $parent['status']==0}<a class="btn btn-danger btn-sm" style="padding:2px 10px;">下架</a>{elseif $parent['status']==1}<a class="btn btn-success btn-sm" style="padding:2px 10px;">上架</a>{elseif $parent['status']==2}<a class="btn btn-warning btn-sm" style="padding:2px 10px;">审核中</a>{elseif $parent['status']==-1}<a class="btn btn-warning btn-sm" style="padding:2px 10px;">暂停销售</a>{/if}
+							</td>
+							<td style="text-align:center;">
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'viewsection','pid'=>$parent['id']));}" title="章节管理"><i class="fa fa-plus"></i></a>
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'qrcode','lessonid'=>$parent['id']));}" title="下载课程二维码"><i class="fa fa-download"></i></a>
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson', 'id'=>$parent['id'],'refurl'=>$_W['siteurl']));}" title="修改"><i class="fa fa-edit"></i></a>
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'delete','pid'=>$parent['id']));}" title="删除" onclick="return confirm('确认删除此课程吗？');return false;"><i class="fa fa-remove"></i></a>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<input name="submit" type="submit" class="btn btn-primary" value="批量修改排序">
+								<input type="hidden" name="token" value="{$_W['token']}">
+								<input type="hidden" name="pid" value="{$pid}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+	
+</div>
+
+<script type="text/javascript">
+var category = {php echo json_encode($category);};
+var pid = {php echo $_GPC['pid']?$_GPC['pid']:0};
+var html = '<option value="0">请选择一级分类</option>';
+$(function(){
+	$("#category_parent").find("option[value='"+pid+"']").attr("selected",true);
+	document.getElementById("category_parent").onchange();
+});
+
+function renderCategory(id){
+	var chtml = '<option value="0">请选择二级分类</option>';
+	var cid = {php echo $_GPC['cid']?$_GPC['cid']:0};
+	for(var i in category){
+		if(category[i].id==id){
+			var child = category[i].child;
+			for(var j in child){
+				if(child[j].id==cid){
+					chtml += '<option value="' + child[j].id+'" selected>' + child[j].name + '</option>';
+				}else{
+					chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+				}
+			}
+			$("#category_child").html(chtml);
+		}
+	}
+}
+</script>
+{elseif $operation == 'postlesson'}
+<link href="{MODULE_URL}template/style/lessonTab/lesson-tab.css?v={$versions}" rel="stylesheet">
+<script type="text/javascript" src="{MODULE_URL}template/style/lessonTab/prefixfree.min.js?v={$versions}"></script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="tab-group">
+		<section id="tab1" title="基本信息" class="lesson-tab-section">
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>课程类型</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="lesson_type" value="0" {if empty($lesson) || $lesson['lesson_type'] == 0}checked="true"{/if} /> 普通课程</label>
+						&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="lesson_type" value="1" {if $lesson['lesson_type'] == 1}checked="true"{/if} /> 报名课程</label>
+                        <span class="help-block">普通课程为音频、视频以及图文等课程，报名课程下单时需要一起提交用户姓名、手机号码信息。</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>课程名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="bookname" class="form-control" value="{$lesson['bookname']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"><span style="color:red;font-weight:bolder;">*</span>课程分类</label>
+					<div class="col-sm-8 col-xs-12">
+						<div class="row row-fix tpl-category-container">
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+								<select class="form-control" id="category_parent" name="pid" onchange="renderCategory(this.value)">
+									<option value="0">请选择一级分类</option>
+									{loop $category $item}
+									<option value="{$item['id']}">{$item['name']}</option>
+									{/loop}
+								</select>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+								<select class="form-control" id="category_child" name="cid">
+									<option value="0">请选择二级分类</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>讲师名称</label>
+                    <div class="col-sm-3">
+						<select name="teacherid" class="form-control">
+						    <option value="">请选择...</option>
+						    {loop $teacher_list $teacher}
+						    <option value="{$teacher['id']}" {if $teacher['id']==$lesson['teacherid']}selected{/if}>{$teacher['first_letter']}-{$teacher['teacher']}</option>
+						    {/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>讲师分成</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="teacher_income" class="form-control" value="{if !empty($id)}{$lesson['teacher_income']}{else}{$setting['teacher_income']}{/if}" />
+                            <span class="input-group-addon">%</span>
+                        </div>
+						<div class="help-block">讲师分成 = 课程售价 x 讲师分成百分比</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>课程封面</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('images', $lesson['images'])}
+                        <span class="help-block">建议尺寸 600 * 350px，也可根据自己的实际情况做图片尺寸</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">视频预播放封面</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_multi_image('poster',$poster)}
+                        <span class="help-block">根据视频大小制作图片尺寸，多张图片将随机获取一张作为预播放封面</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">免费学习等级</label>
+                    <div class="col-xs-9 col-sm-9" style="margin-top: 7px;">
+					   {loop $level_list $key $level}
+							<input type="checkbox" name="vipview[]" value="{$level['id']}" {if in_array($level['id'],$vipview)}checked{/if}>{$level['level_name']}&nbsp;&nbsp;
+							{if ($key+1)%4==0}<br/>{/if}
+					   {/loop}
+					   <span class="help-block">选中的VIP等级级别会员可免费学习该课程</span>
+					</div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程难度</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="difficulty" class="form-control" value="{$lesson['difficulty']}" />
+						<div class="help-block">例如：入门篇、进阶篇、高级篇</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$lesson['displayorder']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">立即购买</label>
+                    <div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">自定义名称</span>
+							<input type="text" name="appoint_info[buynow_name]" value="{$appoint_info['buynow_name']}" class="form-control">
+							<span class="input-group-addon">网页链接</span>
+							<input type="text" name="appoint_info[buynow_link]" value="{$appoint_info['buynow_link']}" class="form-control" placeholder="含http://或https://">
+							<span class="input-group-addon">小程序链接</span>
+							<input type="text" name="appoint_info[wxapp_buynow_link]" value="{$appoint_info['wxapp_buynow_link']}" class="form-control" placeholder="如：../vip/index">
+						</div>
+						<span class="help-block">默认请留空，课程详情页右下角“立即购买”自定义名称，显示优先级：此处设置名称 > 参数设置里[立即购买] > 默认名称[立即购买]</span>
+					</div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>课程状态</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="status" value="1" {if empty($lesson) || $lesson['status'] == 1}checked="true"{/if} /> 上架</label>
+                        &nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="status" value="0" {if !empty($lesson) && $lesson['status'] == 0}checked="true"{/if} /> 下架</label>
+						&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="status" value="2" {if $lesson['status'] == 2}checked="true"{/if} /> 审核中</label>
+						&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="status" value="-1" {if $lesson['status'] == -1}checked="true"{/if} /> 暂停销售</label>
+                        <span class="help-block">【上架】课程正常销售，【下架】【审核中】课程将不能再进行观看或购买，【暂停销售】已购买课程用户可正常观看，未购买用户不能查看</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程链接</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$_W['siteroot']}app/{php echo str_replace("./", "", $this->createMobileUrl('lesson', array('id'=>$lesson['id'])));}</a></div>
+                    </div>
+                </div>
+			</div>
+		</section>
+		<section id="tab2" title="价格信息" class="lesson-tab-section">
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程价格</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="price" class="form-control" value="{$lesson['price']}" readonly="readonly"/>
+                            <span class="input-group-addon">元</span>
+                        </div>
+						<div class="help-block">该选项无需填写，请添加“课程规格”即可，系统自动获取规格最低价格，0为免费课程</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程规格</label>
+                    <div class="col-sm-9">
+                    	{loop $spec_list $item}
+                        <div class="form-group item">
+		                    <div class="col-sm-6">
+		                        <div class="input-group">
+		                            <span class="input-group-addon">有效期</span>
+		                            	<input type="text" name="spec_time[]" value="{$item['spec_day']}" class="form-control">
+		                            	<span class="input-group-addon">天</span>
+		                            	<span class="input-group-addon">需</span>
+		                            	<input type="text" name="spec_price[]" value="{$item['spec_price']}" class="form-control">
+		                            	<span class="input-group-addon">元</span>
+		                        </div>
+		                    </div>
+                		</div>
+                		{/loop}
+                		<div id="specdiv"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                        <a href="javascript:;" id="spec-add" style="color:#0e9e53;"><i class="fa fa-plus-circle"></i> 点击添加新规格</a>
+                        <span class="help-block">有效期为-1表示永久有效，保存时，留空的规格将自动删除</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">库存</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="stock" class="form-control" value="{$lesson['stock']}" />
+						<span class="help-block">如需开启库存，请先在“基本设置—>全局设置”里开启课程库存</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">VIP会员课程折扣</label>
+					<div class="col-sm-9">
+						<label class="radio-inline">
+							<input type="radio" name="isdiscount" value="1" {if $lesson['isdiscount']==1}checked{/if}>开启
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="isdiscount" value="0" {if $lesson['isdiscount']==0}checked{/if}>关闭
+						</label>
+						<span class="help-block">开启VIP会员课程折扣后，VIP会员购买课程将享受优惠</span>
+					</div>
+				</div>
+				<div class="form-group vip-discount" {if $lesson['isdiscount']==0}style="display: none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员折扣</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" name="vipdiscount" class="form-control" value="{$lesson['vipdiscount']}" />
+							<span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">开启VIP会员课程折扣后，该项留空或为0表示使用当前会员对应的VIP会员等级最低折扣</span>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="tab3" title="课程介绍" class="lesson-tab-section">
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程介绍</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+							{php echo tpl_ueditor('descript', $lesson['descript']);}
+                        </div>
+						<div class="help-block"></div>
+                    </div>
+                </div>
+			</div>
+		</section>
+		<section id="tab4" title="营销信息" class="lesson-tab-section">
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">赠送固定积分</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="integral" class="form-control" value="{$lesson['integral']}" />
+                            <span class="input-group-addon">积分</span>
+                        </div>
+						<div class="help-block">购买该课程赠送固定的积分数，0为关闭</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">赠送比例积分</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="integral_rate" class="form-control" value="{$lesson['integral_rate']}" />
+                            <span class="input-group-addon"></span>
+                        </div>
+						<div class="help-block"><strong style="color:#777;">启用该选项后会自动覆盖赠送固定积分选项，</strong>购买该课程赠送支付金额一定比例的积分，0为关闭。例如设置1.5，用户购买课程实际支付50元，则获赠1.5x50=75积分</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">抵扣积分</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="deduct_integral" class="form-control" value="{$lesson['deduct_integral']}" />
+                            <span class="input-group-addon">积分</span>
+                        </div>
+						<div class="help-block">用户购买课程时可用积分抵扣的数量，<strong style="color:#777;">请先在“营销管理—>抵扣设置”里设置积分抵扣</strong></div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟购买人数</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="virtual_buynum" class="form-control" value="{$lesson['virtual_buynum']}" />
+                            <span class="input-group-addon">人</span>
+                        </div>
+						<div class="help-block">前台购买人数=真实购买人数+虚拟购买人数+访问课程人数</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐到板块</label>
+                    <div class="col-xs-9 col-sm-9" style="margin-top: 7px;">
+					   {loop $rec_list $key $rec}
+							<input type="checkbox" name="recid[]" value="{$rec['id']}" {if in_array($rec['id'],$recidarr)}checked{/if}>{$rec['rec_name']}&nbsp;&nbsp;
+							{if ($key+1)%4==0}<br/>{/if}
+					   {/loop}
+                   </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券抵扣</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="support_coupon" value="1" {if empty($lesson) || $lesson['support_coupon'] == 1}checked="true"{/if} /> 支持</label>
+                        &nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="support_coupon" value="0" {if !empty($lesson) && $lesson['support_coupon'] == 0}checked="true"{/if} /> 不支持</label>
+                        <span class="help-block">不支持优惠券抵扣的课程将无法使用优惠券抵扣支付金额</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程小标识</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="ico_name" value="ico-new" {if $lesson['ico_name'] == 'ico-new'}checked="true"{/if} /> New新课程</label>
+                        &nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="ico_name" value="ico-hot" {if $lesson['ico_name'] == 'ico-hot'}checked="true"{/if} /> Hot人气</label>
+						&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="ico_name" value="" {if $lesson['ico_name'] == ''}checked="true"{/if} /> 无</label>
+                        <span class="help-block">选择的小标识将显示在课程的右上角，当课程小标识选择“无”时，VIP免费课程右上角会出现“VIP免费”标识。</span>
+                    </div>
+                </div>
+			</div>
+		</section>
+		<section id="tab5" title="分销分享" class="lesson-tab-section">
+			<div class="panel-body">
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">一级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="commission1" value="{$commission['commission1']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">留空使用系统全局佣金比例</span>
+					</div>
+				</div>
+				<div class="form-group item {if in_array($comsetting['level'],array('1'))}hide{/if}">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">二级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="commission2" value="{$commission['commission2']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">留空使用系统全局佣金比例</span>
+					</div>
+				</div>
+				<div class="form-group item {if in_array($comsetting['level'],array('1','2'))}hide{/if}">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">三级佣金比例</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" name="commission3" value="{$commission['commission3']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block">留空使用系统全局佣金比例</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享标题</label>
+					<div class="col-sm-9">
+						<input type="text" name="share[title]" class="form-control" value="{$share['title']}" />
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享图标</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image("share[images]", $share['images'])}
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享描述</label>
+                    <div class="col-sm-9">
+                        <textarea style="height:70px;" class="form-control" name="share[descript]">{$share['descript']}</textarea>
+                    </div>
+                </div>
+			</div>
+		</section>
+		</div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$lesson['id']}" />
+        </div>
+	 </form>
+</div>
+<script type="text/javascript" src="{MODULE_URL}template/style/lessonTab/jquery-tab.js?v={$versions}"></script>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copy-btn")[0], $("#copy-btn").text());
+	});
+});
+
+$(function () {
+	$(':radio[name="isdiscount"]').click(function () {
+	   if ($(this).val()=='0') {
+			$('.vip-discount').hide();
+		} else {
+
+			$('.vip-discount').show();
+		}
+	});
+	$('.tab-group').tabify();
+});
+
+//添加规格按钮
+$("#spec-add").click(function () {
+    var spec_html = '';
+    spec_html += '<div class="form-group item">';
+    spec_html += '	<div class="col-sm-6">';
+    spec_html += '		<div class="input-group">';
+    spec_html += '			<span class="input-group-addon">有效期</span>';
+    spec_html += '			<input type="text" name="spec_time[]" class="form-control">';
+    spec_html += '			<span class="input-group-addon">天</span>';
+    spec_html += '			<span class="input-group-addon">需</span>';
+    spec_html += '			<input type="text" name="spec_price[]" class="form-control">';
+    spec_html += '			<span class="input-group-addon">元</span>';
+    spec_html += '		</div>';
+    spec_html += '	</div>';
+    spec_html += '</div>';
+
+    $("#specdiv").append(spec_html);
+});
+</script>
+<script type="text/javascript">
+var category = {php echo json_encode($category);};
+var pid = {php echo $lesson['pid']?$lesson['pid']:0};
+var html = '<option value="0">请选择一级分类</option>';
+$(function(){
+	$("#category_parent").find("option[value='"+pid+"']").attr("selected",true);
+	document.getElementById("category_parent").onchange();
+});
+
+function renderCategory(id){
+	var chtml = '<option value="0">请选择二级分类</option>';
+	var cid = {php echo $lesson['cid']?$lesson['cid']:0};
+	for(var i in category){
+		if(category[i].id==id){
+			var child = category[i].child;
+			for(var j in child){
+				if(child[j].id==cid){
+					chtml += '<option value="' + child[j].id+'" selected>' + child[j].name + '</option>';
+				}else{
+					chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+				}
+			}
+			$("#category_child").html(chtml);
+		}
+	}
+}
+</script>
+
+{elseif $operation == 'postsection'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">章节信息</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">当前课程</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" value="{$lesson['bookname']}" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">章节名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$section['title']}" />
+						<div class="help-block">例如 第一节：初步认识HTML、1-1 初步认识HTML</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">章节类型</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" id="vtype" class="vtype" name="sectiontype" value="1" {if $section['sectiontype'] == 1}checked="true"{/if} /> 视频章节</label>&nbsp;&nbsp;&nbsp;
+						<label class="radio-inline"><input type="radio" class="vtype" name="sectiontype" value="3" {if $section['sectiontype'] == 3}checked="true"{/if} /> 音频章节</label>&nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" id="atype" name="sectiontype" value="2" {if $section['sectiontype'] == 2}checked="true"{/if} /> 图文章节</label>
+                        <label class="radio-inline"><input type="radio" id="utype" name="sectiontype" value="4" {if $section['sectiontype'] == 4}checked="true"{/if} /> 外链章节</label>
+                    </div>
+                </div>
+				<div class="form-group videoaudio" {if !in_array($section['sectiontype'], array('1','3'))}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">存储方式</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" id="noqiniu" name="savetype" value="0" {if $section['savetype'] == 0}checked="true"{/if} /> 其他存储方式</label>&nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" id="qiniu" name="savetype" value="1" {if $section['savetype'] == 1}checked="true"{/if} /> 七牛云存储</label>
+						<label class="radio-inline"><input type="radio" id="code" name="savetype" value="2" {if $section['savetype'] == 2}checked="true"{/if} /> 内嵌代码方式</label>
+						<label class="radio-inline"><input type="radio" id="qcloud" name="savetype" value="3" {if $section['savetype'] == 3}checked="true"{/if} /> 腾讯云存储</label>
+                    </div>
+                </div>
+				<div class="form-group videoaudio" {if !in_array($section['sectiontype'], array('1','3'))}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">视频/音频URL</label>
+                    <div class="col-sm-9">
+						<textarea id="videourl" name="videourl" class="form-control" style="min-height:100px;">{$section['videourl']}</textarea>
+						<div class="help-block">七牛、腾讯云存储和其他存储请用URL如：http://video.haoshu888.com/e1.mp4(注意区分url大小写)，建议使用视频格式用mp4，音频格式用mp3</div>
+                    </div>
+                </div>
+				<div class="form-group videoaudio" {if !in_array($section['sectiontype'], array('1','3'))}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">视频/音频时长</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="videotime" class="form-control" value="{$section['videotime']}" />
+						<div class="help-block">请输入视频/音频时长，例如：13:48, 95:32</div>
+                    </div>
+                </div>
+				<div class="form-group scontent" {if $section['sectiontype']!=2}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">图文章节内容</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_ueditor('content', $section['content']);}
+						<div class="help-block">请填写图文章节内容</div>
+                    </div>
+                </div>
+                <div class="form-group linkurl" {if $section['sectiontype']!=4}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">外链URL</label>
+                    <div class="col-sm-9">
+						<textarea  name="linkurl" class="form-control" style="min-height:100px;">{$section['videourl']}</textarea>
+						<div class="help-block">外链章节将跳转到其他页面，填写完整的外链链接url，包括http://</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$section['displayorder']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">试听章节</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="is_free" value="1" {if $section['is_free'] == 1}checked="true"{/if} /> 是</label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="is_free" value="0" {if empty($section) || $section['is_free'] == 0}checked="true"{/if} /> 否</label>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+				<div class="form-group videoaudio" {if $section['sectiontype']!=1}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">试听时间</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="text" name="test_time" value="{$section['test_time']}" class="form-control">
+							<span class="input-group-addon">秒</span>
+						</div>
+						<div class="help-block">
+							0为关闭，该功能为公测版本，仅支持七牛云和腾讯云存储方式的视频章节
+						</div>
+					</div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">章节状态</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="status" value="1" {if empty($section) || $section['status'] == 1}checked="true"{/if} /> 显示</label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="status" value="0" {if !empty($section) && $section['status'] == 0}checked="true"{/if} /> 隐藏</label>
+                        <span class="help-block">隐藏状态的章节不会显示在前端课程章节列表里</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">定时上架</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="auto_show" value="0" {if !empty($section) && $section['auto_show'] == 0}checked="true"{/if} /> 关闭</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="radio-inline"><input type="radio" name="auto_show" value="1" {if empty($section) || $section['auto_show'] == 1}checked="true"{/if} /> 开启</label>
+						<label>{php echo _tpl_form_field_date('show_time', $section['show_time'] >0 ? date('Y-m-d H:i:s', $section['show_time']) : '请选择', true);}</label>
+						<span class="help-block">开启后，当前时间大于上架时间时，章节会自动显示</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">章节链接</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$sectionUrl}</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+			<input type="hidden" name="pid" value="{$pid}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copy-btn")[0], $("#copy-btn").text());
+	});
+});
+
+$("#code").click(function(){
+	document.getElementById("videourl").value = "<iframe  frameborder=0  width=100%  height=40%  src=这里替换内嵌视频地址  allowfullscreen></iframe>";
+});
+$(".vtype").click(function(){
+	$(".videoaudio").show();
+	$(".scontent").hide();
+	$(".linkurl").hide();
+});
+$("#atype").click(function(){
+	$(".videoaudio").hide();
+	$(".scontent").show();
+	$(".linkurl").hide();
+});
+$("#utype").click(function(){
+	$(".videoaudio").hide();
+	$(".scontent").hide();
+	$(".linkurl").show();
+});
+
+var sid = {php echo $id>0 ? $id : 0;};
+if(sid==0){
+	document.getElementById("vtype").click();
+}
+</script>
+
+{elseif $operation == 'viewsection'}
+<style type="text/css">
+.Rotation{
+	-webkit-transform: rotate(360deg);
+	animation: rotation 3s linear infinite;
+	-moz-animation: rotation 3s linear infinite;
+	-webkit-animation: rotation 3s linear infinite;
+	-o-animation: rotation 3s linear infinite;
+}
+</style>
+<div class="main">
+	<div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-primary" href="{php echo $this->createWebUrl('lesson', array('op'=>'postsection','pid'=>$lesson['id']));}"><i class="fa fa-plus"></i> 添加章节</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class="btn btn-success" href="{php echo $this->createWebUrl('lesson', array('op'=>'record','lessonid'=>$lesson['id']));}"><i class="fa fa-navicon"></i> 学习记录</a>
+        </div>
+    </div>
+	<form action="" method="post" class="form-horizontal form">
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:80px;text-align:center;">排序</th>
+							<th style="width:15%;">预览</th>
+							<th style="width:25%;">章节名称</th>
+							<th style="width:9%;text-align:center;">试听章节</th>
+							<th style="width:9%;text-align:center;">章节类型</th>
+							<th style="width:9%;text-align:center;">章节状态</th>
+							<th style="width:13%;text-align:center;">添加时间</th>
+							<th style="width:12%;text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $section_list $key $sec}
+						<tr>
+							<td style="text-align:center;">
+								[ID:{$sec['id']}]
+								<input type="text" class="form-control" name="sectionorder[{$sec['id']}]" value="{$sec['displayorder']}" style="width:60px;">
+							</td>
+							<td>
+								{if in_array($sec['sectiontype'], array('1','3'))}
+								<video src="{$sec['play_url']}" id="video{$key}" onclick="videoContro(this, {php echo $sec['suffix']=='mp4'?0:1;})" controls="controls" {if $sec['suffix']!='mp4'}class="other" poster="{MODULE_URL}template/mobile/images/preview.png"{else}poster="{MODULE_URL}template/mobile/images/videoCover.png"{/if} width="150"></video>
+								{/if}
+							</td>
+							<td style="word-break:break-all;">{$sec['title']}</td>
+							<td style="text-align:center;">{php echo $sec['is_free']==1?'试听章节':'付费章节';}</td>
+							<td style="text-align:center;">
+								{if $sec['sectiontype']==1}
+									视频章节
+								{elseif $sec['sectiontype']==2}
+									图文章节
+								{elseif $sec['sectiontype']==3}
+									音频章节
+								{elseif $sec['sectiontype']==4}
+									外链章节
+								{/if}
+							</td>
+							<td style="text-align:center;">{php echo $sec['status']==1?'显示':'隐藏';}</td>
+							<td style="text-align:center;">{php echo date('Y-m-d H:i:s',$sec['addtime']);}</td>
+							<td style="text-align:center;">
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'postsection', 'id'=>$sec['id'], 'pid'=>$sec['parentid']));}" title="修改"><i class="fa fa-edit"></i></a>
+								<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'delete','cid'=>$sec['id']));}" title="删除" onclick="return confirm('确认删除此章节吗？');return false;"><i class="fa fa-remove"></i></a>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<input name="submit" type="submit" class="btn btn-primary" value="批量修改排序">
+								<input type="hidden" name="token" value="{$_W['token']}">
+								<input type="hidden" name="pid" value="{$pid}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+</div>
+<script type="text/javascript">
+function videoContro(obj, type){
+	var myvideo = document.getElementById(obj.id);
+	if(myvideo.paused){
+		myvideo.play();
+		if(type==1){
+			$("#"+obj.id).addClass('Rotation');
+		}
+	}else{
+		myvideo.pause();
+		$("#"+obj.id).removeClass('Rotation');
+	}
+}
+</script>
+{elseif $op=='record'}
+<style>
+.col-lg-3{width:22%;}
+</style>
+
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal form" enctype="multipart/form-data" onkeydown="if(event.keyCode==13){return false;}">
+				<input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="lesson" />
+                <input type="hidden" name="op" value="record" />
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择课程</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id='bookname' maxlength="30" class="form-control" readonly />
+							<input type="hidden" id='lessonid' name="lessonid"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-menus').modal();">选择课程</button>
+                            </div>
+                        </div>
+                        <div id="modal-module-menus"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择课程</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="请输入课程名称" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_lesson();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-menus" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择用户</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id='nickname' maxlength="30" class="form-control" readonly />
+							<input type="hidden" id='uid' name="uid"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-member').modal();">选择用户</button>
+                            </div>
+                        </div>
+                        <div id="modal-module-member"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择用户</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="kmember" value="" id="search-km" placeholder="请输入用户昵称/姓名/手机号" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_member();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-member" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;"></label>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <form action="" method="post" class="form-horizontal form" >
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:35%;">课程章节</th>
+                    <th style="width:20%;">学习时长</th>
+                    <th style="width:20%;">昵称/姓名/手机号</th>
+                    <th style="width:20%;">学习时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+                    <td>《{$item['bookname']}》<br/>{$item['title']}</td>
+                    <td>{$item['playtime']}</td>
+                    <td>{$item['user']['nickname']}<br/>{$item['user']['realname']}，{$item['user']['mobile']}</td>
+					<td>{php echo date('Y-m-d H:i:s', $item['addtime']);}</td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+function search_lesson() {
+	var uniacid = {php echo $uniacid};
+	if ($.trim($('#search-kwd').val()) == '') {
+		document.getElementById('search-kwd').focus();
+		return;
+	}
+	$("#module-menus").html("正在搜索....");
+	$.get("{php echo $this->createWebUrl('getlessonormember', array('op'=>'getLesson'))}", { 
+		uniacid:uniacid,keyword: $.trim($('#search-kwd').val())
+	}, function (dat) {
+		$('#module-menus').html(dat);
+	});
+}
+function select_lesson(obj) {
+	$("#bookname").val(obj.bookname);
+	$("#lessonid").val(obj.id);
+	$("#price").val(obj.price);
+	$("#teacher_income").val(obj.teacher_income);
+	$("#validity").val(obj.validity);
+}
+
+function search_member() {
+	var uniacid = {php echo $uniacid};
+	if ($.trim($('#search-km').val()) == '') {
+		document.getElementById('search-km').focus();
+		return;
+	}
+	$("#module-member").html("正在搜索....");
+	$.get("{php echo $this->createWebUrl('getlessonormember', array('op'=>'getMember'))}", { 
+		uniacid:uniacid,keyword: $.trim($('#search-km').val())
+	}, function (dat) {
+		$('#module-member').html(dat);
+	});
+}
+function select_member(obj) {
+	$("#nickname").val(obj.nickname);
+	$("#uid").val(obj.uid);
+}
+</script>
+
+{elseif $op=='updomain'}
+<div class="main">
+	<div class="alert alert-info">
+	    更换七牛或腾讯云对象存储的自定义视频域名后，可使用该功能来批量变更音视频自定义域名，单次更新数量不宜过多，重复更新不影响功能。
+	</div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">批量更新音视频域名</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">更新数量</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="upnumber" value="100" checked /> 100条</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="upnumber" value="300" /> 300条</label>
+						&nbsp;
+						<label class="radio-inline"><input type="radio" name="upnumber" value="500" /> 500条</label>
+						&nbsp;
+						<label class="radio-inline"><input type="radio" name="upnumber" value="1000" /> 1000条</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 原音视频域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="old_domain" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 新音视频域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="new_domain" class="form-control">
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}template/mobile/images/download.gif"><span class="mloading-text">同步数据中，请勿关闭或刷新...</span></div>
+<div id="overlay"></div>
+<script type="text/javascript">
+/* 显示遮罩层 */
+function showOverlay() {
+    $("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0);
+	$(".mloading-bar").show();
+}
+</script>
+
+{elseif $op=='inform'}
+<div class="main">
+	<div class="alert alert-info">
+		1、为避免微信官方严查滥用主动发送模版消息，请不要大量频繁发送模版消息，如需大量发送消息，请到微信公众号里群发。
+		<br/>
+		2、定时通知开课任务链接(建议5分钟执行一次)：{$_W['siteroot']}app/{php echo substr($this->createMobileUrl('notice'),2);}
+	</div>
+	<div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-primary" href="{php echo $this->createWebUrl('lesson', array('op'=>'informStudent'));}"><i class="fa fa-plus"></i>添加开课提醒</a>&nbsp;&nbsp;
+        </div>
+    </div>
+	<form action="" method="post" class="form-horizontal form">
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:6%;">编号</th>
+							<th style="width:20%;">课程名称</th>
+							<th style="width:15%;">用户类型</th>
+							<th style="width:8%;">状态</th>
+							<th style="width:9%;">发送总量</th>
+							<th style="width:9%;">剩余数量</th>
+							<th style="width:15%;">添加时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $item}
+						<tr>
+							<td>{$item['inform_id']}</td>
+							<td>{$item['book_name']}</td>
+							<td>
+								{if $item['user_type']==1}
+									全部会员
+								{elseif $item['user_type']==2}
+									VIP会员
+								{elseif $item['user_type']==3}
+									购买过该讲师的会员
+								{/if}</td>
+							<td>
+								{if $item['status']==1}
+									<span class="label label-success">发送中</span>
+								{else}
+									<span class="label label-default">发送结束</span>
+								{/if}
+							</td>
+							<td>{$item['inform_number']}</td>
+							<td>{$item['remain_number']}</td>
+							<td>{php echo date('Y-m-d H:i:s',$item['addtime']);}</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+</div>
+
+{elseif $op=='informStudent'}
+<div class="main">
+	<div class="alert alert-info">
+	    公测功能：公众号主动给粉丝发送信息属于滥用模版消息，24小时内只能发送一次；单次请不要添加过多用户，系统将实行每隔3~5秒发送一次，超过24小时未发送完成的粉丝列表将放弃发送。
+	</div>
+    <form action="" method="post" class="form-horizontal form" onkeydown="if(event.keyCode==13){return false;}">
+        <div class="panel panel-default">
+            <div class="panel-heading">课程通知</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择课程</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id='bookname' maxlength="30" class="form-control" readonly />
+							<input type="hidden" id='lesson_id' name="lesson_id"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-menus').modal();">选择课程</button>
+                            </div>
+                        </div>
+                        <div id="modal-module-menus"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择课程</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="请输入课程名称" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_lesson();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-menus" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">发送对象</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="user_type" value="1" /> 全部粉丝</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="user_type" value="2" /> VIP会员粉丝</label>
+						&nbsp;
+						<label class="radio-inline"><input type="radio" name="user_type" value="3" checked/> 购买过该讲师课程的粉丝</label>
+					</div>
+				</div>
+            </div>
+        </div>
+
+		<div class="panel panel-default">
+            <div class="panel-heading">模版消息设置</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 开头语</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[first]" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 课程名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword1]" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 地点</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword2]" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 讲师</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword3]" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword4]" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 备注</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[remark]" class="form-control">
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}template/mobile/images/download.gif"><span class="mloading-text">正在处理，请勿关闭或刷新...</span></div>
+<div id="overlay"></div>
+<script type="text/javascript">
+/* 显示遮罩层 */
+function showOverlay() {
+    $("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0);
+	$(".mloading-bar").show();
+}
+function search_lesson() {
+	var uniacid = {php echo $uniacid};
+	if ($.trim($('#search-kwd').val()) == '') {
+		document.getElementById('search-kwd').focus();
+		return;
+	}
+	$("#module-menus").html("正在搜索....");
+	$.get("{php echo $this->createWebUrl('getlessonormember', array('op'=>'getLesson'))}", { 
+		uniacid:uniacid,keyword: $.trim($('#search-kwd').val())
+	}, function (dat) {
+		$('#module-menus').html(dat);
+	});
+}
+function select_lesson(obj) {
+	$("#bookname").val(obj.bookname);
+	$("#lesson_id").val(obj.id);
+}
+</script>
+{/if}
+{template 'common/footer'}

@@ -1,0 +1,121 @@
+{itemplate 'public/header'}
+<div class="uu-replace-main clearfix">
+	<!--左侧导航-->
+	<div class="order-nav">
+		<!--四个功能样式-->
+		<div class="secNav">
+			<div class="business-list">
+				<a href="" title="帮我买">
+					<div class="item active">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我买</p>
+					</div>
+				</a>
+				<a href="" title="帮我送">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我送</p>
+					</div>
+				</a>
+				<a href="" title="帮我取">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我取</p>
+					</div>
+				</a>
+				<a href="" title="代排队">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>代排队</p>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+
+	<!--右侧列表样式-->
+	<div class="order-form">
+		<form action="">
+			<div class="uuBusi">
+				<div class="infos-box infos-box1">
+					<span class="icon">1</span>
+					<div class="ucard" style="margin-bottom: 0;">
+						<label>购买内容</label>
+						<div class="tag category" id="goodstype">
+							<a href="javascript:;" class="selected">
+								随意购
+								<span class="icon">√</span>
+							</a>
+							<a href="javascript:;">咖啡</a>
+							<a href="javascript:;">香烟</a>
+							<a href="javascript:;">酒</a>
+							<a href="javascript:;">早餐</a>
+							<a href="javascript:;">宵夜</a>
+							<a href="javascript:;" >药品</a>
+							<a href="javascript:;" >生鲜</a>
+						</div>
+					</div>
+					<div class="ucard">
+						<label>收货地址</label>
+						<div class="tag">
+							<input type="text" class="inp w86" autocomplete="off" name="endaddress" id="endaddress" placeholder="请填写收货地址" title="收货地址">
+						</div>
+					</div>
+					<div class="ucard">
+						<label>备注地址</label>
+						<div class="tag">
+							<input type="text" name="endaddressdoor" autocomplete="off" id="endaddressdoor" class="inp w86" placeholder="请填写具体楼号及门牌号" title="备注地址">
+						</div>
+					</div>
+					<div class="ucard" style="padding-bottom:30px;margin-bottom:0">
+						<label>收货电话</label>
+						<div class="tag">
+							<input type="tel" maxlength="11" autocomplete="off" name="tel" id="tel" class="inp help-input" placeholder="请输入联系人手机号码">
+						</div>
+					</div>
+				</div>
+				<div class="infos-box infos-box2" style="z-index: 9; margin-top: 20px;">
+					<span class="icon">2</span>
+					<div class="ucard">
+						<label>购买地址</label>
+						<div class="tag">
+							<input type="text" name="startaddress" autocomplete="off" id="startaddress" class="inp w86" placeholder="请填写购买地址" title="购买地址">
+						</div>
+					</div>
+					<div class="ucard">
+						<label>备注地址</label>
+						<div class="tag">
+							<input type="text" name="startaddressdoor" autocomplete="off" id="startaddressdoor" class="inp w86" placeholder="请填写具体楼号及门牌号" title="备注地址">
+						</div>
+					</div>
+					<div class="ucard" style="height: 96px;">
+						<label>购买要求</label>
+						<div class="tag" style="position:relative;">
+							<textarea autocomplete="off" class="inp w100 textarea-large required maxText" name="details" id="details" placeholder="想买什么就买什么，请输入需要购买商品的名称和数量"></textarea>
+							<span style="position:absolute;font-size:12px;color:#bbbbbb;right:15px;bottom:0px;z-index:10;">最多80字</span>
+						</div>
+					</div>
+					<div class="ucard" style="margin-bottom: 0;">
+						<a href="javascript:;" id="getMore" class="more-bg">
+							<i class="more-down"></i>
+							点击展开更多
+						</a>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+
+	</div>
+</div>
+{itemplate 'public/footer'}

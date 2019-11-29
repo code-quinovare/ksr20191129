@@ -1,0 +1,103 @@
+﻿{php include $this->template($style.'/common/head')}
+<title>{$webset['name']}-新闻资讯{$xtitle}</title>
+{php include $this->template($style.'/common/header')}
+<div class="otherBanner">
+    <img src="{php echo tomedia($newset['banner'])}">
+</div>
+<!--banner end-->
+
+<!--contain-->
+<div class="newsCont">
+
+    <div class="nav">
+        <a class="curr" data-id="0" href="{php echo $this->createMobileUrl($do,array('op'=>'news'))}">全部</a>
+        {loop $news_class $news_index $nc}
+        <a data-id="{$nc['id']}" href="{php echo $this->createMobileUrl($do,array('op'=>'news','cid'=>$nc['id']))}">{$nc['contents']}</a>
+        {/loop}
+
+    </div>
+
+    <div class="list">
+
+    </div>
+
+    <!--Pages-->
+    <div class="pages" id="pages">
+
+
+    </div>
+    <!--Pages-->
+
+</div>
+<script>
+    $(function () {
+        var uited = 2;
+        $('.topNav li').each(function () {
+            var uit = $(this).attr("data-uit");
+            if (uit == uited) {
+                $(this).addClass('curr');
+            } else {
+                $(this).removeClass('curr');
+            }
+        });
+        $('.nav a').each(function () {
+
+            if ($(this).attr('data-id') == {$cid}) {
+                $(this).addClass('curr');
+            } else {
+                $(this).removeClass('curr');
+            }
+        })
+
+    })
+
+</script>
+<script>
+    $(function () {
+
+        var cid = {$cid};
+        var psize = 3;
+        var page = {$page};
+        $.ajax("{php echo $this->createMobileUrl($do,array('op'=>'news'))}", {
+            data: {psize: psize, page: page, cid: cid},
+            type: "post",
+            dataType: 'json'
+        }).done(function (res) {
+            console.log(res);
+            $('#pages').append(res.pages);
+
+            var data = res['lists'];
+            var html = '';
+            for (var i = 0; i < data.length; i++) {
+                html += '<div class="listBox clearfix">' +
+                    '<div class="img"><a href="' + "{php echo $this->createMobileUrl($do)}" + "&op=newsdet&id=" + data[i]['id'] + '"><img src="' + data[i]['img'] + '"></a></div>' +
+                    '<div class="text">' +
+                    '<h1>' + data[i].title + '</h1>' +
+                    '<p>' + data[i]['about'] + '</p>' +
+                    '<h2 data-value="' + data[i].createtime + '"></h2>' +
+                    '<a href="' + "{php echo $this->createMobileUrl($do)}" + "&op=newsdet&id=" + data[i]['id'] + '" class="moreBtn">查看更多</a>' +
+                    '</div> </div>';
+
+            }
+
+            $(".list").append(html);
+
+
+            $('.list').find('.listBox').each(function (index) {
+                var createtime = $(this).find('h2').attr('data-value');
+                var curr = new Date(createtime);
+                var year = curr.getFullYear();
+                var month = curr.getMonth() + 1;
+                var date = curr.getDate();
+                var hours = curr.getHours();
+                var minutes = curr.getMinutes();
+                var seconds = curr.getSeconds();
+                $(this).find('h2').html(month + '-' + date+'<span class="sp1"> /'+year+'</span>');
+
+            })
+        });
+
+
+    })
+</script>
+{php include $this->template($style.'/common/footer')}

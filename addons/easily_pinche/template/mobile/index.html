@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<title>{$setup['es_title']}</title>
+{php echo register_jssdk();}
+<link href="{$cssurl}iconfont.css" rel="stylesheet" />
+<link href="{$cssurl}style.css" rel="stylesheet" />
+</head>
+<body>
+<header class="header-list">
+	<dl>
+		<dt>{$setup['es_title']}</dt>
+	</dl>
+</header>
+{if $setup['es_copyright']!=''}
+<section class="carpool-notice">
+    <p class="disflex">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA25pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphOGQ3ZmQ1ZC1hNDUxLTAzNDktOTMxZC1mNWY1ZGViNjY0N2YiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDBGNkM5Q0JCQTEyMTFFNzkzNkFGNzFFQUM0NEFBNDUiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDBGNkM5Q0FCQTEyMTFFNzkzNkFGNzFFQUM0NEFBNDUiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozNTBCNTgyQkY4QjlFNzExQTcwMkE1MEZGMzEzRDE5MCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDphOGQ3ZmQ1ZC1hNDUxLTAzNDktOTMxZC1mNWY1ZGViNjY0N2YiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz52gYVsAAAC1klEQVR42qyWW4iNURTHz/kcE3IMg5kYHkxDGA94GTLFPBFKilyacculKWZcEiWUBy8jtxASB09SHjxIE9Mgp8mLW8S4RMxJRmYMxv0c/1X/XattNGfv8/3r1/7OOt/+9tp7r73WjnaUT454agFYBt6A3eCDz0cCjz69wU6wHQwH5WCl7yxcHRgIjoF5nPEB2vOz7N83FwdKwFkwCTzh8j9y6L8Q3ABzfRyoAAlQDK6DNeC94+oVc7wdoNTFgSqwn8t3inv/zWO7T4O3jKFdINqTA+bFjeAXPT8OMp7x1snvpcF4UCnGGJ2QKF4ECrrp2Aa2gMeOAw7gVl1VsfIANIBZYClolMHXgRp2SIFW8hm8BMuzGHw6JxC1bEvAQTBU2c+xnSjHOMaE8od7/Vy9uB70zyLYfnIlt4JhHFB0G3wFg8AGLr+ohROTU1UR8Ay3WYO76CNXqZ2TqFT2E3yeCQpVn2a2E4JIOGphkIrWKvsFOtILzLDeF40KywHRHfAMjAYjaJOtbeTzWPXuO7ZFYToQoQMR1gijV2yHKNsXtnlhOxBjm1a2PBWs/yTAsB0Yx/a1so1R+UTnCFFXmA5I9I9kzjCDyTGexuf7Vl0QpcJyoIyXkgzTtZEcz7jMFNy03he9CPinpOAiz8ELWKRktkdBkvZSOiA6z3HMtk/l8z0JmstgMbho7V0hj0ucafl/kiD7DurBJev+IIM9BGeUfQpT82/JluLAIf4xXwWR0WDeAzZbztlqsgYXXeMgd9karWJ7SypkjKV2HzgM+lgrsJczSTDTJR22Jq2SkNEcFqGMWZXAKiqdCqkNK/iROItMdQ6BKhPZxucGU2F7OgVd7HSEv+vAHpVcXCRx1o/Vtd4lEWW4BbXgE5gNTlo1Phs1cdZStjt8MmEzt+CplFFeLMoc+ie7u0m7JqIUo/gKV2AT7e25Fg8X/eDtRlZkNa9vCV8H/gowAIwCoBznmAgdAAAAAElFTkSuQmCC"
+            alt="公告"><em class="flexn">{$setup['es_copyright']}</em>
+    </p>
+</section>
+{/if}
+{if $setup['es_img']!=''}
+<div class="ccooliad"><img src="/attachment/{$setup['es_img']}" alt="广告图片"></div>
+{/if}
+<section class="pc-tab" style=" padding-top:10px; padding-bottom:10px;">
+    <ul class="disflex">
+    	<a href="{php echo $this->createMobileUrl('index');}">
+        <li class="pincheType" data-pinche="0">
+            <i></i>
+            <p>全部</p>
+        </li>
+        </a>
+        <a href="{php echo $this->createMobileUrl('index');}&type=2">
+        <li class="car-person pincheType " data-pinche="1">
+            <i></i>
+            <p>车找人</p>
+        </li>
+        </a>
+        <a href="{php echo $this->createMobileUrl('index');}&type=1">
+        <li class="person-car pincheType " data-pinche="2">
+            <i></i>
+            <p>人找车</p>
+        </li>
+        </a>
+        <a href="{php echo $this->createMobileUrl('index');}&type=4">
+        <li class="car-thing pincheType " data-pinche="3">
+            <i></i>
+            <p>车找货</p>
+        </li>
+        </a>
+        <a href="{php echo $this->createMobileUrl('index');}&type=3">
+        <li class="thing-car pincheType " data-pinche="4">
+            <i></i>
+            <p>货找车</p>
+        </li>
+        </a>
+    </ul>
+</section>
+<section class="carpool-pos-search disflex">
+	<SCRIPT LANGUAGE=javascript> 
+    function searchs() { 
+        var from_name = document.getElementById('from_name').value;
+        var to_name = document.getElementById('to_name').value;
+   		window.location.href="{php echo $this->createMobileUrl('index');}&address=search&from_name="+from_name+"&to_name="+to_name;  
+    } 
+    </SCRIPT> 
+    <div class="flexn disflex">
+        <form><input type="search" id="from_name" maxlength="10" placeholder="出发地搜索" value="{$from_name}"></form>
+            <p class="pc-zhuanhuan">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAZCAYAAABQDyyRAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphOGQ3ZmQ1ZC1hNDUxLTAzNDktOTMxZC1mNWY1ZGViNjY0N2YiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODk4RDA0NDlENEM0MTFFNzhENzdDRkMxN0QyODI3MEEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODk4RDA0NDhENEM0MTFFNzhENzdDRkMxN0QyODI3MEEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRmMTI0MGFiLTNmMjgtZjM0NC1hNWExLWNiNjVkMGM0ZTM2NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDphOGQ3ZmQ1ZC1hNDUxLTAzNDktOTMxZC1mNWY1ZGViNjY0N2YiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5mr/fqAAAA/0lEQVR42syWzQoBURiGD7kCiRSJMjVlIysb43dv7wJsXI+FrWuw8r+0UBbkZ6EkIqVcAe9Xn5omsjrn89azOmfxzLxnvjm+Wu+pNKQFuuDxa6Nf6UkeDEFQSoCSAwMQkhKgZMEYRKQEKBmWiEoJUGwwATHvQgD0NT21NxaYgjI4uAWqylxSLom9yQrcSXAdlpQAJc4SNlXQVHKxSKAjKCBWwf8IUAV1EJYU2IL2t1FpooI1KIKT5BnYgYJ7RJqs4B0ajQ7/uZIf9l7AUqeA4jfg8G0m7VkbgYaJz/DIZ2IjOQfOLLGSHERXUAILyUl4AxUwlxzFd760zHQIvAQYAAANKF3MAPhFAAAAAElFTkSuQmCC" alt="转换目的地">
+            </p>
+        <form><input type="search" id="to_name" maxlength="10" placeholder="目的地搜索" value="{$to_name}"></form>
+        <i  class="iconfont icon-sousuokuangsousuo" onclick="searchs()"></i>
+    </div>
+</section>
+<section class="pc-hot" style="background:#FFF;">
+    <div class="hot-p disflex">
+        <i class="hot-icon"></i>
+        <p class="flexn tit">热门地点</p>
+    </div>
+	<ul class="hot-list clearfix" style="background:#FFF;">
+    	{loop $remen $index $item}
+		<li class=two><a href="{php echo $this->createMobileUrl('index');}&address=muaddress&title={$item['prm_title']}">{$item['prm_title']}</a></li>
+		{/loop}
+	</ul>
+    <div style="clear:both;"></div>
+</section>
+<section class="carpool-content">
+	<ul class="cp-list swiper-slide" id="alllist">
+		{loop $info $index $item}
+		<li class="">
+        	<a class="con" href="{php echo $this->createMobileUrl('details');}&code={$item['pci_code']}">
+            	<p class="l-tit">
+                	{if $item['pci_top']!=0}
+                	<span style="background:#F00; color:#FFF; padding-left:3px; padding-right:3px;">顶</span>
+                    {/if}
+            		<span class="s2 {if $item['pci_type']==1}another{/if}" >
+                      {if $item['pci_type']==1}
+                      人找车
+                      {elseif $item['pci_type']==2}
+                      车找人
+                      {elseif $item['pci_type']==3}
+                      货找车
+                      {else}
+                      车找货
+                      {/if}
+                    </span>
+            		<span class="s3"><em>{$item['pci_chuaddress']}</em><i></i><em>{$item['pci_muaddress']}</em></span>
+                    <span class="s4">{$item['pci_tuaddress']}</span>
+                </p>
+        		<p class="l-time">
+           			<span><em class="">{php echo $this->IsTodayOrTomorrow($item['pci_chuaddtime'])}</em>
+                    （周{php  $weekday = array('日','一','二','三','四','五','六'); echo $weekday[date('w', strtotime($item['pci_chuaddtime']))]; }）
+                    {php echo date('H:i', strtotime($item['pci_chuaddtime']))} 出发</span>
+                </p>
+                {if $item['pci_content']!=''}
+				<p class="l-sign">
+					<span>备注：{$item['pci_content']}</span>
+                </p>
+                {/if}
+   			 </a>
+			<p class="call disflex">
+				<span class="flexn"><em>{$item['pci_count']}空位</em>{php echo date('m/d H:i', strtotime($item['pci_addtime']))}&nbsp;发布</span>&nbsp;
+                <a href="tel:{$item['pci_phone']}">拨打</a>
+            </p>
+		</li>
+		{/loop}
+	</ul>
+</section>
+<div style="height:55px;"></div>
+<section class="ey-btm-tab" style="z-index: 999">
+    <ul class="disflex ">
+      <li>
+        <a href="{php echo $this->createMobileUrl('index');}">
+          <i class="iconfont icon-shouye1 "></i>
+          <span class="es-sig ">首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="{php echo $this->createMobileUrl('fabu');}">
+          <em class="zp-fb-btn">
+            <span></span>
+            <span>发布</span>
+          </em>
+        </a>
+      </li>
+      <li>
+        <a href="{php echo $this->createMobileUrl('user');}">
+          <i class="iconfont icon-wode- "></i>
+          <span class="es-sig ">我的</span>
+        </a>
+      </li>
+    </ul>
+</section>
+</body>
+</html>

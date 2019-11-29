@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>员工评价</title>
+    {template 'head'}
+    <link rel="stylesheet" href="{RES}mobile/css/dz_style.css">
+    <link rel="stylesheet" href="{RES}mobile/css/starability-all.min.css">
+</head>
+<body>
+        <div class="dz-filehead">
+            员工评价
+        </div>
+            <div class="dz-headimg dz-app-head">
+                <div class="dz-app-left">   
+                        <img src="{php echo tomedia($staff['staff_avatar'])}">
+                </div>
+                <div class="dz-app-right">   
+                       <p>员工:<span>{$staff['staff_name']}</span></p>
+                       <p>电话:<span>{$staff['staff_tel']}</span></p>
+                </div>      
+            </div>
+        <form class="app-form" action="{php echo $this->createMobileUrl('staffComment', array('op' => 'create'))}" method="post" id="form">
+            <p class="dz-app-title">为他打分</p>
+            <fieldset class="starability-grow">
+                <input type="radio" id="rate5-3" name="scomment[scomment_level]" value="5" />
+                <label for="rate5-3" title="Amazing">5 stars</label>
+                <input type="radio" id="rate4-3" name="scomment[scomment_level]" value="4" />
+                <label for="rate4-3" title="Very good">4 stars</label>
+                <input type="radio" id="rate3-3" name="scomment[scomment_level]" value="3" />
+                <label for="rate3-3" title="Average">3 stars</label>
+                <input type="radio" id="rate2-3" name="scomment[scomment_level]" value="2" />
+                <label for="rate2-3" title="Not good">2 stars</label>
+                <input type="radio" id="rate1-3" name="scomment[scomment_level]" value="1" />
+                <label for="rate1-3" title="Terrible">1 star</label>
+            </fieldset>
+            <div class="dz-comment-btn">
+                {loop $tags $row}
+                <span data-checkid="{$row['scommenttag_id']}" onclick="detatab(this)">{$row['scommenttag_title']}</span>
+                <input id="check_{$row['scommenttag_id']}" type="checkbox" name="scomment[scomment_tag][]" hidden  value="{$row['scommenttag_id']}" {if in_array($row['scommenttag_id'], $scomment['scomment_tag'])}checked{/if}>
+                {/loop}
+                <li class="clear"></li>
+            </div>
+            <textarea name="scomment[scomment_content]" id="app-text" cols="30" rows="6" placeholder="说说哪里满意,帮大家选择"></textarea>
+            <input type="hidden" name="token" value="{$_W['token']}">
+            <input type="hidden" name="scomment[scomment_staffid]" value="{$staff['staff_id']}">
+            <input type="submit" name="submit" id="dz-edit-sub2" value="提交评价">
+
+        </form>
+        <div class="dz-fixed" id="message">
+
+        </div>
+    <script>
+
+        function detatab(that){
+            if($(that).hasClass("dz-this-span"))
+            {
+                $(that).removeClass("dz-this-span");
+                var id = $(that).data('checkid');
+                $('#check_' + id).attr('checked', false);
+
+            }else
+            {
+                $(that).addClass("dz-this-span");
+                var id = $(that).data('checkid');
+                $('#check_' + id).attr('checked', true);
+            }
+        }
+
+        function message(text) {
+
+            $('#message').html(text);
+            $('#message').show();
+
+            var timerid = setInterval(function () {
+
+                $('#message').hide();
+                clearInterval(timerid);
+
+            }, 2000);
+        }
+
+        $('#form').submit(function () {
+
+
+            if($('input:radio[name="scomment[scomment_level]"]:checked').val() == undefined){
+                message('请为服务员工打分!');
+                return false;
+            }
+
+            if($('textarea[name="scomment[scomment_content]"]').val() == ''){
+                message('请留下您的评语!');
+                return false;
+            }
+
+            return true;
+
+        })
+    </script>
+</body>
+</html>

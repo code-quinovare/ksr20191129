@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	
+    <title>微官网</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
+<script type='text/javascript' src='/js/swiper.js' charset='utf-8'></script>
+</head>
+
+<body>
+{loop $index $index $item}
+<div class="weui-navbar">
+  <div class="weui-navbar__item weui_bar__item_on">
+   {$item['title']}
+   
+   
+  </div>
+</div>
+<div style="height:238px;" class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+
+  <div class="swiper-wrapper">
+    <div class="swiper-slide"><img style="height:238px; width:100%;" src="{php echo tomedia($item['bjt'])}" alt=""></div>
+ </div>
+</div>
+</div>
+
+
+<div style="margin-bottom:50px;" class="weui-grids">
+  <a href="{$item['wxab']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxac'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+	{$item['wxa']}
+    </p>
+  </a>
+  <a href="{$item['wxba']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxbc'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+    {$item['wxb']}
+    </p>
+  </a>
+    <a href="{$item['wxca']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+	<img src="{php echo tomedia($item['wxcb'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+     {$item['wxc']}
+    </p>
+  </a>
+    <a href="{$item['wxda']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxdb'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+     {$item['wxd']}
+    </p>
+  </a>
+    <a href="{$item['wxea']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxeb'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+     {$item['wxe']}
+    </p>
+  </a>
+    <a href="{$item['wxfa']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxfb'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+     {$item['wxf']}
+    </p>
+  </a>
+    <a href="{$item['wxga']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxgb'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+    {$item['wxg']}
+    </p>
+  </a>
+    <a href="{$item['wxha']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxhb'])}"" alt="">
+    </div>
+    <p class="weui-grid__label">
+    {$item['wxh']}
+    </p>
+  </a>
+    <a href="{$item['wxia']}" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+      <img src="{php echo tomedia($item['wxib'])}" alt="">
+    </div>
+    <p class="weui-grid__label">
+      {$item['wxi']}
+    </p>
+  </a>
+  
+</div>
+
+  <div style="position: fixed;  bottombottom: 0;" class="weui-tabbar">
+    <a href="#" class="weui-tabbar__item weui-bar__item--on">
+      <!-- <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span> -->
+      <div class="weui-tabbar__icon">
+        <img src="../addons/wx_wgw/css/images/sy.png" alt="">
+      </div>
+      <p class="weui-tabbar__label">首页</p>
+    </a>
+	
+	    <a href="{$item['url']}" class="weui-tabbar__item weui-bar__item--on">
+      <!-- <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span> -->
+      <div class="weui-tabbar__icon">
+        <img src="../addons/wx_wgw/css/images/fl.png" alt="">
+      </div>
+      <p class="weui-tabbar__label">分类</p>
+    </a>
+	  <a href="{$item['dbsyb']}" class="weui-tabbar__item weui-bar__item--on">
+      <!-- <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span> -->
+      <div class="weui-tabbar__icon">
+        <img src="{php echo tomedia($item['dbsyc'])}" alt="">
+      </div>
+      <p class="weui-tabbar__label">{$item['dbsya']}
+    </p></p>
+    </a>
+	
+	
+	  <a href="{$item['url']}" class="weui-tabbar__item weui-bar__item--on">
+      <!-- <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span> -->
+      <div class="weui-tabbar__icon">
+        <img  style="border-radius:50%;" src="{$userinfo['headimgurl']}" alt="">
+      </div>
+      <p class="weui-tabbar__label">我的</p>
+    </a>
+	
+  </div>
+</div>
+{/loop}
+
+</body>
+</html>

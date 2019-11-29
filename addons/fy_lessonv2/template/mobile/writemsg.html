@@ -1,0 +1,358 @@
+<!-- 
+ * 完善手机号码/姓名
+ * ============================================================================
+ * 版权所有 2015-2018 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $op=='display'}
+<div class="login_wrap">
+	<form method="post" onsubmit="return checknum();">
+		<div class="weui_cells weui_cells_form">
+			{if in_array('realname',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="realname" placeholder="请输入姓名" value="{$member['realname']}">
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('mobile',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">手机号码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="mobile" placeholder="请输入手机号码" value="{$member['mobile']}" {if !empty($member['mobile'])}readonly{/if}>
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('mobile',$user_info) && !$member['mobile'] && $sms['verify_code']}
+			<div class="weui_cell check_code">
+				<div class="weui_cell_hd">
+					<label class="weui_label">验证码</label>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="verify_code" placeholder="请输入验证码">
+				</div>
+				<div class="weui_cell_ft">
+					<a href="javascript:;" id="weui_btn_send" onclick="sendcode()">获取验证码</a>
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('msn',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">微信号</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="msn" placeholder="请输入微信号" value="{$member['msn']}">
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('occupation',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">职业名称</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="occupation" placeholder="请输入职业名称" value="{$member['occupation']}">
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('company',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">公司名称</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="company" placeholder="请输入公司名称" value="{$member['company']}">
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('graduateschool',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">学校名称</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="graduateschool" placeholder="请输入学校名称" value="{$member['graduateschool']}">
+				</div>
+			</div>
+			{/if}
+
+			{if in_array('grade',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">班级名称</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="grade" placeholder="请输入班级名称" value="{$member['grade']}">
+				</div>
+			</div>
+			{/if}
+			
+			{if in_array('address',$user_info)}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">通讯地址</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="text" class="weui_input" name="address" placeholder="请输入通讯地址" value="{$member['address']}">
+				</div>
+			</div>
+			{/if}
+		</div>
+		<div class="weui_btn_area">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="submit" name="submit" class="weui_btn weui_btn_primary" value="提交">
+		</div>
+	</form>
+</div>
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+<div id="spinners" style="display:none;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script type="text/javascript">
+function checknum(){
+	{if in_array('realname',$user_info)}
+		if($("input[name=realname]").val()==''){
+			alert("请输入您的姓名");
+			return false;
+		}
+	{/if}
+
+	{if in_array('mobile',$user_info)}
+		var mobile   = $("input[name=mobile]").val();
+		var myreg = /^((1)+\d{10})$/;
+		if(mobile==''){
+			alert("请输入手机号码");
+			return false;
+		}else if(!myreg.test(mobile)) {
+			alert('您输入的手机号码有误');
+			return false;
+		}
+	{/if}
+
+	{if in_array('mobile',$user_info) && !$member['mobile'] && $sms['verify_code']}
+		if($("input[name=verify_code]").val()==''){
+			alert("请输入短信验证码");
+			return false;
+		}
+	{/if}
+
+	{if in_array('msn',$user_info)}
+		if($("input[name=msn]").val()==''){
+			alert("请输入您的微信号");
+			return false;
+		}
+	{/if}
+
+	{if in_array('occupation',$user_info)}
+		if($("input[name=occupation]").val()==''){
+			alert("请输入您的职业名称");
+			return false;
+		}
+	{/if}
+
+	{if in_array('company',$user_info)}
+		if($("input[name=company]").val()==''){
+			alert("请输入您的公司名称");
+			return false;
+		}
+	{/if}
+
+	{if in_array('graduateschool',$user_info)}
+		if($("input[name=graduateschool]").val()==''){
+			alert("请输入您的学校名称");
+			return false;
+		}
+	{/if}
+
+	{if in_array('grade',$user_info)}
+		if($("input[name=grade]").val()==''){
+			alert("请输入您的班级名称");
+			return false;
+		}
+	{/if}
+
+	{if in_array('address',$user_info)}
+		if($("input[name=address]").val()==''){
+			alert("请输入您的地址");
+			return false;
+		}
+	{/if}
+	//document.getElementById("spinners").style.display = 'block';
+}
+
+var countdown = 60;
+function sendcode() {
+	var result = checkMobile();
+	if(!result){
+		return;
+	}
+	if ($('#weui_btn_send').hasClass('has_send')) {
+		return false;
+	}
+
+	var mobile = $('input[name="mobile"]').val();
+	$.ajax({
+		type:"post",
+		dataType:"json",
+		url: "{php echo $this->createMobileUrl('sendcode');}",
+		data: {mobile:mobile},
+		success: function (data) {
+			if(data.code==0){
+				settime($("#weui_btn_send"));
+			}else{
+				alert(data.msg);
+			}
+		},
+		error: function(e){
+		}
+	});
+	
+}
+function settime(obj) { //发送验证码倒计时
+	if(countdown == 0) {
+		$('#weui_btn_send').removeClass('has_send').text('重新发送');
+		countdown = 60;
+		return;
+	} else {
+		$('#weui_btn_send').addClass('has_send').text('重新获取(' + countdown + ')');
+		countdown--;
+	}
+	setTimeout(function() {
+		settime(obj)
+	}, 1000)
+}
+//校验手机号是否合法
+function checkMobile() {
+	var mobile = $('input[name="mobile"]').val();
+	var myreg = /^((1)+\d{10})$/;
+	if(!myreg.test(mobile)) {
+		alert('请输入有效的手机号码');
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
+
+{elseif $op=='modifyMobile'}
+<div class="login_wrap">
+	<form method="post" onsubmit="return checknum();">
+		<div class="weui_cells weui_cells_form">
+			{if $member['mobile']}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">原手机号码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" value="{$member['mobile']}">
+				</div>
+			</div>
+			{/if}
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label" for="registerform-mobile">新手机号码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="mobile" placeholder="请输入手机号码">
+				</div>
+			</div>
+			<div class="weui_cell check_code">
+				<div class="weui_cell_hd">
+					<label class="weui_label">验证码</label>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input type="tel" class="weui_input" name="verify_code" placeholder="请输入验证码">
+				</div>
+				<div class="weui_cell_ft">
+					<a href="javascript:;" id="weui_btn_send" onclick="sendcode()">获取验证码</a>
+				</div>
+			</div>
+		</div>
+		<div class="weui_btn_area">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="submit" name="submit" class="weui_btn weui_btn_primary" value="提交">
+		</div>
+	</form>
+</div>
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+<div id="spinners" style="display:none;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script type="text/javascript">
+function checknum(){
+	var mobile   = $("input[name=mobile]").val();
+	var myreg = /^((1)+\d{10})$/;
+	if(mobile==''){
+		alert("请输入手机号码");
+		return false;
+	}else if(!myreg.test(mobile)) {
+		alert('您输入的手机号码有误');
+		return false;
+	}
+
+	if($("input[name=verify_code]").val()==''){
+		alert("请输入短信验证码");
+		return false;
+	}
+
+	//document.getElementById("spinners").style.display = 'block';
+}
+
+var countdown = 60;
+function sendcode() {
+	var result = checkMobile();
+	if(!result){
+		return;
+	}
+	if ($('#weui_btn_send').hasClass('has_send')) {
+		return false;
+	}
+
+	var mobile = $('input[name="mobile"]').val();
+	$.ajax({
+		type:"post",
+		dataType:"json",
+		url: "{php echo $this->createMobileUrl('sendcode');}",
+		data: {mobile:mobile},
+		success: function (data) {
+			if(data.code==0){
+				settime($("#weui_btn_send"));
+			}
+			alert(data.msg);
+		},
+		error: function(e){
+		}
+	});
+	
+}
+function settime(obj) { //发送验证码倒计时
+	if(countdown == 0) {
+		$('#weui_btn_send').removeClass('has_send').text('重新发送');
+		countdown = 60;
+		return;
+	} else {
+		$('#weui_btn_send').addClass('has_send').text('重新获取(' + countdown + ')');
+		countdown--;
+	}
+	setTimeout(function() {
+		settime(obj)
+	}, 1000)
+}
+//校验手机号是否合法
+function checkMobile() {
+	var mobile = $('input[name="mobile"]').val();
+	var myreg = /^((1)+\d{10})$/;
+	if(!myreg.test(mobile)) {
+		alert('请输入有效的手机号码');
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
+{/if}
+
+{template '_footerv2'}

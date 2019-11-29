@@ -1,0 +1,445 @@
+{template 'common/header'}
+<style>
+.material-appmsg-list{width:100%;margin:0 auto;}
+.material-appmsg-item{margin:20px auto 0;}
+</style>
+<ul class="we7-page-tab">
+	<li {if $operation == 'post' && empty($id)}class="active"{/if}><a href="{php echo $this->createWebUrl('nav', array('op' => 'post'))}">添加分类</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('nav', array('op' => 'display'))}">管理分类</a></li>
+    {if $operation == 'post' && !empty($id)}<li class="active"><a href="#">
+    编辑分类
+    </a></li>{/if}
+</ul>
+
+{if $operation == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+        <div class="panel panel-default">
+            <div class="panel-heading">分类详细设置</div>
+            <div class="panel-body">
+
+				{if !empty($pid)}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">上级分类</label>
+					<div class="col-sm-9">
+						<input type="text" name="displayorder" class="form-control" value="{$parent['title']}" disabled />
+					</div>
+				</div>
+				{/if}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$navs['displayorder']}" />
+                    </div>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$navs['title']}" />
+                    </div>
+				</div>
+				<!--
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类描述</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="description" class="form-control" value="{$navs['description']}" />
+                    </div>
+				</div>
+				-->
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图标</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('icon', $navs['icon'])}
+						<span class="help-block">建议尺寸120*120</span>
+                    </div>
+                </div>
+                
+		</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+    </form>
+</div>
+<script type="text/javascript" src="../web/resource/components/colorpicker/spectrum.js"></script>
+<link type="text/css" rel="stylesheet" href="../web/resource/components/colorpicker/spectrum.css" />
+<script type="text/javascript">
+<!--
+	$(function(){
+		colorpicker();
+	});
+//-->
+</script>
+{elseif $operation == 'display'}
+<ol class="breadcrumb we7-breadcrumb">
+	<li><span class="text-primary">【一级分类】</span></li>
+	<div class="pull-right"><a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $row['id'], 'form' => 'display'))}" class="btn btn-primary"><i class="fa fa-plus-square"></i> 添加一级分类</a></div>
+</ol>
+<div id="main">
+	<div class="material">
+		<div class="material-appmsg">
+			<div class="material-appmsg-list">
+                {loop $navs $row}
+				<input type="hidden" name="ids[]" value="{$row['id']}">
+				<div class="material-appmsg-item" {if $row['status']=='0'}style="background-color:#f5f5f5;"{/if}>
+					<div class="appmsg-content">
+						<div class="appmsg-info">
+							{$row['title']}
+							<a class="fa fa-pencil-square pull-right color-default"href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'id' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="修改" style="font-size: 20px;"></a>
+						</div>
+						<div class="appmsg-item">
+							<div class="appmsg-thumb" style="background-image:url('{$row['icon']}')">
+								{loop $children[$row['id']] $c2}
+									{$c2['title']}、
+								{/loop}
+							</div>
+						</div>
+					</div>
+					<div class="appmsg-opr">
+						<ul>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $row['id'], 'form' => 'class2'))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加二级分类"><i class="fa fa-plus-square"></i> <small>添加二级分类</small></a>
+							</li>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'class2', 'id' => $row['id'], 'pid' => $row['id']))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加下级分类"><i class="fa fa-history"></i> <small>管理二级分类</small></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+                {/loop}
+			</div>
+		</div>
+	</div>
+</div>
+
+				<select name="class1" class="dropdown-select" onchange="fetchgetjs(this)" id="class1" style="width:20%;">
+					<option value="">选择分店</option>
+					{loop $navs $row}
+					<option value="{$row['id']}">{$row['title']}</option>
+					{/loop}
+				</select>				
+				<select name="class2" class="dropdown-select" id="class2" onchange="class2(this)" style="width:20%;">
+					<option value="" >请选择2</option>
+				</select>
+				<select name="class3" class="dropdown-select" id="class3" onchange="class3(this)" style="width:20%;">
+					<option value="" >请选择3</option>
+				</select>
+				<select name="class4" class="dropdown-select" id="class4" onchange="class4(this)" style="width:20%;">
+					<option value="" >请选择4</option>
+				</select>
+				<br>
+				                <select id="Select1" name="Select1" autocomplete="off" style="width:20%;"></select>
+                <select id="Select2" name="Select2" autocomplete="off" style="width:20%;"></select>
+                <select id="Select3" name="Select3" autocomplete="off" style="width:20%;"></select>
+                <select id="Select4" name="Select4" autocomplete="off" style="width:20%;"></select>
+
+				
+<script>
+    var fourSelectData = {php echo json_encode($itemss)};
+            var defaults = {
+                s1: 'Select1',
+                s2: 'Select2',
+                s3: 'Select3',
+                s4: 'Select4',
+                v1: "02",
+                v2: "0202",
+                v3: "020202",
+                v4: "02020202"
+            };
+            $(function() {
+                fourSelect(defaults);
+            });
+            function fourSelect(config) {
+                var $s1 = $("#" + config.s1);
+                var $s2 = $("#" + config.s2);
+                var $s3 = $("#" + config.s3);
+                var $s4 = $("#" + config.s4);
+                var v1 = config.v1 ? config.v1 : null;
+                var v2 = config.v2 ? config.v2 : null;
+                var v3 = config.v3 ? config.v3 : null;
+                var v4 = config.v4 ? config.v4 : null;
+                $.each(fourSelectData, function(k, v) {
+                    appendOptionTo($s1, k, v.val, v1);
+                });
+                $s1.change(function() {
+                    $s2.html("");
+                    if (this.selectedIndex == -1)
+                        return;
+                    var s1_curr_val = this.options[this.selectedIndex].value;
+                    $.each(fourSelectData, function(k, v) {
+                        if (s1_curr_val == v.val) {
+                            if (v.items) {
+                                $.each(v.items, function(k, v) {
+                                    appendOptionTo($s2, k, v.val, v2);
+                                });
+                            }
+                        }
+                    });
+                    if ($s2[0].options.length == 0) {
+                        appendOptionTo($s2, "...", "", v2);
+                    }
+                    $s2.change();
+                }).change();
+                $s2.change(function() {
+                    $s3.html("");
+                    if (this.selectedIndex == -1)
+                        return;
+                    var s1_curr_val = $s1[0].options[$s1[0].selectedIndex].value;
+                    var s2_curr_val = this.options[this.selectedIndex].value;
+                    $.each(fourSelectData, function(k, v) {
+                        if (s1_curr_val == v.val) {
+                            if (v.items) {
+                                $.each(v.items, function(k, v) {
+                                    if (s2_curr_val == v.val) {
+                                        if (v.items) {
+                                            $.each(v.items, function(k, v) {
+                                                appendOptionTo($s3, k, v.val, v3);
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    if ($s3[0].options.length == 0) {
+                        appendOptionTo($s3, "...", "", v3);
+                    }
+                    $s3.change();
+                }).change();
+                $s3.change(function() {
+                    $s4.html("");
+                    if (this.selectedIndex == -1)
+                        return;
+                    var s1_curr_val = $s1[0].options[$s1[0].selectedIndex].value;
+                    var s2_curr_val = $s2[0].options[$s2[0].selectedIndex].value;
+                    var s3_curr_val = this.options[this.selectedIndex].value;
+                    $.each(fourSelectData, function(k, v) {
+                        if (s1_curr_val == v.val) {
+                            if (v.items) {
+                                $.each(v.items, function(k, v) {
+                                    if (s2_curr_val == v.val) {
+                                        if (v.items) {
+                                            $.each(v.items, function(k, v) {
+                                                if (s3_curr_val == v.val) {
+                                                    if (v.items) {
+                                                        $.each(v.items, function(k, v) {
+                                                            appendOptionTo($s4, k, v, v4);
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    if ($s4[0].options.length == 0) {
+                        appendOptionTo($s4, "...", "", v4);
+                    }
+                }).change();
+                function appendOptionTo($o, k, v, d) {
+                    var $opt = $("<option>").text(k).val(v);
+                    if (v == d) {
+                        $opt.attr("selected", "selected")
+                    }
+                    $opt.appendTo($o);
+                }
+            }
+
+$(document).ready(function(e) {
+     
+        fetchgetjs();                           //第一级函数
+        class2();                          //第二级函数
+        class3();                         //第三极函数
+        $("#yiji").change(function(){
+            class2();
+			class3();
+        })
+        $("#erji").change(function(){
+            class3();
+        })
+    }); 
+	function fetchgetjs(obj) {
+		$('#class2').empty();
+		$('#class2').append('<option value="">请选择{$zhicheng}</option>');
+		if (!$(obj).val()) {
+			return false;
+		}
+		$.getJSON('{php echo $this->createWebUrl('getjs')}', {'id' : $(obj).val()}, function(s){
+			if (s.message.status == 0) {
+				alert(s.message.jss, '', 'error');
+				return;
+			}
+			$('#class2').empty();
+			if (s.message.jss) {
+				for (i in s.message.jss) {
+					$('#class2').append('<option value="'+s.message.jss[i].id+'">'+s.message.jss[i].title+'</option>');
+				}
+			}
+		});
+	}
+	function class2(obj) {
+		$('#class3').empty();
+		$('#class4').empty();
+		$('#class3').append('<option value="">请选择{$zhicheng}</option>');
+		if (!$(obj).val()) {
+			return false;
+		}
+		$.getJSON('{php echo $this->createWebUrl('getjs')}', {'id' : $(obj).val()}, function(s){
+			if (s.message.status == 0) {
+				alert(s.message.jss, '', 'error');
+				return;
+			}
+			$('#class3').empty();
+			if (s.message.jss) {
+				for (i in s.message.jss) {
+					$('#class3').append('<option value="'+s.message.jss[i].id+'">'+s.message.jss[i].title+'</option>');
+				}
+			}
+		});
+	}
+	function class3(obj) {
+		$('#class4').empty();
+		$('#class4').append('<option value="">请选择{$zhicheng}</option>');
+		if (!$(obj).val()) {
+			return false;
+		}
+		$.getJSON('{php echo $this->createWebUrl('getjs')}', {'id' : $(obj).val()}, function(s){
+			if (s.message.status == 0) {
+				alert(s.message.jss, '', 'error');
+				return;
+			}
+			$('#class4').empty();
+			if (s.message.jss) {
+				for (i in s.message.jss) {
+					$('#class4').append('<option value="'+s.message.jss[i].id+'">'+s.message.jss[i].title+'</option>');
+				}
+			}
+		});
+	}
+</script>
+{elseif $operation == 'class2'}
+<ol class="breadcrumb we7-breadcrumb">
+	<a href="{php echo $this->createWebUrl('nav', array('op' => 'display'))}"><i class="wi wi-back-circle"></i> 返回分类管理</a>
+	<li><span></span></li>
+	<li><span>{$nav_name['title']}</span> <span class="text-primary">【二级分类】</span></li>
+	<div class="pull-right"><a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $pid, 'form' => 'class2'))}" class="btn btn-primary"><i class="fa fa-plus-square"></i> 添加二级分类</a></div>
+</ol>
+<div id="main">
+	<div class="material">
+		<div class="material-appmsg">
+			<div class="material-appmsg-list">
+                {loop $navs $row}
+				<input type="hidden" name="ids[]" value="{$row['id']}">
+				<div class="material-appmsg-item" {if $row['status']=='0'}style="background-color:#f5f5f5;"{/if}>
+					<div class="appmsg-content">
+						<div class="appmsg-info">
+							{$row['title']}
+							<a class="fa fa-pencil-square pull-right color-default"href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'id' => $row['id'], 'pid' => $row['pid']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="修改" style="font-size: 20px;"></a>
+						</div>
+						<div class="appmsg-item">
+							<div class="appmsg-thumb" style="background-image:url('{$row['icon']}')">
+								{loop $children[$row['id']] $c3}
+									{$c3['title']}、
+								{/loop}
+							</div>
+						</div>
+					</div>
+					<div class="appmsg-opr">
+						<ul>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $row['id'], 'form' => 'class3'))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加三级分类"><i class="fa fa-plus-square"></i> <small>添加三级分类</small></a>
+							</li>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'class3', 'pid' => $row['id']))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加下级分类"><i class="fa fa-history"></i> <small>管理三级分类</small></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+                {/loop}
+			</div>
+		</div>
+	</div>
+</div>
+{elseif $operation == 'class3'}
+<ol class="breadcrumb we7-breadcrumb">
+	<a href="{php echo $this->createWebUrl('nav', array('op' => 'display'))}"><i class="wi wi-back-circle"></i> 返回分类管理</a>
+	<li><span></span></li>
+	<li><a href="{php echo $this->createWebUrl('nav', array('op' => 'class2', 'id' => $pid, 'pid' => $nav_name['pid']))}"><span>{$nav_name['title']}</span></a> <span class="text-primary">【三级分类】</span></li>
+	<div class="pull-right"><a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $pid, 'form' => 'class3'))}" class="btn btn-primary"><i class="fa fa-plus-square"></i> 添加三级分类</a></div>
+</ol>
+<div id="main">
+	<div class="material">
+		<div class="material-appmsg">
+			<div class="material-appmsg-list">
+                {loop $navs $row}
+				<input type="hidden" name="ids[]" value="{$row['id']}">
+				<div class="material-appmsg-item" {if $row['status']=='0'}style="background-color:#f5f5f5;"{/if}>
+					<div class="appmsg-content">
+						<div class="appmsg-info">
+							{$row['title']}
+							<a class="fa fa-pencil-square pull-right color-default"href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'id' => $row['id'], 'pid' => $row['pid']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="修改" style="font-size: 20px;"></a>
+						</div>
+						<div class="appmsg-item">
+							<div class="appmsg-thumb" style="background-image:url('{$row['icon']}')">
+								{loop $children[$row['id']] $c3}
+									{$c3['title']}、
+								{/loop}
+							</div>
+						</div>
+					</div>
+					<div class="appmsg-opr">
+						<ul>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $row['id'], 'form' => 'class4'))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加四级分类"><i class="fa fa-plus-square"></i> <small>添加四级分类</small></a>
+							</li>
+							<li class="appmsg-opr-item">
+								<a href="{php echo $this->createWebUrl('nav', array('op' => 'class4', 'pid' => $row['id']))}" class="text-success" data-toggle="tooltip" data-placement="bottom" title="添加下级分类"><i class="fa fa-history"></i> <small>管理四级分类</small></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+                {/loop}
+			</div>
+		</div>
+	</div>
+</div>
+{elseif $operation == 'class4'}
+<ol class="breadcrumb we7-breadcrumb">
+	<a href="{php echo $this->createWebUrl('nav', array('op' => 'display'))}"><i class="wi wi-back-circle"></i> 返回分类管理</a>
+	<li><span></span></li>
+	<li><a href="{php echo $this->createWebUrl('nav', array('op' => 'class3', 'id' => $pid, 'pid' => $nav_name['pid']))}"><span>{$nav_name['title']}</span></a> <span class="text-primary">【四级分类】</span></li>
+	<div class="pull-right"><a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'pid' => $pid, 'form' => 'class4'))}" class="btn btn-primary"><i class="fa fa-plus-square"></i> 添加四级分类</a></div>
+</ol>
+<div id="main">
+	<div class="material">
+		<div class="material-appmsg">
+			<div class="material-appmsg-list">
+                {loop $navs $row}
+				<input type="hidden" name="ids[]" value="{$row['id']}">
+				<div class="material-appmsg-item" {if $row['status']=='0'}style="background-color:#f5f5f5;"{/if}>
+					<div class="appmsg-content">
+						<div class="appmsg-info">
+							{$row['title']}
+							<a class="fa fa-pencil-square pull-right color-default"href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'id' => $row['id'], 'pid' => $row['pid']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="修改" style="font-size: 20px;"></a>
+						</div>
+						<div class="appmsg-item">
+							<div class="appmsg-thumb" style="background-image:url('{$row['icon']}')">
+								{loop $children[$row['id']] $c3}
+									{$c3['title']}、
+								{/loop}
+							</div>
+						</div>
+					</div>
+					<div class="appmsg-opr">
+					</div>
+				</div>
+                {/loop}
+			</div>
+		</div>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

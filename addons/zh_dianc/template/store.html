@@ -1,0 +1,424 @@
+﻿
+{template 'common/header'}
+<div class="panel panel-info">
+
+    <div class="panel-heading">编辑商家信息</div>
+
+    <div class="panel-body">
+
+        <form class="form-horizontal" action="" method="POST">
+        <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">风格颜色</label>
+
+                <div class="col-sm-10">
+
+                   {php echo tpl_form_field_color('color', $list['color'])} 
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">店铺LOGO</label>
+
+                <div class="col-sm-10">
+
+
+                    {php echo tpl_form_field_image('logo',$list['logo']);}
+                    建议尺寸大小:1:1
+                </div>
+
+            </div>
+        
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">营业资质</label>
+
+                <div class="col-sm-10">
+                  {php echo tpl_form_field_multi_image('yyzz',$yyzz);}
+                  建议尺寸大小:1:1
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">商家店铺幻灯片</label>
+
+                <div class="col-sm-10">
+
+
+                    {php echo tpl_form_field_multi_image('img',$img);}
+                       建议尺寸大小:2:1
+                </div>
+            </div>
+
+              <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">商家环境</label>
+
+                <div class="col-sm-10">
+
+
+                    {php echo tpl_form_field_multi_image('environment',$environment);}
+                       建议尺寸大小:1:1
+                </div>
+            </div>
+               <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">幻灯片是否显示</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="is_display">
+                        {if $list['is_display']==1}
+                        <option value="1" selected="selected">是</option>
+                        <option value="2">否</option>
+                        {elseif $list['is_display']==2}
+                        <option value="1">是</option>
+                        <option value="2" selected="selected">否</option>
+                        {else}
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                        {/if}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">商家名称</label>
+
+                <div class="col-sm-10">
+
+                    <input type="text" name="name" value="{$list['name']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写商家名称">
+
+                </div>
+
+            </div>
+
+         <div class="form-group">
+<label for="lastname" class="col-sm-2 control-label">商家支持</label>
+<div class="col-sm-10">
+    <label class="checkbox-inline">
+     {if $list['is_yy']==1}  
+        <input type="checkbox" name="is_yy" id="optionsRadios3" value="1" checked> 预约
+        {else}
+         <input type="checkbox" name="is_yy" id="optionsRadios3" value="1" > 预约
+         {/if}
+    </label>
+     <label class="checkbox-inline">
+    {if $list['is_dn']==1}  
+        <input type="checkbox" name="is_dn" id="optionsRadios4"  value="1" checked> 点餐
+          {else}
+           <input type="checkbox" name="is_dn" id="optionsRadios4"  value="1" > 点餐
+           {/if}
+    </label>
+    <label class="checkbox-inline">
+       {if $list['is_wm']==1}  
+        <input type="checkbox" name="is_wm" id="optionsRadios4"  value="1" checked> 外卖
+         {else}
+            <input type="checkbox" name="is_wm" id="optionsRadios4"  value="1"> 外卖
+             {/if}
+    </label>
+     <label class="checkbox-inline">
+     {if $list['is_pd']==1}  
+        <input type="checkbox" name="is_pd" id="optionsRadios4"  value="1" checked>优惠券
+        {else}
+        <input type="checkbox" name="is_pd" id="optionsRadios4"  value="1" >优惠券
+         {/if}
+    </label>
+    <label class="checkbox-inline">
+    {if $list['is_sy']==1}  
+        <input type="checkbox" name="is_sy" id="optionsRadios4"  value="1" checked> 收银
+         {else}
+        <input type="checkbox" name="is_sy" id="optionsRadios4"  value="1" > 收银
+         {/if}
+    </label>
+   
+    
+</div>
+</div>
+         
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">商家地址</label>
+
+                <div class="col-sm-10">
+
+                    <input type="text" name="address" value="{$list['address']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写商家地址">
+
+                </div>
+
+            </div>
+              <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">商家电话</label>
+
+                <div class="col-sm-10">
+
+                    <input type="number" name="tel" value="{$list['tel']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写商家电话">
+
+                </div>
+
+            </div>
+            
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">公告</label>
+
+                <div class="col-sm-10">
+
+                    <input type="text" name="announcement" value="{$list['announcement']}" class="form-control"
+                           id="inputEmail3" placeholder="请填写公告">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">地址坐标</label>
+
+                <div class="col-sm-10">
+                 {php echo tpl_form_field_coordinate('op',$list['coordinates'])}
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">营业时间(开始时间)</label>
+
+                <div class="col-sm-10">
+                    {php echo tpl_form_field_clock(time,$list['time'])}
+                    <!-- <input type="text"  name="time" value="{$list['time']}" class="form-control" id="inputEmail3" placeholder="请填写营业时间"> -->
+
+                </div>
+
+            </div>
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">营业时间(结束时间)</label>
+
+                <div class="col-sm-10">
+                    {php echo tpl_form_field_clock(time2,$list['time2'])}
+                    <!-- <input type="text"  name="time" value="{$list['time']}" class="form-control" id="inputEmail3" placeholder="请填写营业时间"> -->
+
+                </div>
+
+            </div>
+
+          
+                <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">是否休息</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="is_rest">
+                        {if $list['is_rest']==1}
+                        <option value="1" selected="selected">是</option>
+                        <option value="2">否</option>
+                        {elseif $list['is_rest']==2}
+                        <option value="1">是</option>
+                        <option value="2" selected="selected">否</option>
+                        {else}
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                        {/if}
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12">
+            
+                <div class="form-group col-sm-4 col-md-4 col-xs-4" style="margin-left: 0px;">
+                 <label for="inputEmail3" class="col-sm-4 control-label">优惠条件设置</label>
+                    <label for="inputEmail3" class="col-sm-1 control-label">满</label>
+
+                    <div class="col-sm-4" style="width: 70px;">
+
+                        <input style="width: 70px;" type="number" name="conditions" value="{$list['conditions']}" class="form-control"
+                               id="inputEmail3" placeholder="请填写达到条件金额">
+
+
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-7 col-md-7 col-xs-7" style="margin-left: -40px; ">
+
+                    <label for="inputEmail3" class="col-sm-1 control-label" style="width: 15px;">减</label>
+
+                    <div class="col-sm-3">
+
+                        <input style="width: 70px;" type="number" name="preferential" value="{$list['preferential']}" class="form-control"
+                               id="inputEmail3" placeholder="请填写优惠金额">
+                        
+                    </div>
+                    <span class="col-sm-6" style="line-height: 30px;color: #999;">(请设置满减优惠,例如满50减10)</span>
+                </div>
+            </div>
+
+            <div class="form-group" style="width: 100%;">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">起送价</label>
+
+                <div class="col-sm-10">
+
+                    <input type="number" name="start_at" value="{$list['start_at']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写起送价格,单位元">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">配送费</label>
+
+                <div class="col-sm-10">
+
+                    <input type="number" name="freight" value="{$list['freight']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写配送费,单位元">
+
+                </div>
+            </div>
+                        <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">配送时间</label>
+
+                <div class="col-sm-10">
+
+                    <input type="text" name="sd_time" value="{$list['sd_time']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写配送时间">
+                *例如 : 30分钟
+                </div>
+            </div>
+          <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">配送方式</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="ps_mode">
+                        {if $list['ps_mode']==1}
+                        <option value="1" selected="selected">蜂鸟配送</option>
+                        <option value="2">商家配送</option>
+                        {elseif $list['ps_mode']==2}
+                        <option value="1">蜂鸟配送</option>
+                        <option value="2" selected="selected">商家配送</option>
+                        {else}
+                        <option value="1">蜂鸟配送</option>
+                        <option value="2">商家配送</option>
+                        {/if}
+                    </select>
+                </div>
+            </div>
+          <div class="form-group">
+         
+             <label for="inputEmail3" class="col-sm-2 control-label">配送距离设置</label>
+         
+             <div class="col-sm-10">
+         
+                 <input type="number" name="distance" value="{$list['distance']}" class="form-control" id="inputEmail3"
+                        placeholder="请填写配送的最大距离,单位千米">
+         单位为:公里(千米)
+             </div>
+             
+         </div> 
+
+        
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">是否开启新用户优惠</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="xyh_open">
+                        {if $list['xyh_open']==1}
+                        <option value="1" selected="selected">是</option>
+                        <option value="2">否</option>
+                        {elseif $list['xyh_open']==2}
+                        <option value="1">是</option>
+                        <option value="2" selected="selected">否</option>
+                        {else}
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                        {/if}
+                    </select>
+                </div>
+            </div>
+             <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">新用户立减金额</label>
+
+                <div class="col-sm-10">
+
+                    <input type="number" name="xyh_money" value="{$list['xyh_money']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写立减金额,单位元">
+
+                </div>
+            </div>
+              <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">设置评价获得的积分</label>
+
+                <div class="col-sm-10">
+
+                    <input type="number" name="integral" value="{$list['integral']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写积分数">
+
+                </div>
+            </div>
+             <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">版权LOGO</label>
+
+                <div class="col-sm-10">
+
+
+                    {php echo tpl_form_field_image('bq_logo',$list['bq_logo']);}
+                       建议尺寸大小:40*40
+
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-2 control-label">技术支持</label>
+
+                <div class="col-sm-10">
+
+                    <input type="text" name="support" value="{$list['support']}" class="form-control" id="inputEmail3"
+                           placeholder="请填写技术支持">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">关于我们</label>
+                <div class="col-sm-10">
+                    {php echo tpl_ueditor('details',$list['details']);}
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+
+                    <input type="submit" class="btn btn-default" name="submit" value="提交"/>
+
+                </div>
+
+            </div>
+
+            <input type="hidden" name="id" value="{$list['id']}"/>
+
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+
+        </form>
+
+    </div>
+
+</div>
+
+{template 'common/footer'}

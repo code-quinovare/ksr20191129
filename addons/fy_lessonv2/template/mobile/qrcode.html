@@ -1,0 +1,100 @@
+<!-- 
+ * 二维码推广
+ * ============================================================================
+ * 版权所有 2015-2016 风影随行，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+-->
+{template '_headerv2'}
+<link href="{MODULE_URL}template/mobile/style/cssv2/commission.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<!-- 系统生成图片 -->
+<div class="qrcode_img">
+	<img src="{$imagepath}" />
+</div>
+<!-- /系统生成图片 -->
+
+<!-- 分销提示 -->
+{if !empty($sale_desc)}
+<div class="qrcode_info">
+	<div class="title">
+		<div class="ico"><i class="fa fa-cubes"></i></div>
+		<div class="text">{$sale_desc[0]}</div>
+	</div>
+	<div class="con">
+		{loop $sale_desc $key $item}
+		{if $key>0}
+		<div class="line">
+			<div class="t2">
+				<div class="t3">{$item}</div>
+			</div>
+		</div>
+		{/if}
+		{/loop}
+	</div>
+</div>
+{/if}
+<!-- /分销提示 -->
+
+<!-- 底部浮层 -->
+<div class="qrcode_bottom hide">
+	<div id="btn1" class="sub" style="margin:0px;"> 链接推广</div>
+	<div id="btn2" class="sub"> 图片推广</div>
+</div>
+<div id='cover'><img src='{MODULE_URL}template/mobile/images/share_notice.jpg' style='width:100%;' /></div>
+<!-- /底部浮层 -->
+
+<!-- 版权信息 -->
+<footer>
+    <a href="{php echo $this->createMobileUrl('index');}">{$setting['copyright']}</a>
+</footer>
+<!-- /版权信息 -->
+
+<script language="javascript">
+$('#btn1').click(function(){
+	var ua = window.navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+		$('#cover').fadeIn(200).unbind('click').click(function(){
+			$(this).fadeOut(100);
+		});
+	} else {
+		alert("您未在微信客户端里访问，请使用图片推广方式");
+	}
+});
+$('#btn2').click(function(){
+	  alert('长按图片收藏，然后发送给好友');
+});
+</script>
+
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+wx.ready(function(){
+	var shareData = {
+		title: "{$sharelink['title']} - {$setting['sitename']} - {$_W['account']['name']}",
+		desc: "{$sharelink['desc']}",
+		link: "{$shareurl}",
+		imgUrl: "{$_W['attachurl']}{$sharelink['images']}",
+		trigger: function (res) {},
+		complete: function (res) {},
+		success: function (res) {},
+		cancel: function (res) {},
+		fail: function (res) {}
+	};
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	wx.onMenuShareQZone(shareData);
+	
+});
+
+</script>
+
+{template '_footerv2'}

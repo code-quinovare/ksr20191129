@@ -1,0 +1,501 @@
+{template 'common/header'}
+<link href="../addons/{php echo $_GPC['m']}/resource/bootstrap-table/bootstrap-table.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="/addons/{$_GPC['m']}/resource/swal/dist/sweetalert2.css"/>
+
+<ul class="we7-page-tab">
+
+    <li class="active">{$_GPC['__title']}列表</li>
+    <li>
+        <a href="{php echo $this->createWebUrl($_GPC['do'], array('op'=>'messset'));}">
+            留言页面设置</a></li>
+
+</ul>
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action=" " method="get" class="form-horizontal" role="form" id="searchform">
+                <div class="col-xs-12 col-sm-3 col-md-3col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">名称</span>
+
+                        <input class="form-control" name="seachkey">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">联系方式</span>
+
+                        <input class="form-control" name="seachtel">
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                    <button class="btn btn-default" type="button" id="btnseach"><i class="fa fa-search"></i> 搜索</button>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">列表</div>
+        <div class="panel-body">
+            <div class="table-responsive panel-body">
+                <div class="ibox-content" id="pfrom">
+                    <!--data-detail-view="true"   data-detail-formatter="detailFormatter"-->
+                    <table id="table" class="dotable" data-toggle="table"
+                           data-url="{php echo $this->createWebUrl($_GPC['do'], array('op'=>'getseachjson'))}"
+                           data-sort-name="id" data-sort-order="desc" data-query-params="queryparams"
+                           data-page-number="1" data-page-size="15" data-mobile-responsive="true"
+                           data-show-refresh="true" data-show-toggle="true">
+                        <thead>
+                        <tr>
+                            <th data-checkbox="true"></th>
+                            <th data-field="people" data-sortable="true" data-align="left" data-formatter="formatinfo">
+                                基本信息
+                            </th>
+                            <th data-field="contents" data-sortable="true">回馈信息</th>
+
+
+                            <th data-field="status" data-sortable="true" data-formatter="formatstatus"
+                                data-events="operatestatus">状态
+                            </th>
+                            <th data-field="createtime" data-sortable="true">创建时间</th>
+
+                            <th data-events="operateEvents" data-formatter="operateFormatter" data-width="26%"
+                                data-title="操作" data-align="center">操作
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <button type="button" class="btn btn-danger " style="margin-right:5px;" id="delselct">删除选中</button>
+                    <br>
+                    <br>
+                    说明：
+                    <a class="btn btn btn-default btn-xs"> <i class="fa fa-square-o fa-lg"></i></a>禁用 <a
+                        class="btn btn-primary  btn-xs"> <i class="fa fa-check-square-o fa-lg"></i></a> 开启
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template 'common/xcfootex'}
+{template 'common/managelistjs'}
+<script type="text/javascript">
+    <!--数据搜索-->
+    $(function () {
+        $("#btnseach").click(function () {
+            setseach()
+            $("#table").bootstrapTable('refresh');
+        })
+    })
+    $saechparas = null;
+    function setseach() {
+        $saechparas = {};
+        $saechparas = $("#searchform").serializeArray();
+    }
+    function queryparams(params) {
+        //
+        if ($saechparas == null) {
+            setseach()
+        }
+        $.each($saechparas, function (i, field) {
+            params[field.name] = field.value;
+        });
+        return params;
+    }
+
+    $(function () {
+        $("#delselct").click(function () {
+
+            require(["jquery", "/addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function ($, util) {
+                $pdadta = $("#table").bootstrapTable('getSelections');
+                if ($pdadta.length < 1) {
+                    swal({
+                        title: "错误",
+                        text: "选选择删除内容",
+                        type: "error",
+                        timer: 2000
+                    });
+                }
+                else {
+                    swal({
+                        title: '确认删除吗',
+                        text: "确认删除吗" + $pdadta.length + "记录",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                        confirmButtonText: "确认",
+                        cancelButtonText: "取消",
+                        preConfirm: function () {
+                            return new Promise(function (resolve) {
+                                var _postdata = {};
+                                var ids = [];
+                                $.each($pdadta, function (i, field) {
+
+                                    ids.push(field["id"]);
+                                });
+                                _postdata["ids"] = ids.join(",");
+                                $.ajax("{php echo $this->createWebUrl($_GPC['do'], array('op'=>'delete'));}", {
+                                    method: 'POST',
+                                    data: _postdata,
+                                    dataType: 'json'
+                                }).done(function (response) {
+                                    if (parseInt(response["status"]) === 1) {
+                                        message({
+                                            title: "提示",
+                                            text: "删除成功",
+                                            type: "success",
+                                            timer: 1500
+                                        });
+
+                                        $("#table").bootstrapTable('refresh');
+                                    }
+                                    else {
+                                        message({
+                                            title: "错误",
+                                            text: "删除失败",
+                                            type: "error",
+                                            timer: 2000
+                                        });
+                                    }
+                                });
+
+
+                            });
+                        },
+                        allowOutsideClick: false
+                    })
+
+                }
+            })
+        })
+
+    });
+    /* 数据表格参数设置*/
+    $.extend($.fn.bootstrapTable.defaults, {
+        striped: true, /* 隔行换色*/
+        iconsPrefix: 'fa',
+        icons: {
+            refresh: 'fa-refresh icon-refresh',
+            toggle: 'fa-list-alt icon-list-alt'
+        },
+        method: 'post',
+        pagination: true,
+        sidePagination: 'server',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+        onClickCell: function (field, value, row, $element) {
+
+
+        },
+        onLoadSuccess: function () {
+            /* 生成二维码*/
+//            $("#pfrom").find(".per").each(function () {
+//                $(this).qrcode({
+//                    text: $(this).attr("href"),
+//                    height: 150,
+//                    width: 150
+//                });
+//            })
+        }
+    });
+    /* 数据表格列参数设置*/
+    $.extend($.fn.bootstrapTable.columnDefaults, {
+        align: 'center',
+        valign: 'middle'
+    });
+
+    /* 操作*/
+    function operateFormatter(value, row, index) {
+        var myhtml = [];
+        myhtml.push(
+            '<a class="btn btn-primary btn-xs reply" href="jacasrript:void(0);">',
+            '<i class="fa fa-mail-reply"></i> ',
+            '</a>  ',
+            '<a class="btn btn-danger btn-xs delete" href="javascript:void(0)"  >',
+            '<i class="fa fa-close" aria-hidden="true"></i>',
+            '</a>'
+        );
+        return myhtml.join('');
+    }
+    var operateEvents = {
+        /* 删除*/
+        "click a.delete": function (e, value, row, index) {
+            var _postdata = {};
+            _postdata["ids"] = row["id"];
+            require(["jquery", "../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function ($, util) {
+                swal({
+                    title: '确认删除吗',
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "确认",
+                    cancelButtonText: "取消",
+                    preConfirm: function () {
+                        return new Promise(function (resolve) {
+                            $.ajax("{php echo $this->createWebUrl($_GPC['do'], array('op'=>'delete'));}", {
+                                method: 'POST',
+                                data: _postdata,
+                                dataType: 'json'
+                            }).done(function (response) {
+                                if (parseInt(response["status"]) === 1) {
+                                    message({
+                                        title: "提示",
+                                        text: "删除成功",
+                                        type: "success",
+                                        timer: 1500
+                                    });
+
+                                    $("#table").bootstrapTable('refresh');
+                                }
+                                else {
+                                    message({
+                                        title: "错误",
+                                        text: "删除失败",
+                                        type: "error",
+                                        timer: 2000
+                                    });
+
+                                }
+                            });
+
+
+                            //  resolve();
+
+                        });
+                    },
+                    allowOutsideClick: false
+                })
+
+
+            })
+        },
+//        发送email
+        "click a.reply": function (e, value, row, index) {
+            var _postdata = {};
+            _postdata['email'] = row.email;
+            _postdata['id'] = row.id;
+            require(["jquery", "../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function ($, util) {
+
+                var html = '';
+
+
+                swal({
+                    title: '回复',
+                    text: '邮箱地址：' + row.email,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    input: 'textarea',
+                    confirmButtonText: "确认",
+                    cancelButtonText: "取消",
+                    inputValidator: function (value) {
+                        return new Promise(function (resolve, reject) {
+                            if (value) {
+                                resolve();
+                            } else {
+                                reject('回复内容为空！')
+                            }
+                        })
+                    },
+                    preConfirm: function (value) {
+                        return new Promise(function (resolve) {
+                            _postdata['value'] = value;
+
+                            $.ajax("{php echo $this->createWebUrl($_GPC['do'], array('op'=>'sendemail'));}", {
+                                method: 'POST',
+                                data: _postdata,
+                                dataType: 'json'
+                            }).done(function (response) {
+                                if (parseInt(response["status"]) === 1) {
+                                    swal({
+                                        title: "提示",
+                                        text: response.message,
+                                        type: "success",
+                                        timer: 1500
+                                    });
+
+                                    $("#table").bootstrapTable('updateCell', {index: index, field: 'status', value: 1});
+                                }
+                                else {
+                                    swal({
+                                        title: "错误",
+                                        text: response.message,
+                                        type: "error",
+                                        timer: 2000
+                                    });
+
+                                }
+                            });
+
+
+
+                        });
+                    },
+                    allowOutsideClick: false
+                }).then(function (res) {
+                    if (res) {
+
+                    } else {
+
+                    }
+                })
+
+
+            })
+        },
+
+    }
+
+    /* 改变状态*/
+    var operatestatus = {
+        'click a': function (e, value, row, index) {
+
+            var _postdata = {};
+            _postdata["id"] = row["id"];
+            _postdata["status"] = value;
+            $actindex = index;
+
+            require(["jquery", "/addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function ($, util) {
+                $.ajax("{php echo $this->createWebUrl($_GPC['do'], array('op'=>'midstatus'));}", {
+                    method: 'POST',
+                    data: _postdata,
+                    dataType: 'json'
+                }).done(function (response) {
+                    if (parseInt(response["status"]) === 1) {
+                        message({
+                            title: "提示",
+                            text: "操作成功",
+                            type: "success",
+                            timer: 1500
+                        });
+
+                        $("#table").bootstrapTable('updateRow', {
+                            index: $actindex,
+                            row: {
+                                status: -_postdata["status"]
+                            }
+                        });
+                    }
+                    else {
+                        message({
+                            title: "错误",
+                            text: "操作失败",
+                            type: "error",
+                            timer: 2000
+                        });
+                    }
+                });
+
+
+            })
+
+
+        }
+    }
+    /* 状态*/
+    function formatstatus(value, row, index) {
+        if (value == -1) {
+
+            return '<div class="btn-danger btn-xs"  >未回复</div> ';
+        }
+        else {
+            return '<div class="btn-success btn-xs"  >已回复</div>'
+        }
+    }
+
+
+    //    基本信息
+    function formatinfo(value, row, index) {
+
+        var html = '<div>公司名称：' + row.company +  '</div>' +
+            '<div>联系人：' + row.people +  '</div>' +
+            '<div>电话：' + row.tel + '</div>' +
+            '<div>手机：' + row.phone + '</div>' +
+            '<div>电子邮箱：' + row.email + '</div>';
+        return html;
+    }
+
+    var xpagecss = {
+        xload: function () {
+
+            message({
+                title: "操作中",
+                text: "",
+                imageUrl: "../addons/{php echo $_GPC['m']}/resource/images/xload1.gif",
+                showConfirmButton: false,
+                allowOutsideClick: true
+            })
+        },
+        close: function () {
+            swal.close();
+        },
+        "ok": function () {
+            var $message = arguments[0] ? arguments[0] : "错误";
+            var $title = arguments[1] ? arguments[1] : "错误";
+            swal(
+                $title,
+                $message,
+                'success'
+            )
+        },
+        error: function () {
+            var $message = arguments[0] ? arguments[0] : "错误";
+            var $title = arguments[1] ? arguments[1] : "错误";
+            swal(
+                $title,
+                $message,
+                'error'
+            )
+        },
+        deleterows: function ($ids) {
+            var _postdata = {};
+            _postdata["ids"] = $ids;
+
+
+            $.ajax("{php echo $this->createWebUrl($_GPC['do'], array('op'=>'delete'));}}", {
+                method: 'POST',
+                data: _postdata,
+                dataType: 'json'
+            }).done(function (response) {
+                if (parseInt(response["status"]) === 1) {
+                    message({
+                        title: "提示",
+                        text: "删除成功",
+                        type: "success",
+                        timer: 1500
+                    });
+
+                    $("#table").bootstrapTable('refresh');
+                }
+                else {
+                    message({
+                        title: "错误",
+                        text: "删除失败",
+                        type: "error",
+                        timer: 2000
+                    });
+
+                }
+            });
+        }
+    };
+
+    function message($opdata) {
+        require(["/addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"], function ($, util) {
+            swal($opdata);
+        })
+
+    }
+
+
+</script>
+<script type="text/javascript">
+
+
+</script>
+{template 'common/footer'}

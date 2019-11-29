@@ -1,0 +1,133 @@
+{template 'common/header'}
+
+<form action="{php echo $this->createWebUrl('Set',array('action'=>'set'))}" method="post" class="form-horizontal bv-form" role="form" id="form1" novalidate="novalidate">
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">收银台入口</label>
+        <div class="col-sm-9 col-xs-12">
+            <input type="text" value="{$_W['siteroot']}app/index.php?i={$_W['account']['acid']}&c=entry&action=shouyin&do=Index&m=tj_jiudian" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">基础设置</div>
+        <div class="panel-body">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店主图</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_multi_image('logo',$setting['logo']);}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">内页广告</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('guanggao',$setting['guanggao'])}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店LOGO</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('zhutu',$setting['zhutu'])}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="title" value="{$setting['title']}" class="form-control" placeholder="请输入酒店名称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店简介</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="info" value="{$setting['info']}" class="form-control" placeholder="请输入酒店简介">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">酒店地址</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="address" value="{$setting['address']}" class="form-control" placeholder="请输入酒店地址">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理经度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="jingdu" value="{$setting['jingdu']}" class="form-control" placeholder="请输酒店经度">
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地理纬度</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="weidu" value="{$setting['weidu']}" class="form-control" placeholder="请输入酒店纬度">
+                        <div style="margin-top:5px;color:blue"><a href="http://lbs.qq.com/tool/getpoint/" target="_blank">点击跳转腾讯坐标拾取器</a></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">核销员openid</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="he_openid" value="{$setting['he_openid']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">模版消息ID</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="tempid" value="{$setting['tempid']}" class="form-control" placeholder="">
+                        <div style="margin-top:20px;">行业：IT科技 - 互联网|电子商务 名称：酒店订单支付管理员通知 编号：OPENTM204767108</div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">通知商家头部</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="shangtou" value="{$setting['shangtou']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">通知商家尾部</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="shangwei" value="{$setting['shangwei']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">通知用户头部</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="yongtou" value="{$setting['yongtou']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">通知用户尾部</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="yongwei" value="{$setting['yongwei']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户号mch_id：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="mch_id" value="{$setting['mch_id']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户支付密钥：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="pay_key" value="{$setting['pay_key']}" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <!--<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="radio" name="status" value="1" {if $setting['status'] == 1}checked="checked"{/if}>是&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="0" {if $setting['status'] == 0}checked="checked"{/if}>否
+                    </div>
+                </div>-->
+            </div>
+        </div>
+        <div class="form-group" style="margin-left: 10%;">
+            <div class="col-sm-9 col-xs-12">
+                <input type="submit" value="提交" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{template 'common/footer'}

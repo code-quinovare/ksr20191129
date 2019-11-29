@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>{$set['title']}</title>
+    {php echo register_jssdk(false);}
+    <link href="{ASSETS_PATH}css/amazeui.css" rel="stylesheet">
+    <script src="{ASSETS_PATH}js/amazeui.js"></script>
+    <style>
+        body,ul,li,img,p,div{margin: 0px; padding: 0px;}
+        ul,li{list-style: none}
+        a:hover{color: #666}
+        a{color: #666;font-style: normal;}
+        a:visited{text-decoration: none;}
+        i{font-style: normal}
+        body{background-color: #fff;}
+        header{height: 50px;width: 100%;position:fixed;top:0;background-color:white;line-height:50px;color:#333;font-size: 16px;border-bottom: 1px solid #eee}
+        header li{float: left;text-align: center;}
+        .fw_arr{width: 100%;margin-bottom: 5px}
+        .fw_arr li{float: left;font-size: 12px;color: #999;text-align: center;width: 20%;padding: 5px 0;line-height: 22px;margin-bottom: 5px;}
+        .jt_arr{width: 94%;margin: 0 3%;height: auto;border-top: 1px solid #eee;border-bottom: 1px solid #eee;  }
+        .jt_arr_a{width: 100%;height: 40px;line-height: 40px}
+        .jt_arr_a p{font-size: 14px;color: #333;display: block;float: left}
+        .jt_arr_a1{float: right;color: #06c1ae;font-size: 14px}
+        .jt_arr_b{font-size: 14px;color: #333}
+        .jt_arr_b li{list-style: inside;line-height: 30px;padding: 10px 0;border-bottom: 1px dashed #eee}
+        .jt_arr_b1{margin: 0 3%;line-height: 25px;color: #666;}
+        .jt_arr_b_left{display:block;float: left;}
+        .jt_arr_b_right{display:block;float: right;}
+        .roomDetail-baseInfo {position: relative;}
+        .roomDetail-block {margin: 10px 12px;padding-bottom: 10px;font-size: 14px;color: #333;}
+        .roomDetail-baseInfo-item:nth-child(odd) {width: 50%;float: left;}
+        .roomDetail-baseInfo-item {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;padding-bottom: 5px;}
+        .roomDetail-baseInfo-item-name {color: #999;font-size: 14px;padding-right: 5px;}
+        .roomDetail-refundRule-title {padding-bottom: 5px;font-size: 14px;font-weight: normal;}
+        .js_arr{font-size: 14px;color: #333;line-height: 25px}
+        .footer{position: fixed;bottom: 0;width: 100%;}
+        .footer li{float: left;width: 25%;text-align: center;background-color: #fff;font-size: 14px}
+    </style>
+</head>
+<body>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: '{$set['title']}',
+            desc: '{$set['info']}',
+            link: '',
+            imgUrl: '{php echo tomedia($set['zhutu'])}',
+            success: function(){
+                alert('分享成功');
+            },
+            cancel: function(){
+                alert('分享失败');
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+</script>
+
+<header>
+    <ul>
+        <li style="width: 10%" onClick="javascript :history.back(-1);">
+            <img src="{ASSETS_PATH}img/zuo2.png" width="16px" height="16px">
+        </li>
+        <li style="width: 80%">
+            <span>酒店详情介绍</span>
+        </li>
+        <a href="tel:{$res['phone']}">
+            <li style="width: 10%">
+                <img src="{ASSETS_PATH}img/dianhua.png" width="16px" height="16px">
+            </li>
+        </a>
+
+    </ul>
+</header>
+<content>
+    <div class="fw_arr" style="margin-top:50px;">
+        <p style="display: block;font-size: 14px;color: #666;padding-left: 3%;line-height: 40px">可提供的服务</p>
+        <ul>
+            <li>
+                <img src="{ASSETS_PATH}img/wuxian.png" width="18px" height="18px">
+                <p>无线上网</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/youxian.png" width="18px" height="18px">
+                <p>有线上网</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/tingche.png" width="18px" height="18px">
+                <p>停车场</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/reshui.png" width="18px" height="18px">
+                <p>热水洗浴</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/chuifeng.png" width="18px" height="18px">
+                <p>电吹风</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/xishu.png" width="18px" height="18px">
+                <p>洗漱用具</p>
+            </li>
+            <li>
+                <img src="{ASSETS_PATH}img/shuaka.png" width="18px" height="18px">
+                <p>刷卡消费</p>
+            </li>
+        </ul>
+        <div style="clear: both"></div>
+    </div>
+    <div class="jt_arr">
+        {if $res['jichang'] != "" || $res['ditie'] != "" || $res['jichang'] != ""}
+        <div class="jt_arr_a">
+            <p>交通信息</p>
+            <div class="jt_arr_a1">
+                <img src="{ASSETS_PATH}img/dingwei.png" width="18px" height="18px" style="vertical-align: -3px;">
+                <span onclick="dili()">进入地图</span>
+            </div>
+        </div>
+        {/if}
+        <div class="jt_arr_b">
+            <ul>
+                {if $res['ditie'] != ""}
+                <li>
+                    <p>地铁站</p>
+                    <div class="jt_arr_b1">
+                        <p class="jt_arr_b_left">{$res['ditie']}</p>
+                        <p class="jt_arr_b_right">{$res['ditiejuli']}</p>
+                        <div style="clear: both"></div>
+                    </div>
+                </li>
+                {/if}
+                {if $res['huoche'] != ""}
+                <li>
+                    <p>火车站</p>
+                    <div class="jt_arr_b1">
+                        <p class="jt_arr_b_left">{$res['huoche']}</p>
+                        <p class="jt_arr_b_right">{$res['huochejuli']}</p>
+                        <div style="clear: both"></div>
+                    </div>
+                </li>
+                {/if}
+                {if $res['jichang'] != ""}
+                <li style="border: none">
+                    <p>机场</p>
+                    <div class="jt_arr_b1">
+                        <p class="jt_arr_b_left">{$res['jichang']}</p>
+                        <p class="jt_arr_b_right">{$res['jichangjuli']}</p>
+                        <div style="clear: both"></div>
+                    </div>
+                </li>
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <section class="roomDetail-block roomDetail-baseInfo">
+        <div class="roomDetail-refundRule-title"> 酒店介绍 </div>
+        <ul class="clearfix">
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">装修时间</span> {$res['zhuangxiu']}年
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">开业时间</span> {$res['kaiye']}年
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">楼层高度</span> {$res['louceng']}层
+            </li>
+            <li class="roomDetail-baseInfo-item">
+                <span class="roomDetail-baseInfo-item-name">房间总数</span> {$res['fangjian']}间
+            </li>
+        </ul>
+        <div class="js_arr" style="margin-bottom:60px;">
+            <span>{$res['jianjie']}</span>
+        </div>
+    </section>
+</content>
+<div class="footer">
+    <ul>
+        {loop $footer $v}
+        <a href="{$v['url']}">
+            <li>
+                <img src="{php echo tomedia($v['logo'])}" width="30px" height="30px" style="margin-top:5px">
+                <p>{$v['title']}</p>
+            </li>
+        </a>
+        {/loop}
+    </ul>
+</div>
+<script>
+    function dili() {
+        var a1=parseFloat({$set['weidu']});
+        var a2=parseFloat({$set['jingdu']});
+        wx.openLocation({
+            latitude: a1, // 纬度，浮点数，范围为90 ~ -90
+            longitude:a2, // 经度，浮点数，范围为180 ~ -180。
+            name: '{$set['title']}', // 位置名
+            address: '{$set['address']}', // 地址详情说明
+            scale: 18, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: 'http://baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+    }
+</script>
+</body>
+</html>

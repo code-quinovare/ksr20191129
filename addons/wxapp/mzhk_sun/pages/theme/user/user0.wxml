@@ -1,0 +1,89 @@
+<import src="/mzhk_sun/pages/template/template.wxml"></import>
+<template is="backcard" data="{{url:url,hk_bgimg:hk_bgimg,logo:logo,hk_namecolor:hk_namecolor,pt_name:pt_name,viptype:viptype}}"></template>
+<view class="block">
+    <view class="block-down">
+        <view bindtap="scanCode" style="{{isopen_recharge==1?'':'border-right: 1rpx solid #cbcbcb;width:375rpx;'}}">
+            <image class="icn" src="../../../style/images/icon53.png"></image>
+            <text>线下支付</text>
+        </view>
+        <view wx:if="{{isopen_recharge==1}}">
+            <navigator url="/mzhk_sun/pages/user/recharge/recharge">
+                <image class="icn" src="../../../style/images/icon60.png"></image>
+                <text>充值</text>
+            </navigator>
+        </view>
+        <view bindtap="toWelfare" style="{{isopen_recharge==1?'':'width:375rpx;'}}">
+            <image class="icn" src="../../../style/images/icon55.png"></image>
+            <text>我的福利</text>
+        </view>
+    </view>
+</view>
+<view class="session">
+    <view bindtap="toOrder" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon56.png"></image>
+            <text>普通商品订单</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view bindtap="toGroup" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon15.png"></image>
+            <text>我的拼团</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view bindtap="toBargain" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon13.png"></image>
+            <text>砍价订单</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view bindtap="tocardcollect" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon28.png"></image>
+            <text>集卡订单</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view bindtap="toMyOrder" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon27.png"></image>
+            <text>抢购订单</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view bindtap="tofreeorder" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon28.png"></image>
+            <text>我的免单</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+    <view class="list">
+        <button class="concat" openType="contact">
+            <image class="icon" src="../../../style/images/icon14.png"></image>
+            <text>联系客服</text>
+        </button>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+</view>
+<view bindtap="showModel" class="session" data-statu="1" wx:if="{{store_open==1}}">
+    <view class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon12.png"></image>
+            <text>{{store_in_name}}</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+</view>
+<view class="session ses-last">
+    <view bindtap="toBackstage" class="list">
+        <view>
+            <image class="icon" src="../../../style/images/icon17.png"></image>
+            <text>管理入口</text>
+        </view>
+        <image class="right" src="../../../style/images/right.png"></image>
+    </view>
+</view>

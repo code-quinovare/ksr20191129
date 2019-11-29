@@ -1,0 +1,47 @@
+
+			<div class="weui_cells weui_cells_access">
+				<div class="weui_cell" style="line-height:12px;">
+					<div class="weui_cell_hd">
+						<svg class="icon f20 f-orange" aria-hidden="true">
+							<use xlink:href="#icon-xinzeng"></use>
+						</svg>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						<label class="f14">当前状态</label>
+					</div>
+					<div class="">
+						<span class="weui_btn f12 weui_btn_mini {$status['css']}">{$status['name']}
+						</span>
+					</div>
+				</div>
+			</div>
+	{if !empty($tb_record)}
+		<div class="weui_panel">	
+			<div class="timeline">
+				<ul>
+				{loop $tb_record $key $row}
+					<li class="timeline-item">
+						<div class="timeline-item-head{$row['first']}"><i class="weui_icon weui_icon_success_no_circle timeline-item-checked {$row['hide']}"></i></div>
+						<div class="timeline-item-tail {if $key+1==count($tb_record)}hide{/if}"></div>
+						<div class="timeline-item-content">
+							<p class="{$row['recent']}"><h5>{$row['info']}</h5><span class="weui_btn weui_btn_mini right {$row['status']['css']} f12">{$row['status']['name']}</span></p>
+							<p class="{$row['recent']}"><small>{$row['createtime']}</small></p>
+							{$row['address']}
+								{if !empty($row['thumb'])}
+									<div class="weui_uploader">
+										<div class="weui_uploader_bd">
+											<ul class="weui_uploader_files">
+											{loop $row['thumb'] $pic}
+												<li class="weui_uploader_file" data="{php echo tomedia($pic)}" onclick="show(this)" style="background-image:url('{php echo tomedia($pic)}')"></li>
+											{/loop}
+											</ul>
+										</div>
+									</div>
+								{/if}
+							</div>
+						</li>
+					{/loop}
+				</ul>
+			</div>
+		</div>
+	{/if}

@@ -1,0 +1,9 @@
+	<div class="page_top ask_top">
+		<div class="page_top_item">
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'userexe'))}"><span {if $_GPC['op'] == 'userexe'}class="font_activity"{/if}>我回复的</span></a>
+			<a href="{php echo $this->createMobileUrl('user',array('op'=>'userpubed'))}"><span {if $_GPC['op'] == 'userpubed'}class="font_activity"{/if}>我发布的</span></a>
+			<i class="ti-search" id="showFilter"></i>
+		</div>
+	</div>
+	{template 'temp/user/filter'}	
+	<div class="pub_list"></div>

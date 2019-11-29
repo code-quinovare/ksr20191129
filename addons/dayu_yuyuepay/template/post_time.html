@@ -1,0 +1,143 @@
+           <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约时间设置</label>
+                    <div class="col-xs-12 col-sm-9">
+						<input type="radio" name="is_time" id="is_time-2" value="2" {if $activity['is_time'] == '2'}checked="checked"{/if} />
+						<label class="radio-inline" for="is_time-2" onclick="$('#times').show();"> 时间段预约人数限制</label>
+						<input type="radio" name="is_time" id="is_time-0" value="0" {if $activity['is_time'] == '0' || empty($activity['is_time'])}checked="checked"{/if} />
+						<label class="radio-inline" for="is_time-0" onclick="$('#times').hide();"> 普通时间</label>
+						<input type="radio" name="is_time" id="is_time-1" value="1" {if $activity['is_time'] == '1'}checked="checked"{/if} />
+						<label class="radio-inline" for="is_time-1" onclick="$('#times').hide();"> 关闭(我要自己设置)</label>
+                    </div>
+                </div>
+			<div id="times" {if $activity['is_time']==1 || $activity['is_time']=='0'}style="display:none"{/if}>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">时间显示方式</label>
+                    <div class="col-xs-12 col-sm-9">
+						<input type="radio" name="timelist" id="timelist-1" value="1" {if $activity['timelist'] == 1 || empty($activity['timelist'])}checked="checked"{/if} />
+						<label class="radio-inline" for="timelist-1"> 默认</label>
+						<input type="radio" name="timelist" id="timelist-2" value="2" {if !empty($activity) && $activity['timelist'] == 2}checked="checked"{/if} />
+						<label class="radio-inline" for="timelist-2"> 九宫格(时间段标题不可用)</label>
+                    </div>
+                </div>
+			 	<div class="form-group">
+			 		<label class="col-xs-12 col-sm-3 col-md-2 control-label">预约时间段</label>
+			 		<div class="col-xs-12 col-sm-9 dayu-time">
+						<span class="pull-left">选中可预约：</span>
+				 		<input type="hidden" name="srvtime" class="srvtime" value="{php echo htmlspecialchars($activity['srvtime'])}">
+			 		</div>
+			 	</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-xs-12 col-sm-9">
+					<div class="btn-group" data-toggle="buttons">					  
+						<label class="btn btn-default {if $par['today'] == 1}active{/if}"><input type="radio" name="today" value="1" {if $par['today'] == 1} checked="checked"{/if} >不可预约当天</label>
+						<label class="btn btn-default {if $par['today'] == 0}active{/if}"><input type="radio" name="today" value="0" {if $par['today'] == 0} checked="checked"{/if}>可预约当天</label>
+					</div>
+					</div>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 control-label">可预约日期范围</label>
+                    <div class="col-xs-12 col-sm-8 col-lg-8">
+						<div class="input-group dateRange">
+							<input type="text" onclick="showtime(this,'start');" name="dateRange1" id="datetimestart" class="datetimepicker dayu form-control" value="{$par['dateRange1']}" readonly>
+							<span class="input-group-addon"> 至 </span>
+							<input type="text" onclick="showtime(this,'end');" name="dateRange2" id="datetimeend" class="datetimepicker dayu form-control" value="{$par['dateRange2']}" readonly>
+							<a href="javascript:;" id="cleardateRange" class="input-group-addon"><i class="fa fa-times-circle"></i> 清空日期范围</a>
+						</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">可预约天数范围</label>
+                    <div class="col-xs-12 col-sm-9">
+						<div class="input-group">
+							<input type="text" class="form-control" name="day" value="{$activity['day']}" />
+							<span class="input-group-addon">/天</span>
+						</div>
+						<div class="help-block">如果设置6天并周六周日不选中，那么1、2、3、4、5、8日可预约，6、7日是周六周日自动排除</div>
+					</div>
+                </div>
+				<div id="remove">
+					<div id="remove-tpl">
+						{if !empty($remove)}
+						    {loop $remove $key $f}
+							<div class="form-group remove-item">
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">排除的日期</label>
+							   <div class="col-sm-9 col-xs-4 col-md-3">
+										<input type="text" onclick="showtime(this,{$key});" name="remove[]" id="datetime{$key}" class="datetimepicker dayu form-control" value="{$f}" readonly/>
+								</div>
+								<div class="col-sm-9 col-xs-4 col-md-3" style="padding-top:6px">
+									<a href="javascript:;" onclick="delhouritem(this);"><i class="fa fa-times-circle" title="删除日期"> </i></a>
+								</div>	
+							</div>
+						    {/loop}
+						{/if}
+					</div>
+				</div>
+				<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+							<a href="javascript:;" id="remove-add" class="btn btn-success"><i class="fa fa-plus-circle"></i> 添加排除的日期</a>
+							<div class="help-block">排除的日期前台不可预约，用于节假日休息使用</div>
+						</div>
+					</div>
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排除时间段</label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周一</span><input type="text" class="form-control" name="out1" value="{$activity['out1']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周二</span><input type="text" class="form-control" name="out2" value="{$activity['out2']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周三</span><input type="text" class="form-control" name="out3" value="{$activity['out3']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周四</span><input type="text" class="form-control" name="out4" value="{$activity['out4']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周五</span><input type="text" class="form-control" name="out5" value="{$activity['out5']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周六</span><input type="text" class="form-control" name="out6" value="{$activity['out6']}" />
+                    </div>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9">
+                    <div class="input-group">
+                    	<span class="input-group-addon">周日</span><input type="text" class="form-control" name="out7" value="{$activity['out7']}" />
+                    </div>
+					</div>
+                </div>
+			</div>
+		</div>

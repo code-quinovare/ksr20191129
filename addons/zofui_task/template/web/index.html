@@ -1,0 +1,57 @@
+{template 'common/header'}
+	<div class="alert alert-success" role="alert">
+		<div href="#" class="alert-link">
+			<h4>超级任务模块使用注意点：</h4>
+			<p>1.设置好模块参数，在参数设置内，根据提示设置，不要设置错误的参数，否则可能导致站点出错。添加好人物分类和任务分类，分类设置好后不要随意删除，否则在删除的分类内的人物和任务就无法被搜索到</p>
+			<p>2.安装好模块后，需要设置站点计划任务。设置计划任务的作用是自动处理任务发布者没有及时处理的任务、到期的任务。请打开下面链接根据演示操作设置计划任务：<a target="_blank" href="http://www.tudou.com/programs/view/B7ahlQKfiZo/">设置计划任务教程(有云主机的可使用云主机做计划任务，云主机计划任务方法请自行百度，若不会就按照视频教程做)</a>。</p>
+			<p>3.会员账户余额数据使用的是微赞自带的会员余额，微赞会员的余额在本模块内会生效，出现会员没有充值就有余额的情况，可能是会员本来就有余额。</p>
+			<p>4.应对整个模块进行彻底的了解后再正式运营。</p>
+			<p>5.模块使用的提现支付参数设置是在微赞系统的功能选项-支付参数中的微信支付项设置，余额支付对本模块无效（防止用户使用余额充值余额）。</p>
+		</div>
+	</div>
+
+	<div class="alert alert-success" role="alert">
+		<div href="#" class="alert-link">
+			<h4>个人中心的URL：</h4>
+			<p>提现/充值: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=money&do=user&m=zofui_task'}</p>
+			<p>信誉积分: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=scorelog&do=user&m=zofui_task'}</p>
+			<p>我回复的: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=userexe&do=user&m=zofui_task'}</p>
+			<p>我发布的: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=userpubed&do=user&m=zofui_task'}</p>
+			<p>我收藏的: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=love&do=user&m=zofui_task'}</p>
+			<p>我发起的私包任务: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=pvtpub&do=user&m=zofui_task'}</p>
+			<p>我收到的私包任务: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=pvtaccept&do=user&m=zofui_task'}</p>
+			<p>我订阅的: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=userfocus&do=user&m=zofui_task'}</p>
+			<p>订阅我的: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=follow&do=user&m=zofui_task'}</p>			
+			<p>充值保证金: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=adddeposit&do=user&m=zofui_task'}</p>
+
+			<p>提取保证金: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=drwdeposit&do=user&m=zofui_task'}</p>
+			<p>保证金记录: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=depositlog&do=user&m=zofui_task'}</p>			
+
+			<p>资金记录: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=moneylog&do=user&m=zofui_task'}</p>			
+			<p>账户设置: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=setting&do=user&m=zofui_task'}</p>
+			<p>关于: {php echo $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&op=aboutus&do=user&m=zofui_task'}</p>			
+		</div>
+	</div>	
+	
+	<div class="alert alert-success" role="alert">
+		<div href="#" class="alert-link">
+			<h4>常见问题</h4>
+			<h5>1.什么样的会员可以发布任务？</h5>
+			<p>答：只有交纳了任务保证金的用户才可以发布任务，而且发布的任务的总金额不能超过任务保证金金额。</p>
+			<h5>2.什么样的会员才能在找人里显示？</h5>
+			<p>答：交纳了任务保证金的用户，而且需要在账户设置中设置好账户的基本信息。</p>
+			<h5>3.什么情况下才能提取保证金？</h5>
+			<p>答：保证金金额大于平台设置的预留保证金的部分，所有任务（包括私包任务和非私包任务）都已完成或取消。</p>
+			<h5>4.模块怎么保证用户不捣乱虚假回复的？</h5>
+			<p>答：模块有信誉积分系统每人初始值都是10分，每一个回复被采纳，作者与回复者都可以获得+0.2信誉积分。作者每拒绝一个回复，作者-0.6积分，回复者-1信誉积分。当用户的信誉积分小于等于0，那么就无法发布任务，也无法回复任务。（私包任务的雇员主动取消正在执行的任务扣1信誉积分）。另外任务还有限制每人回复票数的功能。</p>
+			<h5>5.模块可以在订阅号中使用吗？</h5>
+			<p>答：不能，模块需要使用微信支付提现和充值。</p>
+			<h5>6.私包任务是什么意思？</h5>
+			<p>答：私包任务是个人对个人之间发起的私有承包的任务。比如：我在北京，但我有一项事情需要到上海去跑腿，此时你可以在平台的找人页面内找一个上海的人，给他发一个私包任务，让他去帮你跑腿。这样的个人对个人的就是私包任务。</p>
+			<h5>7.发布的任务忘记处理了怎么办？</h5>
+			<p>答：程序带有计划任务执行页面，安装设置计划任务教程设置好后作者不及时处理的任务程序会自动处理。</p>	
+			<h5>8.怎么判断用户回复的是不是正确的？</h5>
+			<p>答：发布任务的时候明确任务要求，达不到要求的回复可以拒绝。</p>				
+		</div>
+	</div>
+{template 'common/footer'}

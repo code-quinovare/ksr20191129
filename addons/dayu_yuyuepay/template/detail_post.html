@@ -1,0 +1,96 @@
+
+       <form class="form-horizontal form" action="" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$info['rerid']}" />
+				{if pdo_tableexists('dayu_yuyuepay_plugin_car')}
+                <div class="form-group">
+					<table class="table we7-table table-hover vertical-middle we7-form">
+						<thead>
+							<tr>
+								<th colspan="4" class="text-left">
+									<div class="">
+										<label for="check-module" class=" we7-margin-horizontal-none">选择车辆</label>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="module_select" >
+							{php $i=1;}
+							{loop $car $k $t}
+								{if $i%4 == 1 || $i == 1}<tr>{/if}
+									<td  class="text-left vertical-middle" style="overflow:inherit;width:25%">
+										<div class="">
+											<span class="" data-id="{$k}">
+												<input id="check-module-{$k}" type="checkbox" value="{$t['id']}" name="p_carid[]" {if !empty($id) && in_array($t['id'], $carids)}checked{/if}>
+												<label for="check-module-{$k}" title="{$t['car']}">{$t['car']}</label>
+												<br><small class="text-sucess">{$t['name']} {$t['mobile']}</small>
+											</span>
+										</div>
+									</td>
+								{if $i%4 == 0}</tr>{/if}
+								{php $i++;}
+							{/loop}
+							{if ($i-1)%4 != 0}
+								<?php 
+								for ($x=0; $x<4-($i-1)%4; $x++) {
+								  echo "<td></td>";
+								} 
+								?>
+								</tr>
+							{/if}
+						</tbody>
+					</table>
+                </div>
+				{/if}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约状态</label>
+                    <div class="col-xs-12 col-sm-5 col-lg-9">
+						<select class="form-control" id="status" name="status">
+							{loop $arr2 $c}
+								{loop $state[$c] $d}
+									{if $info['paystatus'] == '2' && $c=='2'}
+									{else}
+									<option value="{$c}" {if $info['status'] == $c}selected="selected"{/if}>{$d['name']}</option>
+									{/if}
+								{/loop}
+							{/loop}
+						</select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">付款状态</label>
+                    <div class="col-xs-12 col-sm-5 col-lg-9">
+						<div class="input-group">
+							<select id="paystatus" name="paystatus" class="form-control" disabled>
+								<option value="1" {if $info['paystatus'] == 1}selected="selected"{/if}>未付款</option>
+								<option value="2"  {if $info['paystatus'] == 2}selected="selected"{/if}>已付款</option>
+							</select>
+						</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约时间</label>
+                    <div class="col-xs-12 col-sm-5 col-lg-9">
+						{if $activity['is_time']==0}
+							<div class="input-group">
+								<span class="input-group-addon">是否更改预约时间：</span>{php echo tpl_form_field_date('yuyuetime', $info['yuyuetime'], true)}
+							</div>
+						{elseif $activity['is_time']==2}
+							<input type="text" class="form-control" placeholder="" value="{$info['restime']}" readonly/>
+						{/if}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">图片回复</label>
+                    <div class="col-sm-9">
+						{php echo tpl_form_field_multi_image('thumb', $thumb);}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">客服备注</label>
+                    <div class="col-xs-12 col-sm-9">
+						<p class="form-control-static"><textarea class="form-control" rows="5" cols="50" id="kfinfo" name="kfinfo">{$info['kfinfo']}</textarea></p>
+                    </div>
+                </div>
+       <button type="submit" name="button" class="btn btn-danger span3">更新预约状态</button> 
+       <input type="hidden" name="token" value="{$_W['token']}" />
+       </form>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no">
+		<title>{if !empty($title)}{$title} - {/if}{$setting['sitename']}</title>
+		<script src="{MODULE_URL}template/mobile/style/jsv2/jquery.min.js?v={$versions}"></script>
+		{if $_GPC['do']=='lesson'}
+		<script src="{MODULE_URL}template/mobile/style/jsv2/common.js?v={$versions}"></script>
+		{/if}
+		<link rel="stylesheet" href="{MODULE_URL}template/mobile/style/cssv2/weui.min.css?v={$versions}" />
+		<link rel="stylesheet" href="{MODULE_URL}template/mobile/style/cssv2/fonts/font-awesome.min.css?v={$versions}"/>
+		<link rel="stylesheet" href="{MODULE_URL}template/mobile/style/cssv2/index.css?v={$versions}"/>
+	</head>
+	<body>
+		<div class="tabbar tabbar_wrap page_wrap">
+			<div class="weui_tab">

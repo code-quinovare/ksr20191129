@@ -1,0 +1,130 @@
+{template 'common/header'} 
+<div class="main">
+<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+  <div class="panel panel-default">
+    <div class="panel-heading">服务商相关参数设置</div>
+    <div class="panel-body">
+      <div class="form-group">
+          <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">红包场景</label>
+          <div class="col-sm-8 col-xs-12">
+            <select name="scene_id" class="form-control">
+              <option value="" {if empty($settings['scene_id'])}selected="selected"{/if}>其他</option>
+              <option value="PRODUCT_1" {if $settings['scene_id']=='PRODUCT_1'}selected="selected"{/if}>商品促销</option>
+              <option value="PRODUCT_2" {if $settings['scene_id']=='PRODUCT_2'}selected="selected"{/if}>抽奖</option>
+              <option value="PRODUCT_3" {if $settings['scene_id']=='PRODUCT_3'}selected="selected"{/if}>虚拟物品兑奖 </option>
+              <option value="PRODUCT_4" {if $settings['scene_id']=='PRODUCT_4'}selected="selected"{/if}>企业内部福利</option>
+              <option value="PRODUCT_5" {if $settings['scene_id']=='PRODUCT_5'}selected="selected"{/if}>渠道分润</option>
+              <option value="PRODUCT_6" {if $settings['scene_id']=='PRODUCT_6'}selected="selected"{/if}>保险回馈</option>
+              <option value="PRODUCT_7" {if $settings['scene_id']=='PRODUCT_7'}selected="selected"{/if}>彩票派奖</option>
+              <option value="PRODUCT_8" {if $settings['scene_id']=='PRODUCT_8'}selected="selected"{/if}>税务刮奖</option>
+           </select>
+           <div class="help-block"><kbd>这里需要根据你在微信支付开通的红包场景选择,默认是其他,如果你开通了红包不懂这里的话可以不用选择</kbd></div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>* </span>服务商AppId</label>
+        <div class="col-sm-9">
+          <input type="text" name="wxappid" value="{$settings['wxappid']}" class="form-control"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>* </span>本公众号Appid</label>
+        <div class="col-sm-9">
+          <input type="text" name="msgappid" value="{$settings['msgappid']}" class="form-control"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>* </span>服务商商户号</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$settings['mch_id']}" class="form-control" name="mch_id">
+		<span class="label label-warning">微信支付服务商的商户号</span>
+      </div>
+    </div>
+	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>* </span>特约商户商户号</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$settings['sub_mch_id']}" class="form-control" name="sub_mch_id">
+		<span class="label label-warning">微信支付特约商户的商户号</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>* </span>服务商商户密钥</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$settings['pay_signkey']}" class="form-control" name="pay_signkey">
+		<span class="label label-warning">服务商商户微信支付API秘钥</span>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>服务商商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#rootca').click()">{if $settings['rootca']}{$settings['rootca']}{else}上传{/if}</button>
+        {if $settings['rootca']}<span class="label label-danger">已上传rootca.pem</span>{else}请上传rootca.pem{/if}
+        <input type="hidden" name="rootca2" value="{$settings['rootca']}"/>
+        <input type="file" name="rootca" id="rootca"  style="display:none;">
+      </div>
+    </div> -->
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>服务商商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#apiclient_cert').click()">{if $settings['apiclient_cert']}{$settings['apiclient_cert']}{else}上传{/if}</button>
+		{if $settings['apiclient_cert']}<span class="label label-danger">已上传apiclient_cert.pem</span>{else}请上传apiclient_cert.pem{/if}
+        <input type="hidden" name="apiclient_cert2" value="{$settings['apiclient_cert']}"/>
+        <input type="file" name="apiclient_cert" value="{$settings['apiclient_cert']}" id="apiclient_cert" style="display:none;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>服务商商户证书</label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-default" onClick="$('#apiclient_key').click()">{if $settings['apiclient_key']}{$settings['apiclient_key']}{else}上传{/if}</button>
+		{if $settings['apiclient_key']}<span class="label label-danger">已上传apiclient_key.pem</span>{else}请上传apiclient_key.pem{/if}
+        <input type="hidden" name="apiclient_key2" value="{$settings['apiclient_key']}"/>
+        <input type="file" name="apiclient_key" id="apiclient_key" style="display:none;">
+      </div>
+    </div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">红包扣钱商户</label>
+		<div class="col-xs-12 col-sm-9">
+			<label class="radio-inline"><input type="radio" name="consume_mch_id"
+			 value="1" {if $settings['consume_mch_id'] !== 2}checked="checked" {/if}>子商户</label>
+			 <label class="radio-inline"><input type="radio" name="consume_mch_id"
+			 value="2" {if $settings['consume_mch_id'] == 2}checked="checked" {/if}>服务商</label>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>* </span>商户名称</label>
+		<div class="col-sm-8">
+			<input type="text" name="send_name" class="form-control" value="{$settings['send_name']}" />
+			<span class="label label-warning">不超过10个汉字，含标点符号</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>* </span>活动名称</label>
+		<div class="col-sm-8">
+			<input type="text" name="act_name" class="form-control" value="{$settings['act_name']}" />
+			<span class="label label-warning">不超过10个汉字，含标点符号</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>* </span>祝福语</label>
+		<div class="col-sm-8">
+			<input type="text" name="wishing" class="form-control" value="{$settings['wishing']}" />
+			<span class="label label-warning">不超过20个汉字，含标点符号，<font color="red">(<script>document.write(unescape('\u6e90\u002e\u7801\u002e\u7531\u002e\u6298\u002e\u7ffc\u002e\u5929\u002e\u4f7f\u002e\u8d44\u002e\u6e90\u002e\u793e\u002e\u533a\u002e\u63d0\u002e\u4f9b'));</script>)</font></a>
+</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style='color:red'>* </span>备注信息</label>
+		<div class="col-sm-8">
+			<input type="text" name="remark" class="form-control" value="{$settings['remark']}" />
+			<span class="label label-warning">不会对用户展示，仅作说明用，不超过20个汉字</span>
+		</div>
+	</div>
+  </div>
+   <div class="form-group col-sm-12">
+    <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+    <input type="hidden" name="token" value="{$_W['token']}" />
+  </div>
+</form>
+</div>
+{template 'common/footer'}

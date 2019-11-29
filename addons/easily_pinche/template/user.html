@@ -1,0 +1,61 @@
+{template 'common/header'}
+<SCRIPT LANGUAGE=javascript> 
+function p_del() { 
+var msg = "您真的确定要删除吗？\n\n请确认！"; 
+if (confirm(msg)==true){ 
+return true; 
+}else{ 
+return false; 
+} 
+} 
+</SCRIPT> 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            用户管理
+        </h3>
+    </div>
+    <div class="panel-body">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名称</th>
+	  <th></th>
+      <th>OpenID</th>
+      <th>性别</th>
+      <th>余额</th>
+      <th>注册时间</th>
+      <th>电话</th>
+      <th>管理</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{loop $user $index $item}
+    <tr>
+      <td>{$item['pcu_id']}</td>
+      <td>{$item['pcu_wx_title']}</td>
+      <td>
+      	<span class="label label-primary"><a href="{php echo $this->createWebUrl('moneylog');}&pcuid={$item['pcu_id']}">收支</a></span>
+        <span class="label label-primary">拼车</span>
+      </td>
+      <td>{$item['pcu_wx_openid']}</td>
+      <td>{if $item['pcu_wx_sex']==1}男{else}女{/if}</td>
+      <td><span class="label label-warning">{$item['pcu_money']}</span></td>
+      <td>{$item['pcu_addtime']}</td>
+      <td>{$item['pcu_phone']}</td>
+      <td>
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group">
+            	<span class="btn btn-default"><a href="{php echo $this->createWebUrl('user');}&pcuid={$item['pcu_id']}">金额</a></span>
+                <span class="btn btn-default"><a href="{php echo $this->createWebUrl('userdel');}&pcuid={$item['pcu_id']}" onclick="javascript:return p_del()">删除</a></span>
+            </div>
+        </div>
+      </td>
+    </tr>
+	{/loop}
+  </tbody>
+</table>
+    </div>
+</div>
+{template 'common/footer'}

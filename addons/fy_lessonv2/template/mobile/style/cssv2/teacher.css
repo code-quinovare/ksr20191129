@@ -1,0 +1,357 @@
+﻿@charset "utf-8";
+
+.cbox {
+    display: -o-box;
+    -o-box-align: center;
+    -o-box-pack: center;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    -webkit-box-align: center;
+}
+.agency {
+    min-height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.agency-head {
+    padding: 0 10px;
+    height: 130px;
+    font-size: 12px;
+    color: #fff;
+    overflow: hidden;
+    background: url("../../images/teacher-top.jpg") no-repeat;
+    background-size: cover;
+}
+
+.agency-head .pic {
+    margin-right: 10px;
+    width: 70px;
+    height: 70px;
+	border-radius: 50%;
+}
+
+.agency-head .title {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.agency-head .data {
+    text-align: left;
+    color: rgba(255, 255, 255, .7);
+    overflow: hidden;
+}
+
+.agency-head .data .num,
+.agency-head .data .per {
+    text-align: center;
+    line-height: 16px;
+    width: 75px;
+}
+
+.agency-head .data .line {
+    display: block;
+    width: 0;
+    height: 36px;
+    margin: 0 10%;
+    border-right: 1px solid rgba(255, 255, 255, .12);
+}
+
+.agency-head .link {
+    display: block;
+    float: right;
+    width: 52px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    height: 28px;
+    line-height: 28px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(255, 255, 255, .08);
+}
+
+.agency-head .btn-share {
+    display: block;
+    color: #fff;
+    width: 52px;
+    height: 28px;
+    line-height: 28px;
+    text-align: right;
+}
+
+.agency-head .btn-share .ico-share2 {
+    vertical-align: -3px;
+}
+
+
+@-webkit-keyframes bling {
+    0% {
+        opacity: .3;
+        transform: scale(1);
+    }
+    25% {
+        opacity: .5;
+        transform: scale(1.1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+    75% {
+        opacity: .5;
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-moz-keyframes bling {
+    0% {
+        opacity: .3;
+        transform: scale(1);
+    }
+    25% {
+        opacity: .5;
+        transform: scale(1.1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+    75% {
+        opacity: .5;
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+/* 引用详情页 tab */
+
+.details-tab {
+	font-family:"微软雅黑";
+    position: relative;
+    border-top: 1px solid #e6e6e6;
+    background-color: #f4f4f4;
+    overflow: hidden;
+}
+
+.details-tab.fixed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+.details-tab li {
+    float: left;
+    width: 33.333%;
+}
+
+.details-tab li:last-child {
+    width: 33.334%;
+}
+
+.details-tab a {
+    display: block;
+    height: 36px;
+    line-height: 38px;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.details-tab .cur a {
+    position: relative;
+    color: #4285f4;
+    border-bottom: 2px #4285f4 solid;
+}
+
+.agency-tab li,
+.details-tab li:last-child {
+    width: 50%;
+}
+
+/*tab 目录 、节课 / 简介
+---------------------------------------------*/
+
+.agency-con {}
+
+.agency-profile {
+    font-size: 14px;
+    color: #666;
+}
+
+.agency-profile .g-title {
+    margin: 0 10px -5px;
+}
+
+.agency-info-box {
+    padding: 15px 1pxpx ;
+}
+
+.agency-info {
+    height: 61px;
+    margin-top: -3px;
+}
+
+.d-list-unfold {
+    display: block;
+    margin: 5px auto 10px;
+}
+
+.agency-info.te2 {
+    -webkit-line-clamp: 3;
+}
+
+.agency-info .h-auto {
+    height: auto;
+    -webkit-line-clamp: initial;
+}
+
+/*新课推荐*/
+.agency-recommend {
+
+}
+
+/*tab 简介*/
+.agency-teachers .right-box {
+	padding: 10px;
+    background-color: #fff;
+}
+.ico-remind {
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    background: url("../../images/ico-remind.png") no-repeat;
+}
+
+/*课程列表*/
+.course-list {
+	position: relative;
+	-webkit-transition: opacity .3s ease;
+	background: #fff;
+}
+.course-list .lesson_list{
+   border-bottom: 1px #f3f3f3 solid;
+}
+a.package {
+	position: relative;
+	display: block;
+	color: #000;
+	margin: 0 10px;
+	padding: 15px 0 15px 150px;
+	height: 80px;
+	line-height: 20px;
+	background: #fff;
+}
+
+a,
+a:active,
+a:hover {
+	color: #0057af;
+	text-decoration: none;
+}
+
+a.package .package__cover-wrap {
+	position: absolute;
+	top: 15px;
+	left: 0;
+	width: 140px;
+	height: 80px;
+}
+
+a.package .package__cover-wrap .package__cover {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	border-radius: 4px;
+	background-color: #fff;
+    background-position: left top;
+    background-repeat: no-repeat;
+	background-size: 140px 80px;
+}
+
+a.package .package__cover-wrap .package__cover .package__cover-tips {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 16px;
+	font-size: 12px;
+	line-height: 16px;
+	text-indent: 4px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, .7);
+}
+
+a.package .package__content {
+	font-size: 12px;
+}
+
+a.package .package__content .package__name {
+	display: -webkit-box;
+	overflow: hidden;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	padding-top: 10px;
+	height: auto;
+	max-height: 20px;
+	line-height: 20px;
+	white-space: pre-wrap;
+	text-overflow: ellipsis;
+	word-break: break-all;
+	-webkit-line-clamp: 1;
+}
+
+a.package .package__content .package__info {
+	padding-top: 6px;
+}
+
+a.package .package__content .package__info .u-price{
+	color: #e85308;
+}
+
+a.package .package__content .package__info .package__course-num {
+	display: inline-block;
+	float: right;
+	position: absolute;
+	right: 6px;
+	padding: 3px 6px;
+	min-width: 44px;
+	line-height: 14px;
+	z-index: 0;
+}
+
+a.package .package__content .package__info .package__course-num .package__course-num-1 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	border: 1px solid;
+	border-radius: 2px;
+	width: 100%;
+	height: 100%;
+	line-height: 20px;
+	text-align: center;
+	background: #fff;
+}
+
+a.package .package__content .package__info .package__course-num .package__course-num-2 {
+	position: absolute;
+	top: -2px;
+	left: 2px;
+	z-index: 0;
+	border: 1px solid;
+	border-radius: 2px;
+	width: 100%;
+	height: 100%;
+}

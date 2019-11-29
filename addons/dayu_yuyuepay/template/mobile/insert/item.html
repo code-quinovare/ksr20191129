@@ -1,0 +1,62 @@
+
+	{if $xmstotal=='1'}
+		{loop $xms $xm}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label weui-start">{$par['xmname']}</label></div>
+			<div class="weui_cell_bd weui_cell_primary" {if $xm['isc']}onclick="itemshow(this,'{$xm['id']}')"{/if}>
+				<input class="weui_input" name="xmid" id="xmid" type="hidden" value="{$xm['id']}">
+				<span class="">{$xm['title']}{if $xm['isc']} <svg class="icon f-gray" aria-hidden="true"><use xlink:href="#icon-xiangqing"></use></svg>{/if}</span>
+				{if $xm['type']=='1' && $xm['prices']!='0.00'}<small class="block"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-renminbi"></use></svg>{$xm['prices']}</small>{/if}
+			</div>
+			<div class="weui_cell_ft f-orange">{if $xm['price']=='0.00'}免费预约{else}{if $xm['type']=='1'}<svg class="icon" aria-hidden="true"><use xlink:href="#icon-ding"></use></svg> {else}<svg class="icon" aria-hidden="true"><use xlink:href="#icon-renminbi"></use></svg>{/if}<span id="price">{$xm['price']}</span>{/if}</div>
+		</div>
+		{if $xm['isc']}
+			<div id="i{$xm['id']}" class="pop" style="display:none;">
+				<div class="box">
+					<div class="inputqy">
+						<div class="jptext">{php echo htmlspecialchars_decode($xm['content'])}</div>
+					</div>
+				</div>
+				<div style="position:absolute;top:60px;right:1em;"><span class="button_yes" onClick="document.getElementById('i{$xm['id']}').style.display='none';"><svg class="icon f35" aria-hidden="true"><use xlink:href="#icon-close"></use></svg></span></div>
+			</div>
+		{/if}
+		{/loop}
+	{else}
+		<div class="weui_cell">
+			<div class="weui_cell_hd">
+				<label class="weui_label weui-start">{$par['xmname']}</label>
+			</div>
+			<div class="weui_cell_bd weui_cell_primary open-popup" onclick="fetchgetjs(this,1)" data-target="#popup">
+				<input class="weui_input" type="hidden" name="xmid" id="xmid" value="" placeholder="请选择{$par['xmname']}" readonly>
+				<span class="" id="item">请选择{$par['xmname']}</span>
+			</div>
+			<div class="weui_cell_ft price f-orange"></div>
+		</div>
+	{/if}
+<script id="iteminfo" type="text/html">
+	<div class="weui_panel weui_panel_access">
+		<div class="weui_panel_bd">
+		<% for(var i in list) { %>
+			<div class="weui_media_box weui_media_appmsg <%=list[i].checked%>" data="<%=list[i].title%>" onclick="chooseitem(this,'<%=list[i].id%>','<%=list[i].price%>')">
+				<div class="weui_media_hd">
+					<span class="weui_media_appmsg_thumb"><img class="weui_media_appmsg_thumb" src="<%=list[i].thumb%>"></span>
+				</div>
+				<div class="weui_media_bd dayu">
+					<h4 class="weui_media_title"><span><%=list[i].title%></span><%=list[i].isc%></h4>
+					<p class="weui_media_desc">
+						<%=list[i].money%>
+					</p>
+				</div>
+			</div>
+			<div id="i<%=list[i].id%>" class="pop" style="display:none;">
+				<div class="box">
+					<div class="inputqy">
+						<div class="jptext"><%=list[i].content%></div>
+					</div>
+				</div>
+				<div style="position:absolute;top:60px;right:1em;"><span class="button_yes" onClick="document.getElementById('i<%=list[i].id%>').style.display='none';"><svg class="icon f35" aria-hidden="true"><use xlink:href="#icon-close"></use></svg></span></div>
+			</div>
+		<% } %>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,117 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['status']=='1'}等待采纳
+				  {elseif $_GPC['status']=='2'}已采纳
+				  {elseif $_GPC['status']=='3'}已拒绝				  
+				  {else}查看全部{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'isscan'=>$_GPC['isscan'],'uid'=>$_GPC['uid'],'status'=>'1'))}">等待采纳</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'isscan'=>$_GPC['isscan'],'uid'=>$_GPC['uid'],'status'=>'2'))}">已采纳</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'isscan'=>$_GPC['isscan'],'uid'=>$_GPC['uid'],'status'=>'3'))}">已拒绝</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'isscan'=>$_GPC['isscan'],'uid'=>$_GPC['uid']))}">查看全部</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+	<div style="display:inline-block">
+		<div class="input-group">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {if $_GPC['isscan']=='1'}禁止浏览的
+				  {elseif $_GPC['isscan']=='0'}正常的			  
+				  {else}查看全部{/if}
+				  <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'isscan'=>'1','status'=>$_GPC['status']))}">禁止浏览的</a></li>
+				<li role="separator" class="divider"></li>				
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'isscan'=>'0','status'=>$_GPC['status']))}">正常的</a></li>
+				<li role="separator" class="divider"></li>			
+				<li><a href="{php echo $this->createWebUrl($_GPC['do'],array('op'=>$_GPC['op'],'uid'=>$_GPC['uid'],'status'=>$_GPC['status']))}">查看全部</a></li>
+			  </ul>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+
+<div class="main">
+	<div class="category">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+				<form action="{php echo $this->createWebUrl('task')}" method="post">
+					<table class="table">
+						<thead class="navbar-inner">
+							<tr>
+								<th style="width:70px">回复id</th>
+								<th style="width:70px">任务id</th>
+								<th class="col-sm-1">回复者</th>
+								<th class="col-sm-3">回复内容</th>								
+								<th class="col-sm-2">回复时间</th>	
+								<th class="col-sm-1">奖励</th>								
+								<th class="col-sm-1">状态</th>
+								<th class="col-sm-1">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $replyinfo $item}
+						<tr>
+							<td><label><input type="checkbox" name="idlist[]" value="{$item['id']}" class="">{$item['id']}<label></td>
+							<td>{$item['taskid']}</td>
+							<td><div><a target="_blank" href="{php echo $this->createWebUrl('userinfo',array('id'=>$item['uid']))}">{$item['nickname']}</a></div><img width="30px" height="30px" src="{$item['avatar']}"></td>	
+							<td style="white-space: inherit;"><div>{$item['content']}</div>
+							<div>
+								{loop $item['images'] $img}
+								<a target="_blank" href="{php echo tomedia($img)}"><img width="30px" height="30px" src="{php echo tomedia($img)}"></a>
+								{/loop}
+							</div>
+							</td>	
+							<td><div>{php echo date('Y-m-d H:i',$item['time'])}</div></td>
+							<td><div>{$item['income']}</div></td>
+							<td>
+							{if $item['isscan'] == 1}
+								<span class='label label-danger'>禁止浏览</span>
+							{else}
+								{if $item['status']==1}
+								<span class='label label-success'>等待处理</span>
+								{elseif $item['status']==2}
+								<span class='label label-info'>已采纳</span>
+								{elseif $item['status']==3}
+								<span class='label label-danger'>被拒绝</span>							
+								{/if}
+							{/if}	
+							</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('task',array('op'=>'editreply','id'=>$item['id']))}" class="btn btn-default btn-sm"  title="编辑"><span class="fa fa-edit"></span></a>	
+								<a href="{php echo $this->createWebUrl('taskinfo', array('id' => $item['taskid']))}" 
+									class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="查看任务"><span class="fa  fa-search"></span>
+								</a>
+							</td>
+						</tr>
+						{/loop}
+						<tr>
+							<td><label><input type="checkbox" name="" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});">全选/取消</label></td>
+							<input name="token" type="hidden" value="{$_W['token']}" />
+							<td colspan="7">
+								<input type="submit" name="cannotscan" class="btn btn-danger" value="禁止浏览" onclick="return confirm('禁止浏览后，所有人都看不见回复内容，并且此回复无法获得奖励。');">
+								<input type="submit" name="allowscan" class="btn btn-success" value="恢复浏览" onclick="return confirm('确定要恢复浏览吗？');">
+							</td>
+							
+						</tr>
+						</tbody>
+					</table>
+				</form>	
+				</div>
+			</div>	
+		{$pager}
+	</div>
+</div>

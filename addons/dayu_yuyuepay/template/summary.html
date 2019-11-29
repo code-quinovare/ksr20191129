@@ -1,0 +1,210 @@
+{template 'common/header'}
+<style>
+.account-basicinformation span{font-weight:700;}
+.account-stat-num > div{width:16.6666%; float:left; font-size:16px; text-align:center;}
+.account-stat-num > div span{display:block; font-size:30px; font-weight:bold;}
+.account-stat-num > div dd{display:block; font-size:20px; font-weight:bold; color:#ef6c00;}
+.account-stat-num > div dd i{font-size:18px;}
+.col-md-6{padding:0;}
+.col-md-6 .account-stat-num > div{width:33.333%; float:left; font-size:16px; text-align:center;}
+</style>
+	<div class="panel we7-panel">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body we7-padding">
+			<form action="./index.php" method="get" class="we7-form" role="form" onsubmit="return form()">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="m" value="dayu_yuyuepay" />
+				<input type="hidden" name="do" value="summary" />
+				<input type="hidden" name="sid" value="{$sid}" />
+				<input type="hidden" name="check" value="1" />
+				<div class="form-group" style="padding:0;margin:0;">
+					<div class="col-sm-3">
+						<select name="reid" id="reid" class="form-control">
+							<option value="">全部预约主题</option>
+							{loop $yuyue $val}
+								<option value="{$val['reid']}" {if $val['reid']==$reid}selected="selected"{/if}>{$val['title']}</option>
+							{/loop}
+						</select>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="days" name="days" autocomplete="off">
+							<option value="7" {if $days==7}selected{/if}>7天</option>
+							<option value="14" {if $days==14}selected{/if}>14天</option>
+							<option value="30" {if $days==30}selected{/if}>30天</option>
+							<option value="" {if $days==''}selected{/if}>按年月</option>
+						</select>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<div class="input-group-btn">
+								<span class="btn btn-default">
+									年
+								</span>
+							</div>
+							<select id="year" name="year" class="form-control">
+								<option value="">选择年份</option>
+								{loop $years $y}
+								<option value="{$y['data']}"  {if $y['selected']}selected="selected"{/if}>{$y['data']}年</option>
+								{/loop}
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<div class="input-group-btn">
+								<span class="btn btn-default">
+									月
+								</span>
+							</div>
+							<select id="month" name="month" class="form-control">
+								<option value="">选择月份</option>
+								{loop $months $m}
+								<option value="{$m['data']}"  {if $m['selected']}selected="selected"{/if}>{$m['data']}月</option>
+								{/loop}
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-1">
+						<button class="btn btn-primary"><i class="fa fa-bar-chart-o"></i> 查看</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="welcome-container">
+		<div class="panel we7-panel account-stat">
+			<div class="panel-heading">
+				{$title}
+			</div>
+			<div class="panel-body we7-padding-vertical">
+				<div class="col-sm-3 text-center">
+					<div class="title">全部订单 <span class="badge">{$allorder}</span></div>
+					<div>
+						<span class="today"><span class="fa fa-cny"> {$fee}</span></span>
+					</div>
+				</div>
+				<div class="col-sm-3 text-center">
+					<div class="title">有效付款 <span class="badge">{$orders}</span></div>
+					<div>
+						<span class="today" style="color:#e53935"><span class="fa fa-cny"> {$discount}</span></span>
+					</div>
+				</div>
+				<div class="col-sm-3 text-center">
+					<div class="title">余额支付</div>
+					<div>
+						<span class="today"><span class="fa fa-cny"> {$credit}</span></span>
+					</div>
+				</div>
+				<div class="col-sm-3 text-center">
+					<div class="title">在线支付</div>
+					<div>
+						<span class="today"><span class="fa fa-cny"> {$price}</span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel we7-panel">
+		<div class="panel-heading">有效收款趋势图</div>
+		<div class="panel-body">
+			<div id="container" style="min-width: 300px; height: 400px; margin: 0 auto"></div>  
+		</div>
+	</div>
+<script type="text/javascript" src="./resource/components/ueditor/third-party/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+	function form(){   
+		if($('#days').val()=='' && $('#year').val()==''){
+			util.message('请选择年份');
+			return false;
+       }
+       return true;
+   }
+	var year=$("#year").val();
+	if (year == 0) {
+		$('#year').attr("disabled",true);
+		$('#month').attr("disabled",true);
+	}
+	
+	$('#days').change(function(){
+		if($(this).val()==''){ 
+			$('#year').attr("disabled",false);
+			$('#month').attr("disabled",false);
+		}else{
+			$('#year').attr("disabled",true);
+			$('#month').attr("disabled",true);
+		}
+	});
+
+	$('#year').change(function(){
+		if($(this).val()==''){ 
+			$('#month').attr("disabled",true);
+		}else{
+			$('#month').attr("disabled",false);
+		}
+	});
+	
+	$(function () {
+		$('#container').highcharts({
+			chart: {
+				type: 'line'
+			},
+			title: {
+				 text: '{$titles}',
+			},
+			subtitle: {
+				text: ''
+			},
+			colors: [
+				'#1565c0',
+				'#b71c1c'
+			],
+			tooltip: {
+				enabled: false,
+				formatter: function() {
+					return '<b>'+ this.series.name +'</b><br>'+this.x +': '+ this.y +'°C';
+				}
+			},
+			plotOptions: {
+				line: {
+					dataLabels: {
+						enabled: true
+					},
+					enableMouseTracking: false
+				}
+			},			
+			xAxis: {
+				categories:  {$history}
+			},
+			yAxis: [
+				{
+					className: 'highcharts-color-0',
+					title: {
+						text: '{$_W['current_module']['name']}'
+					}
+				}, {
+					className: 'highcharts-color-1',
+					opposite: true,
+					title: {
+						text: '{$_W['current_module']['title']}'
+					}
+				}
+			],
+			series: [
+				{
+				   name: '订单数',
+				   data: [
+					   {$order}
+				   ]
+				},
+				{
+				   name: '有效付款',
+				   data: [
+					   {$money}
+				   ]
+				}
+			]
+		});
+	});
+</script>
+{template 'common/footer'}
